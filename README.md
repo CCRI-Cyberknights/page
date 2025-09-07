@@ -20,7 +20,8 @@ To link a QR code to a specific page, use URL parameters. For example:
 
 - To link to the Cybersecurity Club page: `your-site-url.com/?page=cybersecurity`
 - To link to the Linux guide: `your-site-url.com/?page=linux`
- - To link to the Home page: `your-site-url.com/?page=home`
+- To link to the Home page: `your-site-url.com/?page=home`
+- To link to the Calendar: `your-site-url.com/?page=calendar`
 
 ## Contribution
 
@@ -46,6 +47,27 @@ If you are a club member, you can fork this repository and submit a pull request
   - Linux guide: `<pages-url>/?page=linux`
   - Home: `<pages-url>/?page=home`
 - Optional: Use a URL shortener (e.g., TinyURL) before encoding to make the code denser and easier to scan.
+
+## Calendar Integration (Outlook)
+
+This project includes a Calendar page (`?page=calendar`) that supports:
+
+- Embedding the Outlook calendar via an iframe
+- Optional parsing of a public `.ics` feed to render a "Next Event" and an "Upcoming Events" list
+
+### Setup Steps
+
+1. In Outlook on the web, share the `ccricyberclub@my.ccri.edu` calendar publicly and obtain:
+   - The embed URL (for iframe)
+   - The ICS subscription URL (optional, for event list)
+2. Open `index.html` and set the constants near the bottom:
+
+```
+const CALENDAR_EMBED_URL = "https://outlook.office365.com/owa/calendar/.../calendar.html";
+const CALENDAR_ICS_URL = "https://outlook.office365.com/owa/calendar/.../calendar.ics";
+```
+
+3. Commit and push. The Calendar page will show the embedded calendar. If `CALENDAR_ICS_URL` is set, it will also display a featured "Next Event" and a list of upcoming events.
 
 ## High-Level Requirements for the GitHub Pages Project
 

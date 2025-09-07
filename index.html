@@ -21,6 +21,7 @@
       <a href="?page=home" class="hover:text-emerald-300">Home</a>
       <a href="?page=cybersecurity" class="hover:text-emerald-300">Club</a>
       <a href="?page=linux" class="hover:text-emerald-300">Linux Guide</a>
+      <a href="?page=calendar" class="hover:text-emerald-300">Calendar</a>
     </nav>
   </header>
 
@@ -122,11 +123,47 @@
     </section>
   </template>
 
+  <template id="page-calendar">
+    <section class="space-y-6">
+      <h2 class="text-3xl sm:text-4xl font-bold">Club Calendar</h2>
+      <p class="text-slate-300">Upcoming meetings and events managed via the club Outlook calendar.</p>
+      <div class="flex flex-wrap gap-3">
+        <a id="calendar-direct-link" href="#" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded border border-slate-700 hover:border-slate-600 text-sm">Open in Outlook</a>
+        <a id="calendar-subscribe-link" href="#" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded bg-emerald-500 text-slate-900 font-medium hover:bg-emerald-400 text-sm">Subscribe</a>
+      </div>
+
+      <div id="calendar-callout" class="p-4 rounded border border-amber-500/40 bg-amber-900/20 text-amber-200 text-sm">
+        Calendar embed not configured yet. Admins: set <span class="font-mono">CALENDAR_EMBED_URL</span> in <span class="font-mono">index.html</span> and publish the Outlook calendar (see README).
+      </div>
+
+      <div class="rounded-lg overflow-hidden border border-slate-800 bg-slate-900/40">
+        <iframe id="calendar-iframe" src="" title="CCRI Cybersecurity Club Calendar" width="100%" height="800" frameborder="0" scrolling="auto"></iframe>
+      </div>
+
+      <section id="next-event" class="mt-8 hidden">
+        <h3 class="font-semibold mb-3">Next Event</h3>
+        <div id="next-event-card" class="p-5 rounded-lg border border-emerald-600/40 bg-emerald-900/10">
+          <!-- populated by JS -->
+        </div>
+      </section>
+
+      <section class="mt-6">
+        <h3 class="font-semibold mb-3">Upcoming Events</h3>
+        <div id="events-list" class="space-y-3"></div>
+        <div id="events-empty" class="text-sm text-slate-400 hidden">No upcoming events found.</div>
+      </section>
+    </section>
+  </template>
+
   <script>
+    const CALENDAR_EMBED_URL = ""; // Paste the published Outlook calendar embed URL here
+    const CALENDAR_ICS_URL = "";    // Optional: paste the public .ics feed URL here
+
     const routes = {
       home: document.getElementById('page-home').innerHTML,
       cybersecurity: document.getElementById('page-cybersecurity').innerHTML,
-      linux: document.getElementById('page-linux').innerHTML
+      linux: document.getElementById('page-linux').innerHTML,
+      calendar: document.getElementById('page-calendar').innerHTML
     };
 
     function render() {
@@ -134,6 +171,159 @@
       const page = params.get('page') || 'home';
       const html = routes[page] || routes.cybersecurity;
       document.getElementById('app').innerHTML = html;
+      if (page === 'calendar') {
+        const iframe = document.getElementById('calendar-iframe');
+        const callout = document.getElementById('calendar-callout');
+        const directLink = document.getElementById('calendar-direct-link');
+        const subscribeLink = document.getElementById('calendar-subscribe-link');
+        if (CALENDAR_EMBED_URL && iframe) {
+          iframe.src = CALENDAR_EMBED_URL;
+          if (callout) callout.style.display = 'none';
+          if (directLink) directLink.href = CALENDAR_EMBED_URL;
+        }
+
+        if (CALENDAR_ICS_URL) {
+          if (subscribeLink) {
+            const webcalUrl = CALENDAR_ICS_URL.replace(/^https?:\/\//, 'webcal://');
+            subscribeLink.href = webcalUrl;
+          }
+          fetchAndRenderEvents(CALENDAR_ICS_URL);
+        } else {
+          if (subscribeLink) subscribeLink.style.display = 'none';
+        }
+      }
+    }
+
+    function unfoldIcsLines(icsText) {
+      const rawLines = icsText.replace(/\r/g, '').split('\n');
+      const lines = [];
+      for (const line of rawLines) {
+        if (!line) continue;
+        if (line.startsWith(' ') || line.startsWith('\t')) {
+          lines[lines.length - 1] += line.slice(1);
+        } else {
+          lines.push(line);
+        }
+      }
+      return lines;
+    }
+
+    function parseIcsDate(value) {
+      // Supports YYYYMMDD and YYYYMMDDTHHMMSSZ or local time without Z
+      if (!value) return null;
+      const dateOnly = /^\d{8}$/;
+      const dateTime = /(\d{8})T(\d{6})(Z?)/;
+      if (dateOnly.test(value)) {
+        const y = value.slice(0,4), m = value.slice(4,6), d = value.slice(6,8);
+        return new Date(`${y}-${m}-${d}T00:00:00`);
+      }
+      const m = value.match(dateTime);
+      if (m) {
+        const ymd = m[1];
+        const hms = m[2];
+        const z = m[3] === 'Z' ? 'Z' : '';
+        const y = ymd.slice(0,4), mo = ymd.slice(4,6), d = ymd.slice(6,8);
+        const hh = hms.slice(0,2), mm = hms.slice(2,4), ss = hms.slice(4,6);
+        return new Date(`${y}-${mo}-${d}T${hh}:${mm}:${ss}${z}`);
+      }
+      return new Date(value);
+    }
+
+    function parseIcs(icsText) {
+      const lines = unfoldIcsLines(icsText);
+      const events = [];
+      let current = null;
+      for (const line of lines) {
+        if (line === 'BEGIN:VEVENT') { current = {}; continue; }
+        if (line === 'END:VEVENT') { if (current) { events.push(current); current = null; } continue; }
+        if (!current) continue;
+        const idx = line.indexOf(':');
+        if (idx === -1) continue;
+        const nameAndParams = line.slice(0, idx);
+        const value = line.slice(idx + 1);
+        const prop = nameAndParams.split(';')[0].toUpperCase();
+        switch (prop) {
+          case 'DTSTART': current.start = parseIcsDate(value); break;
+          case 'DTEND': current.end = parseIcsDate(value); break;
+          case 'SUMMARY': current.title = value; break;
+          case 'DESCRIPTION': current.description = value; break;
+          case 'LOCATION': current.location = value; break;
+          case 'URL': current.url = value; break;
+        }
+      }
+      return events.filter(e => e.start instanceof Date && !isNaN(e.start));
+    }
+
+    function formatDateRange(start, end) {
+      const sameDay = end && start.toDateString() === end.toDateString();
+      const dateFmt = new Intl.DateTimeFormat(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+      const timeFmt = new Intl.DateTimeFormat(undefined, { hour: 'numeric', minute: '2-digit' });
+      const dateStr = dateFmt.format(start);
+      if (!end) return `${dateStr} • ${timeFmt.format(start)}`;
+      if (sameDay) return `${dateStr} • ${timeFmt.format(start)} – ${timeFmt.format(end)}`;
+      return `${dateStr} ${timeFmt.format(start)} → ${dateFmt.format(end)} ${timeFmt.format(end)}`;
+    }
+
+    function renderEvents(events) {
+      const now = new Date();
+      const upcoming = events.filter(e => e.end ? e.end >= now : e.start >= now)
+                             .sort((a,b) => a.start - b.start);
+      const nextContainer = document.getElementById('next-event');
+      const nextCard = document.getElementById('next-event-card');
+      const list = document.getElementById('events-list');
+      const empty = document.getElementById('events-empty');
+      if (!list) return;
+      list.innerHTML = '';
+      if (upcoming.length === 0) {
+        if (empty) empty.classList.remove('hidden');
+        return;
+      }
+      if (empty) empty.classList.add('hidden');
+
+      const [nextEvent, ...rest] = upcoming;
+      if (nextContainer && nextCard && nextEvent) {
+        nextContainer.classList.remove('hidden');
+        nextCard.innerHTML = `
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 text-emerald-300 font-semibold">${new Intl.DateTimeFormat(undefined, {month:'short'}).format(nextEvent.start)}<div class="text-2xl leading-none">${nextEvent.start.getDate()}</div></div>
+            <div class="space-y-1">
+              <div class="text-lg font-semibold">${nextEvent.title || 'Untitled Event'}</div>
+              <div class="text-slate-300 text-sm">${formatDateRange(nextEvent.start, nextEvent.end)}</div>
+              ${nextEvent.location ? `<div class="text-slate-400 text-sm">${nextEvent.location}</div>` : ''}
+              <div class="pt-2">
+                ${nextEvent.url ? `<a href="${nextEvent.url}" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 text-sm">Learn more</a>` : ''}
+              </div>
+            </div>
+          </div>`;
+      }
+
+      for (const e of rest.slice(0, 10)) {
+        const item = document.createElement('div');
+        item.className = 'p-4 rounded-lg border border-slate-800 bg-slate-900/40';
+        item.innerHTML = `
+          <div class="flex items-start gap-4">
+            <div class="flex-shrink-0 text-emerald-300 font-medium">${new Intl.DateTimeFormat(undefined, {month:'short'}).format(e.start)}<div class="text-xl leading-none">${e.start.getDate()}</div></div>
+            <div class="space-y-1">
+              <div class="font-semibold">${e.title || 'Untitled Event'}</div>
+              <div class="text-slate-300 text-sm">${formatDateRange(e.start, e.end)}</div>
+              ${e.location ? `<div class="text-slate-400 text-sm">${e.location}</div>` : ''}
+              ${e.url ? `<a href="${e.url}" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 text-sm">Details</a>` : ''}
+            </div>
+          </div>`;
+        list.appendChild(item);
+      }
+    }
+
+    async function fetchAndRenderEvents(icsUrl) {
+      try {
+        const res = await fetch(icsUrl, { cache: 'no-store' });
+        if (!res.ok) throw new Error('Failed to fetch ICS');
+        const text = await res.text();
+        const events = parseIcs(text);
+        renderEvents(events);
+      } catch (err) {
+        console.warn('ICS fetch/parse failed', err);
+      }
     }
 
     window.addEventListener('popstate', render);
