@@ -201,6 +201,7 @@
     const CALENDAR_EMBED_URL = "https://calendar.google.com/calendar/embed?src=Y2NyaWN5YmVya25pZ2h0Y2x1YkBnbWFpbC5jb20&ctz=America/New_York"; // Optional: Google Calendar embed URL
     const CALENDAR_ICS_URL = "https://calendar.google.com/calendar/ical/Y2NyaWN5YmVya25pZ2h0Y2x1YkBnbWFpbC5jb20/public/basic.ics";    // Public Google Calendar ICS URL
     const DOCS_CALENDAR_URL = "https://github.com/CCRI-Cyberknights/qr-code-landing-pages/blob/main/CALENDAR-UPDATING.md";
+    const ENABLE_CUSTOM_CALENDAR = false; // Set to true to use ICS-powered list + FullCalendar
     let fcInstance = null;
 
     const routes = {
@@ -227,7 +228,7 @@
           if (directLink) directLink.href = CALENDAR_EMBED_URL;
         }
 
-        if (CALENDAR_ICS_URL) {
+        if (ENABLE_CUSTOM_CALENDAR && CALENDAR_ICS_URL) {
           if (subscribeLink) {
             const webcalUrl = CALENDAR_ICS_URL.replace(/^https?:\/\//, 'webcal://');
             subscribeLink.href = webcalUrl;
@@ -239,11 +240,20 @@
         }
 
         if (callout) {
-          if (!CALENDAR_EMBED_URL || !CALENDAR_ICS_URL) {
+          if (!CALENDAR_EMBED_URL || (ENABLE_CUSTOM_CALENDAR && !CALENDAR_ICS_URL)) {
             callout.innerHTML = 'Maintainers: <a href="' + DOCS_CALENDAR_URL + '" target="_blank" rel="noopener noreferrer" class="underline">see docs</a>.';
           } else {
             callout.style.display = 'none';
           }
+        }
+
+        if (!ENABLE_CUSTOM_CALENDAR) {
+          const nextSection = document.getElementById('next-event');
+          const upcomingSection = document.getElementById('upcoming-events-section');
+          const fc = document.getElementById('fc-container');
+          if (nextSection) nextSection.style.display = 'none';
+          if (upcomingSection) upcomingSection.style.display = 'none';
+          if (fc) fc.style.display = 'none';
         }
       }
       if (page === 'listofqrcodes') {

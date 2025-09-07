@@ -65,6 +65,12 @@ items:
 
 - View registry in the site at `?page=listofqrcodes`. The page loads the YAML and renders cards with links and a download button for each SVG.
 
+## Documentation Index
+
+- Architecture: `docs/ARCHITECTURE.md`
+- Calendar maintainer guide: `CALENDAR-UPDATING.md`
+- QR Codes registry details: `docs/QR-CODES.md`
+
 ## Calendar Integration (Developer Spec)
 
 This site renders club events from a public Google Calendar ICS feed. The Calendar page (`?page=calendar`) combines three layers:

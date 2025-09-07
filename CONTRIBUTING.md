@@ -31,3 +31,6 @@ Open an issue with a clear title, steps to reproduce (if applicable), and a scre
 ## Links
 
 - Club signup form: https://forms.cloud.microsoft/r/U26WUVJGgp
+- Architecture: ./docs/ARCHITECTURE.md
+- QR Codes: ./docs/QR-CODES.md
+- Calendar (maintainers): ./CALENDAR-UPDATING.md
