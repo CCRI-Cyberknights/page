@@ -225,6 +225,16 @@
       calendar: document.getElementById('page-calendar').innerHTML
     };
 
+    function normalizeHashRouting() {
+      // If old query-param links like ?page=calendar are used, rewrite to #/calendar
+      const params = new URLSearchParams(window.location.search);
+      const legacy = params.get('page');
+      if (legacy && !window.location.hash) {
+        const clean = window.location.pathname + '#/' + legacy;
+        history.replaceState(null, '', clean);
+      }
+    }
+
     function render() {
       const hash = (location.hash || '').replace(/^#\/?/, '');
       const page = hash || 'home';
@@ -671,6 +681,7 @@
     window.addEventListener('hashchange', render);
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('year').textContent = new Date().getFullYear();
+      normalizeHashRouting();
       render();
     });
   </script>
