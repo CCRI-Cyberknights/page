@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QR Demo (qrcode)</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:#0b1220; color:#e5e7eb; margin:0; }
+    .wrap { max-width: 720px; margin: 40px auto; padding: 0 16px; }
+    .card { background:#0f172a; border:1px solid #1f2937; border-radius:12px; padding:16px; }
+    input, button { font: inherit; }
+    .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+    .input { flex:1 1 420px; padding:10px 12px; border-radius:8px; border:1px solid #334155; background:#0b1220; color:#e5e7eb; outline: none; }
+    .btn { padding:10px 12px; border-radius:8px; border:1px solid #334155; background:#0b1220; color:#e5e7eb; cursor:pointer; }
+    .btn:hover { border-color:#16a34a; color:#a7f3d0; }
+    canvas { background:#fff; border-radius:8px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>QR Code Generator (qrcode)</h1>
+    <p class="card">Type any text/URL below. The QR updates instantly. You can also download a PNG.</p>
+    <div class="card" style="margin-top:16px;">
+      <div class="row">
+        <input id="qr-input" class="input" type="text" placeholder="Enter URL or text" />
+        <button id="download" class="btn">Download PNG</button>
+      </div>
+      <div class="row" style="margin-top:16px;">
+        <canvas id="qr-canvas" width="256" height="256"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+  <script>
+    const input = document.getElementById('qr-input');
+    const canvas = document.getElementById('qr-canvas');
+    const downloadBtn = document.getElementById('download');
+
+    const defaultValue = location.href;
+    input.value = defaultValue;
+
+    function render(value){
+      QRCode.toCanvas(canvas, value || '', { width: 256, margin: 1 }, function(err){
+        if (err) console.error(err);
+      });
+    }
+
+    input.addEventListener('input', () => render(input.value.trim() || defaultValue));
+    render(defaultValue);
+
+    downloadBtn.addEventListener('click', () => {
+      const link = document.createElement('a');
+      link.download = 'qr-code.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    });
+  </script>
+</body>
+</html>
+
+
