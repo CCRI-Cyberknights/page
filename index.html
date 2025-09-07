@@ -10,6 +10,7 @@
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <script src="./js/qr-helpers.js"></script>
   <style>
     :root { color-scheme: dark; }
   </style>
@@ -557,7 +558,26 @@
       const input = document.getElementById('footer-qr-input');
       if (!toggle || !panel || !canvas) return;
       const url = window.location.origin + window.location.pathname + `?page=${page}`;
-      const render = (text) => { if (window.QRCode) QRCode.toCanvas(canvas, text, { width: 128, margin: 1 }, function(){}); };
+      const render = (text) => {
+        if (window.QRCode) {
+          try {
+            QRCode.toCanvas(canvas, text, { width: 128, margin: 1 }, function(err){
+              if (err) fallbackImg(text);
+            });
+          } catch { fallbackImg(text); }
+        } else {
+          fallbackImg(text);
+        }
+      };
+      function fallbackImg(text){
+        const imgUrl = (window.buildGoogleChartQrUrl ? window.buildGoogleChartQrUrl(text, 128) : '');
+        const ctx = canvas.getContext('2d');
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        const img = new Image();
+        img.crossOrigin = 'anonymous';
+        img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+        if (imgUrl) img.src = imgUrl;
+      }
       render(url);
       if (input) {
         input.value = url;
@@ -566,12 +586,28 @@
       if (dl) {
         dl.onclick = () => {
           const tmpCanvas = document.createElement('canvas');
-          QRCode.toCanvas(tmpCanvas, (input && input.value) || url, { width: 512, margin: 1 }, () => {
-            const link = document.createElement('a');
-            link.download = `qr-${page}.png`;
-            link.href = tmpCanvas.toDataURL('image/png');
-            link.click();
-          });
+          const text = (input && input.value) || url;
+          try {
+            QRCode.toCanvas(tmpCanvas, text, { width: 512, margin: 1 }, () => {
+              const link = document.createElement('a');
+              link.download = `qr-${page}.png`;
+              link.href = tmpCanvas.toDataURL('image/png');
+              link.click();
+            });
+          } catch {
+            const img = new Image();
+            img.crossOrigin = 'anonymous';
+            img.onload = () => {
+              const ctx = tmpCanvas.getContext('2d');
+              tmpCanvas.width = 512; tmpCanvas.height = 512;
+              ctx.drawImage(img, 0, 0, 512, 512);
+              const link = document.createElement('a');
+              link.download = `qr-${page}.png`;
+              link.href = tmpCanvas.toDataURL('image/png');
+              link.click();
+            };
+            img.src = (window.buildGoogleChartQrUrl ? window.buildGoogleChartQrUrl(text, 512) : '');
+          }
         };
       }
       if (copyBtn) {
