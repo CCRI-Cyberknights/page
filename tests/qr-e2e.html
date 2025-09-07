@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>QR E2E Tests</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; background:#0b1220; color:#e5e7eb; margin:0; }
+    .wrap { max-width: 900px; margin: 32px auto; padding: 0 16px; }
+    table { width: 100%; border-collapse: collapse; }
+    td, th { border-bottom: 1px solid #1f2937; padding: 8px; }
+    .pass { color: #10b981; }
+    .fail { color: #ef4444; }
+    iframe { width: 100%; height: 220px; border: 1px solid #1f2937; border-radius: 8px; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1>QR End-to-End Tests</h1>
+    <p>Loads each page in an iframe, reads the footer QR canvas pixels, decodes with jsQR, and asserts it equals that page's URL.</p>
+    <table>
+      <thead><tr><th>Page</th><th>Expected URL</th><th>Decoded</th><th>Status</th></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <div id="iframes"></div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
+  <script src="../js/qr-helpers.js"></script>
+  <script>
+    const pages = ['home', 'cybersecurity', 'linux', 'calendar'];
+    const base = location.origin + location.pathname.replace(/\/tests\/qr-e2e\.html$/, '/') + '../index.html';
+    const rows = document.getElementById('rows');
+    const holder = document.getElementById('iframes');
+
+    function addRow(page, expected){
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td>${page}</td><td><code>${expected}</code></td><td class="decoded">(pending)</td><td class="status">…</td>`;
+      rows.appendChild(tr);
+      return tr;
+    }
+
+    (async function run(){
+      for (const page of pages){
+        const expected = (window.computePageUrl ? window.computePageUrl(page, base.replace('index.html','')) : base + '?page=' + page);
+        const tr = addRow(page, expected);
+        const iframe = document.createElement('iframe');
+        iframe.src = `${base}?page=${page}`;
+        holder.appendChild(iframe);
+        await new Promise(r => iframe.onload = r);
+
+        try {
+          const doc = iframe.contentWindow.document;
+          const canvas = doc.getElementById('footer-qr-canvas');
+          const ctx = canvas.getContext('2d');
+          const img = ctx.getImageData(0,0,canvas.width, canvas.height);
+          const result = jsQR(img.data, canvas.width, canvas.height);
+          const decoded = result && result.data || '(no result)';
+          tr.querySelector('.decoded').textContent = decoded;
+          const ok = decoded === expected;
+          tr.querySelector('.status').textContent = ok ? 'PASS' : 'FAIL';
+          tr.querySelector('.status').className = ok ? 'status pass' : 'status fail';
+        } catch (e){
+          tr.querySelector('.decoded').textContent = String(e);
+          tr.querySelector('.status').textContent = 'ERROR';
+          tr.querySelector('.status').className = 'status fail';
+        }
+      }
+    })();
+  </script>
+</body>
+</html>
+
+
