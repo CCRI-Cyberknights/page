@@ -102,6 +102,16 @@ Here are the key requirements broken down by category:
 - Branding & Aesthetics: The design should be visually appealing and modern, using the club's branding as a guide. The current dark theme and use of Tailwind CSS align with this requirement.
 - Call-to-Action: Each page should have a clear call-to-action, whether it's to sign up for the club, get more information, or follow a set of instructions.
 
+#### Branding & Messaging
+
+The site mirrors the business card’s concise messaging. A banner and home section highlight the three-word tagline:
+
+- Excitement
+- Opportunity
+- Belonging
+
+Use these words as copy anchors across pages. Primary accents use CCRI green (`#00703d` / `#22c55e`) for buttons and highlights.
+
 ### 3. Development & Maintenance
 
 - Version Control: The project will live in a public GitHub repository. This will serve as a single source of truth for the club's web content and allow for collaborative development.
