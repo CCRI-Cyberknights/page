@@ -48,8 +48,17 @@
         <span class="mx-1">/</span>
         <a href="https://github.com/CCRI-Cyberknights/qr-code-landing-pages/blob/main/CALENDAR-UPDATING.md" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-300">Maintainer docs</a>
       </div>
-      <div>
-        <a href="?page=listofqrcodes" class="hover:text-emerald-300">QR Codes</a>
+      <div class="relative">
+        <button id="footer-qr-toggle" class="hover:text-emerald-300">QR Code</button>
+        <div id="footer-qr-panel" class="hidden absolute right-0 bottom-8 p-3 rounded-lg border border-slate-800 bg-slate-900/95 shadow-lg">
+          <div class="flex items-start gap-3">
+            <canvas id="footer-qr-canvas" class="bg-white p-1 rounded" width="128" height="128"></canvas>
+            <div class="space-y-2">
+              <button id="footer-qr-download" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Download PNG</button>
+              <button id="footer-qr-copy" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Copy URL</button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </footer>
@@ -86,13 +95,7 @@
     </section>
   </template>
 
-  <template id="page-listofqrcodes">
-    <section class="space-y-6">
-      <h2 class="text-3xl sm:text-4xl font-bold">QR Codes</h2>
-      <p class="text-slate-300">These are generated on the fly from page URLs.</p>
-      <div id="qr-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-    </section>
-  </template>
+  
 
   <template id="page-cybersecurity">
     <section class="grid lg:grid-cols-2 items-center gap-10 pt-4">
@@ -194,8 +197,7 @@
       home: document.getElementById('page-home').innerHTML,
       cybersecurity: document.getElementById('page-cybersecurity').innerHTML,
       linux: document.getElementById('page-linux').innerHTML,
-      calendar: document.getElementById('page-calendar').innerHTML,
-      listofqrcodes: document.getElementById('page-listofqrcodes').innerHTML
+      calendar: document.getElementById('page-calendar').innerHTML
     };
 
     function render() {
@@ -255,9 +257,7 @@
           if (fc) fc.style.display = 'none';
         }
       }
-      if (page === 'listofqrcodes') {
-        renderQrCodes();
-      }
+      updateFooterQr(page);
     }
 
     function unfoldIcsLines(icsText) {
@@ -544,53 +544,36 @@
       fcInstance.render();
     }
 
-    function renderQrCodes() {
-      const container = document.getElementById('qr-list');
-      if (!container) return;
-      const base = window.location.origin + window.location.pathname;
-      const pages = [
-        { id: 'home', label: 'Home', url: base + '?page=home' },
-        { id: 'club', label: 'Club', url: base + '?page=cybersecurity' },
-        { id: 'linux', label: 'Linux Guide', url: base + '?page=linux' },
-        { id: 'calendar', label: 'Calendar', url: base + '?page=calendar' }
-      ];
-      container.innerHTML = '';
-      for (const item of pages) {
-        const card = document.createElement('div');
-        card.className = 'p-4 rounded-lg border border-slate-800 bg-slate-900/40';
-        const canvasId = `qr-${item.id}`;
-        card.innerHTML = `
-          <div class="space-y-3">
-            <div class="flex items-center justify-between">
-              <div class="font-semibold">${item.label}</div>
-              <code class="text-xs text-slate-400">${item.url}</code>
-            </div>
-            <div class="flex items-start gap-4">
-              <canvas id="${canvasId}" class="bg-white p-1 rounded" width="128" height="128"></canvas>
-              <div class="text-sm space-y-1">
-                <div><span class="text-slate-400">URL:</span> <a class="text-emerald-400 hover:text-emerald-300" href="${item.url}" target="_blank" rel="noopener noreferrer">${item.url}</a></div>
-                <button data-url="${item.url}" class="download-qr px-3 py-1 rounded border border-slate-700 hover:border-slate-600 text-xs">Download PNG</button>
-              </div>
-            </div>
-          </div>`;
-        container.appendChild(card);
-        const canvas = card.querySelector('#' + canvasId);
-        if (canvas && window.QRCode) {
-          QRCode.toCanvas(canvas, item.url, { width: 128, margin: 1 }, function(){});
-        }
-        const btn = card.querySelector('.download-qr');
-        if (btn) {
-          btn.addEventListener('click', () => {
-            const tmpCanvas = document.createElement('canvas');
-            QRCode.toCanvas(tmpCanvas, item.url, { width: 512, margin: 1 }, () => {
-              const link = document.createElement('a');
-              link.download = `qr-${item.id}.png`;
-              link.href = tmpCanvas.toDataURL('image/png');
-              link.click();
-            });
-          });
-        }
+    function updateFooterQr(page) {
+      const toggle = document.getElementById('footer-qr-toggle');
+      const panel = document.getElementById('footer-qr-panel');
+      const canvas = document.getElementById('footer-qr-canvas');
+      const dl = document.getElementById('footer-qr-download');
+      const copyBtn = document.getElementById('footer-qr-copy');
+      if (!toggle || !panel || !canvas) return;
+      const url = window.location.origin + window.location.pathname + `?page=${page}`;
+      if (window.QRCode) {
+        QRCode.toCanvas(canvas, url, { width: 128, margin: 1 }, function(){});
       }
+      if (dl) {
+        dl.onclick = () => {
+          const tmpCanvas = document.createElement('canvas');
+          QRCode.toCanvas(tmpCanvas, url, { width: 512, margin: 1 }, () => {
+            const link = document.createElement('a');
+            link.download = `qr-${page}.png`;
+            link.href = tmpCanvas.toDataURL('image/png');
+            link.click();
+          });
+        };
+      }
+      if (copyBtn) {
+        copyBtn.onclick = async () => {
+          try { await navigator.clipboard.writeText(url); } catch {}
+        };
+      }
+      toggle.onclick = () => {
+        panel.classList.toggle('hidden');
+      };
     }
 
     window.addEventListener('popstate', render);
