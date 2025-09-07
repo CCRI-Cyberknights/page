@@ -7,6 +7,8 @@
   <meta name="description" content="CCRI Cybersecurity Club QR landing pages">
   <link rel="icon" href="cybersmith.png">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
   <style>
     :root { color-scheme: dark; }
   </style>
@@ -172,12 +174,20 @@
         <div id="events-list" class="space-y-3"></div>
         <div id="events-empty" class="text-sm text-slate-400 hidden">No upcoming events found.</div>
       </section>
+
+      <section class="mt-8">
+        <h3 class="font-semibold mb-3">Interactive Calendar</h3>
+        <div id="fc-container" class="rounded-lg border border-slate-800 bg-slate-900/40 p-2">
+          <div id="fullcalendar" class="rounded bg-slate-950"></div>
+        </div>
+      </section>
     </section>
   </template>
 
   <script>
     const CALENDAR_EMBED_URL = ""; // Paste the published Outlook calendar embed URL here
     const CALENDAR_ICS_URL = "";    // Optional: paste the public .ics feed URL here
+    let fcInstance = null;
 
     const routes = {
       home: document.getElementById('page-home').innerHTML,
@@ -208,6 +218,7 @@
             subscribeLink.href = webcalUrl;
           }
           fetchAndRenderEvents(CALENDAR_ICS_URL);
+          fetchAndRenderFullCalendar(CALENDAR_ICS_URL);
         } else {
           if (subscribeLink) subscribeLink.style.display = 'none';
         }
@@ -452,6 +463,50 @@
           console.warn('ICS proxy fetch/parse failed', err2);
         }
       }
+    }
+
+    async function fetchAndRenderFullCalendar(icsUrl) {
+      try {
+        let text = '';
+        let res = await fetch(icsUrl, { cache: 'no-store' });
+        if (!res.ok) throw new Error('Primary fetch failed');
+        text = await res.text();
+        renderFullCalendarFromIcs(text);
+      } catch (err) {
+        try {
+          const proxied = 'https://r.jina.ai/http://' + icsUrl.replace(/^https?:\/\//, '');
+          const res2 = await fetch(proxied, { cache: 'no-store' });
+          if (!res2.ok) throw new Error('Proxy fetch failed');
+          const text2 = await res2.text();
+          renderFullCalendarFromIcs(text2);
+        } catch (e) {
+          console.warn('FullCalendar ICS load failed', e);
+        }
+      }
+    }
+
+    function renderFullCalendarFromIcs(icsText) {
+      const events = parseIcs(icsText);
+      const expanded = expandRecurring(events, new Date());
+      const fcEvents = expanded.map(e => ({
+        title: e.title || 'Event',
+        start: e.start,
+        end: e.end,
+        url: e.url || undefined
+      }));
+      const el = document.getElementById('fullcalendar');
+      if (!el || !window.FullCalendar) return;
+      if (fcInstance) { fcInstance.destroy(); fcInstance = null; }
+      fcInstance = new FullCalendar.Calendar(el, {
+        initialView: 'dayGridMonth',
+        height: 'auto',
+        themeSystem: 'standard',
+        eventClick: (info) => {
+          if (info.event.url) { info.jsEvent.preventDefault(); window.open(info.event.url, '_blank', 'noopener'); }
+        },
+        events: fcEvents
+      });
+      fcInstance.render();
     }
 
     window.addEventListener('popstate', render);

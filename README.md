@@ -80,6 +80,22 @@ const CALENDAR_ICS_URL = "https://outlook.office365.com/owa/calendar/.../calenda
 - If the browser blocks the ICS fetch due to CORS, the site attempts a best-effort proxy using `https://r.jina.ai/` to read the file.
 - If both fail, the embed still works; only the event list will be missing.
 
+## Google Calendar Option
+
+You can also integrate the CyberKnightClub Google Calendar (public).
+
+### Option A: Simple Embed
+
+Use the embed from Google Calendar Settings → Integrate calendar and paste into `index.html` (Calendar page). Example:
+
+```
+<iframe src="https://calendar.google.com/calendar/embed?src=...&ctz=America/New_York" style="border:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+```
+
+### Option B: ICS + FullCalendar (Implemented)
+
+The Calendar page includes a FullCalendar view populated from the public ICS feed. Set `CALENDAR_ICS_URL` to the Google calendar ICS link and the monthly calendar will render with clickable events.
+
 ## High-Level Requirements for the GitHub Pages Project
 
 The main goal of this project is to create a flexible, centralized, and easy-to-manage web platform for the CCRI Cybersecurity Club's public-facing information. The site must be hosted on GitHub Pages for free, and it should be accessible and understandable to new and prospective club members, including those with little or no technical background.
