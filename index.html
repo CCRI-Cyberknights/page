@@ -9,8 +9,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
-  <script src="./js/vendor/qrcode.min.js"></script>
-  <script src="./js/qr-helpers.js"></script>
+  <script src="./qrcode.min.js"></script>
   <style>
     :root { color-scheme: dark; }
   </style>
@@ -581,19 +580,9 @@
         }
       };
       function fallbackImg(text){
-        const imgUrl = (window.buildGoogleChartQrUrl ? window.buildGoogleChartQrUrl(text, 128) : '');
-        const imgEl = document.getElementById('footer-qr-img');
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0,0,canvas.width,canvas.height);
-        if (imgEl && imgUrl){
-          imgEl.src = imgUrl;
-          imgEl.classList.remove('hidden');
-        }
-        const img = new Image();
-        img.crossOrigin = 'anonymous';
-        img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        if (imgUrl) img.src = imgUrl;
-        if (infoEl) infoEl.textContent = `Fallback image encoder, length ${text.length}`;
+        if (infoEl) infoEl.textContent = `Encoder error, length ${text.length}`;
       }
       render(url);
       // Input-driven generation
@@ -635,18 +624,14 @@
               link.click();
             });
           } catch {
-            const img = new Image();
-            img.crossOrigin = 'anonymous';
-            img.onload = () => {
-              const ctx = tmpCanvas.getContext('2d');
-              tmpCanvas.width = 512; tmpCanvas.height = 512;
-              ctx.drawImage(img, 0, 0, 512, 512);
-              const link = document.createElement('a');
-              link.download = `qr-${page}.png`;
-              link.href = tmpCanvas.toDataURL('image/png');
-              link.click();
-            };
-            img.src = (window.buildGoogleChartQrUrl ? window.buildGoogleChartQrUrl(text, 512) : '');
+            // Fallback: copy current on-screen canvas into a PNG
+            const ctx = tmpCanvas.getContext('2d');
+            tmpCanvas.width = canvas.width; tmpCanvas.height = canvas.height;
+            ctx.drawImage(canvas, 0, 0);
+            const link = document.createElement('a');
+            link.download = `qr-${page}.png`;
+            link.href = tmpCanvas.toDataURL('image/png');
+            link.click();
           }
         };
       }
