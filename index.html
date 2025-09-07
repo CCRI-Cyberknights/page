@@ -18,8 +18,9 @@
       <h1 class="text-xl font-semibold tracking-tight">CCRI Cybersecurity Club</h1>
     </div>
     <nav class="hidden sm:flex gap-4 text-sm">
-      <a href="/?page=cybersecurity" class="hover:text-emerald-300">Club</a>
-      <a href="/?page=linux" class="hover:text-emerald-300">Linux Guide</a>
+      <a href="?page=home" class="hover:text-emerald-300">Home</a>
+      <a href="?page=cybersecurity" class="hover:text-emerald-300">Club</a>
+      <a href="?page=linux" class="hover:text-emerald-300">Linux Guide</a>
     </nav>
   </header>
 
@@ -30,6 +31,27 @@
       © <span id="year"></span> CCRI Cybersecurity Club
     </div>
   </footer>
+
+  <template id="page-home">
+    <section class="grid lg:grid-cols-2 items-center gap-10 pt-4">
+      <div class="space-y-6">
+        <h2 class="text-3xl sm:text-4xl font-bold leading-tight">
+          CyberKnights at CCRI
+        </h2>
+        <p class="text-slate-300">
+          We’re a student community learning security together: workshops, labs,
+          competitions, and projects. Start by joining the club or explore our Linux guide.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href="?page=cybersecurity" class="px-4 py-2 rounded bg-emerald-500 text-slate-900 font-medium hover:bg-emerald-400">Go to Club Page</a>
+          <a href="?page=linux" class="px-4 py-2 rounded border border-slate-700 hover:border-slate-600">USB Linux Guide</a>
+        </div>
+      </div>
+      <div class="flex justify-center">
+        <img src="cybersmith.png" alt="CyberKnights" class="w-72 h-72 object-contain drop-shadow-[0_0_40px_rgba(16,185,129,0.25)]" />
+      </div>
+    </section>
+  </template>
 
   <template id="page-cybersecurity">
     <section class="grid lg:grid-cols-2 items-center gap-10 pt-4">
@@ -95,20 +117,21 @@
       </div>
 
       <div class="mt-6">
-        <a href="/?page=cybersecurity" class="text-emerald-400 hover:text-emerald-300">Back to Club page</a>
+        <a href="?page=cybersecurity" class="text-emerald-400 hover:text-emerald-300">Back to Club page</a>
       </div>
     </section>
   </template>
 
   <script>
     const routes = {
+      home: document.getElementById('page-home').innerHTML,
       cybersecurity: document.getElementById('page-cybersecurity').innerHTML,
       linux: document.getElementById('page-linux').innerHTML
     };
 
     function render() {
       const params = new URLSearchParams(window.location.search);
-      const page = params.get('page') || 'cybersecurity';
+      const page = params.get('page') || 'home';
       const html = routes[page] || routes.cybersecurity;
       document.getElementById('app').innerHTML = html;
     }

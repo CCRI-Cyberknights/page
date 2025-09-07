@@ -20,6 +20,7 @@ To link a QR code to a specific page, use URL parameters. For example:
 
 - To link to the Cybersecurity Club page: `your-site-url.com/?page=cybersecurity`
 - To link to the Linux guide: `your-site-url.com/?page=linux`
+ - To link to the Home page: `your-site-url.com/?page=home`
 
 ## Contribution
 
@@ -30,6 +31,21 @@ As this project is a core part of the club's infrastructure, contributions are h
 - Code: Improve the JavaScript router, add new features, or optimize the code for performance.
 
 If you are a club member, you can fork this repository and submit a pull request with your changes. New to GitHub? We can help you get started with the basics of forking, branching, and submitting your first contribution.
+
+## Deploying to GitHub Pages
+
+1. In your repository, go to `Settings > Pages`.
+2. Set Source to `Deploy from a branch`, Branch `main` and `/ (root)`.
+3. Ensure a `.nojekyll` file exists at the root (prevents Jekyll processing).
+4. After saving, your site will be available at the Pages URL shown.
+
+### QR Codes
+
+- Generate QR codes for specific routes, for example:
+  - Club page: `<pages-url>/?page=cybersecurity`
+  - Linux guide: `<pages-url>/?page=linux`
+  - Home: `<pages-url>/?page=home`
+- Optional: Use a URL shortener (e.g., TinyURL) before encoding to make the code denser and easier to scan.
 
 ## High-Level Requirements for the GitHub Pages Project
 
