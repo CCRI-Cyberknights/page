@@ -45,7 +45,8 @@ If you are a club member, you can fork this repository and submit a pull request
 - Every page has a footer QR panel:
   - Generates a QR for the current page URL (offline, no CDN)
   - Lets you edit text/URL to generate a custom QR
-  - Buttons: Copy URL, Download PNG
+  - Button: Download PNG
+  - ECL Correction Level controls: − M + (cycles L → M → Q → H)
 - You can still link directly to a page via query param, for example:
   - Club page: `<pages-url>/?page=cybersecurity`
   - Linux guide: `<pages-url>/?page=linux`
@@ -56,7 +57,7 @@ If you are a club member, you can fork this repository and submit a pull request
 
 - Architecture: `docs/ARCHITECTURE.md`
 - Calendar maintainer guide: `CALENDAR-UPDATING.md`
-- QR Codes registry details: `docs/QR-CODES.md`
+- QR Codes: `docs/QR-CODES.md`
 
 ## Calendar Integration (Developer Spec)
 
