@@ -52,15 +52,16 @@
         <button id="footer-qr-toggle" class="hover:text-emerald-300">QR Code</button>
         <div id="footer-qr-panel" class="hidden absolute right-0 bottom-8 p-3 rounded-lg border border-slate-800 bg-slate-900/95 shadow-lg">
           <div class="flex items-start gap-3">
-            <canvas id="footer-qr-canvas" class="bg-white p-1 rounded" width="128" height="128"></canvas>
-            <img id="footer-qr-img" alt="QR code" class="hidden bg-white p-1 rounded" width="128" height="128" />
+            <div class="flex flex-col items-center gap-2">
+              <canvas id="footer-qr-canvas" class="bg-white p-1 rounded" width="128" height="128"></canvas>
+              <img id="footer-qr-img" alt="QR code" class="hidden bg-white p-1 rounded" width="128" height="128" />
+              <button id="footer-qr-download" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Download PNG</button>
+            </div>
             <div class="space-y-2">
               <div class="flex gap-2 items-center">
                 <input id="footer-qr-input" type="text" placeholder="Enter text or URL" class="w-56 px-2 py-1 rounded bg-slate-800 border border-slate-700 outline-none focus:border-emerald-500 text-slate-200" />
               </div>
-              <div class="flex gap-2">
-                <button id="footer-qr-download" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Download PNG</button>
-              </div>
+              <div id="footer-qr-length" class="text-[11px] text-slate-400"></div>
               <div class="text-[11px] text-slate-400">Defaults to this page’s URL; edit to generate any QR.</div>
               <div class="flex items-center gap-2 text-[11px] text-slate-400">
                 <div id="footer-qr-info"></div>
@@ -215,8 +216,8 @@
     };
 
     function render() {
-      const params = new URLSearchParams(window.location.search);
-      const page = params.get('page') || 'home';
+      const hash = (location.hash || '').replace(/^#\/?/, '');
+      const page = hash || 'home';
       const html = routes[page] || routes.cybersecurity;
       document.getElementById('app').innerHTML = html;
       if (page === 'calendar') {
@@ -580,7 +581,9 @@
             } catch {}
             QRCode.toCanvas(canvas, text, { width: 128, margin: 1, errorCorrectionLevel: ECL_LEVELS[eclIndex] }, function(err){
               if (err) fallbackImg(text);
-              if (infoEl) infoEl.innerHTML = versionDesc ? `${versionDesc}<div>length ${text.length}</div>` : `length ${text.length}`;
+              if (infoEl) infoEl.textContent = versionDesc || '';
+              const lenEl = document.getElementById('footer-qr-length');
+              if (lenEl) lenEl.textContent = `length ${text.length}`;
             });
           } catch { fallbackImg(text); }
         } else {
@@ -590,7 +593,9 @@
       function fallbackImg(text){
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0,0,canvas.width,canvas.height);
-        if (infoEl) infoEl.textContent = `Encoder error, length ${text.length}`;
+        if (infoEl) infoEl.textContent = `Encoder error`;
+        const lenEl = document.getElementById('footer-qr-length');
+        if (lenEl) lenEl.textContent = `length ${text.length}`;
       }
       render(url);
       // Input-driven generation
@@ -653,7 +658,7 @@
       };
     }
 
-    window.addEventListener('popstate', render);
+    window.addEventListener('hashchange', render);
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('year').textContent = new Date().getFullYear();
       render();
