@@ -48,6 +48,23 @@ If you are a club member, you can fork this repository and submit a pull request
   - Home: `<pages-url>/?page=home`
 - Optional: Use a URL shortener (e.g., TinyURL) before encoding to make the code denser and easier to scan.
 
+#### QR Code Registry
+
+- Registry file: `qr-codes/qr-codes.yaml`
+- Format:
+
+```
+items:
+  - id: 4wd4vt2k            # TinyURL slug and SVG filename (no extension)
+    label: Linux Guide       # Human label
+    route_url: https://<pages-url>/?page=linux
+    tiny_url: https://tinyurl.com/4wd4vt2k
+    svg_path: qr-codes/4wd4vt2k.svg
+    notes: Optional notes
+```
+
+- View registry in the site at `?page=listofqrcodes`. The page loads the YAML and renders cards with links and a download button for each SVG.
+
 ## Calendar Integration (Developer Spec)
 
 This site renders club events from a public Google Calendar ICS feed. The Calendar page (`?page=calendar`) combines three layers:
