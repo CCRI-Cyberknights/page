@@ -54,6 +54,7 @@
         <div id="footer-qr-panel" class="hidden absolute right-0 bottom-8 p-3 rounded-lg border border-slate-800 bg-slate-900/95 shadow-lg">
           <div class="flex items-start gap-3">
             <canvas id="footer-qr-canvas" class="bg-white p-1 rounded" width="128" height="128"></canvas>
+            <img id="footer-qr-img" alt="QR code" class="hidden bg-white p-1 rounded" width="128" height="128" />
             <div class="space-y-2">
               <div class="flex gap-2">
                 <button id="footer-qr-download" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Download PNG</button>
@@ -555,7 +556,7 @@
       const dl = document.getElementById('footer-qr-download');
       const copyBtn = document.getElementById('footer-qr-copy');
       if (!toggle || !panel || !canvas) return;
-      const url = window.location.origin + window.location.pathname + `?page=${page}`;
+      const url = window.location.href; // exact URL, includes ?page=...
       const render = (text) => {
         if (window.QRCode) {
           try {
@@ -569,8 +570,13 @@
       };
       function fallbackImg(text){
         const imgUrl = (window.buildGoogleChartQrUrl ? window.buildGoogleChartQrUrl(text, 128) : '');
+        const imgEl = document.getElementById('footer-qr-img');
         const ctx = canvas.getContext('2d');
         ctx.clearRect(0,0,canvas.width,canvas.height);
+        if (imgEl && imgUrl){
+          imgEl.src = imgUrl;
+          imgEl.classList.remove('hidden');
+        }
         const img = new Image();
         img.crossOrigin = 'anonymous';
         img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
