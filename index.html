@@ -54,8 +54,12 @@
           <div class="flex items-start gap-3">
             <canvas id="footer-qr-canvas" class="bg-white p-1 rounded" width="128" height="128"></canvas>
             <div class="space-y-2">
-              <button id="footer-qr-download" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Download PNG</button>
-              <button id="footer-qr-copy" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Copy URL</button>
+              <input id="footer-qr-input" type="text" placeholder="Enter text or URL" class="w-56 px-2 py-1 rounded bg-slate-800 border border-slate-700 outline-none focus:border-emerald-500 text-slate-200" />
+              <div class="flex gap-2">
+                <button id="footer-qr-download" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Download PNG</button>
+                <button id="footer-qr-copy" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Copy</button>
+              </div>
+              <div class="text-[11px] text-slate-400">Defaults to this page’s URL; edit to generate any QR.</div>
             </div>
           </div>
         </div>
@@ -550,15 +554,19 @@
       const canvas = document.getElementById('footer-qr-canvas');
       const dl = document.getElementById('footer-qr-download');
       const copyBtn = document.getElementById('footer-qr-copy');
+      const input = document.getElementById('footer-qr-input');
       if (!toggle || !panel || !canvas) return;
       const url = window.location.origin + window.location.pathname + `?page=${page}`;
-      if (window.QRCode) {
-        QRCode.toCanvas(canvas, url, { width: 128, margin: 1 }, function(){});
+      const render = (text) => { if (window.QRCode) QRCode.toCanvas(canvas, text, { width: 128, margin: 1 }, function(){}); };
+      render(url);
+      if (input) {
+        input.value = url;
+        input.addEventListener('input', () => render(input.value || url));
       }
       if (dl) {
         dl.onclick = () => {
           const tmpCanvas = document.createElement('canvas');
-          QRCode.toCanvas(tmpCanvas, url, { width: 512, margin: 1 }, () => {
+          QRCode.toCanvas(tmpCanvas, (input && input.value) || url, { width: 512, margin: 1 }, () => {
             const link = document.createElement('a');
             link.download = `qr-${page}.png`;
             link.href = tmpCanvas.toDataURL('image/png');
@@ -568,7 +576,7 @@
       }
       if (copyBtn) {
         copyBtn.onclick = async () => {
-          try { await navigator.clipboard.writeText(url); } catch {}
+          try { await navigator.clipboard.writeText((input && input.value) || url); } catch {}
         };
       }
       toggle.onclick = () => {
