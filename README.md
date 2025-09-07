@@ -89,7 +89,7 @@ const CALENDAR_ICS_URL = "https://calendar.google.com/calendar/ical/YOUR_CALENDA
 const CALENDAR_EMBED_URL = "https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID&ctz=America/New_York"; // optional
 ```
 
-Deployment: push to `main` and GitHub Pages redeploys.
+Deployment: push to `main` and GitHub Pages redeploys. Maintainers: see `CALENDAR-UPDATING.md`.
 
 ### 2. Data Pipeline & Processing
 

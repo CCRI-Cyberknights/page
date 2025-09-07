@@ -43,6 +43,10 @@
   <footer class="border-t border-slate-800/60 mt-16">
     <div class="max-w-5xl mx-auto px-4 py-6 text-xs text-slate-400">
       © <span id="year"></span> CCRI Cybersecurity Club
+      <span class="mx-2">•</span>
+      <a href="https://github.com/CCRI-Cyberknights/qr-code-landing-pages" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-300">GitHub</a>
+      <span class="mx-1">/</span>
+      <a href="https://github.com/CCRI-Cyberknights/qr-code-landing-pages/blob/main/CALENDAR-UPDATING.md" target="_blank" rel="noopener noreferrer" class="hover:text-emerald-300">Maintainer docs</a>
     </div>
   </footer>
 
@@ -196,6 +200,7 @@
   <script>
     const CALENDAR_EMBED_URL = "https://calendar.google.com/calendar/embed?src=Y2NyaWN5YmVya25pZ2h0Y2x1YkBnbWFpbC5jb20&ctz=America/New_York"; // Optional: Google Calendar embed URL
     const CALENDAR_ICS_URL = "https://calendar.google.com/calendar/ical/Y2NyaWN5YmVya25pZ2h0Y2x1YkBnbWFpbC5jb20/public/basic.ics";    // Public Google Calendar ICS URL
+    const DOCS_CALENDAR_URL = "https://github.com/CCRI-Cyberknights/qr-code-landing-pages/blob/main/CALENDAR-UPDATING.md";
     let fcInstance = null;
 
     const routes = {
@@ -234,12 +239,8 @@
         }
 
         if (callout) {
-          if (!CALENDAR_EMBED_URL && !CALENDAR_ICS_URL) {
-            callout.textContent = 'Calendar not configured yet. Admins: set CALENDAR_ICS_URL to the public Google Calendar ICS link (and optionally CALENDAR_EMBED_URL). See README.';
-          } else if (!CALENDAR_EMBED_URL) {
-            callout.textContent = 'Embed URL not set. The interactive list and month view work via ICS; you can also add a Google Calendar embed URL.';
-          } else if (!CALENDAR_ICS_URL) {
-            callout.textContent = 'ICS URL not set. The embed shows, but the Next/Upcoming list and FullCalendar need CALENDAR_ICS_URL.';
+          if (!CALENDAR_EMBED_URL || !CALENDAR_ICS_URL) {
+            callout.innerHTML = 'Maintainers: <a href="' + DOCS_CALENDAR_URL + '" target="_blank" rel="noopener noreferrer" class="underline">see docs</a>.';
           } else {
             callout.style.display = 'none';
           }
