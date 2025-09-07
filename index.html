@@ -9,7 +9,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <style>
     :root { color-scheme: dark; }
   </style>
@@ -88,9 +88,8 @@
 
   <template id="page-listofqrcodes">
     <section class="space-y-6">
-      <h2 class="text-3xl sm:text-4xl font-bold">QR Codes Registry</h2>
-      <p class="text-slate-300">Mappings of TinyURLs to site routes with downloadable SVGs.</p>
-      <div id="qr-error" class="hidden p-4 rounded border border-amber-500/40 bg-amber-900/20 text-amber-200 text-sm"></div>
+      <h2 class="text-3xl sm:text-4xl font-bold">QR Codes</h2>
+      <p class="text-slate-300">These are generated on the fly from page URLs.</p>
       <div id="qr-list" class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
     </section>
   </template>
@@ -170,6 +169,7 @@
       <p class="text-slate-300">Upcoming meetings and events managed via the club Google Calendar.</p>
       <div class="flex flex-wrap gap-3">
         <a id="calendar-direct-link" href="#" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded border border-slate-700 hover:border-slate-600 text-sm">Open in Google Calendar</a>
+        <a id="calendar-add-google" href="#" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded border border-slate-700 hover:border-slate-600 text-sm">Add to Google Calendar</a>
         <a id="calendar-subscribe-link" href="#" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded bg-emerald-500 text-slate-900 font-medium hover:bg-emerald-400 text-sm">Subscribe</a>
       </div>
 
@@ -208,6 +208,7 @@
         const callout = document.getElementById('calendar-callout');
         const directLink = document.getElementById('calendar-direct-link');
         const subscribeLink = document.getElementById('calendar-subscribe-link');
+        const addGoogleLink = document.getElementById('calendar-add-google');
         if (CALENDAR_EMBED_URL && iframe) {
           iframe.src = CALENDAR_EMBED_URL;
           if (callout) callout.style.display = 'none';
@@ -223,6 +224,11 @@
           } else {
             subscribeLink.style.display = 'none';
           }
+        }
+
+        if (addGoogleLink) {
+          const calendarId = 'Y2NyaWN5YmVya25pZ2h0Y2x1YkBnbWFpbC5jb20';
+          addGoogleLink.href = 'https://calendar.google.com/calendar/u/0/r?cid=' + calendarId;
         }
 
         if (ENABLE_CUSTOM_CALENDAR && CALENDAR_ICS_URL) {
@@ -538,48 +544,51 @@
       fcInstance.render();
     }
 
-    async function renderQrCodes() {
+    function renderQrCodes() {
       const container = document.getElementById('qr-list');
-      const err = document.getElementById('qr-error');
       if (!container) return;
-      try {
-        const res = await fetch('qr-codes/qr-codes.yaml', { cache: 'no-store' });
-        if (!res.ok) throw new Error('Failed to load registry');
-        const text = await res.text();
-        const doc = jsyaml.load(text);
-        const items = (doc && doc.items) || [];
-        if (items.length === 0) {
-          container.innerHTML = '<div class="text-slate-400 text-sm">No QR codes registered yet.</div>';
-          return;
-        }
-        container.innerHTML = '';
-        for (const item of items) {
-          const card = document.createElement('div');
-          card.className = 'p-4 rounded-lg border border-slate-800 bg-slate-900/40';
-          card.innerHTML = `
-            <div class="space-y-3">
-              <div class="flex items-center justify-between">
-                <div class="font-semibold">${item.label || item.id}</div>
-                <code class="text-xs text-slate-400">${item.id}</code>
+      const base = window.location.origin + window.location.pathname;
+      const pages = [
+        { id: 'home', label: 'Home', url: base + '?page=home' },
+        { id: 'club', label: 'Club', url: base + '?page=cybersecurity' },
+        { id: 'linux', label: 'Linux Guide', url: base + '?page=linux' },
+        { id: 'calendar', label: 'Calendar', url: base + '?page=calendar' }
+      ];
+      container.innerHTML = '';
+      for (const item of pages) {
+        const card = document.createElement('div');
+        card.className = 'p-4 rounded-lg border border-slate-800 bg-slate-900/40';
+        const canvasId = `qr-${item.id}`;
+        card.innerHTML = `
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <div class="font-semibold">${item.label}</div>
+              <code class="text-xs text-slate-400">${item.url}</code>
+            </div>
+            <div class="flex items-start gap-4">
+              <canvas id="${canvasId}" class="bg-white p-1 rounded" width="128" height="128"></canvas>
+              <div class="text-sm space-y-1">
+                <div><span class="text-slate-400">URL:</span> <a class="text-emerald-400 hover:text-emerald-300" href="${item.url}" target="_blank" rel="noopener noreferrer">${item.url}</a></div>
+                <button data-url="${item.url}" class="download-qr px-3 py-1 rounded border border-slate-700 hover:border-slate-600 text-xs">Download PNG</button>
               </div>
-              <div class="flex items-start gap-4">
-                <img src="${item.svg_path}" alt="${item.id}" class="w-24 h-24 bg-white p-1 rounded"/>
-                <div class="text-sm space-y-1">
-                  <div><span class="text-slate-400">Route:</span> <a class="text-emerald-400 hover:text-emerald-300" href="${item.route_url}" target="_blank" rel="noopener noreferrer">${item.route_url}</a></div>
-                  <div><span class="text-slate-400">TinyURL:</span> <a class="text-emerald-400 hover:text-emerald-300" href="${item.tiny_url}" target="_blank" rel="noopener noreferrer">${item.tiny_url}</a></div>
-                  ${item.notes ? `<div class="text-slate-400">${item.notes}</div>` : ''}
-                  <div class="pt-1 flex gap-2">
-                    <a href="${item.svg_path}" download class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600 text-xs">Download SVG</a>
-                  </div>
-                </div>
-              </div>
-            </div>`;
-          container.appendChild(card);
+            </div>
+          </div>`;
+        container.appendChild(card);
+        const canvas = card.querySelector('#' + canvasId);
+        if (canvas && window.QRCode) {
+          QRCode.toCanvas(canvas, item.url, { width: 128, margin: 1 }, function(){});
         }
-      } catch (e) {
-        if (err) {
-          err.textContent = 'Failed to load qr-codes/qr-codes.yaml. Ensure the file exists and is valid YAML.';
-          err.classList.remove('hidden');
+        const btn = card.querySelector('.download-qr');
+        if (btn) {
+          btn.addEventListener('click', () => {
+            const tmpCanvas = document.createElement('canvas');
+            QRCode.toCanvas(tmpCanvas, item.url, { width: 512, margin: 1 }, () => {
+              const link = document.createElement('a');
+              link.download = `qr-${item.id}.png`;
+              link.href = tmpCanvas.toDataURL('image/png');
+              link.click();
+            });
+          });
         }
       }
     }
