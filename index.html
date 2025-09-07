@@ -64,7 +64,8 @@
               <div class="text-[11px] text-slate-400">Defaults to this page’s URL; edit to generate any QR.</div>
               <div class="flex items-center gap-2 text-[11px] text-slate-400">
                 <div id="footer-qr-info"></div>
-                <div class="flex items-center gap-1 ml-2">
+                <div class="flex items-center gap-1 ml-3">
+                  <span class="mr-1">ECL Correction Level:</span>
                   <button id="footer-qr-ecl-dec" class="px-1 py-0.5 rounded border border-slate-700 hover:border-slate-600" title="Lower error correction">−</button>
                   <span id="footer-qr-ecl" class="min-w-[1.5ch] text-slate-300 text-xs text-center">M</span>
                   <button id="footer-qr-ecl-inc" class="px-1 py-0.5 rounded border border-slate-700 hover:border-slate-600" title="Raise error correction">+</button>
@@ -575,11 +576,11 @@
             let versionDesc = '';
             try {
               const model = QRCode.create(text, { errorCorrectionLevel: ECL_LEVELS[eclIndex] });
-              versionDesc = `QR Version ${model.version} (${model.modules.size}×${model.modules.size}), ECL ${ECL_LEVELS[eclIndex]}, length ${text.length}`;
+              versionDesc = `QR Version ${model.version} (${model.modules.size}×${model.modules.size}), length ${text.length}`;
             } catch {}
             QRCode.toCanvas(canvas, text, { width: 128, margin: 1, errorCorrectionLevel: ECL_LEVELS[eclIndex] }, function(err){
               if (err) fallbackImg(text);
-              if (infoEl) infoEl.textContent = versionDesc || `ECL ${ECL_LEVELS[eclIndex]}, length ${text.length}`;
+              if (infoEl) infoEl.textContent = versionDesc || `length ${text.length}`;
             });
           } catch { fallbackImg(text); }
         } else {
