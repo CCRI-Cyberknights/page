@@ -57,13 +57,19 @@
             <div class="space-y-2">
               <div class="flex gap-2 items-center">
                 <input id="footer-qr-input" type="text" placeholder="Enter text or URL" class="w-56 px-2 py-1 rounded bg-slate-800 border border-slate-700 outline-none focus:border-emerald-500 text-slate-200" />
-                <button id="footer-qr-copy-url" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Copy URL</button>
               </div>
               <div class="flex gap-2">
                 <button id="footer-qr-download" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Download PNG</button>
               </div>
               <div class="text-[11px] text-slate-400">Defaults to this page’s URL; edit to generate any QR.</div>
-              <div id="footer-qr-info" class="text-[11px] text-slate-400"></div>
+              <div class="flex items-center gap-2 text-[11px] text-slate-400">
+                <div id="footer-qr-info"></div>
+                <div class="flex items-center gap-1 ml-2">
+                  <button id="footer-qr-ecl-dec" class="px-1 py-0.5 rounded border border-slate-700 hover:border-slate-600" title="Lower error correction">−</button>
+                  <span id="footer-qr-ecl" class="min-w-[1.5ch] text-slate-300 text-xs text-center">M</span>
+                  <button id="footer-qr-ecl-inc" class="px-1 py-0.5 rounded border border-slate-700 hover:border-slate-600" title="Raise error correction">+</button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -559,7 +565,8 @@
       const copyBtn = document.getElementById('footer-qr-copy');
       if (!toggle || !panel || !canvas) return;
       const url = window.location.href; // exact URL, includes ?page=...
-      const ECL = 'M'; // error correction level used for generation
+      const ECL_LEVELS = ['L','M','Q','H'];
+      let eclIndex = 1; // default 'M'
       const infoEl = document.getElementById('footer-qr-info');
       const render = (text) => {
         if (window.QRCode) {
@@ -567,12 +574,12 @@
             // compute model to surface version/module count
             let versionDesc = '';
             try {
-              const model = QRCode.create(text, { errorCorrectionLevel: ECL });
-              versionDesc = `QR Version ${model.version} (${model.modules.size}×${model.modules.size}), ECL ${ECL}, length ${text.length}`;
+              const model = QRCode.create(text, { errorCorrectionLevel: ECL_LEVELS[eclIndex] });
+              versionDesc = `QR Version ${model.version} (${model.modules.size}×${model.modules.size}), ECL ${ECL_LEVELS[eclIndex]}, length ${text.length}`;
             } catch {}
-            QRCode.toCanvas(canvas, text, { width: 128, margin: 1, errorCorrectionLevel: ECL }, function(err){
+            QRCode.toCanvas(canvas, text, { width: 128, margin: 1, errorCorrectionLevel: ECL_LEVELS[eclIndex] }, function(err){
               if (err) fallbackImg(text);
-              if (infoEl) infoEl.textContent = versionDesc || `ECL ${ECL}, length ${text.length}`;
+              if (infoEl) infoEl.textContent = versionDesc || `ECL ${ECL_LEVELS[eclIndex]}, length ${text.length}`;
             });
           } catch { fallbackImg(text); }
         } else {
@@ -587,7 +594,9 @@
       render(url);
       // Input-driven generation
       const input = document.getElementById('footer-qr-input');
-      const copyUrlBtn = document.getElementById('footer-qr-copy-url');
+      const eclText = document.getElementById('footer-qr-ecl');
+      const eclInc = document.getElementById('footer-qr-ecl-inc');
+      const eclDec = document.getElementById('footer-qr-ecl-dec');
       if (input) {
         input.value = url;
         input.addEventListener('input', () => render(input.value || url));
@@ -607,17 +616,20 @@
           } catch {}
         });
       }
-      if (copyUrlBtn) {
-        copyUrlBtn.onclick = async () => {
-          try { await navigator.clipboard.writeText((input && input.value) || url); } catch {}
-        };
+      if (eclText) eclText.textContent = ECL_LEVELS[eclIndex];
+      function reRender(){ render((input && input.value) || url); }
+      if (eclInc) {
+        eclInc.onclick = () => { if (eclIndex < ECL_LEVELS.length - 1) { eclIndex++; if (eclText) eclText.textContent = ECL_LEVELS[eclIndex]; reRender(); } };
+      }
+      if (eclDec) {
+        eclDec.onclick = () => { if (eclIndex > 0) { eclIndex--; if (eclText) eclText.textContent = ECL_LEVELS[eclIndex]; reRender(); } };
       }
       if (dl) {
         dl.onclick = () => {
           const tmpCanvas = document.createElement('canvas');
           const text = (input && input.value) || url;
           try {
-            QRCode.toCanvas(tmpCanvas, text, { width: 512, margin: 1, errorCorrectionLevel: ECL }, () => {
+            QRCode.toCanvas(tmpCanvas, text, { width: 512, margin: 1, errorCorrectionLevel: ECL_LEVELS[eclIndex] }, () => {
               const link = document.createElement('a');
               link.download = `qr-${page}.png`;
               link.href = tmpCanvas.toDataURL('image/png');
