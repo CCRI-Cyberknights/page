@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CCRI Cybersecurity Club</title>
+  <meta name="description" content="CCRI Cybersecurity Club QR landing pages">
+  <link rel="icon" href="cybersmith.png">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { color-scheme: dark; }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-100">
+  <header class="max-w-5xl mx-auto px-4 py-6 flex items-center justify-between">
+    <div class="flex items-center gap-3">
+      <img src="cybersmith.png" alt="CyberKnights" class="w-10 h-10 rounded" />
+      <h1 class="text-xl font-semibold tracking-tight">CCRI Cybersecurity Club</h1>
+    </div>
+    <nav class="hidden sm:flex gap-4 text-sm">
+      <a href="/?page=cybersecurity" class="hover:text-emerald-300">Club</a>
+      <a href="/?page=linux" class="hover:text-emerald-300">Linux Guide</a>
+    </nav>
+  </header>
+
+  <main id="app" class="max-w-5xl mx-auto px-4 pb-24"></main>
+
+  <footer class="border-t border-slate-800/60 mt-16">
+    <div class="max-w-5xl mx-auto px-4 py-6 text-xs text-slate-400">
+      © <span id="year"></span> CCRI Cybersecurity Club
+    </div>
+  </footer>
+
+  <template id="page-cybersecurity">
+    <section class="grid lg:grid-cols-2 items-center gap-10 pt-4">
+      <div class="space-y-6">
+        <h2 class="text-3xl sm:text-4xl font-bold leading-tight">
+          Welcome to the Cybersecurity Club
+        </h2>
+        <p class="text-slate-300">
+          Learn, build, and compete with peers. Join workshops, talks, and
+          hands-on labs covering security fundamentals through advanced topics.
+        </p>
+        <div class="flex flex-wrap gap-3">
+          <a href="https://www.ccri.edu/its/cybersecurity/" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded bg-emerald-500 text-slate-900 font-medium hover:bg-emerald-400">
+            Visit Cybersecurity Site
+          </a>
+          <a href="https://forms.gle/" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded border border-slate-700 hover:border-slate-600">
+            Sign Up
+          </a>
+        </div>
+      </div>
+      <div class="flex justify-center">
+        <img src="cybersmith.png" alt="CyberKnights" class="w-72 h-72 object-contain drop-shadow-[0_0_40px_rgba(16,185,129,0.25)]" />
+      </div>
+    </section>
+
+    <section class="mt-12 grid sm:grid-cols-2 gap-6">
+      <div class="p-5 rounded-lg border border-slate-800 bg-slate-900/40">
+        <h3 class="font-semibold mb-2">What we do</h3>
+        <p class="text-slate-300 text-sm">Workshops, Linux hardening, CTFs, mentoring, and community.</p>
+      </div>
+      <div class="p-5 rounded-lg border border-slate-800 bg-slate-900/40">
+        <h3 class="font-semibold mb-2">Get involved</h3>
+        <p class="text-slate-300 text-sm">Join our meetings, Discord, and events throughout the semester.</p>
+      </div>
+    </section>
+  </template>
+
+  <template id="page-linux">
+    <section class="space-y-6">
+      <h2 class="text-3xl sm:text-4xl font-bold">CyberKnights Linux: USB Boot Guide</h2>
+      <p class="text-slate-300">Follow these steps to boot from a USB drive.</p>
+
+      <ol class="list-decimal list-inside space-y-2 text-slate-200">
+        <li>Shut down your computer.</li>
+        <li>Insert the prepared USB drive.</li>
+        <li>Power on and press your one-time boot menu key (see below).</li>
+        <li>Select the USB device and press Enter.</li>
+        <li>Follow on-screen instructions to try or install.</li>
+      </ol>
+
+      <div class="mt-6 p-5 rounded-lg border border-slate-800 bg-slate-900/40">
+        <h3 class="font-semibold mb-3">Common One-Time Boot Keys</h3>
+        <div class="grid sm:grid-cols-2 gap-3 text-sm">
+          <div><span class="text-slate-400">Dell</span>: F12</div>
+          <div><span class="text-slate-400">HP</span>: Esc, F9</div>
+          <div><span class="text-slate-400">Lenovo</span>: F12, Novo Button</div>
+          <div><span class="text-slate-400">Acer</span>: F12</div>
+          <div><span class="text-slate-400">ASUS</span>: Esc, F8</div>
+          <div><span class="text-slate-400">MSI</span>: F11</div>
+          <div><span class="text-slate-400">Toshiba</span>: F12</div>
+          <div><span class="text-slate-400">Samsung</span>: Esc, F12</div>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <a href="/?page=cybersecurity" class="text-emerald-400 hover:text-emerald-300">Back to Club page</a>
+      </div>
+    </section>
+  </template>
+
+  <script>
+    const routes = {
+      cybersecurity: document.getElementById('page-cybersecurity').innerHTML,
+      linux: document.getElementById('page-linux').innerHTML
+    };
+
+    function render() {
+      const params = new URLSearchParams(window.location.search);
+      const page = params.get('page') || 'cybersecurity';
+      const html = routes[page] || routes.cybersecurity;
+      document.getElementById('app').innerHTML = html;
+    }
+
+    window.addEventListener('popstate', render);
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('year').textContent = new Date().getFullYear();
+      render();
+    });
+  </script>
+</body>
+</html>
+
+
