@@ -166,13 +166,16 @@
       <p class="text-slate-300">Upcoming meetings and events managed via the club Google Calendar.</p>
       <div class="flex flex-wrap gap-3">
         <a id="calendar-direct-link" href="#" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded border border-slate-700 hover:border-slate-600 text-sm">Open in Google Calendar</a>
-        <a id="calendar-subscribe-link" href="#" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded bg-emerald-500 text-slate-900 font-medium hover:bg-emerald-400 text-sm">Subscribe</a>
+        <a id="calendar-subscribe-link" href="#" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded bg-emerald-500 text-slate-900 font-medium hover:bg-emerald-400 text-sm">Add to Your Google Calendar</a>
       </div>
 
       <div id="calendar-callout" class="p-4 rounded border border-amber-500/40 bg-amber-900/20 text-amber-200 text-sm"></div>
 
       <div class="rounded-lg overflow-hidden border border-slate-800 bg-slate-900/40">
         <iframe id="calendar-iframe" src="" title="CCRI Cybersecurity Club Calendar" width="100%" height="800" frameborder="0" scrolling="auto"></iframe>
+      </div>
+      <div class="mt-2 text-xs text-slate-400">
+        <a id="calendar-subscribe-link-bottom" href="#" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300">Add to Your Google Calendar</a>
       </div>
 
       
@@ -226,6 +229,16 @@
             callout.innerHTML = 'Maintainers: <a href="' + DOCS_CALENDAR_URL + '" target="_blank" rel="noopener noreferrer" class="underline">see docs</a>.';
           } else {
             callout.style.display = 'none';
+          }
+        }
+
+        // Keep bottom subscribe link in sync
+        const subscribeBottom = document.getElementById('calendar-subscribe-link-bottom');
+        if (subscribeBottom) {
+          if (CALENDAR_ICS_URL) {
+            subscribeBottom.href = CALENDAR_ICS_URL.replace(/^https?:\/\//, 'webcal://');
+          } else {
+            subscribeBottom.style.display = 'none';
           }
         }
 
