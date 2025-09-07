@@ -1,22 +1,21 @@
-# QR Codes Registry
+# QR Codes (Per‑page, dynamic)
 
-Data lives in `qr-codes/qr-codes.yaml`. The site loads it at runtime and renders cards at `?page=listofqrcodes`.
+The site generates QR codes dynamically in the footer for each page. No YAML, SVG, or build step.
 
-## YAML format
+## How it works
 
-```
-items:
-  - id: 4wd4vt2k            # TinyURL slug and SVG filename (no extension)
-    label: Linux Guide       # Human-readable label
-    route_url: https://<pages-url>/?page=linux
-    tiny_url: https://tinyurl.com/4wd4vt2k
-    svg_path: qr-codes/4wd4vt2k.svg
-    notes: Optional notes
-```
+- Offline encoder (vendored) at `js/vendor/qrcode.min.js` renders to a `<canvas>`.
+- If needed, it falls back to a Google Chart image drawn onto the canvas.
+- The input box lets you change the encoded text; defaults to the current page URL.
+- Buttons:
+  - Copy URL: copies the current text
+  - Download PNG: saves a raster image of the QR
 
-## Workflow
+## Linking directly to pages
 
-1. Create the TinyURL for the target route
-2. Generate the SVG QR code named `<slug>.svg` and place under `qr-codes/`
-3. Add a new entry to `qr-codes/qr-codes.yaml`
-4. Commit and push; verify at `?page=listofqrcodes`
+Append a query param:
+
+- `?page=home`
+- `?page=cybersecurity`
+- `?page=linux`
+- `?page=calendar`

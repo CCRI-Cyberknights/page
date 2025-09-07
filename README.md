@@ -42,28 +42,15 @@ If you are a club member, you can fork this repository and submit a pull request
 
 ### QR Codes
 
-- Generate QR codes for specific routes, for example:
+- Every page has a footer QR panel:
+  - Generates a QR for the current page URL (offline, no CDN)
+  - Lets you edit text/URL to generate a custom QR
+  - Buttons: Copy URL, Download PNG
+- You can still link directly to a page via query param, for example:
   - Club page: `<pages-url>/?page=cybersecurity`
   - Linux guide: `<pages-url>/?page=linux`
   - Home: `<pages-url>/?page=home`
-- Optional: Use a URL shortener (e.g., TinyURL) before encoding to make the code denser and easier to scan.
-
-#### QR Code Registry
-
-- Registry file: `qr-codes/qr-codes.yaml`
-- Format:
-
-```
-items:
-  - id: 4wd4vt2k            # TinyURL slug and SVG filename (no extension)
-    label: Linux Guide       # Human label
-    route_url: https://<pages-url>/?page=linux
-    tiny_url: https://tinyurl.com/4wd4vt2k
-    svg_path: qr-codes/4wd4vt2k.svg
-    notes: Optional notes
-```
-
-- View registry in the site at `?page=listofqrcodes`. The page loads the YAML and renders cards with links and a download button for each SVG.
+  - Calendar: `<pages-url>/?page=calendar`
 
 ## Documentation Index
 
@@ -97,7 +84,7 @@ const CALENDAR_EMBED_URL = "https://calendar.google.com/calendar/embed?src=YOUR_
 
 Deployment: push to `main` and GitHub Pages redeploys. Maintainers: see `CALENDAR-UPDATING.md`.
 
-### 2. Data Pipeline & Processing
+### 2. Data Pipeline & Processing (Calendar)
 
 - Fetch: Client-side `fetch(CALENDAR_ICS_URL)` with `no-store` cache.
 - CORS fallback: If blocked, a read-only proxy is attempted via `https://r.jina.ai/http://<host>/<path>`.
