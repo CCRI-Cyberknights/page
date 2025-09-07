@@ -56,11 +56,15 @@
             <canvas id="footer-qr-canvas" class="bg-white p-1 rounded" width="128" height="128"></canvas>
             <img id="footer-qr-img" alt="QR code" class="hidden bg-white p-1 rounded" width="128" height="128" />
             <div class="space-y-2">
+              <div class="flex gap-2 items-center">
+                <input id="footer-qr-input" type="text" placeholder="Enter text or URL" class="w-56 px-2 py-1 rounded bg-slate-800 border border-slate-700 outline-none focus:border-emerald-500 text-slate-200" />
+                <button id="footer-qr-reset" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Use page URL</button>
+              </div>
               <div class="flex gap-2">
                 <button id="footer-qr-download" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Download PNG</button>
-                <button id="footer-qr-copy" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Copy URL</button>
+                <button id="footer-qr-copy" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Copy</button>
               </div>
-              <div class="text-[11px] text-slate-400">QR encodes this page’s URL.</div>
+              <div class="text-[11px] text-slate-400">Defaults to this page’s URL; edit to generate any QR.</div>
             </div>
           </div>
         </div>
@@ -583,10 +587,20 @@
         if (imgUrl) img.src = imgUrl;
       }
       render(url);
+      // Input-driven generation
+      const input = document.getElementById('footer-qr-input');
+      const resetBtn = document.getElementById('footer-qr-reset');
+      if (input) {
+        input.value = url;
+        input.addEventListener('input', () => render(input.value || url));
+      }
+      if (resetBtn) {
+        resetBtn.onclick = () => { if (input) { input.value = url; render(url); } };
+      }
       if (dl) {
         dl.onclick = () => {
           const tmpCanvas = document.createElement('canvas');
-          const text = url;
+          const text = (input && input.value) || url;
           try {
             QRCode.toCanvas(tmpCanvas, text, { width: 512, margin: 1 }, () => {
               const link = document.createElement('a');
@@ -612,7 +626,7 @@
       }
       if (copyBtn) {
         copyBtn.onclick = async () => {
-          try { await navigator.clipboard.writeText(url); } catch {}
+          try { await navigator.clipboard.writeText((input && input.value) || url); } catch {}
         };
       }
       toggle.onclick = () => {
