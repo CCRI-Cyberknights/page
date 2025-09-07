@@ -5,7 +5,7 @@ The site generates QR codes dynamically in the footer for each page. There is no
 ## How it works
 
 - Offline encoder (vendored) at `qrcode.min.js` renders to a `<canvas>`.
-- The input box lets you change the encoded text; by default it uses the current page URL (including `?page=...`).
+- The input box lets you change the encoded text; by default it uses the current page URL (including `#/...`).
 - Actions:
   - Download PNG: exports at higher resolution using the current settings
   - ECL Correction Level: controls to adjust error correction (L → M → Q → H)
@@ -18,9 +18,9 @@ The site generates QR codes dynamically in the footer for each page. There is no
 
 ## Linking directly to pages
 
-Append a query param:
+Use hash routes:
 
-- `?page=home`
-- `?page=cybersecurity`
-- `?page=linux`
-- `?page=calendar`
+- `#/home`
+- `#/cybersecurity`
+- `#/linux`
+- `#/calendar`

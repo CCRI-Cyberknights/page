@@ -2,7 +2,7 @@
 
 Single-file site hosted on GitHub Pages with Tailwind (CDN) and small JS modules.
 
-- Router: query-param `?page=` swaps `<template>` content into `#app`.
+- Router: hash-based `#/page` swaps `<template>` content into `#app`.
 - Pages: Home, Club, Linux, Calendar.
 - Branding: Banner and CCRI green accents; hero uses `cybersmith.png`.
 - Calendar: Google embed (default) with optional ICS-powered features (toggle via `ENABLE_CUSTOM_CALENDAR`).
@@ -16,5 +16,5 @@ Key files
 
 Conventions
 - No build step; all assets static
-- Prefer relative links (`?page=`) for Pages compatibility
+- Prefer hash links (`#/page`) for Pages compatibility
 - Keep code readable and small; avoid heavy dependencies

@@ -16,12 +16,12 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 
 To view the site locally, simply open the `index.html` file in your web browser.
 
-To link a QR code to a specific page, use URL parameters. For example:
+To link a QR code to a specific page, use hash routes. For example:
 
-- To link to the Cybersecurity Club page: `your-site-url.com/?page=cybersecurity`
-- To link to the Linux guide: `your-site-url.com/?page=linux`
-- To link to the Home page: `your-site-url.com/?page=home`
-- To link to the Calendar: `your-site-url.com/?page=calendar`
+- To link to the Cybersecurity Club page: `your-site-url.com/#/cybersecurity`
+- To link to the Linux guide: `your-site-url.com/#/linux`
+- To link to the Home page: `your-site-url.com/#/home`
+- To link to the Calendar: `your-site-url.com/#/calendar`
 
 ## Contribution
 
@@ -47,11 +47,11 @@ If you are a club member, you can fork this repository and submit a pull request
   - Lets you edit text/URL to generate a custom QR
   - Button: Download PNG
   - ECL Correction Level controls: − M + (cycles L → M → Q → H)
-- You can still link directly to a page via query param, for example:
-  - Club page: `<pages-url>/?page=cybersecurity`
-  - Linux guide: `<pages-url>/?page=linux`
-  - Home: `<pages-url>/?page=home`
-  - Calendar: `<pages-url>/?page=calendar`
+- You can link directly to a page via hash, for example:
+  - Club page: `<pages-url>/#/cybersecurity`
+  - Linux guide: `<pages-url>/#/linux`
+  - Home: `<pages-url>/#/home`
+  - Calendar: `<pages-url>/#/calendar`
 
 ## Documentation Index
 
@@ -61,7 +61,7 @@ If you are a club member, you can fork this repository and submit a pull request
 
 ## Calendar Integration (Developer Spec)
 
-This site renders club events from a public Google Calendar ICS feed. The Calendar page (`?page=calendar`) combines three layers:
+This site renders club events from a public Google Calendar ICS feed. The Calendar page (`#/calendar`) combines three layers:
 
 1) Native Google embed (optional) — read-only iframe for a familiar month view
 2) FullCalendar month grid — driven by ICS, styled to match the site

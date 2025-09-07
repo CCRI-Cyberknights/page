@@ -29,7 +29,7 @@ const CALENDAR_EMBED_URL = "https://calendar.google.com/calendar/embed?src=<CALE
 ```
 
 3. Commit and push
-4. Visit `?page=calendar` to verify the list, FullCalendar grid, and (optionally) the Google embed
+4. Visit `#/calendar` to verify the list, FullCalendar grid, and (optionally) the Google embed
 
 ## Troubleshooting
 

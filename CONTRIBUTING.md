@@ -7,7 +7,7 @@ Thanks for helping improve the CCRI Cybersecurity Club website!
 1. Fork the repo and create a branch from `main`.
 2. Make your changes locally. Keep the site single-file (`index.html`) when possible.
 3. Test locally by opening `index.html` in a browser and verify:
-   - Navigation works via `?page=` query parameters
+   - Navigation works via `#/` hash routes
    - External links open correctly
    - Layout looks good on mobile and desktop
 4. Commit with a clear message and open a pull request.
@@ -22,7 +22,7 @@ Thanks for helping improve the CCRI Cybersecurity Club website!
 ## Content additions
 
 - Add new pages by creating a new `<template id="page-name">` in `index.html` and extending the router object.
-- Add a corresponding nav link if needed using `?page=name`.
+- Add a corresponding nav link if needed using `#/name`.
 
 ## Reporting issues
 
