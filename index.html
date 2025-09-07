@@ -213,15 +213,20 @@
           if (directLink) directLink.href = CALENDAR_EMBED_URL;
         }
 
-        if (ENABLE_CUSTOM_CALENDAR && CALENDAR_ICS_URL) {
-          if (subscribeLink) {
+        // Always show the green "Add to Your Google Calendar" button when an ICS is configured
+        if (subscribeLink) {
+          if (CALENDAR_ICS_URL) {
             const webcalUrl = CALENDAR_ICS_URL.replace(/^https?:\/\//, 'webcal://');
             subscribeLink.href = webcalUrl;
+            subscribeLink.style.display = '';
+          } else {
+            subscribeLink.style.display = 'none';
           }
+        }
+
+        if (ENABLE_CUSTOM_CALENDAR && CALENDAR_ICS_URL) {
           fetchAndRenderEvents(CALENDAR_ICS_URL);
           fetchAndRenderFullCalendar(CALENDAR_ICS_URL);
-        } else {
-          if (subscribeLink) subscribeLink.style.display = 'none';
         }
 
         if (callout) {
