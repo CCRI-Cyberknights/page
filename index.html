@@ -148,15 +148,13 @@
   <template id="page-calendar">
     <section class="space-y-6">
       <h2 class="text-3xl sm:text-4xl font-bold">Club Calendar</h2>
-      <p class="text-slate-300">Upcoming meetings and events managed via the club Outlook calendar.</p>
+      <p class="text-slate-300">Upcoming meetings and events managed via the club Google Calendar.</p>
       <div class="flex flex-wrap gap-3">
-        <a id="calendar-direct-link" href="#" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded border border-slate-700 hover:border-slate-600 text-sm">Open in Outlook</a>
+        <a id="calendar-direct-link" href="#" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded border border-slate-700 hover:border-slate-600 text-sm">Open in Google Calendar</a>
         <a id="calendar-subscribe-link" href="#" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded bg-emerald-500 text-slate-900 font-medium hover:bg-emerald-400 text-sm">Subscribe</a>
       </div>
 
-      <div id="calendar-callout" class="p-4 rounded border border-amber-500/40 bg-amber-900/20 text-amber-200 text-sm">
-        Calendar embed not configured yet. Admins: set <span class="font-mono">CALENDAR_EMBED_URL</span> in <span class="font-mono">index.html</span> and publish the Outlook calendar (see README).
-      </div>
+      <div id="calendar-callout" class="p-4 rounded border border-amber-500/40 bg-amber-900/20 text-amber-200 text-sm"></div>
 
       <div class="rounded-lg overflow-hidden border border-slate-800 bg-slate-900/40">
         <iframe id="calendar-iframe" src="" title="CCRI Cybersecurity Club Calendar" width="100%" height="800" frameborder="0" scrolling="auto"></iframe>
@@ -185,8 +183,8 @@
   </template>
 
   <script>
-    const CALENDAR_EMBED_URL = ""; // Paste the published Outlook calendar embed URL here
-    const CALENDAR_ICS_URL = "";    // Optional: paste the public .ics feed URL here
+    const CALENDAR_EMBED_URL = "https://calendar.google.com/calendar/embed?src=Y2NyaWN5YmVya25pZ2h0Y2x1YkBnbWFpbC5jb20&ctz=America/New_York"; // Optional: Google Calendar embed URL
+    const CALENDAR_ICS_URL = "https://calendar.google.com/calendar/ical/Y2NyaWN5YmVya25pZ2h0Y2x1YkBnbWFpbC5jb20/public/basic.ics";    // Public Google Calendar ICS URL
     let fcInstance = null;
 
     const routes = {
@@ -221,6 +219,18 @@
           fetchAndRenderFullCalendar(CALENDAR_ICS_URL);
         } else {
           if (subscribeLink) subscribeLink.style.display = 'none';
+        }
+
+        if (callout) {
+          if (!CALENDAR_EMBED_URL && !CALENDAR_ICS_URL) {
+            callout.textContent = 'Calendar not configured yet. Admins: set CALENDAR_ICS_URL to the public Google Calendar ICS link (and optionally CALENDAR_EMBED_URL). See README.';
+          } else if (!CALENDAR_EMBED_URL) {
+            callout.textContent = 'Embed URL not set. The interactive list and month view work via ICS; you can also add a Google Calendar embed URL.';
+          } else if (!CALENDAR_ICS_URL) {
+            callout.textContent = 'ICS URL not set. The embed shows, but the Next/Upcoming list and FullCalendar need CALENDAR_ICS_URL.';
+          } else {
+            callout.style.display = 'none';
+          }
         }
       }
     }
