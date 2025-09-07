@@ -48,53 +48,76 @@ If you are a club member, you can fork this repository and submit a pull request
   - Home: `<pages-url>/?page=home`
 - Optional: Use a URL shortener (e.g., TinyURL) before encoding to make the code denser and easier to scan.
 
-## Calendar Integration (Outlook)
+## Calendar Integration (Developer Spec)
 
-This project includes a Calendar page (`?page=calendar`) that supports:
+This site renders club events from a public Google Calendar ICS feed. The Calendar page (`?page=calendar`) combines three layers:
 
-- Embedding the Outlook calendar via an iframe
-- Optional parsing of a public `.ics` feed to render a "Next Event" and an "Upcoming Events" list
+1) Native Google embed (optional) — read-only iframe for a familiar month view
+2) FullCalendar month grid — driven by ICS, styled to match the site
+3) Custom cards — “Next Event” and “Upcoming Events”, with actions
 
-### Setup Steps
+### 1. Setup & Configuration
 
-1. In Outlook on the web, share the `CCRIcybersecurityClub@my.ccri.edu` calendar publicly and obtain:
-   - The embed URL (for iframe)
-   - The ICS subscription URL (optional, for event list)
-2. Open `index.html` and set the constants near the bottom:
+In Google Calendar (account: `ccricyberknightclub@gmail.com`):
 
-```
-const CALENDAR_EMBED_URL = "https://outlook.office365.com/owa/calendar/.../calendar.html";
-const CALENDAR_ICS_URL = "https://outlook.office365.com/owa/calendar/.../calendar.ics";
-```
+- Settings → Access permissions for events → enable "Make available to public" (See all event details)
+- Settings → Integrate calendar → copy:
+  - Public address in iCal format (ICS): `.../public/basic.ics`
+  - Optional embed URL: `https://calendar.google.com/calendar/embed?...`
 
-3. Commit and push. The Calendar page will show the embedded calendar. If `CALENDAR_ICS_URL` is set, it will also display a featured "Next Event" and a list of upcoming events.
-
-### Recurrence, Classification, and Actions
-
-- The site performs a minimal expansion of weekly `RRULE` events (INTERVAL and BYDAY) for ~90 days.
-- Events are tagged as `regular` if they are weekly or contain keywords like "meeting" or "hang"; others are `special`.
-- Each event includes "Add to Calendar (ICS)" and "Add to Google" actions. The ICS is generated client-side; Google opens a prefilled event.
-
-### CORS Notes
-
-- If the browser blocks the ICS fetch due to CORS, the site attempts a best-effort proxy using `https://r.jina.ai/` to read the file.
-- If both fail, the embed still works; only the event list will be missing.
-
-## Google Calendar Option
-
-You can also integrate the CyberKnightClub Google Calendar (public).
-
-### Option A: Simple Embed
-
-Use the embed from Google Calendar Settings → Integrate calendar and paste into `index.html` (Calendar page). Example:
+In `index.html` set:
 
 ```
-<iframe src="https://calendar.google.com/calendar/embed?src=...&ctz=America/New_York" style="border:0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+const CALENDAR_ICS_URL = "https://calendar.google.com/calendar/ical/YOUR_CALENDAR_ID/public/basic.ics";
+const CALENDAR_EMBED_URL = "https://calendar.google.com/calendar/embed?src=YOUR_CALENDAR_ID&ctz=America/New_York"; // optional
 ```
 
-### Option B: ICS + FullCalendar (Implemented)
+Deployment: push to `main` and GitHub Pages redeploys.
 
-The Calendar page includes a FullCalendar view populated from the public ICS feed. Set `CALENDAR_ICS_URL` to the Google calendar ICS link and the monthly calendar will render with clickable events.
+### 2. Data Pipeline & Processing
+
+- Fetch: Client-side `fetch(CALENDAR_ICS_URL)` with `no-store` cache.
+- CORS fallback: If blocked, a read-only proxy is attempted via `https://r.jina.ai/http://<host>/<path>`.
+- Parse: Minimal ICS parser extracts `DTSTART`, `DTEND`, `SUMMARY`, `DESCRIPTION`, `LOCATION`, `URL`, `RRULE`.
+- Recurrence: Weekly `RRULE` expansion implemented for ~90 days ahead.
+  - Supports `FREQ=WEEKLY`, `INTERVAL`, and `BYDAY` (e.g., `BYDAY=MO,WE`).
+  - Each occurrence preserves duration based on original `DTEND-DTSTART`.
+- Normalization: Produces a uniform event object used by both FullCalendar and cards.
+
+### 3. Rendering Layers
+
+- FullCalendar (via CDN): Receives expanded events; clicking an event with a `URL` opens it in a new tab.
+- Next/Upcoming cards: Sorted future events; “Next Event” is the earliest upcoming.
+  - Classification: `regular` if weekly (RRULE) or title contains `meeting|hang|weekly` (case-insensitive); else `special`.
+  - Actions:
+    - Add to Calendar (ICS): The page generates a client-side `.ics` file for the single event.
+    - Add to Google: Opens a prefilled `https://www.google.com/calendar/render?action=TEMPLATE&...` link.
+
+### 4. Failure Modes & UX
+
+- ICS missing: Banner prompts the admin to set `CALENDAR_ICS_URL`.
+- Embed missing: Only custom list and FullCalendar render; banner suggests adding `CALENDAR_EMBED_URL` (optional).
+- Fetch blocked: Proxy fallback attempted; if it fails, the embed still shows (when configured), but custom lists will be empty.
+- ICS staleness: Google public ICS updates every ~3–4 hours; changes may not be immediate.
+
+### 5. Maintenance Tasks
+
+- Switch calendar: Update `CALENDAR_ICS_URL` (and optional `CALENDAR_EMBED_URL`) in `index.html`.
+- Adjust recurrence horizon: Edit the 90-day window in `expandRecurring`.
+- Tune classification: Modify `classifyEvent` keyword regex.
+- Proxy strategy: If `r.jina.ai` changes, replace the proxy host in both fetch helpers.
+- Add event fields: Extend the ICS parser switch in `parseIcs` and pass through to renderers.
+
+### 6. Testing & QA
+
+- ICS plumbing: Temporarily add a unique event in Google Calendar occurring today; verify it appears in both the card list and FullCalendar.
+- Links: Ensure events with Zoom links (in `URL` or inside `DESCRIPTION`) open correctly from cards and from FullCalendar.
+- Recurrence: Create a weekly event (`RRULE: FREQ=WEEKLY;BYDAY=...`); verify multiple future instances populate.
+- Mobile: Check usability for small screens; ensure calendar grid scrolls and cards remain readable.
+
+### 7. Optional: Google Embed
+
+If you also want Google’s native embed, set `CALENDAR_EMBED_URL`. The page will show the iframe above the custom views. This is optional and can be omitted if you prefer a single, consistent UI with FullCalendar + cards.
 
 ## High-Level Requirements for the GitHub Pages Project
 
