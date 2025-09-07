@@ -233,9 +233,18 @@
       const lines = unfoldIcsLines(icsText);
       const events = [];
       let current = null;
+      let rrule = null;
       for (const line of lines) {
-        if (line === 'BEGIN:VEVENT') { current = {}; continue; }
-        if (line === 'END:VEVENT') { if (current) { events.push(current); current = null; } continue; }
+        if (line === 'BEGIN:VEVENT') { current = {}; rrule = null; continue; }
+        if (line === 'END:VEVENT') {
+          if (current) {
+            if (rrule) current.rrule = rrule;
+            events.push(current);
+            current = null;
+            rrule = null;
+          }
+          continue;
+        }
         if (!current) continue;
         const idx = line.indexOf(':');
         if (idx === -1) continue;
@@ -249,6 +258,7 @@
           case 'DESCRIPTION': current.description = value; break;
           case 'LOCATION': current.location = value; break;
           case 'URL': current.url = value; break;
+          case 'RRULE': rrule = value; break;
         }
       }
       return events.filter(e => e.start instanceof Date && !isNaN(e.start));
@@ -264,10 +274,48 @@
       return `${dateStr} ${timeFmt.format(start)} → ${dateFmt.format(end)} ${timeFmt.format(end)}`;
     }
 
+    function classifyEvent(e) {
+      const title = (e.title || '').toLowerCase();
+      const isWeekly = e.rrule && /FREQ=WEEKLY/i.test(e.rrule);
+      const isRegularByTitle = /(meeting|hang|weekly)/i.test(title);
+      return (isWeekly || isRegularByTitle) ? 'regular' : 'special';
+    }
+
+    function buildIcsForEvent(e) {
+      const pad = (n) => String(n).padStart(2, '0');
+      const toIcsDate = (d) => `${d.getUTCFullYear()}${pad(d.getUTCMonth()+1)}${pad(d.getUTCDate())}T${pad(d.getUTCHours())}${pad(d.getUTCMinutes())}${pad(d.getUTCSeconds())}Z`;
+      const dtstart = toIcsDate(e.start);
+      const dtend = e.end ? toIcsDate(e.end) : toIcsDate(new Date(e.start.getTime() + 60*60*1000));
+      const summary = (e.title || 'Event').replace(/\n/g, ' ');
+      const description = (e.description || '').replace(/\n/g, ' ');
+      const location = (e.location || '').replace(/\n/g, ' ');
+      const uid = `${dtstart}-${summary.replace(/[^A-Za-z0-9]+/g,'-')}@ccri-cyberclub`;
+      const lines = [
+        'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//CCRI Cybersecurity Club//EN','BEGIN:VEVENT',
+        `UID:${uid}`,`DTSTAMP:${toIcsDate(new Date())}`,`DTSTART:${dtstart}`,`DTEND:${dtend}`,
+        `SUMMARY:${summary}`, description ? `DESCRIPTION:${description}` : '', location ? `LOCATION:${location}` : '', 'END:VEVENT','END:VCALENDAR'
+      ].filter(Boolean);
+      return 'data:text/calendar;charset=utf-8,' + encodeURIComponent(lines.join('\n'));
+    }
+
+    function googleCalendarLink(e) {
+      const fmt = (d) => d.toISOString().replace(/[-:]|\.\d{3}/g,'');
+      const dates = e.end ? `${fmt(e.start)}/${fmt(e.end)}` : `${fmt(e.start)}`;
+      const params = new URLSearchParams({
+        action: 'TEMPLATE',
+        text: e.title || 'Event',
+        dates,
+        details: e.description || '',
+        location: e.location || ''
+      });
+      return `https://www.google.com/calendar/render?${params.toString()}`;
+    }
+
     function renderEvents(events) {
       const now = new Date();
-      const upcoming = events.filter(e => e.end ? e.end >= now : e.start >= now)
-                             .sort((a,b) => a.start - b.start);
+      const expanded = expandRecurring(events, now);
+      const upcoming = expanded.filter(e => e.end ? e.end >= now : e.start >= now)
+                               .sort((a,b) => a.start - b.start);
       const nextContainer = document.getElementById('next-event');
       const nextCard = document.getElementById('next-event-card');
       const list = document.getElementById('events-list');
@@ -290,8 +338,11 @@
               <div class="text-lg font-semibold">${nextEvent.title || 'Untitled Event'}</div>
               <div class="text-slate-300 text-sm">${formatDateRange(nextEvent.start, nextEvent.end)}</div>
               ${nextEvent.location ? `<div class="text-slate-400 text-sm">${nextEvent.location}</div>` : ''}
-              <div class="pt-2">
-                ${nextEvent.url ? `<a href="${nextEvent.url}" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 text-sm">Learn more</a>` : ''}
+              <div class="pt-3 flex flex-wrap gap-3 items-center">
+                ${nextEvent.url ? `<a href="${nextEvent.url}" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 text-sm">Details</a>` : ''}
+                <a href="${buildIcsForEvent(nextEvent)}" download="event.ics" class="px-3 py-1.5 rounded border border-slate-700 hover:border-slate-600 text-xs">Add to Calendar (ICS)</a>
+                <a href="${googleCalendarLink(nextEvent)}" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded bg-emerald-500 text-slate-900 font-medium hover:bg-emerald-400 text-xs">Add to Google</a>
+                <span class="ml-2 text-[10px] uppercase tracking-wide ${classifyEvent(nextEvent)==='regular' ? 'text-sky-300' : 'text-fuchsia-300'}">${classifyEvent(nextEvent)}</span>
               </div>
             </div>
           </div>`;
@@ -307,22 +358,79 @@
               <div class="font-semibold">${e.title || 'Untitled Event'}</div>
               <div class="text-slate-300 text-sm">${formatDateRange(e.start, e.end)}</div>
               ${e.location ? `<div class="text-slate-400 text-sm">${e.location}</div>` : ''}
-              ${e.url ? `<a href="${e.url}" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 text-sm">Details</a>` : ''}
+              <div class="pt-2 flex flex-wrap gap-3 items-center">
+                ${e.url ? `<a href="${e.url}" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300 text-sm">Details</a>` : ''}
+                <a href="${buildIcsForEvent(e)}" download="event.ics" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600 text-xs">ICS</a>
+                <a href="${googleCalendarLink(e)}" target="_blank" rel="noopener noreferrer" class="px-3 py-1 rounded bg-emerald-500 text-slate-900 font-medium hover:bg-emerald-400 text-xs">Google</a>
+                <span class="ml-2 text-[10px] uppercase tracking-wide ${classifyEvent(e)==='regular' ? 'text-sky-300' : 'text-fuchsia-300'}">${classifyEvent(e)}</span>
+              </div>
             </div>
           </div>`;
         list.appendChild(item);
       }
     }
 
+    function expandRecurring(events, now) {
+      // Minimal weekly RRULE expansion for the next ~90 days
+      const horizonMs = 90 * 24 * 60 * 60 * 1000;
+      const horizon = new Date(now.getTime() + horizonMs);
+      const out = [];
+      for (const e of events) {
+        if (e.rrule && /FREQ=WEEKLY/i.test(e.rrule)) {
+          const intervalMatch = e.rrule.match(/INTERVAL=(\d+)/i);
+          const interval = intervalMatch ? parseInt(intervalMatch[1], 10) : 1;
+          const bydayMatch = e.rrule.match(/BYDAY=([A-Z,]+)/i);
+          const days = bydayMatch ? bydayMatch[1].split(',') : [];
+          const baseDow = e.start.getUTCDay();
+          const map = {SU:0, MO:1, TU:2, WE:3, TH:4, FR:5, SA:6};
+          const start = new Date(e.start);
+          let cursor = new Date(start);
+          // generate weeks
+          while (cursor <= horizon) {
+            const occurrences = days.length ? days.map(code => map[code]).filter(d=>d!=null) : [baseDow];
+            for (const dow of occurrences) {
+              const occ = new Date(Date.UTC(cursor.getUTCFullYear(), cursor.getUTCMonth(), cursor.getUTCDate()));
+              const delta = (dow - occ.getUTCDay() + 7) % 7;
+              occ.setUTCDate(occ.getUTCDate() + delta);
+              const occStart = new Date(occ);
+              occStart.setUTCHours(e.start.getUTCHours(), e.start.getUTCMinutes(), e.start.getUTCSeconds(), 0);
+              const duration = e.end ? (e.end - e.start) : 60*60*1000;
+              const occEnd = new Date(occStart.getTime() + duration);
+              if (occEnd >= now && occStart <= horizon) {
+                out.push({...e, start: new Date(occStart), end: new Date(occEnd)});
+              }
+            }
+            cursor.setUTCDate(cursor.getUTCDate() + 7 * interval);
+          }
+        } else {
+          out.push(e);
+        }
+      }
+      return out;
+    }
+
     async function fetchAndRenderEvents(icsUrl) {
       try {
-        const res = await fetch(icsUrl, { cache: 'no-store' });
-        if (!res.ok) throw new Error('Failed to fetch ICS');
-        const text = await res.text();
+        let text = '';
+        let res = await fetch(icsUrl, { cache: 'no-store' });
+        if (!res.ok) {
+          throw new Error('Primary fetch failed');
+        }
+        text = await res.text();
         const events = parseIcs(text);
         renderEvents(events);
       } catch (err) {
-        console.warn('ICS fetch/parse failed', err);
+        console.warn('ICS fetch failed, trying CORS proxy', err);
+        try {
+          const proxied = 'https://r.jina.ai/http://'+ icsUrl.replace(/^https?:\/\//,'');
+          const res2 = await fetch(proxied, { cache: 'no-store' });
+          if (!res2.ok) throw new Error('Proxy fetch failed');
+          const text2 = await res2.text();
+          const events2 = parseIcs(text2);
+          renderEvents(events2);
+        } catch (err2) {
+          console.warn('ICS proxy fetch/parse failed', err2);
+        }
       }
     }
 

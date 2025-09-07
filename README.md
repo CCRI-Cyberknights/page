@@ -69,6 +69,17 @@ const CALENDAR_ICS_URL = "https://outlook.office365.com/owa/calendar/.../calenda
 
 3. Commit and push. The Calendar page will show the embedded calendar. If `CALENDAR_ICS_URL` is set, it will also display a featured "Next Event" and a list of upcoming events.
 
+### Recurrence, Classification, and Actions
+
+- The site performs a minimal expansion of weekly `RRULE` events (INTERVAL and BYDAY) for ~90 days.
+- Events are tagged as `regular` if they are weekly or contain keywords like "meeting" or "hang"; others are `special`.
+- Each event includes "Add to Calendar (ICS)" and "Add to Google" actions. The ICS is generated client-side; Google opens a prefilled event.
+
+### CORS Notes
+
+- If the browser blocks the ICS fetch due to CORS, the site attempts a best-effort proxy using `https://r.jina.ai/` to read the file.
+- If both fail, the embed still works; only the event list will be missing.
+
 ## High-Level Requirements for the GitHub Pages Project
 
 The main goal of this project is to create a flexible, centralized, and easy-to-manage web platform for the CCRI Cybersecurity Club's public-facing information. The site must be hosted on GitHub Pages for free, and it should be accessible and understandable to new and prospective club members, including those with little or no technical background.
