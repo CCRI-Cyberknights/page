@@ -58,11 +58,11 @@
             <div class="space-y-2">
               <div class="flex gap-2 items-center">
                 <input id="footer-qr-input" type="text" placeholder="Enter text or URL" class="w-56 px-2 py-1 rounded bg-slate-800 border border-slate-700 outline-none focus:border-emerald-500 text-slate-200" />
-                <button id="footer-qr-reset" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Use page URL</button>
+                <button id="footer-qr-copy-url" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Copy URL</button>
               </div>
               <div class="flex gap-2">
                 <button id="footer-qr-download" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Download PNG</button>
-                <button id="footer-qr-copy" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Copy</button>
+                <button id="footer-qr-copy-png" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Copy PNG</button>
               </div>
               <div class="text-[11px] text-slate-400">Defaults to this page’s URL; edit to generate any QR.</div>
             </div>
@@ -589,13 +589,15 @@
       render(url);
       // Input-driven generation
       const input = document.getElementById('footer-qr-input');
-      const resetBtn = document.getElementById('footer-qr-reset');
+      const copyUrlBtn = document.getElementById('footer-qr-copy-url');
       if (input) {
         input.value = url;
         input.addEventListener('input', () => render(input.value || url));
       }
-      if (resetBtn) {
-        resetBtn.onclick = () => { if (input) { input.value = url; render(url); } };
+      if (copyUrlBtn) {
+        copyUrlBtn.onclick = async () => {
+          try { await navigator.clipboard.writeText((input && input.value) || url); } catch {}
+        };
       }
       if (dl) {
         dl.onclick = () => {
@@ -624,9 +626,14 @@
           }
         };
       }
-      if (copyBtn) {
-        copyBtn.onclick = async () => {
-          try { await navigator.clipboard.writeText((input && input.value) || url); } catch {}
+      const copyPngBtn = document.getElementById('footer-qr-copy-png');
+      if (copyPngBtn) {
+        copyPngBtn.onclick = async () => {
+          const dataUrl = canvas.toDataURL('image/png');
+          try {
+            const b64 = dataUrl.split(',')[1];
+            await navigator.clipboard.writeText(b64);
+          } catch {}
         };
       }
       toggle.onclick = () => {
