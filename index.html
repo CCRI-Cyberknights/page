@@ -62,24 +62,22 @@
               </div>
               <div>Edit to generate any QR</div>
             </div>
-            <div class="flex items-start gap-3">
-              <div class="flex flex-col items-center gap-2">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 items-start">
+              <div class="order-2 sm:order-1 flex flex-col items-center gap-2">
                 <canvas id="footer-qr-canvas" class="bg-white p-1 rounded" width="128" height="128"></canvas>
                 <img id="footer-qr-img" alt="QR code" class="hidden bg-white p-1 rounded" width="128" height="128" />
                 <button id="footer-qr-download" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Download PNG</button>
               </div>
-              <div class="space-y-2">
-                <div class="text-[11px] text-slate-400">
-                  <div id="footer-qr-info" class="mb-1"></div>
-                  <div class="mt-1">ECL Correction Level:</div>
-                  <div class="mt-1 flex items-center gap-1">
-                    <button id="footer-qr-ecl-dec" class="px-1 py-0.5 rounded border border-slate-700 hover:border-slate-600" title="Lower error correction">−</button>
-                    <span id="footer-qr-ecl" class="min-w-[1.5ch] text-slate-300 text-xs text-center">M</span>
-                    <button id="footer-qr-ecl-inc" class="px-1 py-0.5 rounded border border-slate-700 hover:border-slate-600" title="Raise error correction">+</button>
-                  </div>
+              <div class="order-1 sm:order-2 text-[11px] text-slate-400">
+                <div id="footer-qr-info" class="mb-2"></div>
+                <div>ECL Correction Level:</div>
+                <div class="mt-1 flex items-center gap-1">
+                  <button id="footer-qr-ecl-dec" class="px-1 py-0.5 rounded border border-slate-700 hover:border-slate-600" title="Lower error correction">−</button>
+                  <span id="footer-qr-ecl" class="min-w-[1.5ch] text-slate-300 text-xs text-center">M</span>
+                  <button id="footer-qr-ecl-inc" class="px-1 py-0.5 rounded border border-slate-700 hover:border-slate-600" title="Raise error correction">+</button>
                 </div>
               </div>
-              </div>
+            </div>
             </div>
           </div>
         </div>
