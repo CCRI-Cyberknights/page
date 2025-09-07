@@ -64,6 +64,7 @@
                 <button id="footer-qr-download" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Download PNG</button>
               </div>
               <div class="text-[11px] text-slate-400">Defaults to this page’s URL; edit to generate any QR.</div>
+              <div id="footer-qr-info" class="text-[11px] text-slate-400"></div>
             </div>
           </div>
         </div>
@@ -559,11 +560,20 @@
       const copyBtn = document.getElementById('footer-qr-copy');
       if (!toggle || !panel || !canvas) return;
       const url = window.location.href; // exact URL, includes ?page=...
+      const ECL = 'M'; // error correction level used for generation
+      const infoEl = document.getElementById('footer-qr-info');
       const render = (text) => {
         if (window.QRCode) {
           try {
-            QRCode.toCanvas(canvas, text, { width: 128, margin: 1 }, function(err){
+            // compute model to surface version/module count
+            let versionDesc = '';
+            try {
+              const model = QRCode.create(text, { errorCorrectionLevel: ECL });
+              versionDesc = `QR Version ${model.version} (${model.modules.size}×${model.modules.size}), ECL ${ECL}, length ${text.length}`;
+            } catch {}
+            QRCode.toCanvas(canvas, text, { width: 128, margin: 1, errorCorrectionLevel: ECL }, function(err){
               if (err) fallbackImg(text);
+              if (infoEl) infoEl.textContent = versionDesc || `ECL ${ECL}, length ${text.length}`;
             });
           } catch { fallbackImg(text); }
         } else {
@@ -583,6 +593,7 @@
         img.crossOrigin = 'anonymous';
         img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
         if (imgUrl) img.src = imgUrl;
+        if (infoEl) infoEl.textContent = `Fallback image encoder, length ${text.length}`;
       }
       render(url);
       // Input-driven generation
@@ -617,7 +628,7 @@
           const tmpCanvas = document.createElement('canvas');
           const text = (input && input.value) || url;
           try {
-            QRCode.toCanvas(tmpCanvas, text, { width: 512, margin: 1 }, () => {
+            QRCode.toCanvas(tmpCanvas, text, { width: 512, margin: 1, errorCorrectionLevel: ECL }, () => {
               const link = document.createElement('a');
               link.download = `qr-${page}.png`;
               link.href = tmpCanvas.toDataURL('image/png');
