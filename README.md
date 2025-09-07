@@ -57,7 +57,7 @@ This project includes a Calendar page (`?page=calendar`) that supports:
 
 ### Setup Steps
 
-1. In Outlook on the web, share the `ccricyberclub@my.ccri.edu` calendar publicly and obtain:
+1. In Outlook on the web, share the `CCRIcybersecurityClub@my.ccri.edu` calendar publicly and obtain:
    - The embed URL (for iframe)
    - The ICS subscription URL (optional, for event list)
 2. Open `index.html` and set the constants near the bottom:
