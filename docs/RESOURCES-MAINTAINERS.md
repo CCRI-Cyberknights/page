@@ -28,6 +28,7 @@ Category keys map to labels:
 - Chips filter the grid by category; a simple input filters by name, URL, or category label.
 - A `<details>` block renders the full table for copy/paste.
 - CTAs exist on Home, Club, and Linux pages to reach `#/resources`.
+- Deep-linking: the page reads `#/resources/<filter>` on load to preselect a chip; chip clicks update the hash (e.g., `#/resources/ctf-tools`).
 
 ## Rationale
 

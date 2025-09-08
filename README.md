@@ -23,6 +23,17 @@ To link a QR code to a specific page, use hash routes. For example:
 - To link to the Home page: `your-site-url.com/#/home`
 - To link to the Calendar: `your-site-url.com/#/calendar`
 
+### Resources Deep Links
+
+- All resources: `#/resources`
+- Category links:
+  - Code Breaking: `#/resources/code-breaking`
+  - CTF Tools: `#/resources/ctf-tools`
+  - CTF Competitions: `#/resources/ctf-competitions`
+  - CCRI & Certs: `#/resources/ccri`
+  - Clubs: `#/resources/clubs`
+  - STEM Day: `#/resources/stem`
+
 ## Contribution
 
 As this project is a core part of the club's infrastructure, contributions are highly encouraged. Here are a few ways to get involved:

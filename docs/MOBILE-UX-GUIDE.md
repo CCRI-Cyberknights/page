@@ -12,6 +12,7 @@
 - Footer QR panel width ≈ 500px max (≤ 90vw)
 - Settings grouped into a small panel above the QR preview
 - Cards and chips for compact scanning on `#/resources`
+ - Chips support deep-linking (e.g., `#/resources/ctf-competitions`) and update the URL when tapped
 
 ## Breakpoints
 

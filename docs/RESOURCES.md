@@ -17,8 +17,9 @@ Design goals:
 ## How to Access
 
 - Direct link: `#/resources`
-- From Home: small “Resources” CTA under the hero
-- From Club page (`#/cybersecurity`): “View Resources” CTA near the top
+- Deep link to a category: `#/resources/ctf-competitions`, `#/resources/ctf-tools`, `#/resources/code-breaking`, `#/resources/ccri`, `#/resources/clubs`, `#/resources/stem`
+- From Home: “Resources” button near hero
+- From Club page (`#/cybersecurity`): “View Resources” link and tag chips under “What we do”/“Get involved”
 - From Linux page (`#/linux`): “Further reading” link
 
 ## Categories
