@@ -12,6 +12,28 @@
   <script src="./qrcode.min.js"></script>
   <style>
     :root { color-scheme: dark; }
+    /* Spark glow animation for Sign Up button */
+    .btn-sparkle {
+      position: relative;
+      background-image: linear-gradient(90deg, rgba(34,197,94,0.10), rgba(245,158,11,0.10));
+      box-shadow: 0 0 0 rgba(34,197,94,0);
+      animation: sparkPulse 2.4s ease-in-out infinite;
+      transition: transform 150ms ease, box-shadow 150ms ease;
+    }
+    .btn-sparkle:hover { transform: translateY(-1px); }
+    @keyframes sparkPulse {
+      0%, 100% {
+        box-shadow: 0 0 8px 0 rgba(34,197,94,0.25), 0 0 0 0 rgba(245,158,11,0.0);
+        border-color: #22c55e;
+      }
+      50% {
+        box-shadow: 0 0 14px 6px rgba(245,158,11,0.35), 0 0 28px 10px rgba(34,197,94,0.30);
+        border-color: #f59e0b;
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .btn-sparkle { animation: none; }
+    }
   </style>
 </head>
 <body class="min-h-screen bg-slate-950 text-slate-100">
@@ -106,12 +128,11 @@
         </h2>
         <p class="text-slate-300">
           We’re a student community learning security together: workshops, labs,
-          competitions, and projects. Start by joining the club or explore our Linux guide.
+          competitions, and projects. Start by joining the club or explorer our resources
         </p>
         <div class="flex flex-wrap gap-3">
           <a href="#/cybersecurity" class="px-4 py-2 rounded bg-[#22c55e] text-slate-900 font-medium hover:bg-[#16a34a]">Go to Club Page</a>
-          <a href="#/linux" class="px-4 py-2 rounded border border-slate-700 hover:border-slate-600">USB Linux Guide</a>
-          <a href="#/resources" class="px-3 py-1.5 rounded border border-slate-800 text-slate-300 hover:text-emerald-300 text-sm">Resources</a>
+          <a href="#/resources" class="px-4 py-2 rounded border border-slate-700 hover:border-slate-600">Resources</a>
         </div>
       </div>
       <div class="flex justify-center">
@@ -150,7 +171,10 @@
           <a href="https://www.ccri.edu/its/cybersecurity/" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded bg-[#22c55e] text-slate-900 font-medium hover:bg-[#16a34a]">
             Visit Cybersecurity Site
           </a>
-          <a href="https://forms.cloud.microsoft/r/U26WUVJGgp" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded border border-[#22c55e] text-[#22c55e] hover:bg-[#22c55e]/10">
+          <a href="https://www.ccri.edu/comp/cybersecurity/studentclub.html" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded border border-[#22c55e] text-[#22c55e] hover:bg-[#22c55e]/10">
+            CCRI Cybersecurity Club Student Site
+          </a>
+          <a href="https://forms.cloud.microsoft/r/U26WUVJGgp" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded border border-[#22c55e] text-[#22c55e] hover:bg-[#22c55e]/10 btn-sparkle">
             Sign Up
           </a>
           <a href="#/resources" class="px-3 py-1.5 rounded border border-slate-800 text-slate-300 hover:text-emerald-300 text-sm">View Resources</a>
@@ -165,10 +189,23 @@
       <div class="p-5 rounded-lg border border-slate-800 bg-slate-900/40">
         <h3 class="font-semibold mb-2">What we do</h3>
         <p class="text-slate-300 text-sm">Workshops, Linux hardening, CTFs, mentoring, and community.</p>
+        <div class="mt-3 flex flex-wrap gap-2 text-xs">
+          <a href="#/resources/ctf-tools" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CTF Tools</a>
+          <a href="#/resources/code-breaking" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Code Breaking</a>
+          <a href="#/resources/ctf-competitions" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CTF Competitions</a>
+          <a href="#/resources/ccri" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CCRI & Certs</a>
+          <a href="#/resources/clubs" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Community</a>
+        </div>
       </div>
       <div class="p-5 rounded-lg border border-slate-800 bg-slate-900/40">
         <h3 class="font-semibold mb-2">Get involved</h3>
         <p class="text-slate-300 text-sm">Join our meetings, Discord, and events throughout the semester.</p>
+        <div class="mt-3 flex flex-wrap gap-2 text-xs">
+          <a href="#/resources/ctf-competitions" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Competitions</a>
+          <a href="#/resources/clubs" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Clubs</a>
+          <a href="#/resources/stem" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">STEM Day</a>
+          <a href="#/resources" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">All Resources</a>
+        </div>
       </div>
     </section>
   </template>
@@ -293,8 +330,9 @@
     }
 
     function render() {
-      const hash = (location.hash || '').replace(/^#\/?/, '');
-      const page = hash || 'home';
+      const raw = (location.hash || '').replace(/^#\/?/, '');
+      const [pageName, ...segments] = raw.split('/');
+      const page = pageName || 'home';
       const html = routes[page] || routes.cybersecurity;
       document.getElementById('app').innerHTML = html;
       // Close mobile nav on route change
@@ -356,7 +394,7 @@
       }
       updateFooterQr(page);
       if (page === 'resources') {
-        try { renderResourcesPage(); } catch {}
+        try { renderResourcesPage(segments[0] || 'all'); } catch {}
       }
     }
 
@@ -743,7 +781,7 @@
       };
     }
 
-    function renderResourcesPage() {
+    function renderResourcesPage(preselectedFilter) {
       const data = [
         { name: 'quipqiup', url: 'https://www.quipqiup.com/', cat: 'code-breaking' },
         { name: 'Boxentriq', url: 'https://www.boxentriq.com/', cat: 'code-breaking' },
@@ -767,6 +805,14 @@
       const search = document.getElementById('resources-search');
       const filterButtons = Array.from(document.querySelectorAll('[data-filter]'));
       const catNames = { 'code-breaking': 'Code Breaking Tools', 'ctf-tools': 'CTF Tools', 'ctf-competitions': 'CTF Competitions', 'ccri': 'CCRI & Certs', 'clubs': 'Clubs', 'stem': 'STEM Day' };
+      const availableFilters = new Set(filterButtons.map(b => b.dataset.filter));
+      const initialFilter = (preselectedFilter && availableFilters.has(preselectedFilter)) ? preselectedFilter : 'all';
+
+      function setActive(filter) {
+        filterButtons.forEach(b => b.classList.remove('ring-1','ring-emerald-500'));
+        const target = filterButtons.find(b => b.dataset.filter === filter) || filterButtons.find(b => b.dataset.filter === 'all');
+        if (target) target.classList.add('ring-1','ring-emerald-500');
+      }
 
       function renderLists(items) {
         if (grid) {
@@ -804,13 +850,18 @@
       }
 
       filterButtons.forEach(btn => {
-        btn.addEventListener('click', () => {
-          filterButtons.forEach(b => b.classList.remove('ring-1','ring-emerald-500'));
-          btn.classList.add('ring-1','ring-emerald-500');
-          applyFilters();
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const filter = btn.dataset.filter || 'all';
+          if (filter === 'all') {
+            location.hash = '#/resources';
+          } else {
+            location.hash = '#/resources/' + filter;
+          }
         });
       });
       if (search) search.addEventListener('input', applyFilters);
+      setActive(initialFilter);
       applyFilters();
     }
 
