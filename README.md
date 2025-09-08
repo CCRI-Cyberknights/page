@@ -58,6 +58,12 @@ If you are a club member, you can fork this repository and submit a pull request
 - Architecture: `docs/ARCHITECTURE.md`
 - Calendar maintainer guide: `docs/CALENDAR-UPDATING.md`
 - QR Codes: `docs/QR-CODES.md`
+- Routing & Navigation: `docs/ROUTING-NAV.md`
+- Mobile UX Guide: `docs/MOBILE-UX-GUIDE.md`
+- Image Assets: `docs/ASSETS-IMAGES.md`
+- QR UI Details: `docs/QR-UI.md`
+- Resources Maintainers: `docs/RESOURCES-MAINTAINERS.md`
+- Site Operations: `docs/SITE-OPERATIONS.md`
 - Resources page: `docs/RESOURCES.md`
 
 ## Calendar Integration (Developer Spec)
