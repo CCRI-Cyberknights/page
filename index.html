@@ -104,6 +104,7 @@
         <div class="flex flex-wrap gap-3">
           <a href="#/cybersecurity" class="px-4 py-2 rounded bg-[#22c55e] text-slate-900 font-medium hover:bg-[#16a34a]">Go to Club Page</a>
           <a href="#/linux" class="px-4 py-2 rounded border border-slate-700 hover:border-slate-600">USB Linux Guide</a>
+          <a href="#/resources" class="px-3 py-1.5 rounded border border-slate-800 text-slate-300 hover:text-emerald-300 text-sm">Resources</a>
         </div>
       </div>
       <div class="flex justify-center">
@@ -142,6 +143,7 @@
           <a href="https://forms.cloud.microsoft/r/U26WUVJGgp" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded border border-[#22c55e] text-[#22c55e] hover:bg-[#22c55e]/10">
             Sign Up
           </a>
+          <a href="#/resources" class="px-3 py-1.5 rounded border border-slate-800 text-slate-300 hover:text-emerald-300 text-sm">View Resources</a>
         </div>
       </div>
       <div class="flex justify-center">
@@ -191,6 +193,8 @@
 
       <div class="mt-6">
         <a href="#/cybersecurity" class="text-emerald-400 hover:text-emerald-300">Back to Club page</a>
+        <span class="mx-2">•</span>
+        <a href="#/resources" class="text-emerald-400 hover:text-emerald-300">Further reading</a>
       </div>
     </section>
   </template>
@@ -214,6 +218,45 @@
     </section>
   </template>
 
+  <template id="page-resources">
+    <section class="space-y-6">
+      <h2 class="text-3xl sm:text-4xl font-bold">Resources</h2>
+      <p class="text-slate-300">Curated tools and links for learning and competitions. Use search to filter; expand the full list if needed.</p>
+
+      <div class="flex flex-wrap gap-2 text-xs">
+        <button data-filter="all" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">All</button>
+        <button data-filter="code-breaking" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Code Breaking Tools</button>
+        <button data-filter="ctf-tools" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CTF Tools</button>
+        <button data-filter="ctf-competitions" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CTF Competitions</button>
+        <button data-filter="ccri" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CCRI & Certs</button>
+        <button data-filter="clubs" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Cyberknights</button>
+        <button data-filter="stem" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">STEM Day</button>
+      </div>
+
+      <div class="relative">
+        <input id="resources-search" type="text" placeholder="Search resources…" class="w-full px-3 py-2 rounded bg-slate-800 border border-slate-700 outline-none focus:border-emerald-500 text-slate-200" />
+      </div>
+
+      <div id="resources-grid" class="grid sm:grid-cols-2 gap-3"></div>
+
+      <details class="mt-4">
+        <summary class="cursor-pointer text-slate-300">Full list (table)</summary>
+        <div class="mt-3 overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead class="text-slate-400">
+              <tr><th class="text-left font-medium py-1">Name</th><th class="text-left font-medium py-1">Category</th><th class="text-left font-medium py-1">URL</th></tr>
+            </thead>
+            <tbody id="resources-table" class="text-slate-200"></tbody>
+          </table>
+        </div>
+      </details>
+
+      <div class="mt-6">
+        <a href="#/cybersecurity" class="text-emerald-400 hover:text-emerald-300">Back to Club</a>
+      </div>
+    </section>
+  </template>
+
   <script>
     const CALENDAR_EMBED_URL = "https://calendar.google.com/calendar/embed?src=Y2NyaWN5YmVya25pZ2h0Y2x1YkBnbWFpbC5jb20&ctz=America/New_York"; // Optional: Google Calendar embed URL
     const CALENDAR_ICS_URL = "https://calendar.google.com/calendar/ical/Y2NyaWN5YmVya25pZ2h0Y2x1YkBnbWFpbC5jb20/public/basic.ics";    // Public Google Calendar ICS URL
@@ -225,7 +268,8 @@
       home: document.getElementById('page-home').innerHTML,
       cybersecurity: document.getElementById('page-cybersecurity').innerHTML,
       linux: document.getElementById('page-linux').innerHTML,
-      calendar: document.getElementById('page-calendar').innerHTML
+      calendar: document.getElementById('page-calendar').innerHTML,
+      resources: document.getElementById('page-resources') ? document.getElementById('page-resources').innerHTML : '<section class="space-y-6"><h2 class="text-3xl sm:text-4xl font-bold">Resources</h2><p class="text-slate-300">Coming soon.</p></section>'
     };
 
     function normalizeHashRouting() {
@@ -296,6 +340,9 @@
         }
       }
       updateFooterQr(page);
+      if (page === 'resources') {
+        try { renderResourcesPage(); } catch {}
+      }
     }
 
     function unfoldIcsLines(icsText) {
@@ -679,6 +726,77 @@
       toggle.onclick = () => {
         panel.classList.toggle('hidden');
       };
+    }
+
+    function renderResourcesPage() {
+      const data = [
+        { name: 'quipqiup', url: 'https://www.quipqiup.com/', cat: 'code-breaking' },
+        { name: 'Boxentriq', url: 'https://www.boxentriq.com/', cat: 'code-breaking' },
+        { name: 'CyberChef', url: 'https://cyberchef.io/', cat: 'ctf-tools' },
+        { name: 'Cisco Networking Academy', url: 'https://www.netacad.com/resources/teaching-learning/ccna-prep-webinars?&utm_medium=email&utm_source=marketo&utm_campaign=en_brand&utm_content=GLBL-Annc-FY25-CCNAWebinars&utm_team=demand_gen&mkt_tok=MDU5LVZGWi04MzQAAAGYey774CwBAvvnhvsptXtYEOuHYQUpVBGNR6ZB8PihvvuZjBA6P4pUi0ideLYp3G08FM5ZNBX_fLqDVH-2mCJqFbHfWxNBwyXMFNIsPt06Z6G_Ri4n', cat: 'ccri' },
+        { name: 'Fortinet Training Institute', url: 'https://training.fortinet.com/', cat: 'ccri' },
+        { name: 'Security Certification Roadmap (Paul Jerimy)', url: 'https://pauljerimy.com/security-certification-roadmap/', cat: 'ccri' },
+        { name: 'CCRI Cybersecurity Resources', url: 'https://www.ccri.edu/comp/cybersecurity/websites.html', cat: 'ccri' },
+        { name: 'CCRI Standardized Credit Awards', url: 'https://www.ccri.edu/priorlearning/creditawards.html', cat: 'ccri' },
+        { name: 'CompTIA: Explore Tech Careers', url: 'https://www.comptia.org/en-us/explore-careers/job-roles/?page=1&category=all', cat: 'ccri' },
+        { name: 'Cyberknights GitHub', url: 'https://github.com/CCRI-Cyberknights/', cat: 'clubs' },
+        { name: 'Cybersecurity Club Discord', url: 'https://discord.com/channels/1159622463647387719/1159622463647387722', cat: 'clubs' },
+        { name: 'NCL Competition', url: 'https://nationalcyberleague.org/competition', cat: 'ctf-competitions' },
+        { name: 'NCAE CyberGames', url: 'https://ncaecybergames.org/#', cat: 'ctf-competitions' },
+        { name: 'CCRI Cybersecurity Student Club', url: 'https://www.ccri.edu/comp/cybersecurity/studentclub.html', cat: 'clubs' },
+        { name: 'STEM Day 2025 Cyber Game', url: 'https://github.com/CCRI-Cyberknights/stemday_takehome.git', cat: 'stem' }
+      ];
+
+      const grid = document.getElementById('resources-grid');
+      const table = document.getElementById('resources-table');
+      const search = document.getElementById('resources-search');
+      const filterButtons = Array.from(document.querySelectorAll('[data-filter]'));
+      const catNames = { 'code-breaking': 'Code Breaking Tools', 'ctf-tools': 'CTF Tools', 'ctf-competitions': 'CTF Competitions', 'ccri': 'CCRI & Certs', 'clubs': 'Clubs', 'stem': 'STEM Day' };
+
+      function renderLists(items) {
+        if (grid) {
+          grid.innerHTML = '';
+          for (const r of items) {
+            const catLabel = catNames[r.cat] || r.cat;
+            const card = document.createElement('a');
+            card.href = r.url; card.target = '_blank'; card.rel = 'noopener noreferrer';
+            card.className = 'block p-3 rounded border border-slate-800 bg-slate-900/60 hover:border-emerald-600';
+            card.innerHTML = `<div class="text-sm font-medium text-slate-100">${r.name}</div><div class="text-[11px] text-slate-400">${catLabel}</div>`;
+            grid.appendChild(card);
+          }
+        }
+        if (table) {
+          table.innerHTML = '';
+          for (const r of items) {
+            const catLabel = catNames[r.cat] || r.cat;
+            const tr = document.createElement('tr');
+            tr.innerHTML = `<td class="py-1 pr-3">${r.name}</td><td class="py-1 pr-3">${catLabel}</td><td class="py-1 pr-3 break-all"><a href="${r.url}" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300">${r.url}</a></td>`;
+            table.appendChild(tr);
+          }
+        }
+      }
+
+      function applyFilters() {
+        const q = (search && search.value || '').toLowerCase();
+        const active = filterButtons.find(b => b.classList.contains('ring-1'))?.dataset.filter || 'all';
+        let items = data.slice();
+        if (active !== 'all') items = items.filter(r => r.cat === active);
+        if (q) items = items.filter(r => {
+          const catLabel = (catNames[r.cat] || r.cat).toLowerCase();
+          return r.name.toLowerCase().includes(q) || r.url.toLowerCase().includes(q) || catLabel.includes(q);
+        });
+        renderLists(items);
+      }
+
+      filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterButtons.forEach(b => b.classList.remove('ring-1','ring-emerald-500'));
+          btn.classList.add('ring-1','ring-emerald-500');
+          applyFilters();
+        });
+      });
+      if (search) search.addEventListener('input', applyFilters);
+      applyFilters();
     }
 
     window.addEventListener('hashchange', render);

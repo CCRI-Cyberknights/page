@@ -7,6 +7,7 @@ Single-file site hosted on GitHub Pages with Tailwind (CDN) and small JS modules
 - Branding: Banner and CCRI green accents; hero uses `cybersmith.png`.
 - Calendar: Google embed (default) with optional ICS-powered features (toggle via `ENABLE_CUSTOM_CALENDAR`).
 - QR Codes: Per-page footer generator renders to canvas using vendored encoder. Controls allow changing ECL (L/M/Q/H). PNG export uses the current ECL.
+- Resources: `#/resources` route renders from a single in-page data array. Cards + collapsible table share the same source for DRYness; lightweight filter and category chips are implemented in `renderResourcesPage()`.
 
 Key files
 - `index.html` — UI, routing, calendar logic, footer QR generator

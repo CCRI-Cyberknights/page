@@ -58,6 +58,7 @@ If you are a club member, you can fork this repository and submit a pull request
 - Architecture: `docs/ARCHITECTURE.md`
 - Calendar maintainer guide: `CALENDAR-UPDATING.md`
 - QR Codes: `docs/QR-CODES.md`
+- Resources page: `docs/RESOURCES.md`
 
 ## Calendar Integration (Developer Spec)
 
