@@ -3,7 +3,7 @@
 ## Hash Routing
 
 - URLs use `#/page` (e.g., `#/home`, `#/cybersecurity`, `#/linux`, `#/calendar`, `#/resources`).
-- Resources supports optional subpaths for preselected filters: `#/resources/<filter>` where `<filter>` is one of `all`, `code-breaking`, `ctf-tools`, `ctf-competitions`, `ccri`, `clubs`, `stem`.
+- Resources supports optional subpaths for preselected filters: `#/resources/<filter>` where `<filter>` is one of `all`, `code-breaking`, `ctf-tools`, `ctf-competitions`, `ccri`, `cyberknights`, `stem`.
 - On load, a normalizer converts legacy `?page=` URLs to hash routes via `history.replaceState`.
 - Router logic lives in `index.html` and re-renders on `hashchange`.
 

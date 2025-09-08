@@ -17,7 +17,7 @@ Design goals:
 ## How to Access
 
 - Direct link: `#/resources`
-- Deep link to a category: `#/resources/ctf-competitions`, `#/resources/ctf-tools`, `#/resources/code-breaking`, `#/resources/ccri`, `#/resources/clubs`, `#/resources/stem`
+- Deep link to a category: `#/resources/ctf-competitions`, `#/resources/ctf-tools`, `#/resources/code-breaking`, `#/resources/ccri`, `#/resources/cyberknights`, `#/resources/stem`
 - From Home: “Resources” button near hero
 - From Club page (`#/cybersecurity`): “View Resources” link and tag chips under “What we do”/“Get involved”
 - From Linux page (`#/linux`): “Further reading” link
@@ -48,7 +48,7 @@ Design goals:
   - `ctf-tools` → “CTF Tools”
   - `ctf-competitions` → “CTF Competitions”
   - `ccri` → “CCRI & Certs”
-  - `clubs` → “Cyberknights”
+  - `cyberknights` → “Cyberknights”
   - `stem` → “STEM Day”
 
 Keep links stable and descriptive, avoid URL tracking parameters when possible. Prefer official sources and club-owned repos.

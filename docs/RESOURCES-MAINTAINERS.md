@@ -13,7 +13,7 @@ Category keys map to labels:
 - `ctf-tools` → CTF Tools
 - `ctf-competitions` → CTF Competitions
 - `ccri` → CCRI & Certs
-- `clubs` → Cyberknights
+- `cyberknights` → Cyberknights
 - `stem` → STEM Day
 
 ## How to Add/Edit

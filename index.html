@@ -194,7 +194,7 @@
           <a href="#/resources/code-breaking" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Code Breaking</a>
           <a href="#/resources/ctf-competitions" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CTF Competitions</a>
           <a href="#/resources/ccri" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CCRI & Certs</a>
-          <a href="#/resources/clubs" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Community</a>
+          <a href="#/resources/cyberknights" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Community</a>
         </div>
       </div>
       <div class="p-5 rounded-lg border border-slate-800 bg-slate-900/40">
@@ -202,7 +202,7 @@
         <p class="text-slate-300 text-sm">Join our meetings, Discord, and events throughout the semester.</p>
         <div class="mt-3 flex flex-wrap gap-2 text-xs">
           <a href="#/resources/ctf-competitions" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Competitions</a>
-          <a href="#/resources/clubs" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Clubs</a>
+          <a href="#/resources/cyberknights" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Clubs</a>
           <a href="#/resources/stem" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">STEM Day</a>
           <a href="#/resources" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">All Resources</a>
         </div>
@@ -276,7 +276,7 @@
         <button data-filter="ctf-tools" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CTF Tools</button>
         <button data-filter="ctf-competitions" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CTF Competitions</button>
         <button data-filter="ccri" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CCRI & Certs</button>
-        <button data-filter="clubs" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Cyberknights</button>
+        <button data-filter="cyberknights" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Cyberknights</button>
         <button data-filter="stem" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">STEM Day</button>
       </div>
 
@@ -792,11 +792,11 @@
         { name: 'CCRI Cybersecurity Resources', url: 'https://www.ccri.edu/comp/cybersecurity/websites.html', cat: 'ccri' },
         { name: 'CCRI Standardized Credit Awards', url: 'https://www.ccri.edu/priorlearning/creditawards.html', cat: 'ccri' },
         { name: 'CompTIA: Explore Tech Careers', url: 'https://www.comptia.org/en-us/explore-careers/job-roles/?page=1&category=all', cat: 'ccri' },
-        { name: 'Cyberknights GitHub', url: 'https://github.com/CCRI-Cyberknights/', cat: 'clubs' },
-        { name: 'Cybersecurity Club Discord', url: 'https://discord.com/channels/1159622463647387719/1159622463647387722', cat: 'clubs' },
+        { name: 'Cyberknights GitHub', url: 'https://github.com/CCRI-Cyberknights/', cat: 'cyberknights' },
+        { name: 'Cybersecurity Club Discord', url: 'https://discord.com/channels/1159622463647387719/1159622463647387722', cat: 'cyberknights' },
         { name: 'NCL Competition', url: 'https://nationalcyberleague.org/competition', cat: 'ctf-competitions' },
         { name: 'NCAE CyberGames', url: 'https://ncaecybergames.org/#', cat: 'ctf-competitions' },
-        { name: 'CCRI Cybersecurity Student Club', url: 'https://www.ccri.edu/comp/cybersecurity/studentclub.html', cat: 'clubs' },
+        { name: 'CCRI Cybersecurity Student Club', url: 'https://www.ccri.edu/comp/cybersecurity/studentclub.html', cat: 'cyberknights' },
         { name: 'STEM Day 2025 Cyber Game', url: 'https://github.com/CCRI-Cyberknights/stemday_takehome.git', cat: 'stem' }
       ];
 
@@ -804,7 +804,7 @@
       const table = document.getElementById('resources-table');
       const search = document.getElementById('resources-search');
       const filterButtons = Array.from(document.querySelectorAll('[data-filter]'));
-      const catNames = { 'code-breaking': 'Code Breaking Tools', 'ctf-tools': 'CTF Tools', 'ctf-competitions': 'CTF Competitions', 'ccri': 'CCRI & Certs', 'clubs': 'Clubs', 'stem': 'STEM Day' };
+      const catNames = { 'code-breaking': 'Code Breaking Tools', 'ctf-tools': 'CTF Tools', 'ctf-competitions': 'CTF Competitions', 'ccri': 'CCRI & Certs', 'cyberknights': 'Cyberknights', 'stem': 'STEM Day' };
       const availableFilters = new Set(filterButtons.map(b => b.dataset.filter));
       const initialFilter = (preselectedFilter && availableFilters.has(preselectedFilter)) ? preselectedFilter : 'all';
 

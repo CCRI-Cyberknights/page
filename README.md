@@ -31,7 +31,7 @@ To link a QR code to a specific page, use hash routes. For example:
   - CTF Tools: `#/resources/ctf-tools`
   - CTF Competitions: `#/resources/ctf-competitions`
   - CCRI & Certs: `#/resources/ccri`
-  - Clubs: `#/resources/clubs`
+  - Cyberknights: `#/resources/cyberknights`
   - STEM Day: `#/resources/stem`
 
 ## Contribution
