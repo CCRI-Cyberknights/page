@@ -56,7 +56,7 @@ If you are a club member, you can fork this repository and submit a pull request
 ## Documentation Index
 
 - Architecture: `docs/ARCHITECTURE.md`
-- Calendar maintainer guide: `CALENDAR-UPDATING.md`
+- Calendar maintainer guide: `docs/CALENDAR-UPDATING.md`
 - QR Codes: `docs/QR-CODES.md`
 - Resources page: `docs/RESOURCES.md`
 

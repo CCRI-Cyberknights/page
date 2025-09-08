@@ -12,7 +12,7 @@ Single-file site hosted on GitHub Pages with Tailwind (CDN) and small JS modules
 Key files
 - `index.html` — UI, routing, calendar logic, footer QR generator
 - `qrcode.min.js` — local QR encoder (no CDN)
-- `CALENDAR-UPDATING.md` — maintainer guide for calendar
+- `docs/CALENDAR-UPDATING.md` — maintainer guide for calendar
 - `README.md` — project guide and developer spec
 
 Conventions
