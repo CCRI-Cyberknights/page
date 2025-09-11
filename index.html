@@ -119,6 +119,27 @@
   </footer>
 
   <template id="page-home">
+    <!-- Hero Section -->
+    <section class="mb-12 p-6 rounded-lg border border-emerald-500/40 bg-gradient-to-r from-emerald-900/20 to-blue-900/20">
+      <div class="text-center space-y-4">
+        <h1 class="text-2xl sm:text-3xl font-bold text-emerald-300">
+          We've Moved to a Bigger Venue!
+        </h1>
+        <p class="text-slate-300 max-w-2xl mx-auto">
+          Thanks to overwhelming interest, we've outgrown our old room. Join us in our new home, the Auditorium (Room 4080).
+        </p>
+        <div class="pt-2">
+          <a href="#/map-warwick-4080" class="inline-flex items-center px-6 py-3 rounded-lg bg-emerald-500 text-slate-900 font-semibold hover:bg-emerald-400 transition-colors">
+            Find Our New Location
+            <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
     <section class="grid lg:grid-cols-2 items-center gap-10 pt-4">
       <div class="space-y-6">
         <h2 class="text-3xl sm:text-4xl font-bold leading-tight">
@@ -272,14 +293,14 @@
             <div class="flex-shrink-0 w-3 h-3 rounded-full mt-2 mr-3" style="background-color: #6B8E23;"></div>
             <div>
               <h4 class="font-semibold text-white">Warwick - 'A' meet (Mondays, 5-6pm)</h4>
-              <p class="text-slate-300 text-sm">Official, formal meetings for interacting with faculty and discussing college initiatives.</p>
+              <p class="text-slate-300 text-sm">Official, formal meetings for interacting with faculty and discussing college initiatives. <a href="#/map-warwick-4080" class="text-emerald-400 hover:text-emerald-300 underline">Room 4080</a></p>
             </div>
           </div>
           <div class="flex items-start">
             <div class="flex-shrink-0 w-3 h-3 rounded-full mt-2 mr-3" style="background-color: #7C3AED;"></div>
             <div>
               <h4 class="font-semibold text-white">Warwick - 'B' meet (Wednesdays, 5-6pm)</h4>
-              <p class="text-slate-300 text-sm">Informal, low-key sessions designed for small group interaction.</p>
+              <p class="text-slate-300 text-sm">Informal, low-key sessions designed for small group interaction. <a href="#/map-warwick-4080" class="text-emerald-400 hover:text-emerald-300 underline">Room 4080</a></p>
             </div>
           </div>
           <div class="flex items-start">
@@ -344,6 +365,48 @@
     </section>
   </template>
 
+  <template id="page-map-warwick-4080">
+    <section class="space-y-6">
+      <h2 class="text-3xl sm:text-4xl font-bold">Campus Map - Room 4080</h2>
+      <p class="text-slate-300">Find our new meeting location in the Auditorium (Room 4080).</p>
+      
+      <div class="rounded-lg overflow-hidden border border-slate-800 bg-slate-900/40">
+        <img src="map-rm4080-optimized.webp" alt="Campus Map showing Room 4080 location" class="w-full h-auto" />
+      </div>
+      
+      <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
+        <h3 class="text-lg font-semibold mb-4">Meeting Location Details</h3>
+        <div class="space-y-3 text-slate-300">
+          <div class="flex items-start">
+            <span class="font-semibold text-white mr-2">📍</span>
+            <div>
+              <div class="font-medium">Auditorium (Room 4080)</div>
+              <div class="text-sm text-slate-400">CCRI Warwick Campus</div>
+            </div>
+          </div>
+          <div class="flex items-start">
+            <span class="font-semibold text-white mr-2">🕒</span>
+            <div>
+              <div class="font-medium">Meeting Times</div>
+              <div class="text-sm text-slate-400">Mondays 5-6pm, Wednesdays 5-6pm, Saturdays 10am-1pm</div>
+            </div>
+          </div>
+          <div class="flex items-start">
+            <span class="font-semibold text-white mr-2">ℹ️</span>
+            <div>
+              <div class="font-medium">Note</div>
+              <div class="text-sm text-slate-400">We've moved to this larger space due to increased interest in our club activities.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <a href="#/calendar" class="text-emerald-400 hover:text-emerald-300">← Back to Calendar</a>
+      </div>
+    </section>
+  </template>
+
   <script>
     const CALENDAR_EMBED_URL = "https://calendar.google.com/calendar/embed?src=Y2NyaWN5YmVya25pZ2h0Y2x1YkBnbWFpbC5jb20&ctz=America/New_York"; // Optional: Google Calendar embed URL
     const CALENDAR_ICS_URL = "https://calendar.google.com/calendar/ical/Y2NyaWN5YmVya25pZ2h0Y2x1YkBnbWFpbC5jb20/public/basic.ics";    // Public Google Calendar ICS URL
@@ -356,7 +419,8 @@
       cybersecurity: document.getElementById('page-cybersecurity').innerHTML,
       linux: document.getElementById('page-linux').innerHTML,
       calendar: document.getElementById('page-calendar').innerHTML,
-      resources: document.getElementById('page-resources') ? document.getElementById('page-resources').innerHTML : '<section class="space-y-6"><h2 class="text-3xl sm:text-4xl font-bold">Resources</h2><p class="text-slate-300">Coming soon.</p></section>'
+      resources: document.getElementById('page-resources') ? document.getElementById('page-resources').innerHTML : '<section class="space-y-6"><h2 class="text-3xl sm:text-4xl font-bold">Resources</h2><p class="text-slate-300">Coming soon.</p></section>',
+      'map-warwick-4080': document.getElementById('page-map-warwick-4080').innerHTML
     };
 
     function normalizeHashRouting() {
