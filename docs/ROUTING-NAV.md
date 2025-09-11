@@ -4,6 +4,7 @@
 
 - URLs use `#/page` (e.g., `#/home`, `#/cybersecurity`, `#/linux`, `#/calendar`, `#/resources`).
 - Resources supports optional subpaths for preselected filters: `#/resources/<filter>` where `<filter>` is one of `all`, `code-breaking`, `ctf-tools`, `ctf-competitions`, `ccri`, `cyberknights`, `stem`.
+- Maps use campus-specific routes: `#/map-{campus}-{room}` (e.g., `#/map-warwick-4080`).
 - On load, a normalizer converts legacy `?page=` URLs to hash routes via `history.replaceState`.
 - Router logic lives in `index.html` and re-renders on `hashchange`.
 

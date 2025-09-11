@@ -9,8 +9,12 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 - Multi-page Design: Uses a single `index.html` file with a JavaScript router to display multiple pages, each corresponding to a different QR code. This allows us to use multiple QR codes that direct to a single, easily manageable URL.
 - Fully Responsive: The site is built with Tailwind CSS, ensuring a clean and optimal viewing experience on any device, from desktop computers to mobile phones.
 - Key Landing Pages:
-  - Cybersecurity Club: Provides links to our main club page and the official signup form.
-  - CyberKnights Linux: Contains step-by-step instructions for booting the Linux distro from a USB drive, including a list of common one-time boot menu keys.
+  - Home: Features a hero section announcing venue changes and club mission
+  - Cybersecurity Club: Provides links to our main club page and the official signup form
+  - CyberKnights Linux: Contains step-by-step instructions for booting the Linux distro from a USB drive, including a list of common one-time boot menu keys
+  - Calendar: Displays meeting schedules with color-coded meeting types and clickable room numbers
+  - Resources: Curated tools and links for learning and competitions
+  - Campus Maps: Interactive maps for meeting locations (e.g., `/map-warwick-4080`)
 
 ## Getting Started
 
@@ -18,10 +22,12 @@ To view the site locally, simply open the `index.html` file in your web browser.
 
 To link a QR code to a specific page, use hash routes. For example:
 
+- To link to the Home page: `your-site-url.com/#/home`
 - To link to the Cybersecurity Club page: `your-site-url.com/#/cybersecurity`
 - To link to the Linux guide: `your-site-url.com/#/linux`
-- To link to the Home page: `your-site-url.com/#/home`
 - To link to the Calendar: `your-site-url.com/#/calendar`
+- To link to the Resources: `your-site-url.com/#/resources`
+- To link to the Warwick Room 4080 map: `your-site-url.com/#/map-warwick-4080`
 
 ### Resources Deep Links
 
