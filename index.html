@@ -322,7 +322,12 @@
   <template id="page-resources">
     <section class="space-y-6">
       <h2 class="text-3xl sm:text-4xl font-bold">Resources</h2>
-      <p class="text-slate-300">Curated tools and links for learning and competitions. Use search to filter; expand the full list if needed.</p>
+      <p class="text-slate-300 mb-4">Essential tools and resources for cybersecurity learning and competitions. Perfect for beginners and advanced students alike.</p>
+      
+      <div class="p-4 rounded-lg border border-emerald-500/40 bg-emerald-900/10 text-emerald-200 text-sm mb-6">
+        <h3 class="font-semibold mb-2">🚀 Getting Started?</h3>
+        <p>New to cybersecurity? Start with <strong>CTF & Code Breaking Tools</strong> to learn the basics, then explore <strong>CTF Competitions</strong> to test your skills!</p>
+      </div>
 
       <div class="flex flex-wrap gap-2 text-xs">
         <button data-filter="all" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">All</button>
@@ -875,9 +880,9 @@
 
     function renderResourcesPage(preselectedFilter) {
       const data = [
-        { name: 'quipqiup', url: 'https://www.quipqiup.com/', cat: 'ctf-tools' },
-        { name: 'Boxentriq', url: 'https://www.boxentriq.com/', cat: 'ctf-tools' },
-        { name: 'CyberChef', url: 'https://cyberchef.io/', cat: 'ctf-tools' },
+        { name: 'quipqiup', url: 'https://www.quipqiup.com/', cat: 'ctf-tools', desc: 'Automatic cipher solver for cryptanalysis' },
+        { name: 'Boxentriq', url: 'https://www.boxentriq.com/', cat: 'ctf-tools', desc: 'Online cipher identifier and decoder' },
+        { name: 'CyberChef', url: 'https://cyberchef.io/', cat: 'ctf-tools', desc: 'Swiss Army knife for data analysis and encoding' },
         { name: 'CCRI Cybersecurity & Safety site', url: 'https://www.ccri.edu/its/cybersecurity/', cat: 'ccri' },
         { name: 'Fortinet Training Institute', url: 'https://training.fortinet.com/', cat: 'ccri' },
         { name: 'Security Certification Roadmap (Paul Jerimy)', url: 'https://pauljerimy.com/security-certification-roadmap/', cat: 'ccri' },
@@ -914,7 +919,7 @@
             const card = document.createElement('a');
             card.href = r.url; card.target = '_blank'; card.rel = 'noopener noreferrer';
             card.className = 'block p-3 rounded border border-slate-800 bg-slate-900/60 hover:border-emerald-600';
-            card.innerHTML = `<div class="text-sm font-medium text-slate-100">${r.name}</div><div class="text-[11px] text-slate-400">${catLabel}</div>`;
+            card.innerHTML = `<div class="text-sm font-medium text-slate-100">${r.name}</div><div class="text-[11px] text-slate-400">${catLabel}</div>${r.desc ? `<div class="text-[10px] text-slate-500 mt-1">${r.desc}</div>` : ''}`;
             grid.appendChild(card);
           }
         }
