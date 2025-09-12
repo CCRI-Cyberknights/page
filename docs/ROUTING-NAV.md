@@ -8,11 +8,11 @@
 - On load, a normalizer converts legacy `?page=` URLs to hash routes via `history.replaceState`.
 - Router logic lives in `index.html` and re-renders on `hashchange`.
 
-## Mobile Navigation
+## Navigation Design
 
-- A hamburger button toggles a mobile nav (`#site-nav-mobile`).
-- `aria-expanded` is updated for accessibility.
-- Mobile nav auto-closes on route change.
+- Simplified direct navigation with no hamburger menu.
+- Navigation is always visible and responsive across all screen sizes.
+- Clean header design featuring only the CyberKnights logo and navigation links.
 
 ## Adding a Route
 

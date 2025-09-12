@@ -8,12 +8,13 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 
 - Multi-page Design: Uses a single `index.html` file with a JavaScript router to display multiple pages, each corresponding to a different QR code. This allows us to use multiple QR codes that direct to a single, easily manageable URL.
 - Fully Responsive: The site is built with Tailwind CSS, ensuring a clean and optimal viewing experience on any device, from desktop computers to mobile phones.
+- Clean UI/UX: Simplified navigation with consistent design patterns, organized resource categories, and beginner-friendly guidance.
 - Key Landing Pages:
   - Home: Features a hero section announcing venue changes and club mission
   - Cybersecurity Club: Provides links to our main club page and the official signup form
   - CyberKnights Linux: Contains step-by-step instructions for booting the Linux distro from a USB drive, including a list of common one-time boot menu keys
   - Calendar: Displays meeting schedules with color-coded meeting types and clickable room numbers
-  - Resources: Curated tools and links for learning and competitions
+  - Resources: Curated tools and links for learning and competitions with organized categories and default club filter
   - Campus Maps: Interactive maps for meeting locations (e.g., `/map-warwick-4080`)
 
 ## Getting Started
@@ -31,13 +32,12 @@ To link a QR code to a specific page, use hash routes. For example:
 
 ### Resources Deep Links
 
-- All resources: `#/resources`
+- All resources: `#/resources` (defaults to Cyberknights filter)
 - Category links:
-  - Code Breaking: `#/resources/code-breaking`
-  - CTF Tools: `#/resources/ctf-tools`
+  - CTF & Code Breaking Tools: `#/resources/ctf-tools`
   - CTF Competitions: `#/resources/ctf-competitions`
   - CCRI & Certs: `#/resources/ccri`
-  - Cyberknights: `#/resources/cyberknights`
+  - Cyberknights: `#/resources/cyberknights` (default)
   - STEM Day: `#/resources/stem`
 
 ## Contribution

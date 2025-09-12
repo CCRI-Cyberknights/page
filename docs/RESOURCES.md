@@ -24,31 +24,30 @@ Design goals:
 
 ## Categories
 
-- Code Breaking Tools: cipher solvers and classical crypto aids (e.g., quipqiup, Boxentriq)
-- CTF Tools: multitool utilities for format conversions and light transforms (e.g., CyberChef)
+- CTF & Code Breaking Tools: Combined category for cipher solvers, classical crypto aids, and multitool utilities (e.g., quipqiup, Boxentriq, CyberChef)
 - CTF Competitions: common competitions and leagues (e.g., NCL, NCAE CyberGames)
 - CCRI & Certs: CCRI pages, standardized credit policies, vendor training, certification roadmaps
-- Cyberknights: club presence and community links (Discord, GitHub)
-- STEM Day: special short-term resources (e.g., “STEM Day 2025 Cyber Game” repo)
+- Cyberknights: club presence and community links (Discord, GitHub) - **Default filter**
+- STEM Day: special short-term resources (e.g., "STEM Day 2025 Cyber Game" repo)
 
 ## Page Structure
 
 - Search/filter: one input filters by name, category label, or URL
-- Category chips: quick filters; “All” selected by default
-- Cards grid: minimal cards with name and category
-- Full list: `<details>`/`<summary>` reveals a complete table (Name, Category, URL)
+- Category chips: quick filters; "Cyberknights" selected by default
+- Cards grid: cards with name, category, and descriptions for better discoverability
+- Beginner guidance: "Getting Started?" section to help new users navigate resources
 - Back link: returns to `#/cybersecurity`
 
 ## Maintenance
 
-- Data lives inline in `index.html` in `renderResourcesPage()` as an array of objects `{ name, url, cat }`
+- Data lives inline in `index.html` in `renderResourcesPage()` as an array of objects `{ name, url, cat, desc }`
 - To add a resource: append to the array and pick a category key that maps to a label
+- Include optional `desc` field for resource descriptions to improve discoverability
 - Category labels map:
-  - `code-breaking` → “Code Breaking Tools”
-  - `ctf-tools` → “CTF Tools”
-  - `ctf-competitions` → “CTF Competitions”
-  - `ccri` → “CCRI & Certs”
-  - `cyberknights` → “Cyberknights”
-  - `stem` → “STEM Day”
+  - `ctf-tools` → "CTF & Code Breaking Tools"
+  - `ctf-competitions` → "CTF Competitions"
+  - `ccri` → "CCRI & Certs"
+  - `cyberknights` → "Cyberknights" (default filter)
+  - `stem` → "STEM Day"
 
 Keep links stable and descriptive, avoid URL tracking parameters when possible. Prefer official sources and club-owned repos.
