@@ -216,8 +216,7 @@
         <h3 class="font-semibold mb-2">What we do</h3>
         <p class="text-slate-300 text-sm">Workshops, Linux hardening, CTFs, mentoring, and community.</p>
         <div class="mt-3 flex flex-wrap gap-2 text-xs">
-          <a href="#/resources/ctf-tools" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CTF Tools</a>
-          <a href="#/resources/code-breaking" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Code Breaking</a>
+          <a href="#/resources/ctf-tools" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CTF & Code Breaking</a>
           <a href="#/resources/ctf-competitions" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CTF Competitions</a>
           <a href="#/resources/ccri" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CCRI & Certs</a>
           <a href="#/resources/cyberknights" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Community</a>
@@ -327,8 +326,7 @@
 
       <div class="flex flex-wrap gap-2 text-xs">
         <button data-filter="all" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">All</button>
-        <button data-filter="code-breaking" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Code Breaking Tools</button>
-        <button data-filter="ctf-tools" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CTF Tools</button>
+        <button data-filter="ctf-tools" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CTF & Code Breaking Tools</button>
         <button data-filter="ctf-competitions" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CTF Competitions</button>
         <button data-filter="ccri" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CCRI & Certs</button>
         <button data-filter="cyberknights" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Cyberknights</button>
@@ -877,8 +875,8 @@
 
     function renderResourcesPage(preselectedFilter) {
       const data = [
-        { name: 'quipqiup', url: 'https://www.quipqiup.com/', cat: 'code-breaking' },
-        { name: 'Boxentriq', url: 'https://www.boxentriq.com/', cat: 'code-breaking' },
+        { name: 'quipqiup', url: 'https://www.quipqiup.com/', cat: 'ctf-tools' },
+        { name: 'Boxentriq', url: 'https://www.boxentriq.com/', cat: 'ctf-tools' },
         { name: 'CyberChef', url: 'https://cyberchef.io/', cat: 'ctf-tools' },
         { name: 'CCRI Cybersecurity & Safety site', url: 'https://www.ccri.edu/its/cybersecurity/', cat: 'ccri' },
         { name: 'Fortinet Training Institute', url: 'https://training.fortinet.com/', cat: 'ccri' },
@@ -898,7 +896,7 @@
       const table = document.getElementById('resources-table');
       const search = document.getElementById('resources-search');
       const filterButtons = Array.from(document.querySelectorAll('[data-filter]'));
-      const catNames = { 'code-breaking': 'Code Breaking Tools', 'ctf-tools': 'CTF Tools', 'ctf-competitions': 'CTF Competitions', 'ccri': 'CCRI & Certs', 'cyberknights': 'Cyberknights', 'stem': 'STEM Day' };
+      const catNames = { 'ctf-tools': 'CTF & Code Breaking Tools', 'ctf-competitions': 'CTF Competitions', 'ccri': 'CCRI & Certs', 'cyberknights': 'Cyberknights', 'stem': 'STEM Day' };
       const availableFilters = new Set(filterButtons.map(b => b.dataset.filter));
       const initialFilter = (preselectedFilter && availableFilters.has(preselectedFilter)) ? preselectedFilter : 'all';
 
