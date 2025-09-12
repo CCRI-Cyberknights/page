@@ -4,7 +4,7 @@ Single-file site hosted on GitHub Pages with Tailwind (CDN) and small JS modules
 
 - Router: hash-based `#/page` swaps `<template>` content into `#app`.
 - Pages: Home, Club, Linux, Calendar, Resources, Campus Maps.
-- Branding: Banner and CCRI green accents; hero uses `cybersmith.webp`. Consistent emerald-500 color palette throughout.
+- Branding: Banner and CCRI green accents; hero uses `cybersmith.webp`. Hybrid forge color palette with `#04703C` primary green and industrial accents.
 - Navigation: Simplified direct navigation (no hamburger menu) with clean header design featuring logo only.
 - Calendar: Google embed (default) with optional ICS-powered features (toggle via `ENABLE_CUSTOM_CALENDAR`). Features color-coded meeting types and clickable room numbers.
 - QR Codes: Per-page footer generator renders to canvas using vendored encoder. Controls allow changing ECL (L/M/Q/H). PNG export uses the current ECL.
@@ -19,6 +19,7 @@ Key files
 - `cybersmith.webp` — hero image and social sharing image
 - `map-rm4080-optimized.webp` — optimized campus map image
 - `docs/CALENDAR-UPDATING.md` — maintainer guide for calendar
+- `docs/color-palettes/COLOR-PALETTE.md` — comprehensive color palette documentation
 - `README.md` — project guide and developer spec
 
 Conventions

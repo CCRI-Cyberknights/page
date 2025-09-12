@@ -9,6 +9,7 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 - Multi-page Design: Uses a single `index.html` file with a JavaScript router to display multiple pages, each corresponding to a different QR code. This allows us to use multiple QR codes that direct to a single, easily manageable URL.
 - Fully Responsive: The site is built with Tailwind CSS, ensuring a clean and optimal viewing experience on any device, from desktop computers to mobile phones.
 - Clean UI/UX: Simplified navigation with consistent design patterns, organized resource categories, and beginner-friendly guidance.
+- Branded Color Palette: Hybrid forge color scheme with `#04703C` primary green, industrial accents, and strategic color hierarchy.
 - Key Landing Pages:
   - Home: Features a hero section announcing venue changes and club mission
   - Cybersecurity Club: Provides links to our main club page and the official signup form
@@ -82,6 +83,7 @@ If you are a club member, you can fork this repository and submit a pull request
 - Resources Maintainers: `docs/RESOURCES-MAINTAINERS.md`
 - Site Operations: `docs/SITE-OPERATIONS.md`
 - Resources page: `docs/RESOURCES.md`
+- Color Palette: `docs/color-palettes/COLOR-PALETTE.md`
 
 ## Calendar Integration (Developer Spec)
 
