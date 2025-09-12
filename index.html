@@ -36,7 +36,7 @@
       .btn-sparkle { animation: none; }
     }
     
-    /* CYBERKNIGHT FORGE COLOR PALETTE */
+    /* CYBERKNIGHT FORGE COLOR PALETTE - HYBRID */
     :root {
       --forge-black: #001011;      /* deep forge darkness */
       --iron-ash: #1C1C1C;        /* dark charcoal base */
@@ -44,7 +44,9 @@
       --steel-glow: #5B6E6E;      /* metallic sheen */
       --silver-edge: #8A8A8A;     /* mid-tone metal */
       --pale-alloy: #B8B8B8;      /* light metallic */
-      --neon-surge: #43CC50;      /* visor glow; primary accent */
+      --primary-green: #04703C;   /* corrected primary green - deep forest */
+      --primary-green-light: #0A8B4F; /* lighter variant for hover */
+      --neon-surge: #43CC50;      /* visor glow; ancillary accent */
       --ember-spark: #C27329;     /* flying sparks; warm accent */
       --arc-weld-blue: #2DB2C4;   /* electric arc welding */
       --molten-glow: #FFCC33;     /* bright molten metal */
@@ -52,7 +54,7 @@
   </style>
 </head>
 <body class="min-h-screen" style="background-color: var(--forge-black); color: var(--pale-alloy);">
-  <div class="w-full text-white text-xs tracking-wide" style="background-color: var(--neon-surge);">
+  <div class="w-full text-white text-xs tracking-wide" style="background-color: var(--primary-green);">
     <div class="max-w-5xl mx-auto px-4 py-2 flex flex-wrap items-center justify-center gap-3 text-center">
       <span class="font-semibold">Excitement</span>
       <span>•</span>
@@ -83,7 +85,7 @@
         © <span id="year"></span> CCRI Cybersecurity Club
       </div>
       <div class="relative">
-        <button id="footer-qr-toggle" class="hover:text-emerald-300">QR Code</button>
+        <button id="footer-qr-toggle" class="hover:opacity-80 transition-opacity" style="color: var(--pale-alloy);">QR Code</button>
         <div id="footer-qr-panel" class="hidden absolute right-0 bottom-8 p-4 rounded-lg border border-slate-800 bg-slate-900/95 shadow-lg w-[500px] sm:w-[500px] max-w-[90vw]">
           <div class="space-y-2">
             <div>
@@ -127,9 +129,9 @@
 
   <template id="page-home">
     <!-- Hero Section -->
-    <section class="mb-12 p-6 rounded-lg border" style="border-color: var(--neon-surge); background: linear-gradient(to right, rgba(67, 204, 80, 0.1), rgba(45, 178, 196, 0.1));">
+    <section class="mb-12 p-6 rounded-lg border" style="border-color: var(--primary-green); background: linear-gradient(to right, rgba(4, 112, 60, 0.1), rgba(67, 204, 80, 0.1));">
       <div class="text-center space-y-4">
-        <h1 class="text-2xl sm:text-3xl font-bold" style="color: var(--neon-surge);">
+        <h1 class="text-2xl sm:text-3xl font-bold" style="color: var(--primary-green);">
           We've Moved to a Bigger Venue!
         </h1>
         <p class="text-slate-300 max-w-2xl mx-auto">
@@ -157,7 +159,7 @@
           Join us for game nights, competitions, and practical learning experiences.
         </p>
         <div class="flex flex-wrap gap-3">
-          <a href="#/cybersecurity" class="px-4 py-2 rounded font-medium transition-colors" style="background-color: var(--neon-surge); color: var(--forge-black);" onmouseover="this.style.backgroundColor='var(--arc-weld-blue)'" onmouseout="this.style.backgroundColor='var(--neon-surge)'">Join the Club</a>
+          <a href="#/cybersecurity" class="px-4 py-2 rounded font-medium transition-colors" style="background-color: var(--primary-green); color: var(--pale-alloy);" onmouseover="this.style.backgroundColor='var(--primary-green-light)'" onmouseout="this.style.backgroundColor='var(--primary-green)'">Join the Club</a>
           <a href="#/resources" class="px-4 py-2 rounded border border-slate-700 hover:border-slate-600">Explore Resources</a>
         </div>
       </div>
@@ -252,12 +254,12 @@
     <section class="space-y-6">
       <div class="text-center mb-8">
         <h2 class="text-3xl sm:text-4xl font-bold mb-2">CyberKnights Linux</h2>
-        <h3 class="text-xl text-emerald-300 font-semibold">USB Boot Guide</h3>
+        <h3 class="text-xl font-semibold" style="color: var(--neon-surge);">USB Boot Guide</h3>
         <p class="text-slate-300 mt-4">Follow these steps to boot from a USB drive and explore our custom Linux distribution.</p>
       </div>
 
       <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
-        <h3 class="text-lg font-semibold mb-4 text-emerald-300">Step-by-Step Instructions</h3>
+        <h3 class="text-lg font-semibold mb-4" style="color: var(--neon-surge);">Step-by-Step Instructions</h3>
         <ol class="list-decimal list-inside space-y-3 text-slate-200">
           <li>Shut down your computer completely.</li>
           <li>Insert the prepared USB drive into an available USB port.</li>
