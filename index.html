@@ -352,17 +352,6 @@
 
       <div id="resources-grid" class="grid sm:grid-cols-2 gap-3"></div>
 
-      <details class="mt-4">
-        <summary class="cursor-pointer text-slate-300">Full list (table)</summary>
-        <div class="mt-3 overflow-x-auto">
-          <table class="w-full text-sm">
-            <thead class="text-slate-400">
-              <tr><th class="text-left font-medium py-1">Name</th><th class="text-left font-medium py-1">Category</th><th class="text-left font-medium py-1">URL</th></tr>
-            </thead>
-            <tbody id="resources-table" class="text-slate-200"></tbody>
-          </table>
-        </div>
-      </details>
 
       <div class="mt-6">
         <a href="#/cybersecurity" class="text-emerald-400 hover:text-emerald-300">Back to Club</a>
@@ -906,7 +895,6 @@
       ];
 
       const grid = document.getElementById('resources-grid');
-      const table = document.getElementById('resources-table');
       const search = document.getElementById('resources-search');
       const filterButtons = Array.from(document.querySelectorAll('[data-filter]'));
       const catNames = { 'ctf-tools': 'CTF & Code Breaking Tools', 'ctf-competitions': 'CTF Competitions', 'ccri': 'CCRI & Certs', 'cyberknights': 'Cyberknights', 'stem': 'STEM Day' };
@@ -929,15 +917,6 @@
             card.className = 'block p-3 rounded border border-slate-800 bg-slate-900/60 hover:border-emerald-600';
             card.innerHTML = `<div class="text-sm font-medium text-slate-100">${r.name}</div><div class="text-[11px] text-slate-400">${catLabel}</div>${r.desc ? `<div class="text-[10px] text-slate-500 mt-1">${r.desc}</div>` : ''}`;
             grid.appendChild(card);
-          }
-        }
-        if (table) {
-          table.innerHTML = '';
-          for (const r of items) {
-            const catLabel = catNames[r.cat] || r.cat;
-            const tr = document.createElement('tr');
-            tr.innerHTML = `<td class="py-1 pr-3">${r.name}</td><td class="py-1 pr-3">${catLabel}</td><td class="py-1 pr-3 break-all"><a href="${r.url}" target="_blank" rel="noopener noreferrer" class="text-emerald-400 hover:text-emerald-300">${r.url}</a></td>`;
-            table.appendChild(tr);
           }
         }
       }
