@@ -937,7 +937,7 @@
         const q = (search && search.value || '').toLowerCase();
         const active = filterButtons.find(b => b.classList.contains('ring-1'))?.dataset.filter || 'cyberknights';
         let items = data.slice();
-        if (active !== 'cyberknights') items = items.filter(r => r.cat === active);
+        items = items.filter(r => r.cat === active);
         if (q) items = items.filter(r => {
           const catLabel = (catNames[r.cat] || r.cat).toLowerCase();
           return r.name.toLowerCase().includes(q) || r.url.toLowerCase().includes(q) || catLabel.includes(q);
