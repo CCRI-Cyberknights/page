@@ -53,22 +53,13 @@
         <img src="cybersmith.webp" alt="CyberKnights" class="w-10 h-10 rounded" />
         <h1 class="text-xl font-semibold tracking-tight">CCRI Cybersecurity Club</h1>
       </div>
-      <button id="nav-toggle" class="sm:hidden p-2 rounded border border-slate-800 hover:border-slate-700" aria-label="Toggle navigation">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5"><path fill-rule="evenodd" d="M3.75 6.75A.75.75 0 0 1 4.5 6h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Zm0 5.25a.75.75 0 0 1 .75-.75h15a.75.75 0 0 1 0 1.5h-15a.75.75 0 0 1-.75-.75Zm.75 4.5a.75.75 0 0 0 0 1.5h15a.75.75 0 0 0 0-1.5h-15Z" clip-rule="evenodd"/></svg>
-      </button>
-      <nav id="site-nav" class="hidden sm:flex gap-4 text-sm">
+      <nav class="flex gap-4 text-sm">
         <a href="#/home" class="hover:text-emerald-300">Home</a>
         <a href="#/cybersecurity" class="hover:text-emerald-300">Club</a>
         <a href="#/linux" class="hover:text-emerald-300">Linux Guide</a>
         <a href="#/calendar" class="hover:text-emerald-300">Calendar</a>
+        <a href="#/resources" class="hover:text-emerald-300">Resources</a>
       </nav>
-    </div>
-    <div id="site-nav-mobile" class="hidden sm:hidden mt-3 border border-slate-800 rounded">
-      <a href="#/home" class="block px-3 py-2 hover:bg-slate-900/60">Home</a>
-      <a href="#/cybersecurity" class="block px-3 py-2 hover:bg-slate-900/60">Club</a>
-      <a href="#/linux" class="block px-3 py-2 hover:bg-slate-900/60">Linux Guide</a>
-      <a href="#/calendar" class="block px-3 py-2 hover:bg-slate-900/60">Calendar</a>
-    </div>
   </header>
 
   <main id="app" class="max-w-5xl mx-auto px-4 pb-24"></main>
@@ -442,11 +433,7 @@
       const page = pageName || 'home';
       const html = routes[page] || routes.cybersecurity;
       document.getElementById('app').innerHTML = html;
-      // Close mobile nav on route change
-      const mobile = document.getElementById('site-nav-mobile');
-      if (mobile) mobile.classList.add('hidden');
-      const toggle = document.getElementById('nav-toggle');
-      if (toggle) toggle.setAttribute('aria-expanded', 'false');
+      // Mobile nav removed - using direct navigation
       if (page === 'calendar') {
         const iframe = document.getElementById('calendar-iframe');
         const callout = document.getElementById('calendar-callout');
@@ -976,14 +963,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('year').textContent = new Date().getFullYear();
       normalizeHashRouting();
-      const toggle = document.getElementById('nav-toggle');
-      const mobile = document.getElementById('site-nav-mobile');
-      if (toggle && mobile) {
-        toggle.addEventListener('click', () => {
-          const hidden = mobile.classList.toggle('hidden');
-          toggle.setAttribute('aria-expanded', hidden ? 'false' : 'true');
-        });
-      }
+      // Mobile navigation removed - using direct navigation
       render();
     });
   </script>
