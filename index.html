@@ -899,11 +899,11 @@
       const filterButtons = Array.from(document.querySelectorAll('[data-filter]'));
       const catNames = { 'ctf-tools': 'CTF & Code Breaking Tools', 'ctf-competitions': 'CTF Competitions', 'ccri': 'CCRI & Certs', 'cyberknights': 'Cyberknights', 'stem': 'STEM Day' };
       const availableFilters = new Set(filterButtons.map(b => b.dataset.filter));
-      const initialFilter = (preselectedFilter && availableFilters.has(preselectedFilter)) ? preselectedFilter : 'all';
+      const initialFilter = (preselectedFilter && availableFilters.has(preselectedFilter)) ? preselectedFilter : 'cyberknights';
 
       function setActive(filter) {
         filterButtons.forEach(b => b.classList.remove('ring-1','ring-emerald-500'));
-        const target = filterButtons.find(b => b.dataset.filter === filter) || filterButtons.find(b => b.dataset.filter === 'all');
+        const target = filterButtons.find(b => b.dataset.filter === filter) || filterButtons.find(b => b.dataset.filter === 'cyberknights');
         if (target) target.classList.add('ring-1','ring-emerald-500');
       }
 
@@ -923,9 +923,9 @@
 
       function applyFilters() {
         const q = (search && search.value || '').toLowerCase();
-        const active = filterButtons.find(b => b.classList.contains('ring-1'))?.dataset.filter || 'all';
+        const active = filterButtons.find(b => b.classList.contains('ring-1'))?.dataset.filter || 'cyberknights';
         let items = data.slice();
-        if (active !== 'all') items = items.filter(r => r.cat === active);
+        if (active !== 'cyberknights') items = items.filter(r => r.cat === active);
         if (q) items = items.filter(r => {
           const catLabel = (catNames[r.cat] || r.cat).toLowerCase();
           return r.name.toLowerCase().includes(q) || r.url.toLowerCase().includes(q) || catLabel.includes(q);
