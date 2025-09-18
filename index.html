@@ -251,7 +251,7 @@
   <template id="page-linux">
     <section class="space-y-6">
       <div class="text-center mb-8">
-        <h2 class="text-3xl sm:text-4xl font-bold mb-2">Cyberknights Linux</h2>
+        <h2 class="text-3xl sm:text-4xl font-bold mb-2">CyberKnights Linux</h2>
         <p class="text-slate-300 mt-4">Choose your preferred method to explore our custom Linux distribution.</p>
       </div>
 
@@ -317,30 +317,35 @@
           <p class="text-slate-300">Run our Linux distribution safely in a virtual machine using VirtualBox.</p>
         </div>
 
+        <div class="p-5 rounded-lg border border-blue-800/30 bg-blue-900/20">
+          <h4 class="font-semibold mb-3 text-blue-300">Prerequisites</h4>
+          <ul class="list-disc list-inside space-y-2 text-slate-200 text-sm">
+            <li>VirtualBox installed on your computer</li>
+            <li>CyberKnights Linux thumb drive with .iso file</li>
+          </ul>
+        </div>
+
         <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
           <h4 class="text-lg font-semibold mb-4" style="color: var(--arc-weld-blue);">Step-by-Step Instructions</h4>
           <ol class="list-decimal list-inside space-y-3 text-slate-200">
             <li>Plug in the CyberKnights Linux thumb drive.</li>
             <li>Copy the <strong>.iso</strong> image file from the "CYBERFILES" partition on the thumb drive to your desktop.</li>
-            <li>In VirtualBox, create a new machine by using the keyboard shortcut <strong>Ctrl + N</strong>.</li>
-            <li>Select <strong>guided mode</strong>.</li>
+            <li>In VirtualBox, create a new machine by selecting <strong>Machine>New</strong> from file menu.</li>
             <li>Name the machine "CyberKnights" and select the <strong>.iso</strong> image from your desktop.</li>
-            <li>Check the box to <strong>"Skip unattended installation"</strong>.</li>
-            <li>Assign <strong>4096 MB</strong> of memory and <strong>two CPU cores</strong> to the virtual machine.</li>
-            <li>Set the virtual hard disk to <strong>35 gigabytes</strong>, although this is a matter of preference.</li>
-            <li>Click <strong>next</strong> and then <strong>finish</strong>.</li>
+            <li>A group of 4 buttons appears at bottom right of the window. You can toggle between Guided Mode and Expert Mode.
+              <br>&nbsp;&nbsp;&nbsp;&nbsp;• <strong>IMPORTANT:</strong> Ensure that you're in <strong>Guided Mode</strong>
+              <br>&nbsp;&nbsp;&nbsp;&nbsp;• ("Expert Mode" appears on the button when in Guided Mode)</li>
+            <li>Check the box to <strong>"Skip unattended installation"</strong> and click <strong>"Next"</strong>.</li>
+            <li>Assign <strong>4096 MB</strong> of memory and <strong>one CPU core</strong> to the virtual machine.*</li>
+            <li>Set the virtual hard disk to <strong>50 gigabytes</strong> (an upper limit - does not actually take up the full amount).</li>
+            <li>Click <strong>next</strong> and compare the summary to the one below before you click <strong>finish</strong>.</li>
           </ol>
+          <p class="mt-3 text-sm" style="color: var(--steel-glow);">Note: You may adjust settings later to optimize performance on your hardware. (The initial choice of 1 core is intentional, as some CPUs exhibit instability when more cores are configured).</p>
         </div>
-        <p class="mt-2 text-slate-400 text-sm">Note: You may need to adjust additional settings to optimize the virtual machine performance.</p>
-
-        <div class="p-5 rounded-lg border border-blue-800/30 bg-blue-900/20">
-          <h4 class="font-semibold mb-3 text-blue-300">Prerequisites</h4>
-          <ul class="list-disc list-inside space-y-2 text-slate-200 text-sm">
-            <li>VirtualBox installed on your computer</li>
-            <li>At least 4GB of available RAM</li>
-            <li>At least 35GB of free disk space</li>
-            <li>CyberKnights Linux thumb drive with .iso file</li>
-          </ul>
+        
+        <div class="mt-6 p-4 rounded-lg border border-slate-800 bg-slate-900/40">
+          <h4 class="text-sm font-semibold mb-3 text-slate-300">Expected Summary Screen:</h4>
+          <img src="VBoxSummary-optimized.webp" alt="VirtualBox Summary Screen showing expected configuration" class="w-full max-w-2xl mx-auto rounded border border-slate-700" />
         </div>
       </div>
 
