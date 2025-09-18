@@ -252,39 +252,99 @@
     <section class="space-y-6">
       <div class="text-center mb-8">
         <h2 class="text-3xl sm:text-4xl font-bold mb-2">Cyberknights Linux</h2>
-        <h3 class="text-xl font-semibold" style="color: var(--neon-surge);">USB Boot Guide</h3>
-        <p class="text-slate-300 mt-4">Follow these steps to boot from a USB drive and explore our custom Linux distribution.</p>
+        <p class="text-slate-300 mt-4">Choose your preferred method to explore our custom Linux distribution.</p>
       </div>
 
-      <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
-        <h3 class="text-lg font-semibold mb-4" style="color: var(--neon-surge);">Step-by-Step Instructions</h3>
-        <ol class="list-decimal list-inside space-y-3 text-slate-200">
-          <li>Shut down your computer completely.</li>
-          <li>Insert the prepared USB drive into an available USB port.</li>
-          <li>Power on your computer and immediately start tapping the boot menu key (see below) as soon as the manufacturer logo appears.</li>
-          <li>Continue tapping the key about twice per second until the boot menu opens.</li>
-          <li>If you miss the timing, restart your computer and try again.</li>
-          <li>Select the USB device from the boot menu and press Enter.</li>
-          <li>Follow the on-screen instructions to try or install the Linux distribution.</li>
-        </ol>
-      </div>
-      <p class="mt-2 text-slate-400 text-sm">Tip: Start tapping the key about twice per second right after pressing the power button. This is normal for most brands.</p>
-
-      <div class="mt-6 p-5 rounded-lg border border-slate-800 bg-slate-900/40">
-        <h3 class="font-semibold mb-3">Common One-Time Boot Keys</h3>
-        <div class="grid sm:grid-cols-2 gap-3 text-sm">
-          <div><span class="text-slate-400">Dell</span>: F12</div>
-          <div><span class="text-slate-400">HP</span>: Esc, F9</div>
-          <div><span class="text-slate-400">Lenovo</span>: F12, Novo Button</div>
-          <div><span class="text-slate-400">Acer</span>: F12</div>
-          <div><span class="text-slate-400">ASUS</span>: Esc, F8</div>
-          <div><span class="text-slate-400">MSI</span>: F11</div>
-          <div><span class="text-slate-400">Toshiba</span>: F12</div>
-          <div><span class="text-slate-400">Samsung</span>: Esc, F12</div>
+      <!-- Navigation Index -->
+      <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40 mb-8">
+        <h3 class="text-lg font-semibold mb-4" style="color: var(--neon-surge);">Quick Navigation</h3>
+        <div class="flex flex-wrap gap-4">
+          <button onclick="scrollToSection('usb-boot-guide')" class="inline-flex items-center px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium transition-colors">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 9l3 3-3 3m5 0h3"></path>
+            </svg>
+            USB Boot Guide
+          </button>
+          <button onclick="scrollToSection('virtualbox-boot-guide')" class="inline-flex items-center px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-medium transition-colors">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 3v2m6-2v2M9 19v2m6-2v2M5 9H3m2 6H3m18-6h-2m2 6h-2M7 19h10a2 2 0 002-2V7a2 2 0 00-2 2v10a2 2 0 002 2zM9 9h6v6H9V9z"></path>
+            </svg>
+            VirtualBox Boot Guide
+          </button>
         </div>
       </div>
 
-      <div class="mt-6">
+      <!-- USB Boot Guide Section -->
+      <div id="usb-boot-guide" class="space-y-6">
+        <div class="text-center">
+          <h3 class="text-2xl font-bold mb-2" style="color: var(--neon-surge);">USB Boot Guide</h3>
+          <p class="text-slate-300">Boot directly from a USB drive to try our Linux distribution without installing.</p>
+        </div>
+
+        <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
+          <h4 class="text-lg font-semibold mb-4" style="color: var(--neon-surge);">Step-by-Step Instructions</h4>
+          <ol class="list-decimal list-inside space-y-3 text-slate-200">
+            <li>Shut down your computer completely.</li>
+            <li>Insert the prepared USB drive into an available USB port.</li>
+            <li>Power on your computer and immediately start tapping the boot menu key (see below) as soon as the manufacturer logo appears.</li>
+            <li>Continue tapping the key about twice per second until the boot menu opens.</li>
+            <li>If you miss the timing, restart your computer and try again.</li>
+            <li>Select the USB device from the boot menu and press Enter.</li>
+            <li>Follow the on-screen instructions to try or install the Linux distribution.</li>
+          </ol>
+        </div>
+        <p class="mt-2 text-slate-400 text-sm">Tip: Start tapping the key about twice per second right after pressing the power button. This is normal for most brands.</p>
+
+        <div class="p-5 rounded-lg border border-slate-800 bg-slate-900/40">
+          <h4 class="font-semibold mb-3">Common One-Time Boot Keys</h4>
+          <div class="grid sm:grid-cols-2 gap-3 text-sm">
+            <div><span class="text-slate-400">Dell</span>: F12</div>
+            <div><span class="text-slate-400">HP</span>: Esc, F9</div>
+            <div><span class="text-slate-400">Lenovo</span>: F12, Novo Button</div>
+            <div><span class="text-slate-400">Acer</span>: F12</div>
+            <div><span class="text-slate-400">ASUS</span>: Esc, F8</div>
+            <div><span class="text-slate-400">MSI</span>: F11</div>
+            <div><span class="text-slate-400">Toshiba</span>: F12</div>
+            <div><span class="text-slate-400">Samsung</span>: Esc, F12</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- VirtualBox Boot Guide Section -->
+      <div id="virtualbox-boot-guide" class="space-y-6 mt-12">
+        <div class="text-center">
+          <h3 class="text-2xl font-bold mb-2" style="color: var(--arc-weld-blue);">VirtualBox Boot Guide</h3>
+          <p class="text-slate-300">Run our Linux distribution safely in a virtual machine using VirtualBox.</p>
+        </div>
+
+        <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
+          <h4 class="text-lg font-semibold mb-4" style="color: var(--arc-weld-blue);">Step-by-Step Instructions</h4>
+          <ol class="list-decimal list-inside space-y-3 text-slate-200">
+            <li>Plug in the CyberKnights Linux thumb drive.</li>
+            <li>Copy the <strong>.iso</strong> image file from the "CYBERFILES" partition on the thumb drive to your desktop.</li>
+            <li>In VirtualBox, create a new machine by using the keyboard shortcut <strong>Ctrl + N</strong>.</li>
+            <li>Select <strong>guided mode</strong>.</li>
+            <li>Name the machine "CyberKnights" and select the <strong>.iso</strong> image from your desktop.</li>
+            <li>Check the box to <strong>"Skip unattended installation"</strong>.</li>
+            <li>Assign <strong>4096 MB</strong> of memory and <strong>two CPU cores</strong> to the virtual machine.</li>
+            <li>Set the virtual hard disk to <strong>35 gigabytes</strong>, although this is a matter of preference.</li>
+            <li>Click <strong>next</strong> and then <strong>finish</strong>.</li>
+          </ol>
+        </div>
+        <p class="mt-2 text-slate-400 text-sm">Note: You may need to adjust additional settings to optimize the virtual machine performance.</p>
+
+        <div class="p-5 rounded-lg border border-blue-800/30 bg-blue-900/20">
+          <h4 class="font-semibold mb-3 text-blue-300">Prerequisites</h4>
+          <ul class="list-disc list-inside space-y-2 text-slate-200 text-sm">
+            <li>VirtualBox installed on your computer</li>
+            <li>At least 4GB of available RAM</li>
+            <li>At least 35GB of free disk space</li>
+            <li>CyberKnights Linux thumb drive with .iso file</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="mt-8">
         <a href="#/cybersecurity" class="text-emerald-400 hover:text-emerald-300">Back to Club page</a>
         <span class="mx-2">•</span>
         <a href="#/resources" class="text-emerald-400 hover:text-emerald-300">Further reading</a>
@@ -417,6 +477,14 @@
     const DOCS_CALENDAR_URL = "https://github.com/CCRI-Cyberknights/page/blob/main/docs/CALENDAR-UPDATING.md";
     const ENABLE_CUSTOM_CALENDAR = false; // Set to true to use ICS-powered list + FullCalendar
     let fcInstance = null;
+
+    // Function to scroll to a section within the page
+    function scrollToSection(sectionId) {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
 
     const routes = {
       home: document.getElementById('page-home').innerHTML,
