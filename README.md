@@ -10,6 +10,7 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 - Fully Responsive: The site is built with Tailwind CSS, ensuring a clean and optimal viewing experience on any device, from desktop computers to mobile phones.
 - Clean UI/UX: Simplified navigation with consistent design patterns, organized resource categories, and beginner-friendly guidance.
 - Branded Color Palette: Hybrid forge color scheme with `#04703C` primary green, industrial accents, and strategic color hierarchy.
+- Automated Testing: Comprehensive test suite using Selenium WebDriver to ensure functionality across different pages and features.
 - Key Landing Pages:
   - Home: Features a hero section announcing venue changes and club mission
   - Cybersecurity Club: Provides links to our main club page and the official signup form
@@ -195,3 +196,40 @@ Use these words as copy anchors across pages. Primary accents use CCRI green (`#
 - Institutional Memory: By keeping the project on GitHub and the club's official email and resources, it creates a sustainable, long-term solution that is not dependent on a single individual. This supports the club's goal of maintaining institutional memory.
 
 These requirements ensure the project will be a highly effective and easily maintainable solution for the CyberKnights Club's marketing and resource distribution. The files provided show a clear focus on building a professional club image, and this project directly supports that goal.
+
+## Testing
+
+The project includes a comprehensive test suite located in the `tests/` directory:
+
+### Running Tests
+
+1. **Start the development server:**
+   ```bash
+   python3 -m http.server 8000
+   ```
+
+2. **Activate the test environment:**
+   ```bash
+   source selenium_env/bin/activate
+   ```
+
+3. **Run all tests:**
+   ```bash
+   python tests/run_tests.py
+   ```
+
+4. **Run individual tests:**
+   ```bash
+   python tests/test_routing.py
+   python tests/test_qr_standalone.py
+   ```
+
+### Test Coverage
+
+- ✅ Client-side routing and navigation
+- ✅ Resource page filtering and display
+- ✅ QR Code functionality (toggle, generation, download)
+- ✅ Cross-page link functionality
+- ✅ Standalone page navigation
+
+See `tests/README.md` for detailed test documentation.

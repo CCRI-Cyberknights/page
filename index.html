@@ -10,7 +10,8 @@
   <meta property="og:image" content="https://ccri-cyberknights.github.io/page/cybersmith.webp">
   <link rel="icon" href="favicon.ico">
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="./qrcode.min.js"></script>
+  <script src="./js/qrcode.min.js"></script>
+  <script src="./js/qr-code-manager.js"></script>
   <style>
     :root { color-scheme: dark; }
     /* Spark glow animation for Sign Up button */
@@ -86,12 +87,12 @@
       </div>
       <div class="relative">
         <button id="footer-qr-toggle" class="hover:opacity-80 transition-opacity" style="color: var(--pale-alloy);">QR Code</button>
-        <div id="footer-qr-panel" class="hidden absolute right-0 bottom-8 p-4 rounded-lg border border-slate-800 bg-slate-900/95 shadow-lg w-[500px] sm:w-[500px] max-w-[90vw]">
+        <div id="footer-qr-panel" class="hidden absolute right-0 bottom-8 p-4 rounded-lg border border-slate-600 bg-slate-800 shadow-lg w-[500px] sm:w-[500px] max-w-[90vw]">
           <div class="space-y-2">
             <div>
-              <input id="footer-qr-input" type="text" placeholder="Enter text or URL" class="w-full px-2 py-1 rounded bg-slate-800 border border-slate-700 outline-none focus:border-emerald-500 text-slate-200" />
+              <input id="footer-qr-input" type="text" placeholder="Enter text or URL" class="w-full px-2 py-1 rounded bg-slate-700 border border-slate-600 outline-none focus:border-emerald-500 text-slate-200" />
             </div>
-            <div class="rounded border border-slate-800 bg-slate-900/60 p-2 text-[11px] text-slate-400">
+            <div class="rounded border border-slate-700 bg-slate-700/60 p-2 text-[11px] text-slate-300">
               <div class="flex justify-between">
                 <span>Defaults to this page’s URL</span>
                 <span id="footer-qr-length" class="ml-4 text-right">Length: 0</span>
@@ -99,7 +100,7 @@
               <div class="mt-1">Edit to generate any QR</div>
             </div>
             <div class="space-y-3">
-              <div class="rounded border border-slate-800 bg-slate-900/60 p-2">
+              <div class="rounded border border-slate-700 bg-slate-700/60 p-2">
                 <div class="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400">
                   <div id="footer-qr-info"></div>
                   <div class="flex items-center gap-1">
@@ -111,7 +112,7 @@
                 </div>
               </div>
               <div class="flex justify-center">
-                <div class="p-8 rounded border border-slate-800 bg-slate-900/60 inline-block">
+                <div class="p-8 rounded border border-slate-700 bg-slate-700/60 inline-block">
                   <canvas id="footer-qr-canvas" class="bg-white p-1 rounded" width="160" height="160"></canvas>
                   <img id="footer-qr-img" alt="QR code" class="hidden bg-white p-1 rounded" width="160" height="160" />
                 </div>
@@ -419,6 +420,7 @@
         <button data-filter="ccri" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CCRI & Certs</button>
         <button data-filter="cyberknights" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Cyberknights</button>
         <button data-filter="stem" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">STEM Day</button>
+        <button data-filter="linux" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Linux</button>
       </div>
 
       <div class="relative">
@@ -430,6 +432,64 @@
 
       <div class="mt-6">
         <a href="#/cybersecurity" class="text-emerald-400 hover:text-emerald-300">Back to Club</a>
+      </div>
+    </section>
+  </template>
+
+  <template id="page-resources-linux">
+    <section class="space-y-6">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl sm:text-4xl font-bold mb-2">Linux Resources</h2>
+        <p class="text-slate-300">Essential guides and cheat sheets for mastering Linux command line.</p>
+      </div>
+
+      <div class="space-y-6">
+        <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
+          <h3 class="text-lg font-semibold mb-4" style="color: var(--neon-surge);">📚 Available Resources</h3>
+          <div class="space-y-3">
+            <a href="resources/linux-cheatsheet-1.html" 
+               class="block p-4 rounded border border-slate-700 bg-slate-800/60 hover:border-emerald-600 hover:bg-slate-800/80 transition-colors"
+               target="_blank" rel="noopener noreferrer">
+              <div class="flex items-center justify-between">
+                <div>
+                  <div class="text-sm font-medium text-slate-100">Linux Cheat Sheet 1 📁</div>
+                  <div class="text-xs text-slate-400 mt-1">Essential Linux commands and file system navigation guide</div>
+                </div>
+                <div class="text-emerald-400">→</div>
+              </div>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8">
+        <a href="#/resources" class="text-emerald-400 hover:text-emerald-300">← Back to Resources</a>
+        <span class="mx-2">•</span>
+        <a href="#/linux" class="text-emerald-400 hover:text-emerald-300">Linux Boot Guide</a>
+      </div>
+    </section>
+  </template>
+
+  <template id="page-document">
+    <section class="space-y-6">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl sm:text-4xl font-bold mb-2" id="document-title">Loading Document...</h2>
+        <p class="text-slate-300" id="document-subtitle">Please wait while the document loads.</p>
+      </div>
+
+      <div id="document-content" class="space-y-6">
+        <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
+          <div class="text-center">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
+            <p class="text-slate-400 mt-2">Loading document...</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8">
+        <a href="#/resources" class="text-emerald-400 hover:text-emerald-300">← Back to Resources</a>
+        <span class="mx-2">•</span>
+        <a href="#/linux" class="text-emerald-400 hover:text-emerald-300">Linux Boot Guide</a>
       </div>
     </section>
   </template>
@@ -491,6 +551,8 @@
       }
     }
 
+
+
     const routes = {
       home: document.getElementById('page-home').innerHTML,
       cybersecurity: document.getElementById('page-cybersecurity').innerHTML,
@@ -514,7 +576,17 @@
       const raw = (location.hash || '').replace(/^#\/?/, '');
       const [pageName, ...segments] = raw.split('/');
       const page = pageName || 'home';
-      const html = routes[page] || routes.cybersecurity;
+      
+      // Check for nested routes like 'resources/linux'
+      const fullRoute = segments.length > 0 ? `${pageName}/${segments[0]}` : pageName;
+      
+      let html;
+      if (fullRoute === 'resources/linux') {
+        // Use the main resources template for Linux resources
+        html = routes.resources;
+      } else {
+        html = routes[fullRoute] || routes[page] || routes.cybersecurity;
+      }
       document.getElementById('app').innerHTML = html;
       // Mobile nav removed - using direct navigation
       if (page === 'calendar') {
@@ -572,6 +644,9 @@
       updateFooterQr(page);
       if (page === 'resources') {
         try { renderResourcesPage(segments[0] || 'all'); } catch {}
+      }
+      if (fullRoute === 'resources/linux') {
+        try { renderResourcesPage('linux'); } catch {}
       }
     }
 
@@ -860,103 +935,11 @@
     }
 
     function updateFooterQr(page) {
-      const toggle = document.getElementById('footer-qr-toggle');
-      const panel = document.getElementById('footer-qr-panel');
-      const canvas = document.getElementById('footer-qr-canvas');
-      const dl = document.getElementById('footer-qr-download');
-      const copyBtn = document.getElementById('footer-qr-copy');
-      if (!toggle || !panel || !canvas) return;
-      const url = window.location.href; // exact URL, includes ?page=...
-      const ECL_LEVELS = ['L','M','Q','H'];
-      let eclIndex = 1; // default 'M'
-      const infoEl = document.getElementById('footer-qr-info');
-      const render = (text) => {
-        if (window.QRCode) {
-          try {
-            // compute model to surface version/module count
-            let versionDesc = '';
-            try {
-              const model = QRCode.create(text, { errorCorrectionLevel: ECL_LEVELS[eclIndex] });
-              versionDesc = `QR Version ${model.version} (${model.modules.size}×${model.modules.size})`;
-            } catch {}
-            QRCode.toCanvas(canvas, text, { width: 160, margin: 1, errorCorrectionLevel: ECL_LEVELS[eclIndex] }, function(err){
-              if (err) fallbackImg(text);
-              if (infoEl) infoEl.textContent = versionDesc || '';
-              const lenEl = document.getElementById('footer-qr-length');
-              if (lenEl) lenEl.textContent = `Length: ${text.length}`;
-            });
-          } catch { fallbackImg(text); }
-        } else {
-          fallbackImg(text);
-        }
-      };
-      function fallbackImg(text){
-        const ctx = canvas.getContext('2d');
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-        if (infoEl) infoEl.textContent = `Encoder error`;
-        const lenEl = document.getElementById('footer-qr-length');
-        if (lenEl) lenEl.textContent = `length ${text.length}`;
-      }
-      render(url);
-      // Input-driven generation
-      const input = document.getElementById('footer-qr-input');
-      const eclText = document.getElementById('footer-qr-ecl');
-      const eclInc = document.getElementById('footer-qr-ecl-inc');
-      const eclDec = document.getElementById('footer-qr-ecl-dec');
-      if (input) {
-        input.value = url;
-        input.addEventListener('input', () => render(input.value || url));
-        // Show the end of long text by moving caret to the end and scrolling right
-        setTimeout(() => {
-          try {
-            const len = input.value.length;
-            input.setSelectionRange(len, len);
-            input.scrollLeft = input.scrollWidth;
-          } catch {}
-        }, 0);
-        input.addEventListener('focus', () => {
-          try {
-            const len = input.value.length;
-            input.setSelectionRange(len, len);
-            input.scrollLeft = input.scrollWidth;
-          } catch {}
-        });
-      }
-      if (eclText) eclText.textContent = ECL_LEVELS[eclIndex];
-      function reRender(){ render((input && input.value) || url); }
-      if (eclInc) {
-        eclInc.onclick = () => { if (eclIndex < ECL_LEVELS.length - 1) { eclIndex++; if (eclText) eclText.textContent = ECL_LEVELS[eclIndex]; reRender(); } };
-      }
-      if (eclDec) {
-        eclDec.onclick = () => { if (eclIndex > 0) { eclIndex--; if (eclText) eclText.textContent = ECL_LEVELS[eclIndex]; reRender(); } };
-      }
-      if (dl) {
-        dl.onclick = () => {
-          const tmpCanvas = document.createElement('canvas');
-          const text = (input && input.value) || url;
-          try {
-            QRCode.toCanvas(tmpCanvas, text, { width: 512, margin: 1, errorCorrectionLevel: ECL_LEVELS[eclIndex] }, () => {
-              const link = document.createElement('a');
-              link.download = `qr-${page}.png`;
-              link.href = tmpCanvas.toDataURL('image/png');
-              link.click();
-            });
-          } catch {
-            // Fallback: copy current on-screen canvas into a PNG
-            const ctx = tmpCanvas.getContext('2d');
-            tmpCanvas.width = canvas.width; tmpCanvas.height = canvas.height;
-            ctx.drawImage(canvas, 0, 0);
-            const link = document.createElement('a');
-            link.download = `qr-${page}.png`;
-            link.href = tmpCanvas.toDataURL('image/png');
-            link.click();
-          }
-        };
-      }
-      toggle.onclick = () => {
-        panel.classList.toggle('hidden');
-      };
+      // QR Code functionality is now handled by qr-code.js
+      // This function is kept for compatibility but does nothing
     }
+
+    // QR Code functionality is now handled by qr-code-manager.js
 
     function renderResourcesPage(preselectedFilter) {
       const data = [
@@ -975,13 +958,14 @@
         { name: 'NCL Competition', url: 'https://nationalcyberleague.org/competition', cat: 'ctf-competitions' },
         { name: 'NCAE CyberGames', url: 'https://ncaecybergames.org/#', cat: 'ctf-competitions' },
         { name: 'CCRI Cybersecurity Student Club', url: 'https://www.ccri.edu/comp/cybersecurity/studentclub.html', cat: 'cyberknights' },
-        { name: 'STEM Day 2025 Cyber Game', url: 'https://github.com/CCRI-Cyberknights/stemday_takehome.git', cat: 'stem' }
+        { name: 'STEM Day 2025 Cyber Game', url: 'https://github.com/CCRI-Cyberknights/stemday_takehome.git', cat: 'stem' },
+        { name: 'Linux Cheat Sheet 1', url: 'resources/linux-cheatsheet-1.html', cat: 'linux', desc: 'Essential Linux commands and file system navigation guide' }
       ];
 
       const grid = document.getElementById('resources-grid');
       const search = document.getElementById('resources-search');
       const filterButtons = Array.from(document.querySelectorAll('[data-filter]'));
-      const catNames = { 'ctf-tools': 'CTF & Code Breaking Tools', 'ctf-competitions': 'CTF Competitions', 'ccri': 'CCRI & Certs', 'cyberknights': 'Cyberknights', 'stem': 'STEM Day' };
+      const catNames = { 'ctf-tools': 'CTF & Code Breaking Tools', 'ctf-competitions': 'CTF Competitions', 'ccri': 'CCRI & Certs', 'cyberknights': 'Cyberknights', 'stem': 'STEM Day', 'linux': 'Linux' };
       const availableFilters = new Set(filterButtons.map(b => b.dataset.filter));
       const initialFilter = (preselectedFilter && availableFilters.has(preselectedFilter)) ? preselectedFilter : 'cyberknights';
 

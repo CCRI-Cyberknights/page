@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Linux Cheat Sheet 1 - CCRI Cyberknights</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../js/qrcode.min.js"></script>
+  <script src="../js/qr-code-manager.js"></script>
+  <style>
+    :root { color-scheme: dark; }
+    body { background: #0f172a; color: #e2e8f0; }
+    
+    /* QR Code styles - using same as main site */
+    :root {
+      --neon-surge: #00ff88;
+      --steel-glow: #94a3b8;
+      --pale-alloy: #cbd5e1;
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-200 min-h-screen">
+  <div class="max-w-4xl mx-auto p-6 space-y-8">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold mb-4" style="color: var(--neon-surge);">Linux Cheat Sheet 1 📁</h1>
+      <p class="text-slate-300 text-lg">Essential Linux commands and file system navigation guide</p>
+    </div>
+
+    <!-- Video References -->
+    <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
+      <h2 class="text-xl font-bold mb-4" style="color: var(--neon-surge);">📺 Reference Videos</h2>
+      <p class="text-slate-300 mb-4">This cheat sheet summarizes key concepts and commands from the following videos:</p>
+      <ul class="space-y-2">
+        <li>
+          <a href="https://www.youtube.com/watch?v=N9j--n-zGgc&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M" 
+             class="text-emerald-400 hover:text-emerald-300 underline" target="_blank" rel="noopener noreferrer">
+            📹 2 - Linux Commands and File Structure
+          </a>
+        </li>
+        <li>
+          <a href="https://www.youtube.com/watch?v=lI0mUMqBesU&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=3" 
+             class="text-emerald-400 hover:text-emerald-300 underline" target="_blank" rel="noopener noreferrer">
+            📹 3 - File System Navigation from the Terminal
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- File System & Navigation -->
+    <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
+      <h2 class="text-xl font-bold mb-4" style="color: var(--neon-surge);">📁 Linux File System & Navigation</h2>
+      
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-lg font-semibold mb-2" style="color: var(--neon-surge);">Understanding Your Location</h3>
+          <p class="text-slate-300">In a Linux environment, you don't have visual cues like a mouse to show you where you are. It's crucial to know your current location, or <strong>working directory</strong>, which is the folder you are currently "in" at the command line.</p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-2" style="color: var(--neon-surge);">Root Directory (<code class="bg-slate-800 px-1 rounded text-sm font-mono text-slate-200">/</code>)</h3>
+          <p class="text-slate-300">The very top of the Linux file system is called the <strong>root directory</strong>. All other files and directories are contained within it.</p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-2" style="color: var(--neon-surge);">Home Directory (<code class="bg-slate-800 px-1 rounded text-sm font-mono text-slate-200">~</code> or <code class="bg-slate-800 px-1 rounded text-sm font-mono text-slate-200">/home/user</code>)</h3>
+          <p class="text-slate-300">Every user has a <strong>home directory</strong>, which is a personal space for their files. The tilde symbol (<code class="bg-slate-800 px-1 rounded text-sm font-mono text-slate-200">~</code>) is a shortcut that always represents your current user's home directory, no matter where you are in the file system.</p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-2" style="color: var(--neon-surge);">Case Sensitivity</h3>
+          <p class="text-slate-300">Linux is <strong>case-sensitive</strong>, meaning <code class="bg-slate-800 px-1 rounded text-sm font-mono text-slate-200">Desktop</code> is different from <code class="bg-slate-800 px-1 rounded text-sm font-mono text-slate-200">desktop</code>. Be careful with capitalization when typing file or directory names.</p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-2" style="color: var(--neon-surge);">The Tab Key</h3>
+          <p class="text-slate-300">Use the <strong>Tab key</strong> for auto-completion. This prevents typos and speeds up navigation. If multiple files or folders match what you've typed, double-tapping Tab will show you all the options.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Essential Commands -->
+    <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
+      <h2 class="text-xl font-bold mb-4" style="color: var(--neon-surge);">⌨️ Essential Commands</h2>
+      
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse">
+          <thead>
+            <tr class="border-b border-slate-700">
+              <th class="text-left p-3 font-semibold" style="color: var(--neon-surge);">Command</th>
+              <th class="text-left p-3 font-semibold" style="color: var(--neon-surge);">Purpose</th>
+              <th class="text-left p-3 font-semibold" style="color: var(--neon-surge);">Example & Notes</th>
+            </tr>
+          </thead>
+          <tbody class="text-sm">
+            <tr class="border-b border-slate-800">
+              <td class="p-3 font-mono font-semibold text-emerald-400"><code class="bg-slate-800 px-1 rounded">pwd</code></td>
+              <td class="p-3"><strong>P</strong>rint <strong>W</strong>orking <strong>D</strong>irectory. Shows your current location.</td>
+              <td class="p-3">
+                <pre class="bg-slate-800 p-2 rounded text-xs font-mono text-slate-200 overflow-x-auto"><code>pwd</code></pre>
+                <span class="text-slate-400">→</span> <code class="bg-slate-800 px-1 rounded text-xs font-mono text-slate-200">/home/sandbox/desktop</code>
+              </td>
+            </tr>
+            <tr class="border-b border-slate-800">
+              <td class="p-3 font-mono font-semibold text-emerald-400"><code class="bg-slate-800 px-1 rounded">ls</code></td>
+              <td class="p-3"><strong>L</strong>i<strong>s</strong>t. Shows the contents (files and folders) of the current directory.</td>
+              <td class="p-3">
+                <pre class="bg-slate-800 p-2 rounded text-xs font-mono text-slate-200 overflow-x-auto"><code>ls</code></pre>
+                <span class="text-slate-400">→</span> shows what's inside the folder you're in
+              </td>
+            </tr>
+            <tr class="border-b border-slate-800">
+              <td class="p-3 font-mono font-semibold text-emerald-400"><code class="bg-slate-800 px-1 rounded">cd</code></td>
+              <td class="p-3"><strong>C</strong>hange <strong>D</strong>irectory. Used to move between folders. Requires a location argument.</td>
+              <td class="p-3">
+                <div class="space-y-1">
+                  <pre class="bg-slate-800 p-2 rounded text-xs font-mono text-slate-200 overflow-x-auto"><code>cd /</code></pre>
+                  <span class="text-slate-400">→</span> root directory<br>
+                  <pre class="bg-slate-800 p-2 rounded text-xs font-mono text-slate-200 overflow-x-auto"><code>cd ~</code></pre>
+                  <span class="text-slate-400">→</span> home directory<br>
+                  <pre class="bg-slate-800 p-2 rounded text-xs font-mono text-slate-200 overflow-x-auto"><code>cd /home/sandbox/desktop</code></pre>
+                  <span class="text-slate-400">→</span> full path
+                </div>
+              </td>
+            </tr>
+            <tr class="border-b border-slate-800">
+              <td class="p-3 font-mono font-semibold text-emerald-400"><code class="bg-slate-800 px-1 rounded">cd ..</code></td>
+              <td class="p-3">Moves you up one level in the directory tree.</td>
+              <td class="p-3">
+                From <code class="bg-slate-800 px-1 rounded text-xs font-mono text-slate-200">/home/sandbox</code>:
+                <pre class="bg-slate-800 p-2 rounded text-xs font-mono text-slate-200 overflow-x-auto"><code>cd ..</code></pre>
+                <span class="text-slate-400">→</span> <code class="bg-slate-800 px-1 rounded text-xs font-mono text-slate-200">/home</code>
+              </td>
+            </tr>
+            <tr>
+              <td class="p-3 font-mono font-semibold text-emerald-400"><code class="bg-slate-800 px-1 rounded">cd</code> (no args)</td>
+              <td class="p-3">Shortcut to home directory.</td>
+              <td class="p-3">
+                <pre class="bg-slate-800 p-2 rounded text-xs font-mono text-slate-200 overflow-x-auto"><code>cd</code></pre>
+                <span class="text-slate-400">→</span> home directory (same as <code class="bg-slate-800 px-1 rounded text-xs font-mono text-slate-200">cd ~</code>)
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tips for Getting Started -->
+    <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
+      <h2 class="text-xl font-bold mb-4" style="color: var(--neon-surge);">💡 Tips for Getting Started</h2>
+      
+      <div class="space-y-4">
+        <div>
+          <h3 class="text-lg font-semibold mb-2" style="color: var(--neon-surge);">Opening the Terminal</h3>
+          <p class="text-slate-300">You can open a terminal by right-clicking and selecting <strong>"Open in Terminal"</strong> or by searching for <strong>"terminal"</strong> in your applications menu. Be aware that how you open it may change your starting location.</p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-2" style="color: var(--neon-surge);">Full vs. Relative Paths</h3>
+          <p class="text-slate-300">You can navigate using a <strong>full path</strong> (starting from <code class="bg-slate-800 px-1 rounded text-sm font-mono text-slate-200">/</code>, e.g., <code class="bg-slate-800 px-1 rounded text-sm font-mono text-slate-200">/home/sandbox/documents</code>) or a <strong>relative path</strong> (starting from your current location).</p>
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold mb-2" style="color: var(--neon-surge);">Initial Inventory</h3>
+          <p class="text-slate-300 mb-3">When logging into a new machine, always take an inventory of your surroundings:</p>
+          <ul class="space-y-2 text-sm">
+            <li class="flex items-start">
+              <span class="text-slate-400 mr-2">•</span>
+              <div>
+                <pre class="bg-slate-800 p-2 rounded text-xs font-mono text-slate-200 overflow-x-auto inline-block"><code>whoami</code></pre>
+                <span class="text-slate-400 ml-2">→</span> shows which user you're logged in as
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-slate-400 mr-2">•</span>
+              <div>
+                <pre class="bg-slate-800 p-2 rounded text-xs font-mono text-slate-200 overflow-x-auto inline-block"><code>pwd</code></pre>
+                <span class="text-slate-400 ml-2">→</span> shows your current location
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-slate-400 mr-2">•</span>
+              <div>
+                <pre class="bg-slate-800 p-2 rounded text-xs font-mono text-slate-200 overflow-x-auto inline-block"><code>ls</code></pre>
+                <span class="text-slate-400 ml-2">→</span> lists files in your current directory
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <div class="mt-8 pt-6 border-t border-slate-700">
+      <div class="flex flex-wrap gap-4 text-sm">
+        <a href="../index.html#/resources" class="text-emerald-400 hover:text-emerald-300 underline">← Back to Resources</a>
+        <span class="text-slate-500">•</span>
+        <a href="../index.html#/linux" class="text-emerald-400 hover:text-emerald-300 underline">Linux Boot Guide</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer with QR Code - Same positioning as main site -->
+  <footer class="border-t border-slate-800/60 mt-16">
+    <div class="max-w-5xl mx-auto px-4 py-6 text-xs text-slate-400 flex items-center justify-between">
+      <div>
+        © <span id="year"></span> CCRI Cybersecurity Club
+      </div>
+      <div class="relative">
+        <button id="footer-qr-toggle" class="hover:opacity-80 transition-opacity" style="color: var(--pale-alloy);">QR Code</button>
+        <div id="footer-qr-panel" class="hidden absolute right-0 bottom-8 p-4 rounded-lg border border-slate-600 bg-slate-800 shadow-lg w-[500px] sm:w-[500px] max-w-[90vw]">
+          <div class="space-y-2">
+            <div>
+              <input id="footer-qr-input" type="text" placeholder="Enter text or URL" class="w-full px-2 py-1 rounded bg-slate-700 border border-slate-600 outline-none focus:border-emerald-500 text-slate-200" />
+            </div>
+            <div class="rounded border border-slate-700 bg-slate-700/60 p-2 text-[11px] text-slate-300">
+              <div class="flex justify-between">
+                <span>Defaults to this page's URL</span>
+                <span id="footer-qr-length" class="ml-4 text-right">Length: 0</span>
+              </div>
+              <div class="mt-1">Edit to generate any QR</div>
+            </div>
+          <div class="space-y-3">
+            <div class="rounded border border-slate-700 bg-slate-700/60 p-2">
+                <div class="flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400">
+                  <div id="footer-qr-info"></div>
+                  <div class="flex items-center gap-1">
+                    <span class="mr-1">Error Correction Level (ECL):</span>
+                    <button id="footer-qr-ecl-dec" class="px-1 py-0.5 rounded border border-slate-700 hover:border-slate-600" title="Lower error correction">−</button>
+                    <span id="footer-qr-ecl" class="min-w-[1.5ch] text-slate-200 text-xs text-center">M</span>
+                    <button id="footer-qr-ecl-inc" class="px-1 py-0.5 rounded border border-slate-700 hover:border-slate-600" title="Raise error correction">+</button>
+                  </div>
+                </div>
+              </div>
+            <div class="flex justify-center">
+              <div class="p-8 rounded border border-slate-700 bg-slate-700/60 inline-block">
+                  <canvas id="footer-qr-canvas" class="bg-white p-1 rounded" width="160" height="160"></canvas>
+                  <img id="footer-qr-img" alt="QR code" class="hidden bg-white p-1 rounded" width="160" height="160" />
+                </div>
+              </div>
+              <div class="flex justify-center">
+                <button id="footer-qr-download" class="px-3 py-1 rounded border border-slate-700 hover:border-slate-600">Download PNG</button>
+              </div>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Initialize QR Code for Linux cheat sheet with custom filename
+    function initLinuxQRCode() {
+      // Set current year
+      const yearElement = document.getElementById('year');
+      if (yearElement) {
+        yearElement.textContent = new Date().getFullYear();
+      }
+      
+      // Initialize QR Code with custom filename
+      new QRCodeManager({
+        downloadFilename: 'qr-linux-cheatsheet.png'
+      });
+    }
+
+    // Initialize when DOM is ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initLinuxQRCode);
+    } else {
+      initLinuxQRCode();
+    }
+  </script>
+</body>
+</html>
