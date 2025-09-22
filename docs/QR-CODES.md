@@ -4,12 +4,13 @@ The site generates QR codes dynamically in the footer for each page. There is no
 
 ## How it works
 
-- Offline encoder (vendored) at `qrcode.min.js` renders to a `<canvas>`.
+- Offline encoder (vendored) at `js/qrcode.min.js` renders to a `<canvas>`.
 - The input box lets you change the encoded text; by default it uses the current page URL (including `#/...`).
 - Actions:
   - Download PNG: exports at higher resolution using the current settings
   - ECL Correction Level: controls to adjust error correction (L → M → Q → H)
 - Info line shows the detected QR version and module size, plus the encoded length.
+- Implementation uses the shared `QRCodeManager` class from `js/qr-code-manager.js` for consistent functionality across all pages.
 
 ## Tips
 

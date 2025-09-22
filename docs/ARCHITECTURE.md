@@ -15,8 +15,9 @@ Single-file site hosted on GitHub Pages with Tailwind (CDN) and small JS modules
 
 Key files
 - `index.html` — UI, routing, calendar logic, footer QR generator, map pages
-- `qrcode.min.js` — local QR encoder (no CDN)
+- `js/qrcode.min.js` — local QR encoder (no CDN)
 - `js/qr-code-manager.js` — shared QR Code functionality
+- `resources/linux-cheatsheet-1.html` — standalone Linux cheat sheet page
 - `favicon.ico` — site favicon
 - `cybersmith.webp` — hero image and social sharing image
 - `map-rm4080-optimized.webp` — optimized campus map image

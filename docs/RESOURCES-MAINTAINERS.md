@@ -14,6 +14,7 @@ Category keys map to labels:
 - `ctf-competitions` → CTF Competitions
 - `ccri` → CCRI & Certs
 - `cyberknights` → Cyberknights
+- `linux` → Linux
 - `stem` → STEM Day
 
 ## How to Add/Edit

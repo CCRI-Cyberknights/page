@@ -17,7 +17,7 @@ Design goals:
 ## How to Access
 
 - Direct link: `#/resources`
-- Deep link to a category: `#/resources/ctf-competitions`, `#/resources/ctf-tools`, `#/resources/code-breaking`, `#/resources/ccri`, `#/resources/cyberknights`, `#/resources/stem`
+- Deep link to a category: `#/resources/ctf-competitions`, `#/resources/ctf-tools`, `#/resources/code-breaking`, `#/resources/ccri`, `#/resources/cyberknights`, `#/resources/linux`, `#/resources/stem`
 - From Home: “Resources” button near hero
 - From Club page (`#/cybersecurity`): “View Resources” link and tag chips under “What we do”/“Get involved”
 - From Linux page (`#/linux`): “Further reading” link
@@ -28,6 +28,7 @@ Design goals:
 - CTF Competitions: common competitions and leagues (e.g., NCL, NCAE CyberGames)
 - CCRI & Certs: CCRI pages, standardized credit policies, vendor training, certification roadmaps
 - Cyberknights: club presence and community links (Discord, GitHub) - **Default filter**
+- Linux: Linux-related resources, cheat sheets, and guides
 - STEM Day: special short-term resources (e.g., "STEM Day 2025 Cyber Game" repo)
 
 ## Page Structure
@@ -48,6 +49,7 @@ Design goals:
   - `ctf-competitions` → "CTF Competitions"
   - `ccri` → "CCRI & Certs"
   - `cyberknights` → "Cyberknights" (default filter)
+  - `linux` → "Linux"
   - `stem` → "STEM Day"
 
 Keep links stable and descriptive, avoid URL tracking parameters when possible. Prefer official sources and club-owned repos.

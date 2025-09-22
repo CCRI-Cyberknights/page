@@ -19,9 +19,10 @@ Provide a built-in generator for page-specific QR codes with minimal friction an
 
 ## Implementation Notes
 
-- Renderer and controls live in `updateFooterQr()` within `index.html`
+- QR Code functionality is implemented using the shared `QRCodeManager` class from `js/qr-code-manager.js`
 - Uses `QRCode.create()` to compute version for the info line, then `QRCode.toCanvas()` to draw
 - Export path renders to a temporary canvas and triggers an `<a download>` click
+- Auto-initializes on the main site; standalone pages can explicitly instantiate with custom options
 
 ## UX Layout Guidelines
 

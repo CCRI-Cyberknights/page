@@ -14,7 +14,7 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 - Key Landing Pages:
   - Home: Features a hero section announcing venue changes and club mission
   - Cybersecurity Club: Provides links to our main club page and the official signup form
-  - CyberKnights Linux: Contains step-by-step instructions for booting the Linux distro from a USB drive, including a list of common one-time boot menu keys
+  - CyberKnights Linux: Contains comprehensive boot guides including USB Boot Guide and VirtualBox Boot Guide, with step-by-step instructions and common one-time boot menu keys
   - Calendar: Displays meeting schedules with color-coded meeting types and clickable room numbers
   - Resources: Curated tools and links for learning and competitions with organized categories and default club filter
   - Campus Maps: Interactive maps for meeting locations (e.g., `/map-warwick-4080`)
@@ -40,6 +40,7 @@ To link a QR code to a specific page, use hash routes. For example:
   - CTF Competitions: `#/resources/ctf-competitions`
   - CCRI & Certs: `#/resources/ccri`
   - Cyberknights: `#/resources/cyberknights` (default)
+  - Linux: `#/resources/linux`
   - STEM Day: `#/resources/stem`
 
 ## Contribution

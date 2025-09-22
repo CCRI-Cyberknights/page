@@ -10,7 +10,7 @@ Common keys:
 - HP: Esc, F9
 - Lenovo: F12, Novo Button
 - Acer: F12
-- ASUS: Esc, F8
+- ASUS: Esc, F8, F12
 - MSI: F11
 - Toshiba: F12
 - Samsung: Esc, F12
