@@ -50,14 +50,14 @@ This guide provides practical examples for using the document loading system in 
 
 2. **Add SPA link**:
    ```html
-   <a href="#/document/resources/ctf-guide.html">CTF Guide</a>
+   <a href="#/document/ctf-guide.html">CTF Guide</a>
    ```
 
 3. **Add to resources data** (optional):
    ```javascript
    { 
      name: 'CTF Guide', 
-     url: '#/document/resources/ctf-guide.html', 
+     url: '#/document/ctf-guide.html', 
      cat: 'ctf-competitions', 
      desc: 'Comprehensive guide to Capture The Flag competitions' 
    }
@@ -106,7 +106,7 @@ This guide provides practical examples for using the document loading system in 
     <!-- Navigation -->
     <div class="mt-8 pt-6 border-t border-slate-700">
       <div class="flex flex-wrap gap-4 text-sm">
-        <a href="../#/document/resources/linux-cheatsheet-1.html" class="text-emerald-400 hover:text-emerald-300 underline">← Linux Basics</a>
+        <a href="../#/document/linux-cheatsheet-1.html" class="text-emerald-400 hover:text-emerald-300 underline">← Linux Basics</a>
         <span class="text-slate-500">•</span>
         <a href="../#/resources/linux" class="text-emerald-400 hover:text-emerald-300 underline">Linux Resources</a>
       </div>
@@ -163,13 +163,13 @@ const resources = [
   // ... existing resources
   { 
     name: 'CTF Guide', 
-    url: '#/document/resources/ctf-guide.html', 
+    url: '#/document/ctf-guide.html', 
     cat: 'ctf-competitions', 
     desc: 'Comprehensive guide to Capture The Flag competitions' 
   },
   { 
     name: 'Advanced Linux', 
-    url: '#/document/resources/linux-advanced.html', 
+    url: '#/document/linux-advanced.html', 
     cat: 'linux', 
     desc: 'Advanced Linux administration and networking' 
   }
@@ -182,9 +182,9 @@ const resources = [
 <!-- In any document -->
 <div class="mt-8 pt-6 border-t border-slate-700">
   <div class="flex flex-wrap gap-4 text-sm">
-    <a href="../#/document/resources/linux-cheatsheet-1.html" class="text-emerald-400 hover:text-emerald-300 underline">← Linux Basics</a>
+    <a href="../#/document/linux-cheatsheet-1.html" class="text-emerald-400 hover:text-emerald-300 underline">← Linux Basics</a>
     <span class="text-slate-500">•</span>
-    <a href="../#/document/resources/ctf-guide.html" class="text-emerald-400 hover:text-emerald-300 underline">CTF Guide</a>
+    <a href="../#/document/ctf-guide.html" class="text-emerald-400 hover:text-emerald-300 underline">CTF Guide</a>
     <span class="text-slate-500">•</span>
     <a href="../#/resources" class="text-emerald-400 hover:text-emerald-300 underline">All Resources</a>
   </div>
@@ -254,7 +254,7 @@ resources/
    ```
 
 2. **Test SPA mode**:
-   - Navigate to `http://localhost:8000/#/document/resources/your-file.html`
+   - Navigate to `http://localhost:8000/#/document/your-file.html`
    - Verify content loads correctly
    - Check navigation links work
 
@@ -267,7 +267,7 @@ resources/
 
 1. **Deploy to GitHub Pages**
 2. **Test both modes**:
-   - SPA: `https://your-site.github.io/page/#/document/resources/your-file.html`
+   - SPA: `https://your-site.github.io/page/#/document/your-file.html`
    - Standalone: `https://your-site.github.io/page/resources/your-file.html`
 
 ## Troubleshooting

@@ -5,7 +5,7 @@
 - URLs use `#/page` (e.g., `#/home`, `#/cybersecurity`, `#/linux`, `#/calendar`, `#/resources`).
 - Resources supports optional subpaths for preselected filters: `#/resources/<filter>` where `<filter>` is one of `all`, `cyberknights`, `ccri`, `ctf-competitions`, `ctf-tools`, `stem`, `career`, `linux`.
 - Maps use campus-specific routes: `#/map-{campus}-{room}` (e.g., `#/map-warwick-4080`).
-- Documents use dynamic loading routes: `#/document/path/to/file.html` (e.g., `#/document/resources/linux-cheatsheet-1.html`).
+- Documents use dynamic loading routes: `#/document/filename.html` (e.g., `#/document/linux-cheatsheet-1.html`).
 - On load, a normalizer converts legacy `?page=` URLs to hash routes via `history.replaceState`.
 - Router logic lives in `index.html` and re-renders on `hashchange`.
 
@@ -13,8 +13,8 @@
 
 The system supports loading standalone HTML files into the SPA using the `#/document/` prefix:
 
-- **Route Format**: `#/document/path/to/file.html`
-- **Example**: `#/document/resources/linux-cheatsheet-1.html`
+- **Route Format**: `#/document/filename.html`
+- **Example**: `#/document/linux-cheatsheet-1.html`
 - **Behavior**: Fetches the HTML file and injects its body content into the document template
 - **Dual Mode**: Files work both as SPA routes and as standalone HTML documents
 

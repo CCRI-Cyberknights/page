@@ -51,8 +51,13 @@ To link a QR code to a specific page, use hash routes. For example:
 The site includes a sophisticated document loading system that allows standalone HTML files to be seamlessly integrated into the Single-Page Application (SPA) while maintaining their ability to function as independent documents.
 
 **Dual-Mode Operation:**
-- **SPA Mode**: Documents loaded within the main application shell (`#/document/path/to/file.html`)
-- **Standalone Mode**: Documents accessed directly as independent HTML files (`path/to/file.html`)
+- **SPA Mode**: Documents loaded within the main application shell (`#/document/filename.html`)
+- **Standalone Mode**: Documents accessed directly as independent HTML files (`resources/filename.html`)
+
+**Clean Design:**
+- Documents display with only their native headers (no template headers)
+- Clean URLs without path prefixes for better UX
+- Seamless integration while preserving original document design
 
 **Benefits:**
 - Seamless user experience with consistent navigation

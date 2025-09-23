@@ -485,11 +485,6 @@
 
   <template id="page-document">
     <section class="space-y-6">
-      <div class="text-center mb-8">
-        <h2 class="text-3xl sm:text-4xl font-bold mb-2" id="document-title">Loading Document...</h2>
-        <p class="text-slate-300" id="document-subtitle">Please wait while the document loads.</p>
-      </div>
-
       <div id="document-content" class="space-y-6">
         <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
           <div class="text-center">
@@ -596,13 +591,13 @@
       
       const app = document.getElementById('app');
 
-      // Handle document pages (e.g., #/document/resources/linux-cheatsheet-1.html)
+      // Handle document pages (e.g., #/document/linux-cheatsheet-1.html)
       if (page === 'document' && segments.length > 0) {
         // Use the document template
         app.innerHTML = routes['document'];
 
         // Build file path (e.g. resources/linux-cheatsheet-1.html)
-        const filePath = segments.join('/');
+        const filePath = 'resources/' + segments.join('/');
 
         try {
           const res = await fetch(filePath);
@@ -610,8 +605,6 @@
           const bodyMatch = text.match(/<body[^>]*>([\s\S]*)<\/body>/i);
           const content = bodyMatch ? bodyMatch[1] : text;
 
-          document.getElementById('document-title').textContent = filePath;
-          document.getElementById('document-subtitle').textContent = '';
           document.getElementById('document-content').innerHTML = content;
         } catch (err) {
           document.getElementById('document-content').innerHTML =
@@ -1094,7 +1087,7 @@
         { name: 'STEM Day 2025 Cyber Game', url: 'https://github.com/CCRI-Cyberknights/stemday_takehome.git', cat: 'stem' },
         { 
           name: 'Linux Cheat Sheet 1', 
-          url: '#/document/resources/linux-cheatsheet-1.html', 
+          url: '#/document/linux-cheatsheet-1.html', 
           cat: 'linux', 
           desc: 'Essential Linux commands and file system navigation guide',
           summary: 'The Linux Cheat Sheet 1 is an essential guide for cybersecurity students, covering fundamental commands for file system navigation, operations, permissions, processes, networking, text processing, archive management, and system information.',

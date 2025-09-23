@@ -16,14 +16,27 @@ The system supports two modes of operation:
 ### Technical Implementation
 
 #### Route Structure
-- **SPA Route**: `#/document/path/to/file.html`
-- **Standalone Route**: `path/to/file.html` (direct file access)
+- **SPA Route**: `#/document/filename.html` (clean URLs without path prefixes)
+- **Standalone Route**: `resources/filename.html` (direct file access)
 
 #### Core Components
 
-1. **Document Template**: `page-document` template in `index.html`
+1. **Document Template**: `page-document` template in `index.html` (minimal template with no headers)
 2. **Async Router**: Enhanced `render()` function with fetch capability
 3. **Content Extraction**: Body content extraction from full HTML documents
+
+## Template Design
+
+### Clean Document Display
+
+The document template (`page-document`) uses a minimal design approach:
+
+- **No Template Headers**: Documents display with only their native headers
+- **Clean URLs**: `#/document/filename.html` instead of `#/document/resources/filename.html`
+- **Direct Content Loading**: Content loads directly into `#document-content` without wrapper headers
+- **Bottom Navigation**: Simple navigation links at the bottom for context
+
+This approach ensures documents maintain their original design and hierarchy while being seamlessly integrated into the SPA.
 
 ## How It Works
 
@@ -56,7 +69,8 @@ async function render() {
   if (page === 'document' && segments.length > 0) {
     app.innerHTML = routes['document'];
     
-    const filePath = segments.join('/');
+    // Build file path with resources/ prefix for clean URLs
+    const filePath = 'resources/' + segments.join('/');
     
     try {
       const res = await fetch(filePath);
@@ -64,8 +78,7 @@ async function render() {
       const bodyMatch = text.match(/<body[^>]*>([\s\S]*)<\/body>/i);
       const content = bodyMatch ? bodyMatch[1] : text;
       
-      document.getElementById('document-title').textContent = filePath;
-      document.getElementById('document-subtitle').textContent = '';
+      // Load content directly - no template headers
       document.getElementById('document-content').innerHTML = content;
     } catch (err) {
       document.getElementById('document-content').innerHTML =
@@ -105,14 +118,14 @@ async function render() {
 
 2. **Add SPA Link**:
    ```html
-   <a href="#/document/resources/new-guide.html">New Guide</a>
+   <a href="#/document/new-guide.html">New Guide</a>
    ```
 
 3. **Add to Resources Data** (if applicable):
    ```javascript
    { 
      name: 'New Guide', 
-     url: '#/document/resources/new-guide.html', 
+     url: '#/document/new-guide.html', 
      cat: 'category', 
      desc: 'Description of the guide' 
    }
@@ -123,7 +136,7 @@ async function render() {
 #### Internal SPA Navigation
 ```html
 <!-- Links within the SPA -->
-<a href="#/document/resources/linux-cheatsheet-1.html">Linux Cheat Sheet</a>
+<a href="#/document/linux-cheatsheet-1.html">Linux Cheat Sheet</a>
 ```
 
 #### External/Direct Access
