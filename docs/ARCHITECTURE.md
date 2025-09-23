@@ -8,7 +8,7 @@ Single-file site hosted on GitHub Pages with Tailwind (CDN) and small JS modules
 - Navigation: Simplified direct navigation (no hamburger menu) with clean header design featuring logo only.
 - Calendar: Google embed (default) with optional ICS-powered features (toggle via `ENABLE_CUSTOM_CALENDAR`). Features color-coded meeting types and clickable room numbers.
 - QR Codes: Per-page footer generator renders to canvas using vendored encoder. Controls allow changing ECL (L/M/Q/H). PNG export uses the current ECL.
-- Resources: `#/resources` route renders from a single in-page data array with card-based display. Features organized categories, beginner guidance, and defaults to "Cyberknights" filter. Supports deep-linking via `#/resources/<filter>` and syncs chip clicks back to the hash.
+- Resources: `#/resources` route renders from a single in-page data array with enhanced card-based display. Features organized categories, beginner guidance, modal system for detailed views, dynamic button text, and defaults to "Cyberknights" filter. Supports deep-linking via `#/resources/<filter>` and syncs chip clicks back to the hash. Cards use 12px font for summaries with modal enlargement for detailed reading.
 - Documents: `#/document/path/to/file.html` routes load standalone HTML files into the SPA shell. Supports dual-mode operation (SPA integration and standalone access).
 - Maps: Campus-specific map pages (e.g., `/map-warwick-4080`) with optimized images and meeting location details.
 - Testing: Comprehensive Selenium WebDriver test suite covering client-side routing, QR code functionality, and cross-page navigation. Tests run in headless Chrome with isolated virtual environment.
@@ -40,3 +40,5 @@ Conventions
 - No build step; all assets static
 - Prefer hash links (`#/page`) for Pages compatibility
 - Keep code readable and small; avoid heavy dependencies
+- DRY principles: Reusable functions for button text, category labels, CSS classes, and SVG icons
+- Enhanced readability: 12px font for card summaries, modal enlargement for detailed content
