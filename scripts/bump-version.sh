@@ -126,6 +126,28 @@ analyze_file_changes() {
     echo "patch"
 }
 
+# Function to prompt for manual approval
+prompt_for_approval() {
+    local bump_type=$1
+    local current_version=$2
+    
+    echo -e "${YELLOW}⚠️  Manual approval required for ${bump_type^^} version bump${NC}"
+    echo -e "${BLUE}Current version: ${current_version}${NC}"
+    echo -e "${YELLOW}This change would bump to: ${bump_type}${NC}"
+    echo -e "${BLUE}Commit message: $(git log -1 --pretty=%B)${NC}"
+    echo ""
+    echo -e "${YELLOW}Do you want to proceed with the ${bump_type} version bump? (y/N)${NC}"
+    read -r response
+    
+    if [[ "$response" =~ ^[Yy]$ ]]; then
+        echo -e "${GREEN}✅ Approved! Proceeding with ${bump_type} bump...${NC}"
+        return 0
+    else
+        echo -e "${RED}❌ ${bump_type} bump cancelled. Skipping version bump.${NC}"
+        return 1
+    fi
+}
+
 # Main logic
 case "$1" in
     "auto")
@@ -143,7 +165,7 @@ case "$1" in
         file_bump=$(analyze_file_changes)
         echo -e "${BLUE}File analysis: ${file_bump}${NC}"
         
-        # Use the more conservative bump (higher priority)
+        # Determine bump type
         if [[ "$commit_bump" == "major" || "$file_bump" == "major" ]]; then
             bump_type="major"
         elif [[ "$commit_bump" == "minor" || "$file_bump" == "minor" ]]; then
@@ -152,7 +174,18 @@ case "$1" in
             bump_type="patch"
         fi
         
-        bump_version "$bump_type"
+        # Only auto-bump patch versions, require approval for minor/major
+        if [[ "$bump_type" == "patch" ]]; then
+            echo -e "${GREEN}✅ Auto-approving PATCH bump${NC}"
+            bump_version "$bump_type"
+        else
+            if prompt_for_approval "$bump_type" "$CURRENT_VERSION"; then
+                bump_version "$bump_type"
+            else
+                echo -e "${YELLOW}⚠️  Skipping version bump due to user cancellation${NC}"
+                exit 0
+            fi
+        fi
         ;;
     "patch")
         echo -e "${GREEN}PATCH bump requested${NC}"
@@ -172,11 +205,12 @@ case "$1" in
         ;;
     *)
         echo -e "${RED}Usage: $0 {auto|patch|minor|major|show}${NC}"
-        echo -e "${BLUE}  auto   - Intelligent version bumping based on commit and file analysis${NC}"
+        echo -e "${BLUE}  auto   - Intelligent version bumping (patch auto-approved, minor/major require approval)${NC}"
         echo -e "${BLUE}  patch  - Bump patch version (1.0.0 → 1.0.1)${NC}"
         echo -e "${BLUE}  minor  - Bump minor version (1.0.0 → 1.1.0)${NC}"
         echo -e "${BLUE}  major  - Bump major version (1.0.0 → 2.0.0)${NC}"
         echo -e "${BLUE}  show   - Show current version and commit info${NC}"
+        echo -e "${YELLOW}Note: Only PATCH bumps are auto-approved. MINOR/MAJOR bumps require manual approval.${NC}"
         exit 1
         ;;
 esac
