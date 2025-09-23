@@ -10,10 +10,11 @@ Resources are defined in `index.html` inside `renderResourcesPage()` as:
 
 Category keys map to labels (in display order):
 - `cyberknights` → Cyberknights (default filter)
-- `ccri` → CCRI & Certs
+- `ccri` → CCRI
 - `ctf-competitions` → CTF Competitions
 - `ctf-tools` → CTF & Code Breaking Tools
 - `stem` → STEM Day
+- `career` → Career
 - `linux` → Linux
 
 ## How to Add/Edit

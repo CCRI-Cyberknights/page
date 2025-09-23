@@ -49,27 +49,24 @@ Both URL formats serve identical content:
 - Issue appeared after major refactoring commit
 
 **Root Cause:**
-The `page-resources-linux` template existed but wasn't registered in the `routes` object. The routing logic had a special case that incorrectly used the main resources page instead of the Linux-specific template.
+The Linux resources page was using a separate template (`page-resources-linux`) that wasn't properly integrated with the main resources system.
 
 **Solution:**
-1. Add the missing route to the `routes` object:
-   ```javascript
-   const routes = {
-     // ... other routes
-     'resources/linux': document.getElementById('page-resources-linux').innerHTML,
-   };
-   ```
+1. **Integrated Linux into main resources system** - Removed the separate `page-resources-linux` template
+2. **Updated routing** - Linux resources now use the main resources template with filtering
+3. **Enhanced intro text** - Added Linux-specific intro text that displays when navigating to `/resources/linux`
 
-2. Remove the incorrect special case logic:
-   ```javascript
-   // REMOVED (incorrect)
-   if (fullRoute === 'resources/linux') {
-     html = routes.resources; // Wrong template!
-   }
-   
-   // KEPT (correct)
-   html = routes[fullRoute] || routes[page] || routes.cybersecurity;
-   ```
+**Current Implementation:**
+- Linux resources are now part of the main resources data array
+- The `/resources/linux` route uses the main resources template with `linux` filter preselected
+- Linux-specific intro text displays automatically when navigating to the Linux filter
+- All dynamic functionality (search, filtering, transitions) works for Linux resources
+
+**Verification:**
+- `#/resources/linux` now displays Linux resources with proper filtering
+- Linux filter button is active when navigating to `/resources/linux`
+- Linux-specific intro text displays correctly
+- Dynamic intro text transitions work when clicking filter buttons
 
 ## GitHub Pages Configuration
 

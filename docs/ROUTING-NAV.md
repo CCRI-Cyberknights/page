@@ -3,7 +3,7 @@
 ## Hash Routing
 
 - URLs use `#/page` (e.g., `#/home`, `#/cybersecurity`, `#/linux`, `#/calendar`, `#/resources`).
-- Resources supports optional subpaths for preselected filters: `#/resources/<filter>` where `<filter>` is one of `all`, `code-breaking`, `ctf-tools`, `ctf-competitions`, `ccri`, `cyberknights`, `stem`.
+- Resources supports optional subpaths for preselected filters: `#/resources/<filter>` where `<filter>` is one of `all`, `cyberknights`, `ccri`, `ctf-competitions`, `ctf-tools`, `stem`, `career`, `linux`.
 - Maps use campus-specific routes: `#/map-{campus}-{room}` (e.g., `#/map-warwick-4080`).
 - Documents use dynamic loading routes: `#/document/path/to/file.html` (e.g., `#/document/resources/linux-cheatsheet-1.html`).
 - On load, a normalizer converts legacy `?page=` URLs to hash routes via `history.replaceState`.

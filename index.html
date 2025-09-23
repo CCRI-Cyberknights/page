@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CCRI Cyberknights Club</title>
   <meta name="description" content="A centralized hub for the CCRI Cyberknights Club. Find information about when and where to find the Cyberknights, and much more!">
-  <meta name="version" content="1.2.2">
+  <meta name="version" content="1.2.3">
   <meta property="og:title" content="CCRI Cyberknights Club">
   <meta property="og:description" content="A centralized hub for the CCRI Cyberknights Club. Find information about when and where to find the Cyberknights, and much more!">
   <meta property="og:image" content="https://ccri-cyberknights.github.io/page/images/branding/cybersmith.webp">
@@ -17,6 +17,31 @@
     :root { color-scheme: dark; }
     
     /* Version: 1.2.1 -->
+    
+    /* Dynamic intro text with smooth CSS transitions */
+    #intro-text {
+      position: relative;
+      color: #fff;
+      text-shadow: 0 0 5px rgba(255, 165, 0, 0.5);
+      transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: scale(1);
+    }
+
+    #intro-text:hover {
+      text-shadow: 0 0 15px rgba(255, 165, 0, 0.8);
+      transform: scale(1.02);
+    }
+
+    /* Smooth text change animation */
+    .text-change {
+      animation: textChange 0.8s ease-out;
+    }
+
+    @keyframes textChange {
+      0% { opacity: 0.7; transform: scale(0.98); }
+      50% { opacity: 1; transform: scale(1.02); }
+      100% { opacity: 1; transform: scale(1); }
+    }
     
     /* Spark glow animation for Sign Up button */
     .btn-sparkle {
@@ -93,7 +118,7 @@
         </div>
         <div class="text-slate-500">•</div>
         <div>
-          <span id="version" title="Commit: ae5d7ec - 2025-09-23 11:24:28 -0400" class="hover:text-slate-300 cursor-pointer transition-colors" style="position: relative;">v1.2.2</span>
+          <span id="version" title="Commit: ae5d7ec - 2025-09-23 11:24:28 -0400" class="hover:text-slate-300 cursor-help transition-colors">v1.2.3</span>
         </div>
       </div>
       <div class="relative">
@@ -203,6 +228,10 @@
             <span class="font-semibold text-white mr-2">•</span>
             <span>Welcoming environment fostering <span class="font-semibold text-white">Excitement</span>, <span class="font-semibold text-white">Opportunity</span>, and <span class="font-semibold text-white">Belonging</span></span>
           </li>
+          <li class="flex items-start">
+            <span class="font-semibold text-white mr-2">•</span>
+            <span>Career boost: Resume reviews, mock interviews, Handshake tips, and industry guest speakers</span>
+          </li>
         </ul>
       </div>
     </section>
@@ -240,7 +269,7 @@
     <section class="mt-12 grid sm:grid-cols-2 gap-6">
       <div class="p-5 rounded-lg border border-slate-800 bg-slate-900/40">
         <h3 class="font-semibold mb-2">What we do</h3>
-        <p class="text-slate-300 text-sm">Workshops, Linux hardening, CTFs, mentoring, and community.</p>
+        <p class="text-slate-300 text-sm">Our members build skills through CTF competitions, land jobs via networking, and form lasting connections.</p>
         <div class="mt-3 flex flex-wrap gap-2 text-xs">
           <a href="#/resources/ctf-tools" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CTF & Code Breaking</a>
           <a href="#/resources/ctf-competitions" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CTF Competitions</a>
@@ -428,15 +457,16 @@
       <h2 class="text-3xl sm:text-4xl font-bold">Resources</h2>
       
       <div class="p-4 rounded-lg border border-emerald-500/40 bg-emerald-900/10 text-sm mb-6" style="color: var(--neon-surge);">
-        <p>Essential tools and competitions for learning cybersecurity—whether you're just starting with CTF basics or sharpening your skills in advanced challenges.</p>
+        <p id="intro-text">Essential tools and competitions for learning cybersecurity—whether you're just starting with CTF basics or sharpening your skills in advanced challenges.</p>
       </div>
 
       <div class="flex flex-wrap gap-2 text-xs">
         <button data-filter="cyberknights" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Cyberknights</button>
-        <button data-filter="ccri" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CCRI & Certs</button>
+        <button data-filter="ccri" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CCRI</button>
         <button data-filter="ctf-competitions" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CTF Competitions</button>
         <button data-filter="ctf-tools" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CTF & Code Breaking Tools</button>
         <button data-filter="stem" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">STEM Day</button>
+        <button data-filter="career" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Career</button>
         <button data-filter="linux" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Linux</button>
       </div>
 
@@ -449,39 +479,6 @@
 
       <div class="mt-6">
         <a href="#/cybersecurity" class="text-emerald-400 hover:text-emerald-300">Back to Club</a>
-      </div>
-    </section>
-  </template>
-
-  <template id="page-resources-linux">
-    <section class="space-y-6">
-      <div class="text-center mb-8">
-        <h2 class="text-3xl sm:text-4xl font-bold mb-2">Linux Resources</h2>
-        <p class="text-slate-300">Essential guides and cheat sheets for mastering Linux command line.</p>
-      </div>
-
-      <div class="space-y-6">
-        <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
-          <h3 class="text-lg font-semibold mb-4" style="color: var(--neon-surge);">📚 Available Resources</h3>
-          <div class="space-y-3">
-            <a href="#/document/resources/linux-cheatsheet-1.html" 
-               class="block p-4 rounded border border-slate-700 bg-slate-800/60 hover:border-emerald-600 hover:bg-slate-800/80 transition-colors">
-              <div class="flex items-center justify-between">
-                <div>
-                  <div class="text-sm font-medium text-slate-100">Linux Cheat Sheet 1 📁</div>
-                  <div class="text-xs text-slate-400 mt-1">Essential Linux commands and file system navigation guide</div>
-                </div>
-                <div class="text-emerald-400">→</div>
-              </div>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <div class="mt-8">
-        <a href="#/resources" class="text-emerald-400 hover:text-emerald-300">← Back to Resources</a>
-        <span class="mx-2">•</span>
-        <a href="#/linux" class="text-emerald-400 hover:text-emerald-300">Linux Boot Guide</a>
       </div>
     </section>
   </template>
@@ -575,7 +572,6 @@
       linux: document.getElementById('page-linux').innerHTML,
       calendar: document.getElementById('page-calendar').innerHTML,
       resources: document.getElementById('page-resources') ? document.getElementById('page-resources').innerHTML : '<section class="space-y-6"><h2 class="text-3xl sm:text-4xl font-bold">Resources</h2><p class="text-slate-300">Coming soon.</p></section>',
-      'resources/linux': document.getElementById('page-resources-linux').innerHTML,
       'map-warwick-4080': document.getElementById('page-map-warwick-4080').innerHTML,
       'document': document.getElementById('page-document').innerHTML
     };
@@ -684,9 +680,6 @@
       updateFooterQr(page);
       if (page === 'resources') {
         try { renderResourcesPage(segments[0] || 'all'); } catch {}
-      }
-      if (fullRoute === 'resources/linux') {
-        try { renderResourcesPage('linux'); } catch {}
       }
     }
 
@@ -981,17 +974,27 @@
 
     // QR Code functionality is now handled by qr-code-manager.js
 
+    // Category-specific intro texts (global scope)
+    const categoryTexts = {
+      'ctf-tools': '🔧 CTF & Code Breaking Tools\n\nVersatile online tools for cryptanalysis and data manipulation in Capture the Flag (CTF) challenges. These include quipqiup for automatic cipher solving, Boxentriq for identifying and decoding ciphers, and CyberChef as a comprehensive "Swiss Army knife" for encoding, decoding, and analyzing data.',
+      'ccri': '🏫 CCRI\n\nInstitutional support for cybersecurity education through CCRI. Key links cover CCRI\'s cybersecurity and safety site, additional resources, standardized credit awards for prior learning, and a detailed cyber pathway guide outlining degrees, certificates, career outlooks, and student services.',
+      'career': '🎯 Career\n\nProfessional development in tech and cybersecurity fields. It includes Paul Jerimy\'s Security Certification Roadmap for progressing from beginner to expert certifications, CompTIA\'s tool for exploring job roles in areas like cybersecurity and networking, and Handshake, a college-integrated platform for job searching, resume building, and career opportunities.',
+      'cyberknights': '⚔️ Cyberknights\n\nInternal resources supporting the CCRI Cyberknights Club\'s activities and community. It features the club\'s GitHub repository for projects and code, the Discord server for discussions, and the official CCRI cybersecurity student club page for information and involvement.',
+      'ctf-competitions': '🏆 CTF Competitions\n\nNational-level cybersecurity competitions for skill-building. These include the National Cyber League (NCL) for hands-on challenges and the National Centers of Academic Excellence (NCAE) CyberGames for collegiate defense and offense exercises.',
+      'stem': '🔬 STEM Day\n\nResources for STEM-related events, including the 2025 Cyber Game repository on GitHub, designed for interactive cybersecurity activities and take-home challenges during STEM Day.',
+      'linux': '🐧 Linux\n\nFoundational Linux resources for cybersecurity learners, including a cheat sheet with essential commands for file navigation, permissions, processes, networking, and more, accessible via an internal document link.'
+    };
+
     function renderResourcesPage(preselectedFilter) {
       const data = [
         { name: 'quipqiup', url: 'https://www.quipqiup.com/', cat: 'ctf-tools', desc: 'Automatic cipher solver for cryptanalysis' },
         { name: 'Boxentriq', url: 'https://www.boxentriq.com/', cat: 'ctf-tools', desc: 'Online cipher identifier and decoder' },
         { name: 'CyberChef', url: 'https://cyberchef.io/', cat: 'ctf-tools', desc: 'Swiss Army knife for data analysis and encoding' },
         { name: 'CCRI Cybersecurity & Safety site', url: 'https://www.ccri.edu/its/cybersecurity/', cat: 'ccri' },
-        { name: 'Fortinet Training Institute', url: 'https://training.fortinet.com/', cat: 'ccri' },
-        { name: 'Security Certification Roadmap (Paul Jerimy)', url: 'https://pauljerimy.com/security-certification-roadmap/', cat: 'ccri' },
+        { name: 'Security Certification Roadmap (Paul Jerimy)', url: 'https://pauljerimy.com/security-certification-roadmap/', cat: 'career', desc: 'Comprehensive roadmap of cybersecurity certifications from beginner to expert level' },
         { name: 'CCRI Cybersecurity Resources', url: 'https://www.ccri.edu/comp/cybersecurity/websites.html', cat: 'ccri' },
         { name: 'CCRI Standardized Credit Awards', url: 'https://www.ccri.edu/priorlearning/creditawards.html', cat: 'ccri' },
-        { name: 'CompTIA: Explore Tech Careers', url: 'https://www.comptia.org/en-us/explore-careers/job-roles/?page=1&category=all', cat: 'ccri' },
+        { name: 'CompTIA: Explore Tech Careers', url: 'https://www.comptia.org/en-us/explore-careers/job-roles/?page=1&category=all', cat: 'career', desc: 'Comprehensive information on tech careers spanning cybersecurity, cloud, networking, and more' },
         { name: 'CCRI Cyber Pathway', url: 'https://www.ccri.edu/comp/pathways/cyberpathway.html', cat: 'ccri', desc: 'Comprehensive guide to CCRI cybersecurity degrees, certificates, career outlook, and student services' },
         { name: 'Cyberknights GitHub', url: 'https://github.com/CCRI-Cyberknights/', cat: 'cyberknights' },
         { name: 'Cyberknights Club Discord', url: 'https://discord.com/channels/1159622463647387719/1159622463647387722', cat: 'cyberknights' },
@@ -999,13 +1002,14 @@
         { name: 'NCAE CyberGames', url: 'https://ncaecybergames.org/#', cat: 'ctf-competitions' },
         { name: 'CCRI Cybersecurity Student Club', url: 'https://www.ccri.edu/comp/cybersecurity/studentclub.html', cat: 'cyberknights' },
         { name: 'STEM Day 2025 Cyber Game', url: 'https://github.com/CCRI-Cyberknights/stemday_takehome.git', cat: 'stem' },
-        { name: 'Linux Cheat Sheet 1', url: '#/document/resources/linux-cheatsheet-1.html', cat: 'linux', desc: 'Essential Linux commands and file system navigation guide' }
+        { name: 'Linux Cheat Sheet 1', url: '#/document/resources/linux-cheatsheet-1.html', cat: 'linux', desc: 'Essential Linux commands and file system navigation guide' },
+        { name: 'Handshake', url: 'https://ccri.joinhandshake.com/login', cat: 'career', desc: 'College-integrated career platform for job seeking and professional development' }
       ];
 
       const grid = document.getElementById('resources-grid');
       const search = document.getElementById('resources-search');
       const filterButtons = Array.from(document.querySelectorAll('[data-filter]'));
-      const catNames = { 'ctf-tools': 'CTF & Code Breaking Tools', 'ctf-competitions': 'CTF Competitions', 'ccri': 'CCRI & Certs', 'cyberknights': 'Cyberknights', 'stem': 'STEM Day', 'linux': 'Linux' };
+      const catNames = { 'ctf-tools': 'CTF & Code Breaking Tools', 'ctf-competitions': 'CTF Competitions', 'ccri': 'CCRI', 'cyberknights': 'Cyberknights', 'stem': 'STEM Day', 'linux': 'Linux', 'career': 'Career' };
       const availableFilters = new Set(filterButtons.map(b => b.dataset.filter));
       const initialFilter = (preselectedFilter && availableFilters.has(preselectedFilter)) ? preselectedFilter : 'cyberknights';
 
@@ -1052,16 +1056,37 @@
         btn.addEventListener('click', (e) => {
           e.preventDefault();
           const filter = btn.dataset.filter || 'all';
+          
+          // Option 3: Change hash first, then smooth CSS transition
           if (filter === 'all') {
             location.hash = '#/resources';
           } else {
             location.hash = '#/resources/' + filter;
           }
+          
+          // Wait for re-render, then apply smooth transition
+          setTimeout(() => {
+            const introText = document.getElementById('intro-text');
+            if (introText && categoryTexts[filter]) {
+              // Apply smooth CSS transition
+              introText.classList.add('text-change');
+              introText.textContent = categoryTexts[filter];
+              setTimeout(() => introText.classList.remove('text-change'), 800);
+            }
+          }, 100); // Small delay to allow re-render
         });
       });
       if (search) search.addEventListener('input', applyFilters);
       setActive(initialFilter);
       applyFilters();
+      
+      // Update intro text for preselected filter
+      if (preselectedFilter && categoryTexts[preselectedFilter]) {
+        const introText = document.getElementById('intro-text');
+        if (introText) {
+          introText.textContent = categoryTexts[preselectedFilter];
+        }
+      }
     }
 
     window.addEventListener('hashchange', render);

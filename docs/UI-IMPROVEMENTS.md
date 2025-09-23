@@ -83,6 +83,8 @@ bg-[#00703d] /* Banner (reverted to original) */
 'ctf-tools': 'CTF & Code Breaking Tools'
 ```
 
+**Note:** The "code-breaking" category was merged into "ctf-tools" and is no longer used in the current implementation.
+
 ### Default Filter Change
 ```javascript
 // Before: Default to 'all'

@@ -17,24 +17,25 @@ Design goals:
 ## How to Access
 
 - Direct link: `#/resources`
-- Deep link to a category: `#/resources/ctf-competitions`, `#/resources/ctf-tools`, `#/resources/code-breaking`, `#/resources/ccri`, `#/resources/cyberknights`, `#/resources/linux`, `#/resources/stem`
+- Deep link to a category: `#/resources/ctf-competitions`, `#/resources/ctf-tools`, `#/resources/ccri`, `#/resources/cyberknights`, `#/resources/linux`, `#/resources/stem`, `#/resources/career`
 - From Home: “Resources” button near hero
 - From Club page (`#/cybersecurity`): “View Resources” link and tag chips under “What we do”/“Get involved”
 - From Linux page (`#/linux`): "Linux Learner's Guide" link
 
 ## Categories
 
-- CTF & Code Breaking Tools: Combined category for cipher solvers, classical crypto aids, and multitool utilities (e.g., quipqiup, Boxentriq, CyberChef)
-- CTF Competitions: common competitions and leagues (e.g., NCL, NCAE CyberGames)
-- CCRI & Certs: CCRI pages, standardized credit policies, vendor training, certification roadmaps
 - Cyberknights: club presence and community links (Discord, GitHub) - **Default filter**
-- Linux: Linux-related resources, cheat sheets, and guides
+- CCRI: CCRI pages, standardized credit policies, vendor training, certification roadmaps
+- CTF Competitions: common competitions and leagues (e.g., NCL, NCAE CyberGames)
+- CTF & Code Breaking Tools: Combined category for cipher solvers, classical crypto aids, and multitool utilities (e.g., quipqiup, Boxentriq, CyberChef)
 - STEM Day: special short-term resources (e.g., "STEM Day 2025 Cyber Game" repo)
+- Career: professional development resources including certification roadmaps and job platforms
+- Linux: Linux-related resources, cheat sheets, and guides
 
 ## Page Structure
 
 - Search/filter: one input filters by name, category label, or URL
-- Category chips: quick filters; "Cyberknights" selected by default; order: Cyberknights, CCRI & Certs, CTF Competitions, CTF & Code Breaking Tools, STEM Day, Linux
+- Category chips: quick filters; "Cyberknights" selected by default; order: Cyberknights, CCRI, CTF Competitions, CTF & Code Breaking Tools, STEM Day, Career, Linux
 - Cards grid: cards with name, category, and descriptions for better discoverability
 - Beginner guidance: "Getting Started?" section to help new users navigate resources
 - Back link: returns to `#/cybersecurity`
@@ -47,9 +48,10 @@ Design goals:
 - Category labels map:
   - `ctf-tools` → "CTF & Code Breaking Tools"
   - `ctf-competitions` → "CTF Competitions"
-  - `ccri` → "CCRI & Certs"
+  - `ccri` → "CCRI"
   - `cyberknights` → "Cyberknights" (default filter)
   - `linux` → "Linux"
   - `stem` → "STEM Day"
+  - `career` → "Career"
 
 Keep links stable and descriptive, avoid URL tracking parameters when possible. Prefer official sources and club-owned repos.
