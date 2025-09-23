@@ -559,6 +559,7 @@
       linux: document.getElementById('page-linux').innerHTML,
       calendar: document.getElementById('page-calendar').innerHTML,
       resources: document.getElementById('page-resources') ? document.getElementById('page-resources').innerHTML : '<section class="space-y-6"><h2 class="text-3xl sm:text-4xl font-bold">Resources</h2><p class="text-slate-300">Coming soon.</p></section>',
+      'resources/linux': document.getElementById('page-resources-linux').innerHTML,
       'map-warwick-4080': document.getElementById('page-map-warwick-4080').innerHTML
     };
 
@@ -581,12 +582,7 @@
       const fullRoute = segments.length > 0 ? `${pageName}/${segments[0]}` : pageName;
       
       let html;
-      if (fullRoute === 'resources/linux') {
-        // Use the main resources template for Linux resources
-        html = routes.resources;
-      } else {
-        html = routes[fullRoute] || routes[page] || routes.cybersecurity;
-      }
+      html = routes[fullRoute] || routes[page] || routes.cybersecurity;
       document.getElementById('app').innerHTML = html;
       // Mobile nav removed - using direct navigation
       if (page === 'calendar') {

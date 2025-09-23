@@ -85,6 +85,7 @@ If you are a club member, you can fork this repository and submit a pull request
 - Resources Maintainers: `docs/RESOURCES-MAINTAINERS.md`
 - Site Operations: `docs/SITE-OPERATIONS.md`
 - Resources page: `docs/RESOURCES.md`
+- Troubleshooting: `docs/TROUBLESHOOTING.md`
 - Color Palette: `docs/color-palettes/COLOR-PALETTE.md`
 
 ## Calendar Integration (Developer Spec)
