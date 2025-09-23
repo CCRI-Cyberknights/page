@@ -34,11 +34,21 @@ Category keys map to labels (in display order):
 
 ## Enhanced Resource Cards
 
-Resources now support enhanced display with:
+Resources now support comprehensive descriptions with:
 - **Summary**: One-sentence description visible on cards (12px font)
 - **Detailed Summary**: Comprehensive description accessible via modal (16px font)
 - **Modal System**: Click any card to open enlarged view with better readability
 - **Action Buttons**: Dynamic button text based on resource type (Visit Site, View Repository, etc.)
+
+### Recent Enhancements
+
+All major resources now include detailed descriptions covering:
+- **Cyberknights Resources**: GitHub organization details, Discord community aspects, student club information
+- **CCRI Resources**: Program overviews, credit awards with specific CompTIA examples and cost savings
+- **CTF Competitions**: NCL and NCAE detailed competition information and preparation support
+- **Career Resources**: Certification roadmaps and professional development pathways
+
+These descriptions provide users with comprehensive context about each resource's purpose, benefits, and practical applications.
 
 ## UI and Behavior
 

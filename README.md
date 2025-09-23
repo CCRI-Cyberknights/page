@@ -16,7 +16,7 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
   - Cybersecurity Club: Provides links to our main club page and the official signup form
   - CyberKnights Linux: Contains comprehensive boot guides including USB Boot Guide and VirtualBox Boot Guide, with step-by-step instructions and common one-time boot menu keys
   - Calendar: Displays meeting schedules with color-coded meeting types and clickable room numbers
-  - Resources: Enhanced resource cards with improved readability, modal system for detailed views, and organized categories with default club filter
+  - Resources: Comprehensive resource cards with detailed descriptions, modal system for enhanced readability, and organized categories with default club filter. All major resources include comprehensive summaries covering technical aspects, practical applications, and user benefits.
   - Campus Maps: Interactive maps for meeting locations (e.g., `/map-warwick-4080`)
   - Documents: Standalone HTML documents that can be loaded within the SPA or accessed directly
 
