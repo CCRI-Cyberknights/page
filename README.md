@@ -110,6 +110,7 @@ If you are a club member, you can fork this repository and submit a pull request
 - **Layout Troubleshooting**: `docs/LAYOUT-TROUBLESHOOTING.md` ⭐
 - **Testing Strategy**: `docs/TESTING.md` ⭐
 - **Selenium Debugging Innovation**: `docs/SELENIUM-DEBUGGING-INNOVATION.md` ⭐
+- **Version Management**: `docs/VERSION-MANAGEMENT.md` ⭐
 - Resources page: `docs/RESOURCES.md`
 - Troubleshooting: `docs/TROUBLESHOOTING.md`
 - Color Palette: `docs/color-palettes/COLOR-PALETTE.md`
@@ -241,6 +242,14 @@ We pioneered the use of Selenium WebDriver for systematic layout debugging:
 - **CSS Analysis**: Computed style extraction for debugging conflicts
 - **Cross-Page Testing**: Systematic verification across all routes
 - **Quantitative Analysis**: Mathematical verification of layout behavior
+
+### Automated Version Management ⭐
+Intelligent versioning system with conventional commits and file change analysis:
+- **Automatic Version Bumping**: Pre-commit hooks trigger intelligent version detection
+- **Conventional Commits**: Semantic commit messages drive version decisions
+- **Version Display**: Footer shows current version with commit information tooltip
+- **Git Integration**: Automatic version tags and metadata synchronization
+- **Zero Friction**: "Set it and forget it" version management
 
 ### Running Tests
 

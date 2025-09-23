@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CCRI Cyberknights Club</title>
   <meta name="description" content="A centralized hub for the CCRI Cyberknights Club. Find information about when and where to find the Cyberknights, and much more!">
+  <meta name="version" content="1.0.113">
   <meta property="og:title" content="CCRI Cyberknights Club">
   <meta property="og:description" content="A centralized hub for the CCRI Cyberknights Club. Find information about when and where to find the Cyberknights, and much more!">
   <meta property="og:image" content="https://ccri-cyberknights.github.io/page/images/branding/cybersmith.webp">
@@ -14,6 +15,8 @@
   <script src="./js/qr-code-manager.js"></script>
   <style>
     :root { color-scheme: dark; }
+    
+    /* Version: 1.0.113 -->
     
     /* Spark glow animation for Sign Up button */
     .btn-sparkle {
@@ -84,8 +87,14 @@
 
   <footer class="border-t border-slate-800/60 mt-16">
     <div class="max-w-5xl mx-auto px-4 py-6 text-xs text-slate-400 flex items-center justify-between">
-      <div>
-        © <span id="year"></span> CCRI Cybersecurity Club
+      <div class="flex items-center gap-4">
+        <div>
+          © <span id="year"></span> CCRI Cybersecurity Club
+        </div>
+        <div class="text-slate-500">•</div>
+        <div>
+          <span id="version" title="Commit: 81c1cde - 2024-09-23 10:45:00 -0400" class="hover:text-slate-300 cursor-help transition-colors">v1.0.113</span>
+        </div>
       </div>
       <div class="relative">
         <button id="footer-qr-toggle" class="hover:opacity-80 transition-opacity" style="color: var(--pale-alloy);">QR Code</button>
