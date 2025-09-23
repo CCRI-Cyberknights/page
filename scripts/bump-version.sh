@@ -72,13 +72,13 @@ analyze_commit_message() {
         return
     fi
     
-    # Check for MINOR indicators (strict)
+    # Check for MINOR indicators (strict - only new features)
     if [[ "$commit_msg" =~ ^(feat|feature): ]]; then
         echo "minor"
         return
     fi
     
-    # Check for PATCH indicators (broad)
+    # Check for PATCH indicators (broad - includes docs, chore, etc.)
     if [[ "$commit_msg" =~ ^(fix|bug|patch|docs|style|refactor|perf|test|chore): ]]; then
         echo "patch"
         return
@@ -92,8 +92,8 @@ analyze_commit_message() {
 analyze_file_changes() {
     local staged_files=$(git diff --cached --name-only)
     
-    # Check for major architectural changes
-    if echo "$staged_files" | grep -q -E "(package\.json|\.gitignore|README\.md)$"; then
+    # Check for major architectural changes (very strict)
+    if echo "$staged_files" | grep -q -E "(package\.json.*version|\.gitignore.*major|README\.md.*architecture)"; then
         echo "minor"
         return
     fi
@@ -104,7 +104,7 @@ analyze_file_changes() {
         return
     fi
     
-    # Check for documentation changes
+    # Check for documentation changes (should be patch)
     if echo "$staged_files" | grep -q -E "^docs/"; then
         echo "patch"
         return
