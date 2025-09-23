@@ -447,9 +447,8 @@
         <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
           <h3 class="text-lg font-semibold mb-4" style="color: var(--neon-surge);">📚 Available Resources</h3>
           <div class="space-y-3">
-            <a href="resources/linux-cheatsheet-1.html" 
-               class="block p-4 rounded border border-slate-700 bg-slate-800/60 hover:border-emerald-600 hover:bg-slate-800/80 transition-colors"
-               target="_blank" rel="noopener noreferrer">
+            <a href="#/document/resources/linux-cheatsheet-1.html" 
+               class="block p-4 rounded border border-slate-700 bg-slate-800/60 hover:border-emerald-600 hover:bg-slate-800/80 transition-colors">
               <div class="flex items-center justify-between">
                 <div>
                   <div class="text-sm font-medium text-slate-100">Linux Cheat Sheet 1 📁</div>
@@ -560,7 +559,8 @@
       calendar: document.getElementById('page-calendar').innerHTML,
       resources: document.getElementById('page-resources') ? document.getElementById('page-resources').innerHTML : '<section class="space-y-6"><h2 class="text-3xl sm:text-4xl font-bold">Resources</h2><p class="text-slate-300">Coming soon.</p></section>',
       'resources/linux': document.getElementById('page-resources-linux').innerHTML,
-      'map-warwick-4080': document.getElementById('page-map-warwick-4080').innerHTML
+      'map-warwick-4080': document.getElementById('page-map-warwick-4080').innerHTML,
+      'document': document.getElementById('page-document').innerHTML
     };
 
     function normalizeHashRouting() {
@@ -573,7 +573,7 @@
       }
     }
 
-    function render() {
+    async function render() {
       const raw = (location.hash || '').replace(/^#\/?/, '');
       const [pageName, ...segments] = raw.split('/');
       const page = pageName || 'home';
@@ -581,9 +581,36 @@
       // Check for nested routes like 'resources/linux'
       const fullRoute = segments.length > 0 ? `${pageName}/${segments[0]}` : pageName;
       
+      const app = document.getElementById('app');
+
+      // Handle document pages (e.g., #/document/resources/linux-cheatsheet-1.html)
+      if (page === 'document' && segments.length > 0) {
+        // Use the document template
+        app.innerHTML = routes['document'];
+
+        // Build file path (e.g. resources/linux-cheatsheet-1.html)
+        const filePath = segments.join('/');
+
+        try {
+          const res = await fetch(filePath);
+          const text = await res.text();
+          const bodyMatch = text.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+          const content = bodyMatch ? bodyMatch[1] : text;
+
+          document.getElementById('document-title').textContent = filePath;
+          document.getElementById('document-subtitle').textContent = '';
+          document.getElementById('document-content').innerHTML = content;
+        } catch (err) {
+          document.getElementById('document-content').innerHTML =
+            `<p class="text-red-400">Failed to load ${filePath}</p>`;
+        }
+        return;
+      }
+
+      // Fallback to normal routes
       let html;
       html = routes[fullRoute] || routes[page] || routes.cybersecurity;
-      document.getElementById('app').innerHTML = html;
+      app.innerHTML = html;
       // Mobile nav removed - using direct navigation
       if (page === 'calendar') {
         const iframe = document.getElementById('calendar-iframe');
@@ -955,7 +982,7 @@
         { name: 'NCAE CyberGames', url: 'https://ncaecybergames.org/#', cat: 'ctf-competitions' },
         { name: 'CCRI Cybersecurity Student Club', url: 'https://www.ccri.edu/comp/cybersecurity/studentclub.html', cat: 'cyberknights' },
         { name: 'STEM Day 2025 Cyber Game', url: 'https://github.com/CCRI-Cyberknights/stemday_takehome.git', cat: 'stem' },
-        { name: 'Linux Cheat Sheet 1', url: 'resources/linux-cheatsheet-1.html', cat: 'linux', desc: 'Essential Linux commands and file system navigation guide' }
+        { name: 'Linux Cheat Sheet 1', url: '#/document/resources/linux-cheatsheet-1.html', cat: 'linux', desc: 'Essential Linux commands and file system navigation guide' }
       ];
 
       const grid = document.getElementById('resources-grid');

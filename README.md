@@ -18,6 +18,7 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
   - Calendar: Displays meeting schedules with color-coded meeting types and clickable room numbers
   - Resources: Curated tools and links for learning and competitions with organized categories and default club filter
   - Campus Maps: Interactive maps for meeting locations (e.g., `/map-warwick-4080`)
+  - Documents: Standalone HTML documents that can be loaded within the SPA or accessed directly
 
 ## Getting Started
 
@@ -31,6 +32,7 @@ To link a QR code to a specific page, use hash routes. For example:
 - To link to the Calendar: `your-site-url.com/#/calendar`
 - To link to the Resources: `your-site-url.com/#/resources`
 - To link to the Warwick Room 4080 map: `your-site-url.com/#/map-warwick-4080`
+- To link to a document: `your-site-url.com/#/document/path/to/file.html`
 
 ### Resources Deep Links
 
@@ -42,6 +44,25 @@ To link a QR code to a specific page, use hash routes. For example:
   - CTF & Code Breaking Tools: `#/resources/ctf-tools`
   - STEM Day: `#/resources/stem`
   - Linux: `#/resources/linux`
+
+### Document Loading System
+
+The site includes a sophisticated document loading system that allows standalone HTML files to be seamlessly integrated into the Single-Page Application (SPA) while maintaining their ability to function as independent documents.
+
+**Dual-Mode Operation:**
+- **SPA Mode**: Documents loaded within the main application shell (`#/document/path/to/file.html`)
+- **Standalone Mode**: Documents accessed directly as independent HTML files (`path/to/file.html`)
+
+**Benefits:**
+- Seamless user experience with consistent navigation
+- Fast loading without full page reloads
+- Documents work both within the SPA and as standalone files
+- Easy sharing with direct URLs
+- Maintains clean URL structure
+
+**Example Usage:**
+- SPA Link: `#/document/resources/linux-cheatsheet-1.html`
+- Direct Link: `resources/linux-cheatsheet-1.html`
 
 ## Contribution
 
@@ -77,6 +98,8 @@ If you are a club member, you can fork this repository and submit a pull request
 
 - Architecture: `docs/ARCHITECTURE.md`
 - Calendar maintainer guide: `docs/CALENDAR-UPDATING.md`
+- Document Loading System: `docs/DOCUMENT-LOADING.md`
+- Document Usage Examples: `docs/DOCUMENT-EXAMPLES.md`
 - QR Codes: `docs/QR-CODES.md`
 - Routing & Navigation: `docs/ROUTING-NAV.md`
 - Mobile UX Guide: `docs/MOBILE-UX-GUIDE.md`
