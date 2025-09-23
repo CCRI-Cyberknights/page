@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CCRI Cyberknights Club</title>
   <meta name="description" content="A centralized hub for the CCRI Cyberknights Club. Find information about when and where to find the Cyberknights, and much more!">
-  <meta name="version" content="1.2.3">
+  <meta name="version" content="1.2.4">
   <meta property="og:title" content="CCRI Cyberknights Club">
   <meta property="og:description" content="A centralized hub for the CCRI Cyberknights Club. Find information about when and where to find the Cyberknights, and much more!">
   <meta property="og:image" content="https://ccri-cyberknights.github.io/page/images/branding/cybersmith.webp">
@@ -118,7 +118,7 @@
         </div>
         <div class="text-slate-500">•</div>
         <div>
-          <span id="version" title="Commit: ae5d7ec - 2025-09-23 11:24:28 -0400" class="hover:text-slate-300 cursor-help transition-colors">v1.2.3</span>
+          <span id="version" title="Commit: 38840b6 - 2025-09-23 11:28:28 -0400" class="hover:text-slate-300 cursor-help transition-colors">v1.2.4</span>
         </div>
       </div>
       <div class="relative">
@@ -397,9 +397,9 @@
       </div>
 
       <div class="mt-8">
-        <a href="#/cybersecurity" class="text-emerald-400 hover:text-emerald-300">Back to Club page</a>
+        <a href="#/cybersecurity" class="${getEmeraldLinkClasses()}">Back to Club page</a>
         <span class="mx-2">•</span>
-        <a href="#/resources/linux" class="text-emerald-400 hover:text-emerald-300">Linux Learner's Guide</a>
+        <a href="#/resources/linux" class="${getEmeraldLinkClasses()}">Linux Learner's Guide</a>
       </div>
     </section>
   </template>
@@ -419,14 +419,14 @@
             <div class="flex-shrink-0 w-3 h-3 rounded-full mt-2 mr-3" style="background-color: #6B8E23;"></div>
             <div>
               <h4 class="font-semibold text-white">Warwick - 'A' meet (Mondays, 5-6pm)</h4>
-              <p class="text-slate-300 text-sm">Official, formal meetings for interacting with faculty and discussing college initiatives. <a href="#/map-warwick-4080" class="text-emerald-400 hover:text-emerald-300 underline">Room 4080</a></p>
+              <p class="text-slate-300 text-sm">Official, formal meetings for interacting with faculty and discussing college initiatives. <a href="#/map-warwick-4080" class="${getEmeraldLinkClasses()} underline">${ROOM_4080}</a></p>
             </div>
           </div>
           <div class="flex items-start">
             <div class="flex-shrink-0 w-3 h-3 rounded-full mt-2 mr-3" style="background-color: #7C3AED;"></div>
             <div>
               <h4 class="font-semibold text-white">Warwick - 'B' meet (Wednesdays, 5-6pm)</h4>
-              <p class="text-slate-300 text-sm">Informal, low-key sessions designed for small group interaction. <a href="#/map-warwick-4080" class="text-emerald-400 hover:text-emerald-300 underline">Room 4080</a></p>
+              <p class="text-slate-300 text-sm">Informal, low-key sessions designed for small group interaction. <a href="#/map-warwick-4080" class="${getEmeraldLinkClasses()} underline">${ROOM_4080}</a></p>
             </div>
           </div>
           <div class="flex items-start">
@@ -976,34 +976,96 @@
 
     // Category-specific intro texts (global scope)
     const categoryTexts = {
-      'ctf-tools': '🔧 CTF & Code Breaking Tools\n\nVersatile online tools for cryptanalysis and data manipulation in Capture the Flag (CTF) challenges. These include quipqiup for automatic cipher solving, Boxentriq for identifying and decoding ciphers, and CyberChef as a comprehensive "Swiss Army knife" for encoding, decoding, and analyzing data.',
-      'ccri': '🏫 CCRI\n\nInstitutional support for cybersecurity education through CCRI. Key links cover CCRI\'s cybersecurity and safety site, additional resources, standardized credit awards for prior learning, and a detailed cyber pathway guide outlining degrees, certificates, career outlooks, and student services.',
-      'career': '🎯 Career\n\nProfessional development in tech and cybersecurity fields. It includes Paul Jerimy\'s Security Certification Roadmap for progressing from beginner to expert certifications, CompTIA\'s tool for exploring job roles in areas like cybersecurity and networking, and Handshake, a college-integrated platform for job searching, resume building, and career opportunities.',
-      'cyberknights': '⚔️ Cyberknights\n\nInternal resources supporting the CCRI Cyberknights Club\'s activities and community. It features the club\'s GitHub repository for projects and code, the Discord server for discussions, and the official CCRI cybersecurity student club page for information and involvement.',
-      'ctf-competitions': '🏆 CTF Competitions\n\nNational-level cybersecurity competitions for skill-building. These include the National Cyber League (NCL) for hands-on challenges and the National Centers of Academic Excellence (NCAE) CyberGames for collegiate defense and offense exercises.',
-      'stem': '🔬 STEM Day\n\nResources for STEM-related events, including the 2025 Cyber Game repository on GitHub, designed for interactive cybersecurity activities and take-home challenges during STEM Day.',
-      'linux': '🐧 Linux\n\nFoundational Linux resources for cybersecurity learners, including a cheat sheet with essential commands for file navigation, permissions, processes, networking, and more, accessible via an internal document link.'
+      'ctf-tools': '🔧 Versatile online tools for cryptanalysis and data manipulation in Capture the Flag (CTF) challenges. These include quipqiup for automatic cipher solving, Boxentriq for identifying and decoding ciphers, and CyberChef as a comprehensive "Swiss Army knife" for encoding, decoding, and analyzing data.',
+      'ccri': '🏫 Institutional support for cybersecurity education. Key links cover cybersecurity and safety resources, additional educational materials, standardized credit awards for prior learning, and detailed pathway guides outlining degrees, certificates, career outlooks, and student services.',
+      'career': '🎯 Professional development in tech and cybersecurity fields. Includes Security Certification Roadmap for progressing from beginner to expert certifications, tools for exploring job roles in areas like cybersecurity and networking, and college-integrated platforms for job searching, resume building, and professional opportunities.',
+      'cyberknights': '⚔️ Internal resources supporting club activities and community. Features GitHub repository for projects and code, Discord server for discussions, and official student club page for information and involvement.',
+      'ctf-competitions': '🏆 National-level cybersecurity competitions for skill-building. These include the National Cyber League (NCL) for hands-on challenges and the National Centers of Academic Excellence (NCAE) CyberGames for collegiate defense and offense exercises.',
+      'stem': '🔬 Resources for STEM-related events, including the 2025 Cyber Game repository on GitHub, designed for interactive cybersecurity activities and take-home challenges.',
+      'linux': '🐧 Foundational resources for cybersecurity learners, including a cheat sheet with essential commands for file navigation, permissions, processes, networking, and more, accessible via an internal document link.'
     };
 
     function renderResourcesPage(preselectedFilter) {
       const data = [
-        { name: 'quipqiup', url: 'https://www.quipqiup.com/', cat: 'ctf-tools', desc: 'Automatic cipher solver for cryptanalysis' },
-        { name: 'Boxentriq', url: 'https://www.boxentriq.com/', cat: 'ctf-tools', desc: 'Online cipher identifier and decoder' },
-        { name: 'CyberChef', url: 'https://cyberchef.io/', cat: 'ctf-tools', desc: 'Swiss Army knife for data analysis and encoding' },
-        { name: 'CCRI Cybersecurity & Safety site', url: 'https://www.ccri.edu/its/cybersecurity/', cat: 'ccri' },
-        { name: 'Security Certification Roadmap (Paul Jerimy)', url: 'https://pauljerimy.com/security-certification-roadmap/', cat: 'career', desc: 'Comprehensive roadmap of cybersecurity certifications from beginner to expert level' },
+        { 
+          name: 'quipqiup', 
+          url: 'https://www.quipqiup.com/', 
+          cat: 'ctf-tools', 
+          desc: 'Automatic cipher solver for cryptanalysis',
+          summary: 'quipqiup is a fast and automated tool designed to solve simple substitution ciphers, such as cryptoquips and patristocrats, commonly found in newspapers.',
+          detailedSummary: 'Developed by Edwin Olson, quipqiup automates the decoding of simple substitution ciphers like cryptoquips (with preserved word boundaries) and patristocrats (without), by allowing users to input cipher text and optional clues such as "G=R QVW=THE," then generating solutions via the "Solve" button, with adjustable solving modes for better results if needed; it draws from a quote compilation by James F Thompson for contextual accuracy. This tool is highly relevant to cybersecurity and CTF challenges, as it aids in breaking basic encryption methods through pattern analysis, providing quick insights into cryptanalysis techniques essential for puzzle-solving and code-breaking exercises in educational or competitive settings.'
+        },
+        { 
+          name: 'Boxentriq', 
+          url: 'https://www.boxentriq.com/', 
+          cat: 'ctf-tools', 
+          desc: 'Online cipher identifier and decoder',
+          summary: 'Boxentriq is a website offering tools for cipher identification, decoding, and encoding, including classic and modern ciphers, steganography, text processing, and mathematical puzzles, with features like Morse code translation and AI-based cipher analysis.',
+          detailedSummary: 'Boxentriq serves as a comprehensive puzzle toolkit, using statistics or AI/machine learning to identify cipher types from input, while supporting classic ciphers (e.g., ROT13, Atbash), modern encryption (e.g., AES, DES, RC4, RSA), steganography tools (e.g., Exif, Steghide for hiding data in images/audio), text processing (e.g., case changes, reversals), and math utilities (e.g., prime detection, number conversions). It excels in CTF challenges by providing practical applications for breaking codes and analyzing data, making it an educational resource for cryptography enthusiasts and cybersecurity learners to practice identifying and decoding various encryption methods in real-world puzzle scenarios.'
+        },
+        { 
+          name: 'CyberChef', 
+          url: 'https://cyberchef.io/', 
+          cat: 'ctf-tools', 
+          desc: 'Swiss Army knife for data analysis and encoding',
+          summary: 'CyberChef is a web tool designed for performing various data analysis and encoding operations, allowing users to save and load recipes for later use.',
+          detailedSummary: 'As a versatile "Swiss Army knife" for data manipulation, CyberChef enables users to build customizable recipes by selecting operations for analysis and encoding, with features to name, save to local storage, and load them via dropdown or paste; it handles tasks like decoding/encoding formats, hashing, and pattern matching. In cybersecurity and CTF contexts, it\'s invaluable for quick data transformations and forensic analysis, supporting complex workflows that mimic real-world cyber operations, such as decrypting messages or inspecting payloads, all within a user-friendly web interface.'
+        },
+        { 
+          name: 'CCRI Cybersecurity & Safety site', 
+          url: 'https://www.ccri.edu/its/cybersecurity/', 
+          cat: 'ccri',
+          summary: 'The CCRI Cyber Safe Awareness Hub aims to educate students, faculty, and staff on cybersecurity best practices through resources, training, and tips to protect the community and its digital environment.',
+          detailedSummary: 'Managed by the Information Security Office (ISO), the hub emphasizes shared responsibility for data protection, providing updates on threats like phishing scams targeting DSS students or impersonating staff, and features like Microsoft\'s Quarantined Emails for handling suspicious messages (auto-deleted after 30 days). It offers practical guidelines such as using two-factor authentication, strong passwords, antivirus software, data backups, software updates, and caution on social media, along with reporting protocols and training events. For CCRI students, this resource is crucial for fostering a secure educational environment, directly addressing campus-specific risks and promoting proactive cyber hygiene to support safe learning and collaboration.'
+        },
+        { 
+          name: 'Security Certification Roadmap (Paul Jerimy)', 
+          url: 'https://pauljerimy.com/security-certification-roadmap/', 
+          cat: 'career', 
+          desc: 'Comprehensive roadmap of cybersecurity certifications from beginner to expert level',
+          summary: 'The Security Certification Roadmap by Paul Jerimy Media provides a comprehensive visual guide of 481 cybersecurity certifications categorized by difficulty levels and domains, offering a structured path for professional development in cybersecurity.',
+          detailedSummary: 'Structured into Beginner (e.g., CompTIA Security+, AWS Cloud Practitioner), Intermediate (e.g., CySA+, CCNA), and Expert (e.g., CISM, CREST CRTSA) levels across domains like IAM, Forensics, and Network Security, it includes prerequisites like experience for CISSP and pathways for specializations. This roadmap aids career progression by mapping certifications to build technical and managerial skills, relevant for roles in ethical hacking, risk management, and cloud security, helping professionals advance systematically.'
+        },
         { name: 'CCRI Cybersecurity Resources', url: 'https://www.ccri.edu/comp/cybersecurity/websites.html', cat: 'ccri' },
         { name: 'CCRI Standardized Credit Awards', url: 'https://www.ccri.edu/priorlearning/creditawards.html', cat: 'ccri' },
         { name: 'CompTIA: Explore Tech Careers', url: 'https://www.comptia.org/en-us/explore-careers/job-roles/?page=1&category=all', cat: 'career', desc: 'Comprehensive information on tech careers spanning cybersecurity, cloud, networking, and more' },
         { name: 'CCRI Cyber Pathway', url: 'https://www.ccri.edu/comp/pathways/cyberpathway.html', cat: 'ccri', desc: 'Comprehensive guide to CCRI cybersecurity degrees, certificates, career outlook, and student services' },
         { name: 'Cyberknights GitHub', url: 'https://github.com/CCRI-Cyberknights/', cat: 'cyberknights' },
         { name: 'Cyberknights Club Discord', url: 'https://discord.com/channels/1159622463647387719/1159622463647387722', cat: 'cyberknights' },
-        { name: 'NCL Competition', url: 'https://nationalcyberleague.org/competition', cat: 'ctf-competitions' },
-        { name: 'NCAE CyberGames', url: 'https://ncaecybergames.org/#', cat: 'ctf-competitions' },
+        { 
+          name: 'NCL Competition', 
+          url: 'https://nationalcyberleague.org/competition', 
+          cat: 'ctf-competitions',
+          desc: 'National Cyber League cybersecurity competition',
+          summary: 'The NCL is a CTF competition that helps students develop cybersecurity skills through individual and team challenges, focusing on forensics, exploitation, and Linux.',
+          detailedSummary: 'The NCL is a structured CTF event aimed at skill development and career preparation. It includes four stages: the Cyber Gymnasium for foundational training, a Practice Game to hone skills under pressure, an Individual Game for national ranking, and the Team Game where students compete against other institutions. Participants tackle challenges like digital forensics, web exploitation, and traffic analysis. The club offers coaching, hands-on practice, and access to free competition vouchers. Performance in NCL can be a strong addition to a student\'s resume, demonstrating technical expertise valued by employers.'
+        },
+        { 
+          name: 'NCAE CyberGames', 
+          url: 'https://ncaecybergames.org/#', 
+          cat: 'ctf-competitions',
+          desc: 'National Centers of Academic Excellence CyberGames competition',
+          summary: 'The NCAE is a regional cyber defense competition where teams defend pre-compromised systems against active attacks from a red team.',
+          detailedSummary: 'The NCAE is a regional, all-day event where teams must defend compromised systems from continuous red team attacks. Participants are tasked with securing various services on systems running Linux, focusing on uptime and service availability. The competition tests students\' ability to think on their feet and respond to real-time security threats. CCRI\'s Cyber Club supports preparation through free NCAE resources, including tutorials and practice sessions. The event is critical for building defensive cybersecurity skills, particularly under pressure, and serves as a key opportunity for students to apply classroom knowledge in a high-stakes, real-world scenario.'
+        },
         { name: 'CCRI Cybersecurity Student Club', url: 'https://www.ccri.edu/comp/cybersecurity/studentclub.html', cat: 'cyberknights' },
         { name: 'STEM Day 2025 Cyber Game', url: 'https://github.com/CCRI-Cyberknights/stemday_takehome.git', cat: 'stem' },
-        { name: 'Linux Cheat Sheet 1', url: '#/document/resources/linux-cheatsheet-1.html', cat: 'linux', desc: 'Essential Linux commands and file system navigation guide' },
-        { name: 'Handshake', url: 'https://ccri.joinhandshake.com/login', cat: 'career', desc: 'College-integrated career platform for job seeking and professional development' }
+        { 
+          name: 'Linux Cheat Sheet 1', 
+          url: '#/document/resources/linux-cheatsheet-1.html', 
+          cat: 'linux', 
+          desc: 'Essential Linux commands and file system navigation guide',
+          summary: 'The Linux Cheat Sheet 1 is an essential guide for cybersecurity students, covering fundamental commands for file system navigation, operations, permissions, processes, networking, text processing, archive management, and system information.',
+          detailedSummary: 'Organized into categories like File System Navigation (e.g., pwd, ls, cd), File Operations (e.g., cp, mv, cat), Permission Management (e.g., chmod, chown), Process Management (e.g., ps, top, kill), Network Commands (e.g., ping, ssh), Text Processing (e.g., grep, sed), Archive Management (e.g., tar, zip), and System Information (e.g., whoami, df), it provides quick references for command-line proficiency. Derived from NCAE resources, it\'s crucial for CCRI students addressing Linux familiarity gaps, supporting hands-on projects like Raspberry Pi and CTF challenges in cybersecurity education.'
+        },
+        { 
+          name: 'Handshake', 
+          url: 'https://ccri.joinhandshake.com/login', 
+          cat: 'career', 
+          desc: 'College-integrated career platform for job seeking and professional development',
+          summary: 'Handshake is a college-integrated career platform that allows CCRI students to search for jobs, internships, and events, apply online, explore career paths, and connect with employers through a user-friendly dashboard.',
+          detailedSummary: 'Integrated with CCRI for seamless access via school SSO, Handshake enables profile creation, resume uploads (with preferred templates highlighting skills prominently), job/internship searches (including on-campus like Academic Computer Lab), virtual event attendance, and direct employer messaging; it\'s free for students and employers, with data tracking for career centers. For professional development, it supports resume reviews, mock interviews, and networking with nearly 1 million employers, making it vital for CCRI students transitioning to cybersecurity careers by providing real opportunities and advice.'
+        },
       ];
 
       const grid = document.getElementById('resources-grid');
@@ -1019,19 +1081,200 @@
         if (target) target.classList.add('ring-1','ring-emerald-500');
       }
 
+      // Function to determine button text based on resource type
+      function getButtonText(resourceName) {
+        const name = resourceName.toLowerCase();
+        if (name.includes('github')) {
+          return 'View Repository';
+        } else if (name.includes('discord')) {
+          return 'Visit Site';
+        } else if (name.includes('handshake')) {
+          return 'Access Handshake';
+        } else if (name.includes('cheat sheet')) {
+          return 'View Guide';
+        } else if (name.includes('competition') || name.includes('ncl') || name.includes('cybergames')) {
+          return 'Join Competition';
+        }
+        return 'Visit Site';
+      }
+
+      // Function to get category label
+      function getCategoryLabel(category) {
+        return catNames[category] || category;
+      }
+
+      // Constants
+      const BASE_URL = 'https://ccri-cyberknights.github.io/page/';
+      const ROOM_4080 = 'Room 4080';
+
+      // CSS class generators for DRY
+      function getEmeraldLinkClasses() {
+        return 'text-emerald-400 hover:text-emerald-300';
+      }
+
+      function getCalendarButtonClasses() {
+        return 'px-3 py-1 rounded bg-emerald-500 text-slate-900 font-medium hover:bg-emerald-400';
+      }
+
+      function getExternalLinkAttributes() {
+        return 'target="_blank" rel="noopener noreferrer"';
+      }
+
+      // SVG icon generators for DRY
+      function getExternalLinkIcon() {
+        return `<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                </svg>`;
+      }
+
+      function getCloseIcon() {
+        return `<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>`;
+      }
+
       function renderLists(items) {
         if (grid) {
           grid.innerHTML = '';
           for (const r of items) {
-            const catLabel = catNames[r.cat] || r.cat;
-            const card = document.createElement('a');
-            card.href = r.url; card.target = '_blank'; card.rel = 'noopener noreferrer';
-            card.className = 'block p-3 rounded border border-slate-800 bg-slate-900/60 hover:border-emerald-600';
-            card.innerHTML = `<div class="text-sm font-medium text-slate-100">${r.name}</div><div class="text-[11px] text-slate-400">${catLabel}</div>${r.desc ? `<div class="text-[10px] text-slate-500 mt-1">${r.desc}</div>` : ''}`;
+            const catLabel = getCategoryLabel(r.cat);
+            const card = document.createElement('div');
+            card.className = 'block p-3 rounded border border-slate-800 bg-slate-900/60 hover:border-emerald-600 transition-colors cursor-pointer';
+            card.onclick = () => openResourceModal(r);
+            
+            // Resource name and category
+            const header = document.createElement('div');
+            header.className = 'mb-2';
+            header.innerHTML = `
+              <div class="text-sm font-medium text-slate-100">${r.name}</div>
+              <div class="text-[11px] text-slate-400">${catLabel}</div>
+            `;
+            
+            // Summary (always visible)
+            const summary = document.createElement('div');
+            summary.className = 'text-[12px] text-slate-300 mt-2 mb-3';
+            summary.textContent = r.summary || r.desc || '';
+            
+            // More info section (if detailed summary exists)
+            let moreInfoSection = '';
+            if (r.detailedSummary) {
+              moreInfoSection = `
+                <div class="mb-3">
+                  <div class="flex items-center gap-1 text-[11px] text-slate-500 hover:text-slate-400 cursor-pointer" onclick="event.stopPropagation(); toggleDetails(this)">
+                    <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
+                      <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path>
+                    </svg>
+                    <span>more info</span>
+                  </div>
+                  <div class="detailed-summary hidden mt-2 text-[11px] text-slate-400 leading-relaxed">
+                    ${r.detailedSummary}
+                  </div>
+                </div>
+              `;
+            }
+            
+            // Action button
+            const actionButton = document.createElement('div');
+            actionButton.className = 'flex justify-end';
+            
+            const buttonText = getButtonText(r.name);
+            
+            actionButton.innerHTML = `
+              <a href="${r.url}" ${getExternalLinkAttributes()} 
+                 class="inline-flex items-center gap-1 px-3 py-1 text-[12px] bg-emerald-600 hover:bg-emerald-700 text-white rounded transition-colors"
+                 onclick="event.stopPropagation()">
+                <span>${buttonText}</span>
+                ${getExternalLinkIcon()}
+              </a>
+            `;
+            
+            card.innerHTML = `
+              ${header.outerHTML}
+              ${summary.outerHTML}
+              ${moreInfoSection}
+              ${actionButton.outerHTML}
+            `;
+            
             grid.appendChild(card);
           }
         }
       }
+      
+      // Function to open resource modal
+      window.openResourceModal = function(resource) {
+        // Create modal overlay
+        const modal = document.createElement('div');
+        modal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4';
+        modal.onclick = (e) => {
+          if (e.target === modal) closeResourceModal();
+        };
+        
+        const buttonText = getButtonText(resource.name);
+        
+        const catLabel = getCategoryLabel(resource.cat);
+        
+        modal.innerHTML = `
+          <div class="bg-slate-900 border border-slate-700 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6">
+              <!-- Header -->
+              <div class="flex items-start justify-between mb-4">
+                <div class="flex-1">
+                  <h3 class="text-xl font-semibold text-slate-100 mb-1">${resource.name}</h3>
+                  <div class="text-sm text-slate-400">${catLabel}</div>
+                </div>
+                <button onclick="closeResourceModal()" class="text-slate-400 hover:text-slate-200 ml-4">
+                  ${getCloseIcon()}
+                </button>
+              </div>
+              
+              <!-- Summary -->
+              <div class="text-slate-300 mb-4 leading-relaxed">
+                ${resource.summary || resource.desc || ''}
+              </div>
+              
+              <!-- Detailed Summary -->
+              ${resource.detailedSummary ? `
+                <div class="text-slate-400 mb-6 leading-relaxed">
+                  ${resource.detailedSummary}
+                </div>
+              ` : ''}
+              
+              <!-- Action Button -->
+              <div class="flex justify-end">
+                <a href="${resource.url}" ${getExternalLinkAttributes()} 
+                   class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded transition-colors">
+                  <span>${buttonText}</span>
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        `;
+        
+        document.body.appendChild(modal);
+        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+      };
+      
+      // Function to close resource modal
+      window.closeResourceModal = function() {
+        const modal = document.querySelector('.fixed.inset-0.bg-black\\/50');
+        if (modal) {
+          modal.remove();
+          document.body.style.overflow = ''; // Restore scrolling
+        }
+      };
+      
+      // Function to toggle detailed summaries
+      window.toggleDetails = function(element) {
+        const detailedSummary = element.nextElementSibling;
+        if (detailedSummary) {
+          detailedSummary.classList.toggle('hidden');
+          const moreText = element.querySelector('span');
+          moreText.textContent = detailedSummary.classList.contains('hidden') ? 'more' : 'less';
+        }
+      };
 
       function applyFilters() {
         const q = (search && search.value || '').toLowerCase();
@@ -1041,7 +1284,7 @@
         // If there's a search query, search across all resources regardless of category
         if (q) {
           items = items.filter(r => {
-            const catLabel = (catNames[r.cat] || r.cat).toLowerCase();
+            const catLabel = getCategoryLabel(r.cat).toLowerCase();
             return r.name.toLowerCase().includes(q) || r.url.toLowerCase().includes(q) || catLabel.includes(q);
           });
         } else {
