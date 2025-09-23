@@ -12,10 +12,14 @@ Single-file site hosted on GitHub Pages with Tailwind (CDN) and small JS modules
 - Documents: `#/document/path/to/file.html` routes load standalone HTML files into the SPA shell. Supports dual-mode operation (SPA integration and standalone access).
 - Maps: Campus-specific map pages (e.g., `/map-warwick-4080`) with optimized images and meeting location details.
 - Testing: Comprehensive Selenium WebDriver test suite covering client-side routing, QR code functionality, and cross-page navigation. Tests run in headless Chrome with isolated virtual environment.
+- Versioning: Intelligent automated versioning system with conventional commits, file change analysis, and pre-commit hooks. Version displayed in footer with commit information tooltip.
 - SEO: Open Graph meta tags for social media sharing and search engine optimization.
 
 Key files
 - `index.html` — UI, routing, calendar logic, footer QR generator, map pages, document loading
+- `package.json` — version tracking and npm scripts for automated versioning
+- `scripts/bump-version.sh` — intelligent version bumping script with commit and file analysis
+- `.husky/pre-commit` — Git hook for automatic version management
 - `js/qrcode.min.js` — local QR encoder (no CDN)
 - `js/qr-code-manager.js` — shared QR Code functionality
 - `resources/linux-cheatsheet-1.html` — standalone Linux cheat sheet page (dual-mode)
@@ -26,6 +30,9 @@ Key files
 - `docs/CALENDAR-UPDATING.md` — maintainer guide for calendar
 - `docs/DOCUMENT-LOADING.md` — comprehensive document loading system guide
 - `docs/TESTING.md` — comprehensive testing strategy and implementation
+- `docs/VERSION-MANAGEMENT.md` — comprehensive versioning system documentation
+- `docs/LAYOUT-TROUBLESHOOTING.md` — CSS debugging methodology
+- `docs/SELENIUM-DEBUGGING-INNOVATION.md` — debugging innovation documentation
 - `docs/color-palettes/COLOR-PALETTE.md` — comprehensive color palette documentation
 - `README.md` — project guide and developer spec
 
