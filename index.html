@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CCRI Cyberknights Club</title>
   <meta name="description" content="A centralized hub for the CCRI Cyberknights Club. Find information about when and where to find the Cyberknights, and much more!">
-  <meta name="version" content="1.2.1">
+  <meta name="version" content="1.2.2">
   <meta property="og:title" content="CCRI Cyberknights Club">
   <meta property="og:description" content="A centralized hub for the CCRI Cyberknights Club. Find information about when and where to find the Cyberknights, and much more!">
   <meta property="og:image" content="https://ccri-cyberknights.github.io/page/images/branding/cybersmith.webp">
@@ -93,12 +93,12 @@
         </div>
         <div class="text-slate-500">•</div>
         <div>
-          <span id="version" title="Commit: b651414 - 2025-09-23 11:22:26 -0400" class="hover:text-slate-300 cursor-help transition-colors">v1.2.1</span>
+          <span id="version" title="Commit: ae5d7ec - 2025-09-23 11:24:28 -0400" class="hover:text-slate-300 cursor-pointer transition-colors" style="position: relative;">v1.2.2</span>
         </div>
       </div>
       <div class="relative">
         <button id="footer-qr-toggle" class="hover:opacity-80 transition-opacity" style="color: var(--pale-alloy);">QR Code</button>
-        <div id="footer-qr-panel" class="hidden absolute right-0 bottom-8 p-4 rounded-lg border border-slate-600 bg-slate-800 shadow-lg w-[500px] sm:w-[500px] max-w-[90vw]">
+        <div id="footer-qr-panel" class="hidden absolute right-0 bottom-8 p-4 rounded-lg border border-slate-600 bg-slate-800 shadow-lg w-[500px] sm:w-[500px] max-w-[90vw] z-10">
           <div class="space-y-2">
             <div>
               <input id="footer-qr-input" type="text" placeholder="Enter text or URL" class="w-full px-2 py-1 rounded bg-slate-700 border border-slate-600 outline-none focus:border-emerald-500 text-slate-200" />
@@ -116,9 +116,9 @@
                   <div id="footer-qr-info"></div>
                   <div class="flex items-center gap-1">
                     <span class="mr-1">Error Correction Level (ECL):</span>
-                    <button id="footer-qr-ecl-dec" class="px-1 py-0.5 rounded border border-slate-700 hover:border-slate-600" title="Commit: 81c1cde - 2025-09-23 10:45:15 -0400">−</button>
+                    <button id="footer-qr-ecl-dec" class="px-1 py-0.5 rounded border border-slate-700 hover:border-slate-600" title="Lower error correction">−</button>
                     <span id="footer-qr-ecl" class="min-w-[1.5ch] text-slate-200 text-xs text-center">M</span>
-                    <button id="footer-qr-ecl-inc" class="px-1 py-0.5 rounded border border-slate-700 hover:border-slate-600" title="Commit: 81c1cde - 2025-09-23 10:45:15 -0400">+</button>
+                    <button id="footer-qr-ecl-inc" class="px-1 py-0.5 rounded border border-slate-700 hover:border-slate-600" title="Raise error correction">+</button>
                   </div>
                 </div>
               </div>
@@ -416,7 +416,7 @@
       </div>
 
       <div class="rounded-lg overflow-hidden border border-slate-800 bg-slate-900/40">
-        <iframe id="calendar-iframe" src="" title="Commit: 81c1cde - 2025-09-23 10:45:15 -0400" width="100%" height="800" frameborder="0" scrolling="auto"></iframe>
+        <iframe id="calendar-iframe" src="" title="CCRI Cybersecurity Club Calendar" width="100%" height="800" frameborder="0" scrolling="auto"></iframe>
       </div>
 
       
