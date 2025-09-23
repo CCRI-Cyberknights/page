@@ -18,15 +18,99 @@ The project uses a comprehensive test suite to validate:
 - **Framework**: Selenium WebDriver 4.x
 - **Language**: Python 3.x
 - **Server**: Python HTTP server (port 8000)
+
+### Testing Categories
+
+#### 1. Functional Testing
+- **Routing Tests**: Validate hash-based navigation (`#/page` routes)
+- **QR Code Tests**: Verify QR generation, error correction, download functionality
+- **Resource Filtering**: Test category filters and search functionality
+- **Cross-Page Links**: Ensure navigation between pages works correctly
+
+#### 2. Layout & Visual Testing (NEW)
+- **Navigation Analysis**: Automated measurement of navigation positioning and width
+- **Footer Visibility**: Cross-page testing of footer positioning and visibility
+- **Content Width**: Verification that content uses intended width constraints
+- **Responsive Layout**: Testing across different viewport sizes
+
+#### 3. Debugging & Troubleshooting
+- **Screenshot Capture**: Automated visual documentation of layout issues
+- **CSS Analysis**: Computed style extraction for debugging layout conflicts
+- **Element Positioning**: Precise measurement of element dimensions and positions
+- **Cross-Page Consistency**: Ensuring layout consistency across all pages
 - **Environment**: Isolated virtual environment (`selenium_env/`)
 
-### Test Organization
+### Selenium Debugging Methodology
+
+### Innovation: Automated Layout Debugging
+
+We pioneered the use of Selenium WebDriver for systematic layout debugging, providing objective measurements and visual documentation that traditional debugging methods cannot match.
+
+#### Traditional Debugging Limitations
+- **Visual inspection**: Subjective and error-prone
+- **Browser dev tools**: Manual, time-consuming
+- **CSS inspection**: Limited to single elements
+- **Cross-page testing**: Inconsistent and manual
+
+#### Our Selenium Approach
+- **Objective measurements**: Pixel-perfect element positioning
+- **Automated screenshots**: Visual documentation of issues
+- **Computed style analysis**: Complete CSS property extraction
+- **Cross-page consistency**: Systematic testing across all routes
+- **Quantitative analysis**: Mathematical verification of layout behavior
+
+#### Example Debugging Script
+```python
+def analyze_layout_issue():
+    driver = setup_driver()
+    try:
+        # Navigate and capture measurements
+        driver.get("http://localhost:8000")
+        
+        # Get precise element positioning
+        element_rect = driver.execute_script("return arguments[0].getBoundingClientRect();", element)
+        
+        # Extract computed styles
+        styles = driver.execute_script("return window.getComputedStyle(arguments[0]);", element)
+        
+        # Calculate layout relationships
+        center_offset = abs(element_center - window_center)
+        
+        # Document with screenshot
+        driver.save_screenshot("layout_analysis.png")
+        
+        # Report quantitative findings
+        print(f"Element width: {element_rect['width']}px")
+        print(f"Center offset: {center_offset}px")
+        print(f"Computed styles: {styles}")
+        
+    finally:
+        driver.quit()
+```
+
+#### Debugging Tools Created
+- **`navigation_detailed_analysis.py`**: Comprehensive navigation layout analysis
+- **`footer_visibility_test.py`**: Cross-page footer positioning verification
+- **`calendar_width_analysis.py`**: Content width constraint analysis
+
+#### Key Benefits
+1. **Reproducible**: Same results every time
+2. **Comprehensive**: Tests all pages automatically
+3. **Documented**: Screenshots provide visual proof
+4. **Quantitative**: Precise measurements, not estimates
+5. **Efficient**: Automated analysis vs. manual inspection
+
+## Test Organization
 ```
 tests/
 ├── README.md              # Test documentation and usage
 ├── run_tests.py           # Test runner (executable)
 ├── test_routing.py        # Main site routing tests
-└── test_qr_standalone.py  # Standalone page tests
+├── test_qr_standalone.py  # Standalone page tests
+├── navigation_detailed_analysis.py  # Layout debugging tool
+├── footer_visibility_test.py        # Footer positioning analysis
+├── footer_positioning_test.py       # Detailed footer debugging
+└── calendar_width_analysis.py       # Content width verification
 ```
 
 ## Test Categories
@@ -63,6 +147,30 @@ tests/
 - Test QR Code toggle and panel visibility
 - Verify QR Code generation and info display
 - Validate navigation links work correctly
+
+### 3. Layout Debugging Tools (NEW)
+
+**Purpose**: Systematic debugging of CSS layout issues using Selenium WebDriver.
+
+**Tools**:
+- **`navigation_detailed_analysis.py`**: Comprehensive navigation layout analysis
+- **`footer_visibility_test.py`**: Cross-page footer positioning verification
+- **`footer_positioning_test.py`**: Detailed footer positioning analysis
+- **`calendar_width_analysis.py`**: Content width constraint analysis
+
+**Coverage**:
+- Element positioning and dimensions
+- CSS computed styles extraction
+- Cross-page layout consistency
+- Automated screenshot documentation
+- Quantitative layout analysis
+
+**Key Features**:
+- Objective measurements instead of visual inspection
+- Automated screenshot capture for visual verification
+- Computed style analysis for debugging CSS conflicts
+- Cross-page testing for layout consistency
+- Mathematical verification of layout behavior
 
 ## Testing Approach
 

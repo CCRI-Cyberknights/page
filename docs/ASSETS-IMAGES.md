@@ -17,12 +17,20 @@ convert source.png -strip -quality 85 -define webp:method=6 output.webp
 
 ## Current Assets
 
+### Branding Images
 - `images/branding/cybersmith.webp` — header and home hero, social sharing image
 - `images/branding/cyberknight-welder.webp` — club page hero
-- `favicon.ico` — site favicon
-- `images/screenshots/VBoxSummary-optimized.webp` — VirtualBox configuration screenshot
+
+### Map Images
 - `images/maps/map-rm4080-optimized.webp` — Warwick campus Room 4080 map (optimized)
 - `images/maps/map-rm4080-original.png` — Warwick campus Room 4080 map (original)
+- `images/maps/map-warwick-4080-edit.png` — Warwick campus Room 4080 map (edited version)
+
+### Screenshots
+- `images/screenshots/VBoxSummary-optimized.webp` — VirtualBox configuration screenshot
+
+### Other Assets
+- `favicon.ico` — site favicon
 
 ## Map Images
 

@@ -107,6 +107,9 @@ If you are a club member, you can fork this repository and submit a pull request
 - QR UI Details: `docs/QR-UI.md`
 - Resources Maintainers: `docs/RESOURCES-MAINTAINERS.md`
 - Site Operations: `docs/SITE-OPERATIONS.md`
+- **Layout Troubleshooting**: `docs/LAYOUT-TROUBLESHOOTING.md` ⭐
+- **Testing Strategy**: `docs/TESTING.md` ⭐
+- **Selenium Debugging Innovation**: `docs/SELENIUM-DEBUGGING-INNOVATION.md` ⭐
 - Resources page: `docs/RESOURCES.md`
 - Troubleshooting: `docs/TROUBLESHOOTING.md`
 - Color Palette: `docs/color-palettes/COLOR-PALETTE.md`
@@ -222,9 +225,22 @@ Use these words as copy anchors across pages. Primary accents use CCRI green (`#
 
 These requirements ensure the project will be a highly effective and easily maintainable solution for the CyberKnights Club's marketing and resource distribution. The files provided show a clear focus on building a professional club image, and this project directly supports that goal.
 
-## Testing
+## Testing & Debugging Innovation
 
-The project includes a comprehensive test suite located in the `tests/` directory:
+The project includes a comprehensive test suite with innovative Selenium-based debugging capabilities:
+
+### Automated Testing
+- **Functional Tests**: Routing, QR codes, resource filtering, cross-page navigation
+- **Layout Tests**: Navigation positioning, footer visibility, content width verification
+- **Visual Debugging**: Automated screenshots and CSS analysis for layout troubleshooting
+
+### Selenium Debugging Innovation ⭐
+We pioneered the use of Selenium WebDriver for systematic layout debugging:
+- **Objective Measurements**: Pixel-perfect element positioning analysis
+- **Automated Screenshots**: Visual documentation of layout issues  
+- **CSS Analysis**: Computed style extraction for debugging conflicts
+- **Cross-Page Testing**: Systematic verification across all routes
+- **Quantitative Analysis**: Mathematical verification of layout behavior
 
 ### Running Tests
 
