@@ -20,7 +20,7 @@ Design goals:
 - Deep link to a category: `#/resources/ctf-competitions`, `#/resources/ctf-tools`, `#/resources/code-breaking`, `#/resources/ccri`, `#/resources/cyberknights`, `#/resources/linux`, `#/resources/stem`
 - From Home: “Resources” button near hero
 - From Club page (`#/cybersecurity`): “View Resources” link and tag chips under “What we do”/“Get involved”
-- From Linux page (`#/linux`): “Further reading” link
+- From Linux page (`#/linux`): "Linux Learner's Guide" link
 
 ## Categories
 
@@ -34,7 +34,7 @@ Design goals:
 ## Page Structure
 
 - Search/filter: one input filters by name, category label, or URL
-- Category chips: quick filters; "Cyberknights" selected by default
+- Category chips: quick filters; "Cyberknights" selected by default; order: Cyberknights, CCRI & Certs, CTF Competitions, CTF & Code Breaking Tools, STEM Day, Linux
 - Cards grid: cards with name, category, and descriptions for better discoverability
 - Beginner guidance: "Getting Started?" section to help new users navigate resources
 - Back link: returns to `#/cybersecurity`

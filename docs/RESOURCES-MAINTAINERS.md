@@ -8,14 +8,13 @@ Resources are defined in `index.html` inside `renderResourcesPage()` as:
 { name: 'CyberChef', url: 'https://cyberchef.io/', cat: 'ctf-tools' }
 ```
 
-Category keys map to labels:
-- `code-breaking` → Code Breaking Tools
-- `ctf-tools` → CTF Tools
-- `ctf-competitions` → CTF Competitions
+Category keys map to labels (in display order):
+- `cyberknights` → Cyberknights (default filter)
 - `ccri` → CCRI & Certs
-- `cyberknights` → Cyberknights
-- `linux` → Linux
+- `ctf-competitions` → CTF Competitions
+- `ctf-tools` → CTF & Code Breaking Tools
 - `stem` → STEM Day
+- `linux` → Linux
 
 ## How to Add/Edit
 

@@ -35,13 +35,13 @@ To link a QR code to a specific page, use hash routes. For example:
 ### Resources Deep Links
 
 - All resources: `#/resources` (defaults to Cyberknights filter)
-- Category links:
-  - CTF & Code Breaking Tools: `#/resources/ctf-tools`
-  - CTF Competitions: `#/resources/ctf-competitions`
-  - CCRI & Certs: `#/resources/ccri`
+- Category links (in display order):
   - Cyberknights: `#/resources/cyberknights` (default)
-  - Linux: `#/resources/linux`
+  - CCRI & Certs: `#/resources/ccri`
+  - CTF Competitions: `#/resources/ctf-competitions`
+  - CTF & Code Breaking Tools: `#/resources/ctf-tools`
   - STEM Day: `#/resources/stem`
+  - Linux: `#/resources/linux`
 
 ## Contribution
 
