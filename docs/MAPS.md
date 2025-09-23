@@ -8,7 +8,7 @@ The site includes campus-specific map pages to help students find meeting locati
 
 ### Warwick Campus - Room 4080
 - **URL**: `#/map-warwick-4080`
-- **Image**: `map-rm4080-optimized.webp`
+- **Image**: `images/maps/map-rm4080-optimized.webp`
 - **Location**: Auditorium (Room 4080)
 - **Meeting Times**: Mondays 5-6pm, Wednesdays 5-6pm, Saturdays 10am-1pm
 
@@ -23,7 +23,7 @@ Each map page follows this template structure:
     <p class="text-slate-300">Find our meeting location in the {room name}.</p>
     
     <div class="rounded-lg overflow-hidden border border-slate-800 bg-slate-900/40">
-      <img src="map-{campus}-{room}-optimized.webp" alt="Campus Map showing Room {room} location" class="w-full h-auto" />
+      <img src="images/maps/map-{campus}-{room}-optimized.webp" alt="Campus Map showing Room {room} location" class="w-full h-auto" />
     </div>
     
     <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
@@ -40,7 +40,7 @@ Each map page follows this template structure:
 - Create or obtain the campus map image
 - Optimize using ImageMagick:
   ```bash
-  convert map-{campus}-{room}-original.png -quality 85 -strip -resize 1200x800 map-{campus}-{room}-optimized.webp
+  convert images/maps/map-{campus}-{room}-original.png -quality 85 -strip -resize 1200x800 images/maps/map-{campus}-{room}-optimized.webp
   ```
 
 ### 2. Add Template to index.html
@@ -70,8 +70,8 @@ All map images should be optimized for web:
 
 - **Template ID**: `page-map-{campus}-{room}`
 - **Route**: `map-{campus}-{room}`
-- **Image**: `map-{campus}-{room}-optimized.webp`
-- **Original**: `map-{campus}-{room}-original.png`
+- **Image**: `images/maps/map-{campus}-{room}-optimized.webp`
+- **Original**: `images/maps/map-{campus}-{room}-original.png`
 
 Examples:
 - Warwick Room 4080: `page-map-warwick-4080`, `#/map-warwick-4080`

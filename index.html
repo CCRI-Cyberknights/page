@@ -7,7 +7,7 @@
   <meta name="description" content="A centralized hub for the CCRI Cyberknights Club. Find information about when and where to find the Cyberknights, and much more!">
   <meta property="og:title" content="CCRI Cyberknights Club">
   <meta property="og:description" content="A centralized hub for the CCRI Cyberknights Club. Find information about when and where to find the Cyberknights, and much more!">
-  <meta property="og:image" content="https://ccri-cyberknights.github.io/page/cybersmith.webp">
+  <meta property="og:image" content="https://ccri-cyberknights.github.io/page/images/branding/cybersmith.webp">
   <link rel="icon" href="favicon.ico">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="./js/qrcode.min.js"></script>
@@ -67,12 +67,12 @@
   <header class="max-w-5xl mx-auto px-4 py-6">
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <img src="cybersmith.webp" alt="Cyberknights" class="w-10 h-10 rounded" />
+        <img src="images/branding/cybersmith.webp" alt="Cyberknights" class="w-10 h-10 rounded" />
       </div>
       <nav class="flex gap-4 text-sm">
         <a href="#/home" class="hover:opacity-80 transition-opacity" style="color: var(--pale-alloy);">Home</a>
         <a href="#/cybersecurity" class="hover:opacity-80 transition-opacity" style="color: var(--pale-alloy);">Club</a>
-        <a href="#/linux" class="hover:opacity-80 transition-opacity" style="color: var(--pale-alloy);">Linux Guide</a>
+        <a href="#/linux" class="hover:opacity-80 transition-opacity" style="color: var(--pale-alloy);">Linux</a>
         <a href="#/calendar" class="hover:opacity-80 transition-opacity" style="color: var(--pale-alloy);">Calendar</a>
         <a href="#/resources" class="hover:opacity-80 transition-opacity" style="color: var(--pale-alloy);">Resources</a>
       </nav>
@@ -165,7 +165,7 @@
         </div>
       </div>
       <div class="flex justify-center">
-        <img src="cybersmith.webp" alt="Cyberknights" class="w-72 h-72 object-contain drop-shadow-[0_0_40px_rgba(16,185,129,0.25)]" />
+        <img src="images/branding/cybersmith.webp" alt="Cyberknights" class="w-72 h-72 object-contain drop-shadow-[0_0_40px_rgba(16,185,129,0.25)]" />
       </div>
     </section>
 
@@ -222,7 +222,7 @@
         </div>
       </div>
       <div class="flex justify-center">
-        <img src="cyberknight-welder.webp" alt="Cyberknights" class="w-72 h-72 object-contain drop-shadow-[0_0_40px_rgba(16,185,129,0.25)]" />
+        <img src="images/branding/cyberknight-welder.webp" alt="Cyberknights" class="w-72 h-72 object-contain drop-shadow-[0_0_40px_rgba(16,185,129,0.25)]" />
       </div>
     </section>
 
@@ -346,7 +346,7 @@
         
         <div class="mt-6 p-4 rounded-lg border border-slate-800 bg-slate-900/40">
           <h4 class="text-sm font-semibold mb-3 text-slate-300">Expected Summary Screen:</h4>
-          <img src="VBoxSummary-optimized.webp" alt="VirtualBox Summary Screen showing expected configuration" class="w-full max-w-2xl mx-auto rounded border border-slate-700" />
+          <img src="images/screenshots/VBoxSummary-optimized.webp" alt="VirtualBox Summary Screen showing expected configuration" class="w-full max-w-2xl mx-auto rounded border border-slate-700" />
         </div>
       </div>
 
@@ -500,7 +500,7 @@
       <p class="text-slate-300">Find our new meeting location in the Auditorium (Room 4080).</p>
       
       <div class="rounded-lg overflow-hidden border border-slate-800 bg-slate-900/40">
-        <img src="map-rm4080-optimized.webp" alt="Campus Map showing Room 4080 location" class="w-full h-auto" />
+        <img src="images/maps/map-rm4080-optimized.webp" alt="Campus Map showing Room 4080 location" class="w-full h-auto" />
       </div>
       
       <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
@@ -989,11 +989,18 @@
         const q = (search && search.value || '').toLowerCase();
         const active = filterButtons.find(b => b.classList.contains('ring-1'))?.dataset.filter || 'cyberknights';
         let items = data.slice();
-        items = items.filter(r => r.cat === active);
-        if (q) items = items.filter(r => {
-          const catLabel = (catNames[r.cat] || r.cat).toLowerCase();
-          return r.name.toLowerCase().includes(q) || r.url.toLowerCase().includes(q) || catLabel.includes(q);
-        });
+        
+        // If there's a search query, search across all resources regardless of category
+        if (q) {
+          items = items.filter(r => {
+            const catLabel = (catNames[r.cat] || r.cat).toLowerCase();
+            return r.name.toLowerCase().includes(q) || r.url.toLowerCase().includes(q) || catLabel.includes(q);
+          });
+        } else {
+          // If no search query, filter by active category
+          items = items.filter(r => r.cat === active);
+        }
+        
         renderLists(items);
       }
 
