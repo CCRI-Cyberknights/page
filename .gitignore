@@ -1,5 +1,5 @@
 # Python virtual environment
-selenium_env/
+testing_env/
 
 # Python cache files
 __pycache__/

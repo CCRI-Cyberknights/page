@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CCRI Cyberknights Club</title>
   <meta name="description" content="A centralized hub for the CCRI Cyberknights Club. Find information about when and where to find the Cyberknights, and much more!">
-  <meta name="version" content="1.3.0">
+    <meta name="version" content="1.4.0">
   <meta property="og:title" content="CCRI Cyberknights Club">
   <meta property="og:description" content="A centralized hub for the CCRI Cyberknights Club. Find information about when and where to find the Cyberknights, and much more!">
   <meta property="og:image" content="https://ccri-cyberknights.github.io/page/images/branding/cybersmith.webp">
@@ -113,12 +113,12 @@
   <footer class="border-t border-slate-800/60 mt-16">
     <div class="max-w-5xl mx-auto px-4 py-6 text-xs text-slate-400 flex items-center justify-between">
       <div class="flex items-center gap-4">
-        <div>
-          © <span id="year"></span> CCRI Cybersecurity Club
+      <div>
+        © <span id="year"></span> CCRI Cybersecurity Club
         </div>
         <div class="text-slate-500">•</div>
         <div>
-          <span id="version" title="Commit: 01ae82d - 2025-09-23 13:22:18 -0400" class="hover:text-slate-300 cursor-help transition-colors">v1.3.0</span>
+          <span id="version" title="Commit: 01ae82d - 2025-09-23 13:22:18 -0400" class="hover:text-slate-300 cursor-help transition-colors">v1.4.0</span>
         </div>
       </div>
       <div class="relative">
@@ -162,7 +162,7 @@
         </div>
       </div>
     </div>
-    </footer>
+  </footer>
 
   <template id="page-home">
     <!-- Hero Section -->
@@ -326,33 +326,33 @@
         <div class="text-center">
           <h3 class="text-2xl font-bold mb-2" style="color: var(--neon-surge);">USB Boot Guide</h3>
           <p class="text-slate-300">Boot directly from a USB drive to try our Linux distribution without installing.</p>
-        </div>
+      </div>
 
-        <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
+      <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
           <h4 class="text-lg font-semibold mb-4" style="color: var(--neon-surge);">Step-by-Step Instructions</h4>
-          <ol class="list-decimal list-inside space-y-3 text-slate-200">
-            <li>Shut down your computer completely.</li>
-            <li>Insert the prepared USB drive into an available USB port.</li>
-            <li>Power on your computer and immediately start tapping the boot menu key (see below) as soon as the manufacturer logo appears.</li>
-            <li>Continue tapping the key about twice per second until the boot menu opens.</li>
-            <li>If you miss the timing, restart your computer and try again.</li>
-            <li>Select the USB device from the boot menu and press Enter.</li>
-            <li>Follow the on-screen instructions to try or install the Linux distribution.</li>
-          </ol>
-        </div>
-        <p class="mt-2 text-slate-400 text-sm">Tip: Start tapping the key about twice per second right after pressing the power button. This is normal for most brands.</p>
+        <ol class="list-decimal list-inside space-y-3 text-slate-200">
+          <li>Shut down your computer completely.</li>
+          <li>Insert the prepared USB drive into an available USB port.</li>
+          <li>Power on your computer and immediately start tapping the boot menu key (see below) as soon as the manufacturer logo appears.</li>
+          <li>Continue tapping the key about twice per second until the boot menu opens.</li>
+          <li>If you miss the timing, restart your computer and try again.</li>
+          <li>Select the USB device from the boot menu and press Enter.</li>
+          <li>Follow the on-screen instructions to try or install the Linux distribution.</li>
+        </ol>
+      </div>
+      <p class="mt-2 text-slate-400 text-sm">Tip: Start tapping the key about twice per second right after pressing the power button. This is normal for most brands.</p>
 
         <div class="p-5 rounded-lg border border-slate-800 bg-slate-900/40">
           <h4 class="font-semibold mb-3">Common One-Time Boot Keys</h4>
-          <div class="grid sm:grid-cols-2 gap-3 text-sm">
-            <div><span class="text-slate-400">Dell</span>: F12</div>
-            <div><span class="text-slate-400">HP</span>: Esc, F9</div>
-            <div><span class="text-slate-400">Lenovo</span>: F12, Novo Button</div>
-            <div><span class="text-slate-400">Acer</span>: F12</div>
+        <div class="grid sm:grid-cols-2 gap-3 text-sm">
+          <div><span class="text-slate-400">Dell</span>: F12</div>
+          <div><span class="text-slate-400">HP</span>: Esc, F9</div>
+          <div><span class="text-slate-400">Lenovo</span>: F12, Novo Button</div>
+          <div><span class="text-slate-400">Acer</span>: F12</div>
             <div><span class="text-slate-400">ASUS</span>: Esc, F8, F12</div>
-            <div><span class="text-slate-400">MSI</span>: F11</div>
-            <div><span class="text-slate-400">Toshiba</span>: F12</div>
-            <div><span class="text-slate-400">Samsung</span>: Esc, F12</div>
+          <div><span class="text-slate-400">MSI</span>: F11</div>
+          <div><span class="text-slate-400">Toshiba</span>: F12</div>
+          <div><span class="text-slate-400">Samsung</span>: Esc, F12</div>
           </div>
         </div>
       </div>
@@ -1327,8 +1327,8 @@
         if (q) {
           items = items.filter(r => {
             const catLabel = getCategoryLabel(r.cat).toLowerCase();
-            return r.name.toLowerCase().includes(q) || r.url.toLowerCase().includes(q) || catLabel.includes(q);
-          });
+          return r.name.toLowerCase().includes(q) || r.url.toLowerCase().includes(q) || catLabel.includes(q);
+        });
         } else {
           // If no search query, filter by active category
           items = items.filter(r => r.cat === active);

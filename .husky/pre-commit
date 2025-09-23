@@ -1,4 +1,17 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npm run version:auto
+# Run dynamic link testing before version bumping
+echo "🔗 Discovering and testing all links before commit..."
+cd "$(dirname -- "$0")/.."
+source testing_env/bin/activate
+python3 scripts/test-links-dynamic.py
+
+# Check if link testing passed
+if [ $? -eq 0 ]; then
+    echo "✅ All links are working correctly. Proceeding with version bump..."
+    npm run version:auto
+else
+    echo "❌ Link testing failed! Please fix broken links before committing."
+    exit 1
+fi

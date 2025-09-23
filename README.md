@@ -261,7 +261,7 @@ Intelligent versioning system with conventional commits and file change analysis
 
 2. **Activate the test environment:**
    ```bash
-   source selenium_env/bin/activate
+   source testing_env/bin/activate
    ```
 
 3. **Run all tests:**

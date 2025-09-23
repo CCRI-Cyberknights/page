@@ -38,7 +38,7 @@ The project uses a comprehensive test suite to validate:
 - **CSS Analysis**: Computed style extraction for debugging layout conflicts
 - **Element Positioning**: Precise measurement of element dimensions and positions
 - **Cross-Page Consistency**: Ensuring layout consistency across all pages
-- **Environment**: Isolated virtual environment (`selenium_env/`)
+- **Environment**: Isolated virtual environment (`testing_env/`)
 
 ### Selenium Debugging Methodology
 
@@ -216,8 +216,8 @@ tests/
 
 **Virtual Environment**:
 ```bash
-python -m venv selenium_env
-source selenium_env/bin/activate
+python -m venv testing_env
+source testing_env/bin/activate
 pip install selenium
 ```
 
@@ -260,7 +260,7 @@ time.sleep(2)  # For complex interactions
 
 2. **Activate Test Environment**:
    ```bash
-   source selenium_env/bin/activate
+   source testing_env/bin/activate
    ```
 
 ### Test Execution
@@ -344,13 +344,13 @@ jobs:
           python-version: 3.x
       - name: Install dependencies
         run: |
-          python -m venv selenium_env
-          source selenium_env/bin/activate
+          python -m venv testing_env
+          source testing_env/bin/activate
           pip install selenium
       - name: Run tests
         run: |
           python3 -m http.server 8000 &
-          source selenium_env/bin/activate
+          source testing_env/bin/activate
           python tests/run_tests.py
 ```
 
