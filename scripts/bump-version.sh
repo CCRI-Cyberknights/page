@@ -79,7 +79,7 @@ analyze_commit_message() {
     fi
     
     # Check for PATCH indicators (broad - includes docs, chore, etc.)
-    if [[ "$commit_msg" =~ ^(fix|bug|patch|docs|style|refactor|perf|test|chore): ]]; then
+    if [[ "$commit_msg" =~ ^(fix|bug|patch|docs|style|refactor|perf|test|chore|improve|enhance): ]]; then
         echo "patch"
         return
     fi
