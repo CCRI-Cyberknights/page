@@ -25,4 +25,13 @@ Thumbs.db
 # Logs
 *.log
 
+# Node.js dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Package lock files (keep package-lock.json for consistency)
+# package-lock.json
+
 # Note: js/ folder is intentionally tracked for shared JavaScript files

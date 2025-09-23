@@ -1,6 +1,6 @@
 {
   "name": "ccri-cyberknights-landing-pages",
-  "version": "1.0.113",
+  "version": "1.1.0",
   "description": "QR Code Landing Pages for CCRI Cyberknights Club",
   "private": true,
   "scripts": {
@@ -9,7 +9,7 @@
     "version:show": "echo $npm_package_version",
     "version:auto": "./scripts/bump-version.sh auto",
     "version:patch": "./scripts/bump-version.sh patch",
-    "version:minor": "./scripts/bump-version.sh minor", 
+    "version:minor": "./scripts/bump-version.sh minor",
     "version:major": "./scripts/bump-version.sh major",
     "prepare": "husky install"
   },

@@ -56,11 +56,8 @@ update_html_version() {
     sed -i "s/<!-- Version: [^ ]* -->/<!-- Version: ${version} -->/g" index.html
     sed -i "s/<meta name=\"version\" content=\"[^\"]*\">/<meta name=\"version\" content=\"${version}\">/g" index.html
     
-    # Update footer version display
-    sed -i "s/<span id=\"version\">[^<]*<\/span>/<span id=\"version\">${version}<\/span>/g" index.html
-    
-    # Update version tooltip with commit info
-    sed -i "s/title=\"[^\"]*\"/title=\"Commit: ${commit_hash} - ${commit_date}\"/g" index.html
+    # Update footer version display with proper pattern
+    sed -i "s/<span id=\"version\"[^>]*>[^<]*<\/span>/<span id=\"version\" title=\"Commit: ${commit_hash} - ${commit_date}\" class=\"hover:text-slate-300 cursor-help transition-colors\">v${version}<\/span>/g" index.html
     
     echo -e "${BLUE}HTML updated with version ${version}${NC}"
 }
