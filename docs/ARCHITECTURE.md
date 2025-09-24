@@ -3,15 +3,18 @@
 Single-file site hosted on GitHub Pages with Tailwind (CDN) and small JS modules.
 
 - Router: hash-based `#/page` swaps `<template>` content into `#app` with async document loading capability.
-- Pages: Home, Club, Linux, Calendar, Resources, Campus Maps, Documents.
-- Branding: Banner and CCRI green accents; hero uses `images/branding/cybersmith.webp`. Hybrid forge color palette with `#04703C` primary green and industrial accents.
-- Navigation: Simplified direct navigation (no hamburger menu) with clean header design featuring logo only.
+- Pages: Home (merged Club content with strategic banner placement), Linux, Calendar, Resources, Campus Maps, Documents, Blog.
+- Branding: Interactive Cyber Knight icons with full-screen modal expansion, canonical color palette with CSS variables, enhanced QR code landing banner. Hero uses `images/branding/cyberknight-welder.webp` with toggle functionality. Home page features "Excitement • Opportunity • Belonging" banner for QR code users. Generalized image toggle system with CSS custom properties for consistent 96% screen width expansion.
+- Navigation: Button-style navigation links with clear visual hierarchy, mobile-optimized search with fixed positioning, external link indicators.
+- Content Architecture: Strategic content reorganization with career-focused messaging, standardized text hierarchy, and logical grouping of related content in "Our Members Get Hired!" section.
+- Interactive Images: Unified toggle system for navigation icons, welder image, and VBox summary screenshot with consistent sizing and behavior.
 - Calendar: Google embed (default) with optional ICS-powered features (toggle via `ENABLE_CUSTOM_CALENDAR`). Features color-coded meeting types and clickable room numbers.
 - QR Codes: Per-page footer generator renders to canvas using vendored encoder. Controls allow changing ECL (L/M/Q/H). PNG export uses the current ECL.
-- Resources: `#/resources` route renders from a single in-page data array with comprehensive card-based display. Features organized categories, detailed resource descriptions, modal system for enhanced readability, dynamic button text, and defaults to "Cyberknights" filter. Supports deep-linking via `#/resources/<filter>` and syncs chip clicks back to the hash. All major resources include comprehensive summaries and detailed descriptions covering technical aspects, practical applications, and user benefits. Cards use 12px font for summaries with modal enlargement for detailed reading.
+- Resources: `#/resources` route renders from a single in-page data array with comprehensive card-based display. Features organized categories, detailed resource descriptions with bullet-point formatting, expand/collapse functionality, modal system for enhanced readability with click-anywhere-to-close behavior, dynamic button text, and defaults to "Cyberknights" filter. Supports deep-linking via `#/resources/<filter>` and syncs chip clicks back to the hash. All major resources include comprehensive summaries and detailed descriptions covering technical aspects, practical applications, and user benefits. Cards use 12px font for summaries with modal enlargement for detailed reading. Modal content uses consistent bullet-point formatting via `formatDetailedSummary()` function.
 - Documents: `#/document/filename.html` routes load standalone HTML files into the SPA shell with clean display (no template headers). Documents display with their native headers only. Supports dual-mode operation (SPA integration and standalone access).
 - Maps: Campus-specific map pages (e.g., `/map-warwick-4080`) with optimized images and meeting location details.
-- Testing: Comprehensive Selenium WebDriver test suite covering client-side routing, QR code functionality, and cross-page navigation. Tests run in headless Chrome with isolated virtual environment.
+- Interactive Elements: DRY implementation for image toggle functionality, CSS-based modal overlays, responsive design with viewport constraints.
+- Testing: Comprehensive Selenium WebDriver test suite covering client-side routing, QR code functionality, cross-page navigation, and interactive element behavior. Tests run in headless Chrome with isolated virtual environment.
 - Versioning: Intelligent automated versioning system with conventional commits, file change analysis, and pre-commit hooks. Version displayed in footer with commit information tooltip.
 - SEO: Open Graph meta tags for social media sharing and search engine optimization.
 

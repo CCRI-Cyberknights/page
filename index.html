@@ -104,6 +104,16 @@
       --molten-glow: #FFCC33;     /* bright molten metal */
     }
 
+    /* Image Toggle System - CSS Custom Properties for Consistency */
+    :root {
+      --image-expanded-width: min(96vw, 1400px);
+      --image-expanded-height: min(96vh, 1000px);
+      --image-expanded-bg: rgba(0, 0, 0, 0.9);
+      --image-expanded-padding: 2rem;
+      --image-expanded-shadow: 0 0 60px rgba(16, 185, 129, 0.5);
+      --image-expanded-radius: 1rem;
+    }
+
     /* Cyber Knight Icon States - Simplified */
     .icon-collapsed {
       width: 2.5rem; /* 40px - equivalent to w-10 */
@@ -121,13 +131,13 @@
       left: 50%;
       transform: translate(-50%, -50%);
       z-index: 50;
-      width: min(90vw, 1200px);
-      height: min(90vh, 800px);
+      width: var(--image-expanded-width);
+      height: var(--image-expanded-height);
       object-fit: contain;
-      background-color: rgba(0, 0, 0, 0.9);
-      border-radius: 1rem;
-      padding: 2rem;
-      box-shadow: 0 0 60px rgba(16, 185, 129, 0.5);
+      background-color: var(--image-expanded-bg);
+      border-radius: var(--image-expanded-radius);
+      padding: var(--image-expanded-padding);
+      box-shadow: var(--image-expanded-shadow);
     }
 
     /* Cyber Knight Welder Large Image States */
@@ -144,13 +154,37 @@
       left: 50%;
       transform: translate(-50%, -50%);
       z-index: 50;
-      width: min(90vw, 1200px);
-      height: min(90vh, 800px);
+      width: var(--image-expanded-width);
+      height: var(--image-expanded-height);
       object-fit: contain;
-      background-color: rgba(0, 0, 0, 0.9);
-      border-radius: 1rem;
-      padding: 2rem;
-      box-shadow: 0 0 60px rgba(16, 185, 129, 0.5);
+      background-color: var(--image-expanded-bg);
+      border-radius: var(--image-expanded-radius);
+      padding: var(--image-expanded-padding);
+      box-shadow: var(--image-expanded-shadow);
+    }
+
+    /* VBox Summary Image States */
+    .vbox-summary-collapsed {
+      width: 100%;
+      margin: 0 auto;
+      border-radius: 0.375rem; /* equivalent to rounded */
+      border: 1px solid #334155; /* equivalent to border-slate-700 */
+      object-fit: contain;
+    }
+    
+    .vbox-summary-expanded {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 50;
+      width: var(--image-expanded-width);
+      height: var(--image-expanded-height);
+      object-fit: contain;
+      background-color: var(--image-expanded-bg);
+      border-radius: var(--image-expanded-radius);
+      padding: var(--image-expanded-padding);
+      box-shadow: var(--image-expanded-shadow);
     }
   </style>
 </head>
@@ -226,6 +260,17 @@
   </footer>
 
   <template id="page-home">
+    <!-- Excitement Opportunity Belonging Banner -->
+    <div class="w-full text-white text-sm tracking-wide mb-6" style="background-color: var(--primary-green);">
+      <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap items-center justify-center gap-4 text-center">
+        <span class="font-semibold">Excitement</span>
+        <span>•</span>
+        <span class="font-semibold">Opportunity</span>
+        <span>•</span>
+        <span class="font-semibold">Belonging</span>
+      </div>
+    </div>
+    
     <!-- Hero Section -->
     <section class="mb-12 p-6 rounded-lg border" style="border-color: var(--primary-green); background: linear-gradient(to right, rgba(4, 112, 60, 0.1), rgba(67, 204, 80, 0.1));">
       <div class="text-center space-y-4">
@@ -254,18 +299,6 @@
           Who are the Cyber Knights?
         </h2>
         
-        <!-- Key Selling Points - QR Code Landing Banner -->
-        <div class="mt-6 mb-8 p-6 rounded-lg border-2 border-emerald-500/60 bg-gradient-to-r from-emerald-900/20 to-emerald-800/20 text-center shadow-lg" style="background: linear-gradient(135deg, rgba(4, 112, 60, 0.15), rgba(16, 185, 129, 0.1));">
-          <div class="text-xl font-bold mb-3" style="color: var(--neon-surge);">Our members get hired!</div>
-          <div class="text-base font-medium mb-2" style="color: var(--pale-alloy);">Join a community that fosters</div>
-          <div class="flex justify-center items-center gap-4 text-lg font-bold">
-            <span class="px-3 py-1 rounded-md bg-emerald-600/20 border border-emerald-500/40" style="color: var(--neon-surge);">Excitement</span>
-            <span class="text-emerald-400">•</span>
-            <span class="px-3 py-1 rounded-md bg-emerald-600/20 border border-emerald-500/40" style="color: var(--neon-surge);">Opportunity</span>
-            <span class="text-emerald-400">•</span>
-            <span class="px-3 py-1 rounded-md bg-emerald-600/20 border border-emerald-500/40" style="color: var(--neon-surge);">Belonging</span>
-          </div>
-        </div>
         
         <p class="text-slate-300">
           We're a student community learning cybersecurity through hands-on workshops, labs, and projects. 
@@ -282,29 +315,37 @@
 
     <!-- Mission Statement -->
     <section class="mt-12">
-      <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
-        <h3 class="text-lg font-semibold mb-3">Our Mission</h3>
-        <p class="text-slate-300 mb-4">
-          Building a thriving cybersecurity community at CCRI through:
-        </p>
-        <ul class="text-slate-300 space-y-2 text-sm">
-          <li class="flex items-start">
-            <span class="font-semibold text-white mr-2">•</span>
-            <span>Game nights and social events for all skill levels</span>
-          </li>
-          <li class="flex items-start">
-            <span class="font-semibold text-white mr-2">•</span>
-            <span>Practical workshops beyond traditional lectures</span>
-          </li>
-          <li class="flex items-start">
-            <span class="font-semibold text-white mr-2">•</span>
-            <span>Welcoming environment for all skill levels</span>
-          </li>
-          <li class="flex items-start">
-            <span class="font-semibold text-white mr-2">•</span>
-            <span>Career boost: Resume reviews, mock interviews, Handshake tips, and industry guest speakers</span>
-          </li>
-        </ul>
+      <div class="flex flex-col lg:flex-row gap-6">
+        <!-- Mission Box -->
+        <div class="flex-1 p-6 rounded-lg border border-slate-800 bg-slate-900/40">
+          <h3 class="text-lg font-semibold mb-3">Our Mission</h3>
+          <p class="text-slate-300 mb-4">
+            Building a thriving cybersecurity community at CCRI through:
+          </p>
+          <ul class="text-slate-300 space-y-2 text-sm">
+            <li class="flex items-start">
+              <span class="font-semibold text-white mr-2">•</span>
+              <span>Game nights and social events for all skill levels</span>
+            </li>
+            <li class="flex items-start">
+              <span class="font-semibold text-white mr-2">•</span>
+              <span>Practical workshops beyond traditional lectures</span>
+            </li>
+            <li class="flex items-start">
+              <span class="font-semibold text-white mr-2">•</span>
+              <span>Welcoming environment for all skill levels</span>
+            </li>
+          </ul>
+        </div>
+        
+        <!-- Key Selling Points Box -->
+        <div class="flex-1 p-6 rounded-lg border-2 border-emerald-500/60 bg-gradient-to-r from-emerald-900/20 to-emerald-800/20 text-center shadow-lg" style="background: linear-gradient(135deg, rgba(4, 112, 60, 0.15), rgba(16, 185, 129, 0.1));">
+          <div class="text-xl font-bold mb-4" style="color: var(--neon-surge);">Our Members Get Hired!</div>
+          <div class="text-base mb-3 text-slate-300">From resumes to real jobs — we help you land the role.</div>
+          <div class="text-base mb-3 text-slate-300">Build skills. Make connections. Get hired.</div>
+          <div class="text-base mb-3 text-slate-300">Workshops, networking, competitions — straight to careers.</div>
+          <div class="text-base mb-4 text-slate-300">Real experience. Real employers. Real results.</div>
+        </div>
       </div>
     </section>
 
@@ -492,7 +533,7 @@
         
         <div class="mt-6 p-4 rounded-lg border border-slate-800 bg-slate-900/40">
           <h4 class="text-sm font-semibold mb-3 text-slate-300">Expected Summary Screen:</h4>
-          <img src="images/screenshots/VBoxSummary-optimized.webp" alt="VirtualBox Summary Screen showing expected configuration" class="w-full max-w-2xl mx-auto rounded border border-slate-700" />
+          <img id="vbox-summary-image" src="images/screenshots/VBoxSummary-optimized.webp" alt="VirtualBox Summary Screen showing expected configuration" class="vbox-summary-collapsed cursor-pointer transition-all duration-300 ease-in-out" onclick="toggleImageSize('vbox-summary-image')" />
         </div>
       </div>
 
@@ -1349,7 +1390,7 @@
         const catLabel = getCategoryLabel(resource.cat);
         
         modal.innerHTML = `
-          <div class="bg-slate-900 border border-slate-700 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+          <div class="bg-slate-900 border border-slate-700 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto cursor-pointer" onclick="closeResourceModal()">
             <div class="p-6">
               <!-- Header -->
               <div class="flex items-start justify-between mb-4">
@@ -1370,14 +1411,15 @@
               <!-- Detailed Summary -->
               ${resource.detailedSummary ? `
                 <div class="text-slate-400 mb-6 leading-relaxed">
-                  ${resource.detailedSummary}
+                  ${formatDetailedSummary(resource.detailedSummary)}
                 </div>
               ` : ''}
               
               <!-- Action Button -->
               <div class="flex justify-end">
                 <a href="${resource.url}" ${getExternalLinkAttributes()} 
-                   class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded transition-colors">
+                   class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded transition-colors" 
+                   onclick="event.stopPropagation()">
                   <span>${buttonText}</span>
                   <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
@@ -1577,14 +1619,24 @@
       if (!element) return;
 
       // Determine which classes to toggle based on element ID
-      const isWelder = elementId === 'cyberknight-welder-large';
-      const expandedClass = isWelder ? 'welder-expanded' : 'icon-expanded';
-      const collapsedClass = isWelder ? 'welder-collapsed' : 'icon-collapsed';
+      let expandedClass, collapsedClass;
+      
+      if (elementId === 'cyberknight-welder-large') {
+        expandedClass = 'welder-expanded';
+        collapsedClass = 'welder-collapsed';
+      } else if (elementId === 'vbox-summary-image') {
+        expandedClass = 'vbox-summary-expanded';
+        collapsedClass = 'vbox-summary-collapsed';
+      } else {
+        // Default to icon classes for navigation icon
+        expandedClass = 'icon-expanded';
+        collapsedClass = 'icon-collapsed';
+      }
 
       element.classList.toggle(expandedClass);
       element.classList.toggle(collapsedClass);
       
-      // Add/remove body scroll lock when expanded (both images now use full-screen modal)
+      // Add/remove body scroll lock when expanded (all images use full-screen modal)
       if (element.classList.contains(expandedClass)) {
         document.body.style.overflow = 'hidden';
       } else {

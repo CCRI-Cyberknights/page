@@ -6,19 +6,22 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 
 ## Features
 
-- Multi-page Design: Uses a single `index.html` file with a JavaScript router to display multiple pages, each corresponding to a different QR code. This allows us to use multiple QR codes that direct to a single, easily manageable URL.
-- Fully Responsive: The site is built with Tailwind CSS, ensuring a clean and optimal viewing experience on any device, from desktop computers to mobile phones.
-- Clean UI/UX: Simplified navigation with consistent design patterns, organized resource categories, and beginner-friendly guidance.
-- Branded Color Palette: Hybrid forge color scheme with `#04703C` primary green, industrial accents, and strategic color hierarchy.
-- Automated Testing: Comprehensive test suite using Selenium WebDriver to ensure functionality across different pages and features.
-- Key Landing Pages:
-  - Home: Features a hero section announcing venue changes and club mission
-  - Cybersecurity Club: Provides links to our main club page and the official signup form
-  - CyberKnights Linux: Contains comprehensive boot guides including USB Boot Guide and VirtualBox Boot Guide, with step-by-step instructions and common one-time boot menu keys
-  - Calendar: Displays meeting schedules with color-coded meeting types and clickable room numbers
-  - Resources: Comprehensive resource cards with detailed descriptions, modal system for enhanced readability, and organized categories with default club filter. All major resources include comprehensive summaries covering technical aspects, practical applications, and user benefits.
-  - Campus Maps: Interactive maps for meeting locations (e.g., `/map-warwick-4080`)
-  - Documents: Standalone HTML documents that can be loaded within the SPA or accessed directly
+- **Multi-page Design**: Uses a single `index.html` file with a JavaScript router to display multiple pages, each corresponding to a different QR code. This allows us to use multiple QR codes that direct to a single, easily manageable URL.
+- **Fully Responsive**: The site is built with Tailwind CSS, ensuring a clean and optimal viewing experience on any device, from desktop computers to mobile phones.
+- **Interactive Elements**: Cyber Knight icons with full-screen modal expansion, button-style navigation with clear visual hierarchy, and mobile-optimized search functionality.
+- **Enhanced UX**: Resource cards with expand/collapse functionality, bullet-point formatting, external link indicators, modal system with click-anywhere-to-close behavior, and streamlined content architecture.
+- **Generalized Image Toggle System**: Unified CSS custom properties for consistent image expansion across all toggleable images (navigation icons, welder image, VBox screenshot) with 96% screen width expansion.
+- **Branded Color Palette**: Canonical color palette with CSS variables, hybrid forge color scheme with `#04703C` primary green, industrial accents, and strategic color hierarchy.
+- **Automated Testing**: Comprehensive test suite using Selenium WebDriver to ensure functionality across different pages and features.
+- **Automated Versioning**: Intelligent version management with conventional commits, pre-commit hooks, and semantic versioning.
+- **Key Landing Pages**:
+  - **Home**: Merged club content with engaging "Who are the Cyber Knights?" headline, strategic "Excitement • Opportunity • Belonging" banner for QR code users, enhanced career messaging with "Our Members Get Hired!" section, and logical content organization
+  - **Linux**: Generic Linux installation guides with USB Boot Guide and VirtualBox Boot Guide, step-by-step instructions and common boot menu keys
+  - **Calendar**: Meeting schedules with color-coded meeting types and clickable room numbers
+  - **Resources**: Comprehensive resource cards with detailed descriptions, bullet-point formatting, modal system with click-anywhere-to-close behavior for enhanced readability, and organized categories with default club filter
+  - **Campus Maps**: Interactive maps for meeting locations (e.g., `/map-warwick-4080`)
+  - **Documents**: Standalone HTML documents that can be loaded within the SPA or accessed directly
+  - **Blog**: Updates and announcements (coming soon)
 
 ## Getting Started
 
@@ -27,10 +30,10 @@ To view the site locally, simply open the `index.html` file in your web browser.
 To link a QR code to a specific page, use hash routes. For example:
 
 - To link to the Home page: `your-site-url.com/#/home`
-- To link to the Cybersecurity Club page: `your-site-url.com/#/cybersecurity`
 - To link to the Linux guide: `your-site-url.com/#/linux`
 - To link to the Calendar: `your-site-url.com/#/calendar`
 - To link to the Resources: `your-site-url.com/#/resources`
+- To link to the Blog: `your-site-url.com/#/blog`
 - To link to the Warwick Room 4080 map: `your-site-url.com/#/map-warwick-4080`
 - To link to a document: `your-site-url.com/#/document/path/to/file.html`
 
@@ -95,14 +98,23 @@ If you are a club member, you can fork this repository and submit a pull request
   - Button: Download PNG
   - ECL Correction Level controls: − M + (cycles L → M → Q → H)
 - You can link directly to a page via hash, for example:
-  - Club page: `<pages-url>/#/cybersecurity`
+  - Home page: `<pages-url>/#/home`
   - Linux guide: `<pages-url>/#/linux`
-  - Home: `<pages-url>/#/home`
   - Calendar: `<pages-url>/#/calendar`
+  - Resources: `<pages-url>/#/resources`
+  - Blog: `<pages-url>/#/blog`
 
 ## Documentation Index
 
-- Architecture: `docs/ARCHITECTURE.md`
+- **Architecture**: `docs/ARCHITECTURE.md` ⭐
+- **Design Evolution v1.5**: `docs/DESIGN-EVOLUTION-v1.5.md` ⭐ **NEW**
+- **Image Toggle System**: `docs/IMAGE-TOGGLE-SYSTEM.md` ⭐ **NEW**
+- **Changelog**: `docs/CHANGELOG.md` ⭐ **NEW**
+- **UI Improvements**: `docs/UI-IMPROVEMENTS.md`
+- **Version Management**: `docs/VERSION-MANAGEMENT.md` ⭐
+- **Testing Strategy**: `docs/TESTING.md` ⭐
+- **Selenium Debugging Innovation**: `docs/SELENIUM-DEBUGGING-INNOVATION.md` ⭐
+- **Layout Troubleshooting**: `docs/LAYOUT-TROUBLESHOOTING.md` ⭐
 - Calendar maintainer guide: `docs/CALENDAR-UPDATING.md`
 - Document Loading System: `docs/DOCUMENT-LOADING.md`
 - Document Usage Examples: `docs/DOCUMENT-EXAMPLES.md`
@@ -113,10 +125,6 @@ If you are a club member, you can fork this repository and submit a pull request
 - QR UI Details: `docs/QR-UI.md`
 - Resources Maintainers: `docs/RESOURCES-MAINTAINERS.md`
 - Site Operations: `docs/SITE-OPERATIONS.md`
-- **Layout Troubleshooting**: `docs/LAYOUT-TROUBLESHOOTING.md` ⭐
-- **Testing Strategy**: `docs/TESTING.md` ⭐
-- **Selenium Debugging Innovation**: `docs/SELENIUM-DEBUGGING-INNOVATION.md` ⭐
-- **Version Management**: `docs/VERSION-MANAGEMENT.md` ⭐
 - Resources page: `docs/RESOURCES.md`
 - Troubleshooting: `docs/TROUBLESHOOTING.md`
 - Color Palette: `docs/color-palettes/COLOR-PALETTE.md`

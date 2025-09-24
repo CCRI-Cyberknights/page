@@ -2,7 +2,9 @@
 
 ## Overview
 
-This document outlines the comprehensive UI/UX improvements implemented to enhance the user experience and visual consistency of the CCRI Cyberknights landing page.
+This document outlines the comprehensive UI/UX improvements implemented to enhance the user experience and visual consistency of the CCRI Cyberknights landing page. This document covers the evolution from v1.4.x through v1.5.x, including the Navigation & Interaction Upgrade and Content and Information Architecture Overhaul.
+
+**Note**: For comprehensive documentation of v1.5.x changes, see [Design Evolution v1.5](DESIGN-EVOLUTION-v1.5.md).
 
 ## Implemented Improvements
 
@@ -26,11 +28,33 @@ This document outlines the comprehensive UI/UX improvements implemented to enhan
 
 ### 4. Enhanced Resource Discoverability
 - **Added beginner guidance**: "Getting Started?" section with clear recommendations
+
+### 5. Improved Modal Interaction (v1.5.1)
+- **Click-anywhere-to-close**: Users can now click anywhere on modal content to close it
+- **Consistent bullet formatting**: Modal content uses the same bullet-point formatting as inline expansion
+- **Preserved action functionality**: "Visit Site" button opens links without closing the modal
+- **Enhanced user experience**: Multiple ways to close modals (click content, click X, click outside)
 - **Resource descriptions**: Added optional `desc` field to resource data for better context
 - **Improved card layout**: Enhanced resource cards with descriptions and better visual hierarchy
 - **Default filter**: Set "Cyberknights" as the default filter instead of "All"
 
-### 5. Enhanced Linux Guide
+### 6. Content Architecture Refinement (v1.5.1)
+- **Strategic banner placement**: "Excitement • Opportunity • Belonging" banner restored to home page only for QR code users
+- **Content reorganization**: Moved career boost details from Mission box to "Our Members Get Hired!" box for better logical grouping
+- **Enhanced hiring messaging**: Updated copy to "From resumes to real jobs — we help you land the role" with supporting details
+- **Standardized text hierarchy**: "Our Members Get Hired!" as prominent green headline with consistent supporting text styling
+- **Improved readability**: All supporting text uses same color and size for uniform scanning experience
+- **Streamlined messaging**: Removed redundant taglines and consolidated career-focused content
+
+### 7. Interactive Image System Enhancement (v1.5.1)
+- **VBox Summary Image Toggle**: Added interactive toggle functionality to VirtualBox summary screenshot
+- **Generalized Image Sizing**: Implemented CSS custom properties for consistent image expansion across all toggleable images
+- **Improved Visibility**: All images now expand to 96% screen width (increased from 90%) for better detail viewing
+- **Full Container Width**: VBox summary image spans full container width in collapsed state for maximum visibility
+- **Unified System**: Single CSS variable system ensures consistent behavior across navigation icons, welder image, and VBox screenshot
+- **Enhanced User Experience**: Consistent sizing and behavior across all interactive images
+
+### 8. Enhanced Linux Guide
 - **Reformatted title**: Changed to "CyberKnights Linux" with "USB Boot Guide" subtitle
 - **Improved instructions**: Broke down long steps into multiple sub-steps for better readability
 - **Visual container**: Added styled container for step-by-step instructions

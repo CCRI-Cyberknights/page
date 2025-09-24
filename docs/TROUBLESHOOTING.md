@@ -90,6 +90,72 @@ touch .nojekyll
 
 ## Common Development Issues
 
+### Modal Interaction Problems
+
+**Problem:** Resource modals not closing when clicking on content
+
+**Symptoms:**
+- Users had to click the "X" button to close modals
+- Clicking anywhere on the modal content didn't close it
+- Poor user experience for modal interaction
+
+**Root Cause:**
+The modal was only configured to close when clicking the overlay (outside the modal) or the "X" button, but not when clicking on the modal content itself.
+
+**Solution:**
+1. **Added click handler to modal content:**
+   ```javascript
+   <div class="bg-slate-900 border border-slate-700 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto cursor-pointer" onclick="closeResourceModal()">
+   ```
+
+2. **Prevented action button from closing modal:**
+   ```javascript
+   <a href="${resource.url}" ... onclick="event.stopPropagation()">
+   ```
+
+**Current Implementation:**
+- Click anywhere on modal content → Modal closes
+- Click "Visit Site" button → Opens link (doesn't close modal)
+- Click "X" button → Modal closes (still works)
+- Click outside modal → Modal closes (already worked)
+
+**Verification:**
+- Modal closes when clicking on title, content, or empty areas
+- Action button still functions correctly without closing modal
+- All existing close methods continue to work
+
+### Bulleted Formatting Inconsistency
+
+**Problem:** Modal content displayed as wall of text instead of bullet points
+
+**Symptoms:**
+- Inline card expansion showed bulleted content
+- Modal popup showed raw text without formatting
+- Inconsistent user experience between interaction methods
+
+**Root Cause:**
+The modal was displaying `resource.detailedSummary` directly without using the `formatDetailedSummary()` function that creates bullet points.
+
+**Solution:**
+Updated modal to use the same formatting function as inline expansion:
+```javascript
+// Before
+${resource.detailedSummary}
+
+// After  
+${formatDetailedSummary(resource.detailedSummary)}
+```
+
+**Current Implementation:**
+- Both inline card expansion and modal popup use bulleted formatting
+- Consistent user experience across all resource detail views
+- Same `formatDetailedSummary()` function used everywhere
+
+**Verification:**
+- Modal content displays with bullet points
+- Inline expansion continues to work with bullet points
+- Consistent formatting across all interaction methods
+
 ### JavaScript Module Loading
 
 **Problem:** QR code functionality not working after refactoring
@@ -143,6 +209,12 @@ Before deploying changes:
    - [ ] All resource categories display correctly
    - [ ] Filtering works properly
    - [ ] Deep links function correctly
+   - [ ] Modal opens when clicking resource cards
+   - [ ] Modal closes when clicking anywhere on content
+   - [ ] Modal displays bulleted formatting
+   - [ ] Action button opens links without closing modal
+   - [ ] Inline card expansion shows bulleted content
+   - [ ] Inline expansion can be collapsed by re-clicking
 
 ### Automated Testing
 
