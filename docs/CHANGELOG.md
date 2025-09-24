@@ -5,6 +5,47 @@ All notable changes to the CCRI Cyberknights Landing Pages project are documente
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.4] - 2024-12-19
+
+### Added
+- **Comprehensive QR Code Documentation**: Complete documentation system for QR code integration
+  - **Document README**: `document/README.md` with implementation details and replication guide
+  - **Scripts README**: `scripts/README.md` with QR code generation system documentation
+  - **Cross-Reference Network**: All documentation files now properly reference QR code system
+
+### Changed
+- **Branding Update**: Updated Linux Cheatsheet title from "CCRI Cyberknights" to "Cyber Club"
+- **Spelling Correction**: Fixed "Cheat Sheet" to "Cheatsheet" for consistency
+- **Documentation Integration**: Enhanced all major documentation files with QR code references
+
+### Technical Implementation
+- **Documentation Architecture**: Comprehensive cross-referenced documentation system
+- **Replication Framework**: Complete guides for extending QR code system to other documents
+- **Version Management**: Updated to v1.5.4 with proper changelog documentation
+
+## [1.5.3] - 2024-12-19
+
+### Added
+- **QR Code Integration in Educational Documents**: Implemented comprehensive QR code system for Linux cheat sheet
+  - **Table-based Layout**: Clean, spreadsheet-like interface combining video titles, URLs, and QR codes
+  - **Base64 Embedded QR Codes**: Self-contained QR codes with green backgrounds and black modules
+  - **Single Clickable Links**: Combined video titles and short URLs into unified clickable areas
+  - **Custom QR Generation**: Python script (`scripts/generate_qr_codes.py`) for generating styled QR codes
+  - **Comprehensive Documentation**: Detailed implementation guides in `document/README.md` and `scripts/README.md`
+
+### Technical Implementation
+- **QR Code Specifications**: Low Error Correction Level (L), 8px box size, 2px border for minimal margins
+- **Color Scheme**: Green background (#10b981) with black modules for optimal scanning
+- **HTML Structure**: Table-based layout with centered QR codes and borderless design
+- **URL Strategy**: Short YouTube URLs (youtu.be) for cleaner QR codes, full URLs for clickable links
+- **Replication System**: Complete documentation and tools for extending to other educational documents
+
+### Documentation Updates
+- **Updated README.md**: Added QR code integration features and documentation references
+- **Enhanced ARCHITECTURE.md**: Documented QR code system in technical architecture
+- **Updated QR-CODES.md**: Added section on educational document QR integration
+- **Cross-Referenced Documentation**: Ensured all relevant docs reference the new QR system
+
 ## [1.5.2] - 2024-09-24
 
 ### Fixed

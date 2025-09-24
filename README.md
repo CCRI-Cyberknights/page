@@ -23,6 +23,9 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
   - **Resources**: Comprehensive resource cards with detailed descriptions, bullet-point formatting, modal system with click-anywhere-to-close behavior for enhanced readability, organized categories with default club filter, and consistent footer positioning
   - **Campus Maps**: Interactive maps for meeting locations (e.g., `/map-warwick-4080`)
   - **Documents**: Standalone HTML documents with DRY CSS classes and consistent styling (Linux Cheatsheet 1, Linux Day 1 Setup Tips) that can be loaded within the SPA or accessed directly
+  - **QR Code Integration**: Educational documents feature embedded QR codes for instant access to related video content
+  - **Table-Based Layout**: Clean, spreadsheet-like interface with video titles, URLs, and scannable QR codes
+  - **Base64 Embedding**: Self-contained QR codes with no external dependencies
   - **Blog**: Updates and announcements (coming soon)
 
 ## Getting Started
@@ -121,6 +124,8 @@ If you are a club member, you can fork this repository and submit a pull request
 - Document Loading System: `docs/DOCUMENT-LOADING.md`
 - Document Usage Examples: `docs/DOCUMENT-EXAMPLES.md`
 - QR Codes: `docs/QR-CODES.md`
+- QR Code Integration: `document/README.md` ⭐ **NEW**
+- QR Code Generation: `scripts/README.md` ⭐ **NEW**
 - Routing & Navigation: `docs/ROUTING-NAV.md`
 - Mobile UX Guide: `docs/MOBILE-UX-GUIDE.md`
 - Image Assets: `docs/ASSETS-IMAGES.md`
