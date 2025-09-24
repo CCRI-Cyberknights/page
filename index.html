@@ -346,8 +346,8 @@
   <template id="page-linux">
     <section class="space-y-6">
       <div class="text-center mb-8">
-        <h2 class="text-3xl sm:text-4xl font-bold mb-2">CyberKnights Linux</h2>
-        <p class="text-slate-300 mt-4">Choose your preferred method to explore our custom Linux distribution.</p>
+        <h2 class="text-3xl sm:text-4xl font-bold mb-2">Linux Installation Guide</h2>
+        <p class="text-slate-300 mt-4">Learn how to install Linux distributions using USB drives or virtual machines.</p>
       </div>
 
       <!-- Navigation Index -->
@@ -379,7 +379,7 @@
       <div id="usb-boot-guide" class="space-y-6">
         <div class="text-center">
           <h3 class="text-2xl font-bold mb-2" style="color: var(--neon-surge);">USB Boot Guide</h3>
-          <p class="text-slate-300">Boot directly from a USB drive to try our Linux distribution without installing.</p>
+          <p class="text-slate-300">Boot directly from a USB drive to try any Linux distribution without installing.</p>
       </div>
 
       <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
@@ -415,24 +415,23 @@
       <div id="virtualbox-boot-guide" class="space-y-6 mt-12">
         <div class="text-center">
           <h3 class="text-2xl font-bold mb-2" style="color: var(--arc-weld-blue);">VirtualBox Boot Guide</h3>
-          <p class="text-slate-300">Run our Linux distribution safely in a virtual machine using VirtualBox.</p>
+          <p class="text-slate-300">Run any Linux distribution safely in a virtual machine using VirtualBox.</p>
         </div>
 
         <div class="p-5 rounded-lg border border-blue-800/30 bg-blue-900/20">
           <h4 class="font-semibold mb-3 text-blue-300">Prerequisites</h4>
           <ul class="list-disc list-inside space-y-2 text-slate-200 text-sm">
             <li>VirtualBox installed on your computer</li>
-            <li>CyberKnights Linux thumb drive with .iso file</li>
+            <li>Linux ISO image file downloaded to your computer</li>
           </ul>
         </div>
 
         <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
           <h4 class="text-lg font-semibold mb-4" style="color: var(--arc-weld-blue);">Step-by-Step Instructions</h4>
           <ol class="list-decimal list-inside space-y-3 text-slate-200">
-            <li>Plug in the CyberKnights Linux thumb drive.</li>
-            <li>Copy the <strong>.iso</strong> image file from the "CYBERFILES" partition on the thumb drive to your desktop.</li>
+            <li>Download a Linux ISO image file to your computer.</li>
             <li>In VirtualBox, create a new machine by selecting <strong>Machine>New</strong> from file menu.</li>
-            <li>Name the machine "CyberKnights" and select the <strong>.iso</strong> image from your desktop.</li>
+            <li>Name the machine (e.g., "Linux VM") and select the <strong>.iso</strong> image file.</li>
             <li>A group of 4 buttons appears at bottom right of the window. You can toggle between Guided Mode and Expert Mode.
               <br>&nbsp;&nbsp;&nbsp;&nbsp;• <strong>IMPORTANT:</strong> Ensure that you're in <strong>Guided Mode</strong>
               <br>&nbsp;&nbsp;&nbsp;&nbsp;• ("Expert Mode" appears on the button when in Guided Mode)</li>
@@ -830,7 +829,7 @@
       const location = (e.location || '').replace(/\n/g, ' ');
       const uid = `${dtstart}-${summary.replace(/[^A-Za-z0-9]+/g,'-')}@ccri-cyberclub`;
       const lines = [
-        'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//CCRI Cybersecurity Club//EN','BEGIN:VEVENT',
+        'BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//CCRI Cyber Club//EN','BEGIN:VEVENT',
         `UID:${uid}`,`DTSTAMP:${toIcsDate(new Date())}`,`DTSTART:${dtstart}`,`DTEND:${dtend}`,
         `SUMMARY:${summary}`, description ? `DESCRIPTION:${description}` : '', location ? `LOCATION:${location}` : '', 'END:VEVENT','END:VCALENDAR'
       ].filter(Boolean);
