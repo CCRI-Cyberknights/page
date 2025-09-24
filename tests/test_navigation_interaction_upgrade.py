@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
 """
 Test suite for Navigation & Interaction Upgrade (v1.5.0)
 
@@ -44,7 +45,7 @@ class NavigationInteractionUpgradeTests(unittest.TestCase):
     
     def setUp(self):
         """Navigate to resources page before each test"""
-        self.driver.get(f"{self.base_url}/#/resources")
+        self.driver.get("{}/#/resources".format(self.base_url))
         time.sleep(2)  # Allow page to load
     
     def test_navigation_button_styles(self):
@@ -59,18 +60,18 @@ class NavigationInteractionUpgradeTests(unittest.TestCase):
         for link in nav_links:
             # Check for button-like styling classes
             classes = link.get_attribute("class")
-            self.assertIn("px-3", classes, f"Link should have horizontal padding: {link.text}")
-            self.assertIn("py-2", classes, f"Link should have vertical padding: {link.text}")
-            self.assertIn("rounded-md", classes, f"Link should be rounded: {link.text}")
-            self.assertIn("bg-slate-800", classes, f"Link should have background: {link.text}")
-            self.assertIn("border", classes, f"Link should have border: {link.text}")
-            self.assertIn("font-medium", classes, f"Link should have medium font weight: {link.text}")
+            self.assertIn("px-3", classes, "Link should have horizontal padding: {}".format(link.text))
+            self.assertIn("py-2", classes, "Link should have vertical padding: {}".format(link.text))
+            self.assertIn("rounded-md", classes, "Link should be rounded: {}".format(link.text))
+            self.assertIn("bg-slate-800", classes, "Link should have background: {}".format(link.text))
+            self.assertIn("border", classes, "Link should have border: {}".format(link.text))
+            self.assertIn("font-medium", classes, "Link should have medium font weight: {}".format(link.text))
             
             # Check hover effects
-            self.assertIn("hover:bg-slate-700", classes, f"Link should have hover background: {link.text}")
-            self.assertIn("transition-all", classes, f"Link should have transitions: {link.text}")
+            self.assertIn("hover:bg-slate-700", classes, "Link should have hover background: {}".format(link.text))
+            self.assertIn("transition-all", classes, "Link should have transitions: {}".format(link.text))
             
-        print("✅ Navigation button styles verified")
+        print("✓ Navigation button styles verified")
     
     def test_mobile_search_dropdown(self):
         """Test mobile-friendly search with dropdown results"""
@@ -118,7 +119,7 @@ class NavigationInteractionUpgradeTests(unittest.TestCase):
         dropdown_classes = dropdown.get_attribute("class")
         self.assertIn("hidden", dropdown_classes, "Search dropdown should be hidden when cleared")
         
-        print("✅ Mobile search dropdown functionality verified")
+        print("✓ Mobile search dropdown functionality verified")
     
     def test_resource_card_expand_collapse(self):
         """Test resource card expand/collapse functionality"""
@@ -159,9 +160,9 @@ class NavigationInteractionUpgradeTests(unittest.TestCase):
             self.assertIn("hidden", detailed_summary.get_attribute("class"), 
                          "Detailed summary should be hidden when collapsed")
             
-            print("✅ Resource card expand/collapse functionality verified")
+            print("✓ Resource card expand/collapse functionality verified")
         else:
-            print("⚠️ No resource cards with 'more info' found - skipping test")
+            print("! No resource cards with 'more info' found - skipping test")
     
     def test_external_link_indicators(self):
         """Test external link indicators on outbound links"""
@@ -175,7 +176,7 @@ class NavigationInteractionUpgradeTests(unittest.TestCase):
         for link in external_links:
             # Check for external link icon
             icon = link.find_element(By.CSS_SELECTOR, "svg")
-            self.assertIsNotNone(icon, f"External link should have icon: {link.get_attribute('href')}")
+            self.assertIsNotNone(icon, "External link should have icon: {}".format(link.get_attribute('href')))
             
             # Check icon attributes
             icon_classes = icon.get_attribute("class")
@@ -187,11 +188,11 @@ class NavigationInteractionUpgradeTests(unittest.TestCase):
             target = link.get_attribute("target")
             rel = link.get_attribute("rel")
             
-            self.assertEqual(target, "_blank", f"External link should open in new tab: {href}")
-            self.assertIn("noopener", rel, f"External link should have noopener: {href}")
-            self.assertIn("noreferrer", rel, f"External link should have noreferrer: {href}")
+            self.assertEqual(target, "_blank", "External link should open in new tab: {}".format(href))
+            self.assertIn("noopener", rel, "External link should have noopener: {}".format(href))
+            self.assertIn("noreferrer", rel, "External link should have noreferrer: {}".format(href))
         
-        print("✅ External link indicators verified")
+        print("✓ External link indicators verified")
     
     def test_clickable_vs_static_text(self):
         """Test distinction between clickable and static text elements"""
@@ -211,9 +212,9 @@ class NavigationInteractionUpgradeTests(unittest.TestCase):
             tag_name = element.tag_name.lower()
             
             if tag_name == "a":
-                self.assertIn("hover:", classes, f"Clickable link should have hover effects: {element.text}")
+                self.assertIn("hover:", classes, "Clickable link should have hover effects: {}".format(element.text))
             elif "cursor-pointer" in classes:
-                self.assertIn("hover:", classes, f"Clickable element should have hover effects: {element.text}")
+                self.assertIn("hover:", classes, "Clickable element should have hover effects: {}".format(element.text))
         
         # Test static elements don't have click styling
         for element in static_elements[:5]:  # Test first 5 to avoid too many assertions
@@ -223,9 +224,9 @@ class NavigationInteractionUpgradeTests(unittest.TestCase):
             if tag_name in ["p", "span"] and not element.find_elements(By.XPATH, ".//*[@onclick or @href]"):
                 # Static text shouldn't have cursor-pointer unless it's inside a clickable element
                 self.assertNotIn("cursor-pointer", classes, 
-                               f"Static text shouldn't have cursor-pointer: {element.text[:50]}")
+                               "Static text shouldn't have cursor-pointer: {}".format(element.text[:50]))
         
-        print("✅ Clickable vs static text distinction verified")
+        print("✓ Clickable vs static text distinction verified")
     
     def test_link_integrity(self):
         """Test that all links are valid and functional"""
@@ -252,10 +253,10 @@ class NavigationInteractionUpgradeTests(unittest.TestCase):
                 target = link.get_attribute("target")
                 rel = link.get_attribute("rel")
                 
-                self.assertEqual(target, "_blank", f"External link should open in new tab: {href}")
-                self.assertIn("noopener", rel, f"External link should have noopener: {href}")
+                self.assertEqual(target, "_blank", "External link should open in new tab: {}".format(href))
+                self.assertIn("noopener", rel, "External link should have noopener: {}".format(href))
         
-        print("✅ Link integrity verified")
+        print("✓ Link integrity verified")
     
     def test_mobile_responsiveness(self):
         """Test mobile responsiveness of new features"""
@@ -269,11 +270,11 @@ class NavigationInteractionUpgradeTests(unittest.TestCase):
         nav_links = self.driver.find_elements(By.CSS_SELECTOR, "nav a")
         for link in nav_links:
             # Check if buttons are still visible and clickable
-            self.assertTrue(link.is_displayed(), f"Navigation button should be visible on mobile: {link.text}")
+            self.assertTrue(link.is_displayed(), "Navigation button should be visible on mobile: {}".format(link.text))
             
             # Check button size is appropriate for mobile
             size = link.size
-            self.assertGreater(size["height"], 30, f"Button should be tall enough for mobile: {link.text}")
+            self.assertGreater(size["height"], 30, "Button should be tall enough for mobile: {}".format(link.text))
         
         # Test search functionality on mobile
         search_input = self.driver.find_element(By.ID, "resources-search")
@@ -290,12 +291,12 @@ class NavigationInteractionUpgradeTests(unittest.TestCase):
         # Reset viewport
         self.driver.set_window_size(1920, 1080)
         
-        print("✅ Mobile responsiveness verified")
+        print("✓ Mobile responsiveness verified")
 
 
 def run_tests():
     """Run all tests"""
-    print("🚀 Starting Navigation & Interaction Upgrade Tests (v1.5.0)")
+    print("Starting Navigation & Interaction Upgrade Tests (v1.5.0)")
     print("=" * 60)
     
     # Create test suite
@@ -307,22 +308,22 @@ def run_tests():
     
     # Print summary
     print("\n" + "=" * 60)
-    print(f"Tests run: {result.testsRun}")
-    print(f"Failures: {len(result.failures)}")
-    print(f"Errors: {len(result.errors)}")
+    print("Tests run: {}".format(result.testsRun))
+    print("Failures: {}".format(len(result.failures)))
+    print("Errors: {}".format(len(result.errors)))
     
     if result.failures:
         print("\nFailures:")
         for test, traceback in result.failures:
-            print(f"- {test}: {traceback}")
+            print("- {}: {}".format(test, traceback))
     
     if result.errors:
         print("\nErrors:")
         for test, traceback in result.errors:
-            print(f"- {test}: {traceback}")
+            print("- {}: {}".format(test, traceback))
     
     success = len(result.failures) == 0 and len(result.errors) == 0
-    print(f"\n{'✅ All tests passed!' if success else '❌ Some tests failed!'}")
+    print("\n{}".format("✓ All tests passed!" if success else "✗ Some tests failed!"))
     
     return success
 

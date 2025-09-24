@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>CCRI Cyberknights Club</title>
-  <meta name="description" content="A centralized hub for the CCRI Cyberknights Club. Find information about when and where to find the Cyberknights, and much more!">
-    <meta name="version" content="1.5.0">
-  <meta property="og:title" content="CCRI Cyberknights Club">
-  <meta property="og:description" content="A centralized hub for the CCRI Cyberknights Club. Find information about when and where to find the Cyberknights, and much more!">
+  <title id="page-title">CCRI Cyberknights Club</title>
+  <meta name="description" content="A centralized hub for the CCRI Cyber Club. Find information about when and where to find the Cyberknights, and much more!">
+    <meta name="version" content="1.5.1">
+  <meta property="og:title" content="CCRI Cyber Club">
+  <meta property="og:description" content="A centralized hub for the CCRI Cyber Club. Find information about when and where to find the Cyberknights, and much more!">
   <meta property="og:image" content="https://ccri-cyberknights.github.io/page/images/branding/cybersmith.webp">
   <link rel="icon" href="favicon.ico">
   <script src="https://cdn.tailwindcss.com"></script>
@@ -98,7 +98,8 @@
       --primary-green: #04703C;   /* corrected primary green - deep forest */
       --primary-green-light: #0A8B4F; /* lighter variant for hover */
       --neon-surge: #43CC50;      /* visor glow; ancillary accent */
-      --ember-spark: #C27329;     /* flying sparks; warm accent */
+      --ember-spark: #C27329;     /* flying sparks; warm accent - CANONICAL ORANGE */
+      --ember-spark-light: #D4843A; /* lighter orange for hover states */
       --arc-weld-blue: #2DB2C4;   /* electric arc welding */
       --molten-glow: #FFCC33;     /* bright molten metal */
     }
@@ -118,11 +119,10 @@
   <header class="max-w-5xl mx-auto px-4 py-6">
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <img src="images/branding/cybersmith.webp" alt="Cyberknights" class="w-10 h-10 rounded" />
+        <img src="images/branding/cybersmith.webp" alt="Cyberknights" class="w-10 h-10 rounded cursor-pointer hover:scale-110 transition-transform duration-200" onclick="expandIcon()" />
       </div>
       <nav class="flex gap-2 text-sm">
-        <a href="#/home" class="px-3 py-2 rounded-md bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700 hover:border-slate-600 transition-all duration-200 text-slate-200 hover:text-white font-medium">Home</a>
-        <a href="#/cybersecurity" class="px-3 py-2 rounded-md bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700 hover:border-slate-600 transition-all duration-200 text-slate-200 hover:text-white font-medium">Club</a>
+        <a href="#/home" class="px-3 py-2 rounded-md bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700 hover:border-slate-600 transition-all duration-200 text-slate-200 hover:text-white font-medium">Club Home</a>
         <a href="#/linux" class="px-3 py-2 rounded-md bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700 hover:border-slate-600 transition-all duration-200 text-slate-200 hover:text-white font-medium">Linux</a>
         <a href="#/calendar" class="px-3 py-2 rounded-md bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700 hover:border-slate-600 transition-all duration-200 text-slate-200 hover:text-white font-medium">Calendar</a>
         <a href="#/resources" class="px-3 py-2 rounded-md bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700 hover:border-slate-600 transition-all duration-200 text-slate-200 hover:text-white font-medium">Resources</a>
@@ -135,11 +135,11 @@
     <div class="max-w-5xl mx-auto px-4 py-6 text-xs text-slate-400 flex items-center justify-between">
       <div class="flex items-center gap-4">
       <div>
-        © <span id="year"></span> CCRI Cybersecurity Club
+        © <span id="year"></span> <span id="club-name-footer"></span>
         </div>
         <div class="text-slate-500">•</div>
         <div>
-          <span id="version" title="Commit: 0a2b75d - 2025-09-23 17:15:00 -0400" class="hover:text-slate-300 cursor-help transition-colors">v1.5.0</span>
+          <span id="version" title="Commit: 0a2b75d - 2025-09-23 17:31:58 -0400" class="hover:text-slate-300 cursor-help transition-colors">v1.5.1</span>
         </div>
       </div>
       <div class="relative">
@@ -207,17 +207,24 @@
       </div>
     </section>
 
+    <!-- Main Club Introduction -->
     <section class="grid lg:grid-cols-2 items-center gap-10 pt-4">
       <div class="space-y-6">
         <h2 class="text-3xl sm:text-4xl font-bold leading-tight">
-          Cyberknights at CCRI
+          Who are the Cyber Knights?
         </h2>
+        
+        <!-- Key Selling Points -->
+        <div class="mt-6 mb-6 p-4 rounded-lg border border-emerald-700/40 bg-emerald-900/10 text-center" style="color: var(--neon-surge);">
+          <div class="text-lg font-bold mb-2">Our members get hired!</div>
+          <div class="text-sm">Join a community that fosters <span class="font-semibold text-white">Excitement</span>, <span class="font-semibold text-white">Opportunity</span>, and <span class="font-semibold text-white">Belonging</span></div>
+        </div>
+        
         <p class="text-slate-300">
           We're a student community learning cybersecurity through hands-on workshops, labs, and projects. 
           Join us for game nights, competitions, and practical learning experiences.
         </p>
         <div class="flex flex-wrap gap-3">
-          <a href="#/cybersecurity" class="px-4 py-2 rounded font-medium transition-colors" style="background-color: var(--primary-green); color: var(--pale-alloy);" onmouseover="this.style.backgroundColor='var(--primary-green-light)'" onmouseout="this.style.backgroundColor='var(--primary-green)'">Join the Club</a>
           <a href="#/resources" class="px-4 py-2 rounded border border-slate-700 hover:border-slate-600">Explore Resources</a>
         </div>
       </div>
@@ -226,6 +233,7 @@
       </div>
     </section>
 
+    <!-- Mission Statement -->
     <section class="mt-12">
       <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
         <h3 class="text-lg font-semibold mb-3">Our Mission</h3>
@@ -233,10 +241,6 @@
           Building a thriving cybersecurity community at CCRI through:
         </p>
         <ul class="text-slate-300 space-y-2 text-sm">
-          <li class="flex items-start">
-            <span class="font-semibold text-white mr-2">•</span>
-            <span>Hands-on projects with Raspberry Pi kits and 3D printing</span>
-          </li>
           <li class="flex items-start">
             <span class="font-semibold text-white mr-2">•</span>
             <span>Game nights and social events for all skill levels</span>
@@ -256,41 +260,12 @@
         </ul>
       </div>
     </section>
-  </template>
 
-  
-
-  <template id="page-cybersecurity">
-    <section class="grid lg:grid-cols-2 items-center gap-10 pt-4">
-      <div class="space-y-6">
-        <h2 class="text-3xl sm:text-4xl font-bold leading-tight">
-          Welcome to the Cyberknights Club
-        </h2>
-        <p class="text-slate-300">
-          Learn, build, and compete with peers. Join workshops, talks, and
-          hands-on labs covering security fundamentals through advanced topics.
-        </p>
-        <div class="p-3 rounded border border-emerald-700/40 bg-emerald-900/10 text-sm" style="color: var(--neon-surge);">
-          See our upcoming events and meetings on the <a href="#/calendar" class="underline hover:text-emerald-300">Club Calendar</a>.
-        </div>
-        <div class="flex flex-wrap gap-3">
-          <a href="https://www.ccri.edu/comp/cybersecurity/studentclub.html" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded border border-[#22c55e] text-[#22c55e] hover:bg-[#22c55e]/10">
-            CCRI Cybersecurity Club Student Site
-          </a>
-          <a href="https://forms.cloud.microsoft/r/U26WUVJGgp" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded border border-[#22c55e] text-[#22c55e] hover:bg-[#22c55e]/10 btn-sparkle">
-            Sign Up
-          </a>
-        </div>
-      </div>
-      <div class="flex justify-center">
-        <img src="images/branding/cyberknight-welder.webp" alt="Cyberknights" class="w-72 h-72 object-contain drop-shadow-[0_0_40px_rgba(16,185,129,0.25)]" />
-      </div>
-    </section>
-
+    <!-- What We Do & Get Involved -->
     <section class="mt-12 grid sm:grid-cols-2 gap-6">
       <div class="p-5 rounded-lg border border-slate-800 bg-slate-900/40">
         <h3 class="font-semibold mb-2">What we do</h3>
-        <p class="text-slate-300 text-sm">Our members build skills through CTF competitions, land jobs via networking, and form lasting connections.</p>
+        <p class="text-slate-300 text-sm">Our club competes against other schools as a team in cybersecurity competitions. Members build skills through Capture the Flag (CTF) competitions, land jobs via networking, and form lasting connections.</p>
         <div class="mt-3 flex flex-wrap gap-2 text-xs">
           <a href="#/resources/ctf-tools" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CTF & Code Breaking</a>
           <a href="#/resources/ctf-competitions" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">CTF Competitions</a>
@@ -300,11 +275,69 @@
       </div>
       <div class="p-5 rounded-lg border border-slate-800 bg-slate-900/40">
         <h3 class="font-semibold mb-2">Get involved</h3>
-        <p class="text-slate-300 text-sm">Join our meetings, Discord, and events throughout the semester.</p>
+        <p class="text-slate-300 text-sm mb-3">Join our meetings, Discord, and events throughout the semester.</p>
+        
         <div class="mt-3 flex flex-wrap gap-2 text-xs">
+          <a href="#/calendar" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Club Calendar</a>
           <a href="#/resources/ctf-competitions" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Competitions</a>
           <a href="#/resources/cyberknights" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Cyberknights</a>
           <a href="#/resources/stem" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">STEM Day</a>
+          <a href="#/blog" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Updates & Blog</a>
+        </div>
+        <div class="mt-4 flex flex-wrap gap-3">
+          <a href="https://www.ccri.edu/comp/cybersecurity/studentclub.html" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded border border-[#22c55e] text-[#22c55e] hover:bg-[#22c55e]/10">
+            CCRI Cyber Club Student Site
+            <svg class="inline w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+            </svg>
+          </a>
+          <a href="https://forms.cloud.microsoft/r/U26WUVJGgp" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded border border-[#22c55e] text-[#22c55e] hover:bg-[#22c55e]/10 btn-sparkle">
+            Sign Up
+            <svg class="inline w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </section>
+  </template>
+
+  <template id="page-blog">
+    <section class="space-y-6">
+      <div class="text-center mb-8">
+        <h2 class="text-3xl sm:text-4xl font-bold mb-2">Updates & Blog</h2>
+        <p class="text-slate-300 mt-4">Stay updated with club news, meeting recaps, and member achievements.</p>
+      </div>
+
+      <div class="grid gap-6">
+        <!-- Coming Soon Card -->
+        <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
+          <h3 class="text-xl font-semibold mb-3 text-emerald-400">Coming Soon</h3>
+          <p class="text-slate-300 mb-4">
+            We're building a comprehensive blog to share club updates, meeting recaps, member spotlights, 
+            competition results, and institutional memory. This will serve as our central hub for 
+            chronological content and community engagement.
+          </p>
+          <div class="text-sm text-slate-400">
+            <p class="mb-2">Planned features:</p>
+            <ul class="list-disc list-inside space-y-1">
+              <li>Meeting recaps and photos</li>
+              <li>Member achievements and job placements</li>
+              <li>Competition results and highlights</li>
+              <li>Club announcements and updates</li>
+              <li>Institutional memory preservation</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
+          <h3 class="text-lg font-semibold mb-3">Stay Connected</h3>
+          <div class="flex flex-wrap gap-3">
+            <a href="#/calendar" class="px-4 py-2 rounded border border-emerald-600 text-emerald-400 hover:bg-emerald-600/10">View Calendar</a>
+            <a href="#/resources/cyberknights" class="px-4 py-2 rounded border border-emerald-600 text-emerald-400 hover:bg-emerald-600/10">Join Discord</a>
+            <a href="#/home" class="px-4 py-2 rounded border border-emerald-600 text-emerald-400 hover:bg-emerald-600/10">Back to Club Home</a>
+          </div>
         </div>
       </div>
     </section>
@@ -418,7 +451,7 @@
       </div>
 
       <div class="mt-8">
-        <a href="#/cybersecurity" class="${getEmeraldLinkClasses()}">Back to Club page</a>
+        <a href="#/home" class="${getEmeraldLinkClasses()}">Back to Club Home</a>
         <span class="mx-2">•</span>
         <a href="#/resources/linux" class="${getEmeraldLinkClasses()}">Linux Learner's Guide</a>
       </div>
@@ -466,7 +499,7 @@
       </div>
 
       <div class="rounded-lg overflow-hidden border border-slate-800 bg-slate-900/40">
-        <iframe id="calendar-iframe" src="" title="CCRI Cybersecurity Club Calendar" width="100%" height="800" frameborder="0" scrolling="auto"></iframe>
+        <iframe id="calendar-iframe" src="" title="" width="100%" height="800" frameborder="0" scrolling="auto"></iframe>
       </div>
 
       
@@ -502,7 +535,7 @@
 
 
       <div class="mt-6">
-        <a href="#/cybersecurity" class="text-emerald-400 hover:text-emerald-300">Back to Club</a>
+        <a href="#/home" class="text-emerald-400 hover:text-emerald-300">Back to Club Home</a>
       </div>
     </section>
   </template>
@@ -587,10 +620,10 @@
 
     const routes = {
       home: document.getElementById('page-home').innerHTML,
-      cybersecurity: document.getElementById('page-cybersecurity').innerHTML,
       linux: document.getElementById('page-linux').innerHTML,
       calendar: document.getElementById('page-calendar').innerHTML,
       resources: document.getElementById('page-resources') ? document.getElementById('page-resources').innerHTML : '<section class="space-y-6"><h2 class="text-3xl sm:text-4xl font-bold">Resources</h2><p class="text-slate-300">Coming soon.</p></section>',
+      blog: document.getElementById('page-blog').innerHTML,
       'map-warwick-4080': document.getElementById('page-map-warwick-4080').innerHTML,
       'document': document.getElementById('page-document').innerHTML
     };
@@ -1165,6 +1198,9 @@
       // Constants
       const BASE_URL = 'https://ccri-cyberknights.github.io/page/';
       const ROOM_4080 = 'Room 4080';
+      const CLUB_NAME_SHORT = 'Cyber Club';
+      const CLUB_NAME_FULL = 'CCRI Cyber Club';
+      const CLUB_NAME_OFFICIAL = 'CCRI Cyberknights Club';
 
       // CSS class generators for DRY
       function getEmeraldLinkClasses() {
@@ -1487,9 +1523,51 @@
       }
     }
 
+    // Icon expansion functionality
+    window.expandIcon = function() {
+      // Create modal overlay
+      const modal = document.createElement('div');
+      modal.className = 'fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4';
+      modal.onclick = (e) => {
+        if (e.target === modal) closeIconModal();
+      };
+      
+      modal.innerHTML = `
+        <div class="relative max-w-4xl max-h-full">
+          <img src="images/branding/cybersmith.webp" alt="Cyberknights" class="w-full h-full object-contain drop-shadow-[0_0_40px_rgba(16,185,129,0.5)]" />
+          <button onclick="closeIconModal()" class="absolute top-4 right-4 text-white hover:text-gray-300 text-2xl font-bold">
+            ×
+          </button>
+        </div>
+      `;
+      
+      document.body.appendChild(modal);
+      document.body.style.overflow = 'hidden'; // Prevent background scrolling
+    };
+    
+    window.closeIconModal = function() {
+      const modal = document.querySelector('.fixed.inset-0.bg-black\\/80');
+      if (modal) {
+        modal.remove();
+        document.body.style.overflow = 'auto'; // Restore scrolling
+      }
+    };
+
     window.addEventListener('hashchange', render);
     window.addEventListener('DOMContentLoaded', () => {
       document.getElementById('year').textContent = new Date().getFullYear();
+      
+      // Populate club name constants
+      const footerElement = document.getElementById('club-name-footer');
+      const studentSiteElement = document.querySelector('.club-name-student-site');
+      const calendarIframe = document.getElementById('calendar-iframe');
+      const pageTitleElement = document.getElementById('page-title');
+      
+      if (footerElement) footerElement.textContent = CLUB_NAME_FULL;
+      if (studentSiteElement) studentSiteElement.textContent = CLUB_NAME_FULL + ' Student Site';
+      if (calendarIframe) calendarIframe.title = CLUB_NAME_FULL + ' Calendar';
+      if (pageTitleElement) pageTitleElement.textContent = CLUB_NAME_OFFICIAL;
+      
       normalizeHashRouting();
       // Mobile navigation removed - using direct navigation
       render();
