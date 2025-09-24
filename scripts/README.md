@@ -2,6 +2,51 @@
 
 This directory contains utility scripts for the CCRI Cyberknights landing pages project.
 
+## YouTube URL Shortener Script
+
+### `youtube_url_shortener.py`
+
+A Python script for shortening long YouTube URLs to `youtu.be` format, essential for creating clean QR codes.
+
+#### Features
+
+- **Automatic Shortening**: Shortens long YouTube URLs to short format
+- **Prefix Preservation**: Maintains prefixes like `@` if present
+- **Batch Processing**: Can shorten multiple URLs at once
+- **Error Handling**: Gracefully handles non-YouTube URLs
+- **Command Line Interface**: Easy to use from command line
+
+#### Usage
+
+```bash
+# Shorten single URL
+python youtube_url_shortener.py "https://www.youtube.com/watch?v=VIDEO_ID&list=..."
+
+# Shorten multiple URLs
+python youtube_url_shortener.py "https://www.youtube.com/watch?v=VIDEO1&list=..." "https://www.youtube.com/watch?v=VIDEO2&list=..."
+
+# Run test cases (no arguments)
+python youtube_url_shortener.py
+```
+
+#### Examples
+
+```bash
+# Input: https://www.youtube.com/watch?v=7JYJO_D8zVs&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=4
+# Output: https://youtu.be/7JYJO_D8zVs
+
+# Input: @https://www.youtube.com/watch?v=gSVg40u0fZE&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=5
+# Output: @https://youtu.be/gSVg40u0fZE
+```
+
+#### Integration with QR Code Workflow
+
+This script is essential for the QR code generation workflow:
+
+1. **Shorten URLs**: Use this script to shorten long YouTube URLs to short format
+2. **Generate QR Codes**: Use the short URLs in `generate_qr_codes.py`
+3. **Embed in HTML**: Use the generated QR codes in educational documents
+
 ## QR Code Generation Script
 
 ### `generate_qr_codes.py`
@@ -19,6 +64,7 @@ We successfully created a **production-ready QR code generation system** that:
 
 #### Features
 
+- **Multiple Cheatsheet Support**: Generate QR codes for different Linux cheatsheets (1 or 2)
 - **Custom Colors**: Generate QR codes with green backgrounds and black modules to match the site's color scheme
 - **Minimal Margins**: Configurable border settings for tight, clean appearance
 - **Base64 Output**: Generates data URLs ready for direct HTML embedding
@@ -38,21 +84,25 @@ We successfully created a **production-ready QR code generation system** that:
 #### Usage
 
 ```bash
-# Basic usage (generates QR codes with default settings)
+# Generate QR codes for Linux Cheatsheet 1 (default)
 python generate_qr_codes.py
 
-# Custom settings
-python generate_qr_codes.py --ecl L --box-size 8 --border 2 --fill-color black --back-color "#10b981"
+# Generate QR codes for Linux Cheatsheet 2
+python generate_qr_codes.py --cheatsheet 2
+
+# Custom settings with specific cheatsheet
+python generate_qr_codes.py --cheatsheet 2 --ecl L --box-size 8 --border 2 --fill-color black --back-color "#10b981"
 
 # Save to custom output file
-python generate_qr_codes.py --output my_qr_codes.txt
+python generate_qr_codes.py --cheatsheet 2 --output qr_codes_cheatsheet2.txt
 
 # Different error correction level
-python generate_qr_codes.py --ecl M --box-size 10 --border 4
+python generate_qr_codes.py --cheatsheet 1 --ecl M --box-size 10 --border 4
 ```
 
 #### Command Line Options
 
+- `--cheatsheet`: Cheatsheet number (1 or 2) - default: 1
 - `--ecl`: Error Correction Level ('L', 'M', 'Q', 'H') - default: 'L'
 - `--box-size`: Size of each QR module in pixels - default: 8
 - `--border`: Border size in modules - default: 2
@@ -114,12 +164,35 @@ The generated base64 data URLs can be directly embedded in HTML:
      class="border border-emerald-500 rounded">
 ```
 
+#### Adding New Cheatsheets
+
+To add support for new cheatsheets (e.g., Cheatsheet 3):
+
+1. **Edit the Script**: Modify `get_cheatsheet_videos()` function in `generate_qr_codes.py`
+2. **Add New Entry**: Add a new entry to the `cheatsheets` dictionary:
+   ```python
+   3: [
+       {
+           'title': 'New Video Title',
+           'url': 'https://youtu.be/SHORT_URL',
+           'full_url': 'https://www.youtube.com/watch?v=FULL_URL',
+           'filename': 'video1_qr'
+       }
+   ]
+   ```
+3. **Update Argument Parser**: Add the new cheatsheet number to the choices:
+   ```python
+   parser.add_argument('--cheatsheet', type=int, choices=[1, 2, 3], default=1,
+                      help='Cheatsheet number (1, 2, or 3, default: 1)')
+   ```
+4. **Test**: Run `python generate_qr_codes.py --cheatsheet 3` to verify
+
 #### Replication Process
 
 To replicate this QR code system for other documents:
 
 1. **Install Dependencies**: `pip install qrcode[pil]`
-2. **Run Script**: `python generate_qr_codes.py`
+2. **Run Script**: `python generate_qr_codes.py --cheatsheet 2`
 3. **Copy Base64 Data**: Extract QR codes from output file
 4. **Embed in HTML**: Use the provided HTML template structure
 5. **Apply Styling**: Use Tailwind CSS classes for consistent appearance

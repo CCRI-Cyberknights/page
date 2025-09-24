@@ -129,6 +129,84 @@ QR codes are embedded as base64 data URLs because:
 
 ### Replication Guide
 
+#### **Complete Workflow for New Cheatsheets**
+
+This section documents the complete process for creating new educational documents with QR code integration, based on the successful implementation of Linux Cheatsheet 2.
+
+##### **Phase 1: QR Code Generation**
+1. **Shorten YouTube URLs**: Use `scripts/youtube_url_shortener.py` to shorten long URLs to short format
+   ```bash
+   # Shorten long YouTube URLs to short format for QR codes
+   python scripts/youtube_url_shortener.py "https://www.youtube.com/watch?v=VIDEO_ID&list=..." "https://www.youtube.com/watch?v=ANOTHER_ID&list=..."
+   ```
+
+2. **Use Enhanced Script**: Generate QR codes using the improved `scripts/generate_qr_codes.py`
+   ```bash
+   # For existing cheatsheets (1 or 2)
+   python scripts/generate_qr_codes.py --cheatsheet 2
+   
+   # For new cheatsheets, first add support to the script
+   ```
+
+3. **For New Cheatsheets**: Add new video data to `get_cheatsheet_videos()` function
+   ```python
+   # Add to cheatsheets dictionary in generate_qr_codes.py
+   3: [
+       {
+           'title': 'New Video Title',
+           'url': 'https://youtu.be/SHORT_URL',  # Use converted short URL
+           'full_url': 'https://www.youtube.com/watch?v=FULL_URL',  # Original long URL
+           'filename': 'video1_qr'
+       }
+   ]
+   ```
+
+4. **Extract Base64 Data**: Copy QR codes from output file for HTML embedding
+
+##### **Phase 2: HTML Document Creation**
+1. **Copy Template**: Use existing cheatsheet as template (e.g., `linux-cheatsheet-1.html`)
+2. **Update Metadata**: 
+   - Change title tag: `Linux Cheatsheet X - Cyber Club`
+   - Update H1 heading: `Linux Cheatsheet X 📂`
+   - Modify subtitle for specific content focus
+3. **Implement QR Integration**:
+   - Replace video URLs with new ones
+   - Update video titles and descriptions
+   - Embed base64 QR codes in table structure
+   - Ensure single clickable links combine titles and short URLs
+
+##### **Phase 3: Content Integration**
+1. **Structure Content**: Organize educational content with proper hierarchy
+2. **Apply Styling**: Use consistent CSS classes and color scheme
+3. **Format Commands**: Use `.command-code` class for inline commands
+4. **Create Tables**: Use responsive table structure for command references
+5. **Add Takeaways**: Include key learning points with emphasis styling
+
+##### **Phase 4: Resources Integration**
+1. **Add to Resources Array**: Update `index.html` resources section
+   ```javascript
+   {
+     name: 'Linux Cheatsheet X',
+     url: '#/document/linux-cheatsheet-X.html',
+     cat: 'linux',
+     desc: 'Short description for card display',
+     summary: 'Medium description for modal preview',
+     detailedSummary: 'Comprehensive description for detailed modal'
+   }
+   ```
+
+2. **Categorize Appropriately**: Assign correct category (linux, cybersecurity, etc.)
+3. **Write Descriptions**: Create compelling short and detailed summaries
+4. **Test Integration**: Verify SPA routing and resource filtering
+
+##### **Phase 5: Testing & Validation**
+1. **Start Development Server**: `python -m http.server 8000`
+2. **Test Direct Access**: Verify standalone HTML functionality
+3. **Test SPA Integration**: Check `#/document/filename.html` routing
+4. **Test Resources Page**: Verify appearance in category filters
+5. **Validate QR Codes**: Scan codes with mobile device
+6. **Check Responsiveness**: Test on different screen sizes
+
 #### **Step-by-Step Process**
 1. **Generate QR Codes**: Use `scripts/generate_qr_codes.py`
 2. **Create Table Structure**: Follow the HTML template above
@@ -141,6 +219,74 @@ QR codes are embedded as base64 data URLs because:
 - **qrcode[pil]**: Python library for QR code creation
 - **Tailwind CSS**: For styling and layout
 - **Text Editor**: For HTML modification
+
+### Real-World Implementation Example
+
+#### **Linux Cheatsheet 2 Creation Process**
+
+This section documents the actual workflow used to create Linux Cheatsheet 2, demonstrating the complete process from start to finish.
+
+##### **Step 1: Video URL Analysis**
+- **Input URLs**: 
+  - `https://www.youtube.com/watch?v=7JYJO_D8zVs&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=4`
+  - `https://www.youtube.com/watch?v=gSVg40u0fZE&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=5`
+- **URL Shortening**: Used `scripts/youtube_url_shortener.py` to shorten to short format
+  ```bash
+  python scripts/youtube_url_shortener.py "https://www.youtube.com/watch?v=7JYJO_D8zVs&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=4" "https://www.youtube.com/watch?v=gSVg40u0fZE&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=5"
+  ```
+- **Short URL Results**: 
+  - `https://youtu.be/7JYJO_D8zVs`
+  - `https://youtu.be/gSVg40u0fZE`
+
+##### **Step 2: QR Code Generation**
+```bash
+# Used enhanced script with cheatsheet 2 support
+python scripts/generate_qr_codes.py --cheatsheet 2 --output qr_codes_cheatsheet2.txt
+```
+
+**Note**: The script was enhanced to support multiple cheatsheets. For future cheatsheets, the process would be:
+1. Add new video data to `get_cheatsheet_videos()` function
+2. Update argument parser choices
+3. Run with `--cheatsheet X` parameter
+
+##### **Step 3: HTML Document Creation**
+- **Template**: Copied `linux-cheatsheet-1.html` as base
+- **Metadata Updates**:
+  - Title: `Linux Cheatsheet 2 - Cyber Club`
+  - Heading: `Linux Cheatsheet 2 📂`
+  - Subtitle: `Creating & Moving Files & Folders`
+- **QR Integration**: Embedded base64 QR codes in table structure
+- **Content**: Added provided educational content with proper formatting
+
+##### **Step 4: Resources Integration**
+```javascript
+{
+  name: 'Linux Cheatsheet 2',
+  url: '#/document/linux-cheatsheet-2.html',
+  cat: 'linux',
+  desc: 'Creating & Moving Files & Folders - Essential file operations guide',
+  summary: 'Linux Cheatsheet 2 focuses on fundamental file and folder operations...',
+  detailedSummary: 'This comprehensive guide teaches the core concepts of file system manipulation...'
+}
+```
+
+##### **Step 5: Testing & Validation**
+- **Development Server**: Started with `python -m http.server 8000`
+- **Direct Access**: Tested `http://localhost:8000/document/linux-cheatsheet-2.html`
+- **SPA Integration**: Verified `http://localhost:8000/#/document/linux-cheatsheet-2.html`
+- **Resources Page**: Confirmed appearance in `http://localhost:8000/#/resources/linux`
+- **QR Code Scanning**: Validated with mobile device camera
+
+##### **Step 6: Cleanup**
+- **Temporary Files**: Removed `generate_qr_cheatsheet2.py` and `qr_codes_cheatsheet2.txt`
+- **Documentation**: Updated this README with complete workflow
+
+#### **Key Success Factors**
+1. **Consistent Template**: Using existing cheatsheet as template ensures uniformity
+2. **Proper QR Integration**: Table-based layout with embedded base64 codes
+3. **Complete Resources Integration**: Full SPA and standalone functionality
+4. **Comprehensive Testing**: Multiple access methods and device validation
+5. **Documentation**: Complete workflow documentation for future replication
 
 ### Future Enhancements
 

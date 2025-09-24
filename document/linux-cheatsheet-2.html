@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Linux Cheatsheet 2 - Cyber Club</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { color-scheme: dark; }
+    body { background: #0f172a; color: #e2e8f0; }
+    
+    /* Cyberknights Color Palette */
+    :root {
+      --neon-surge: #43CC50;
+      --ember-spark: #C27329;
+      --steel-gray: #64748b;
+      --deep-slate: #1e293b;
+    }
+    
+    .section-container {
+      @apply bg-slate-800 rounded-lg p-6 mb-6;
+    }
+    
+    .section-title {
+      @apply text-xl font-bold mb-4;
+      color: var(--neon-surge);
+    }
+    
+    .subsection-title {
+      @apply text-lg font-semibold mb-3;
+      color: var(--ember-spark);
+    }
+    
+    .command-code {
+      @apply bg-slate-900 text-emerald-400 font-mono px-3 py-1 rounded text-sm;
+    }
+    
+    .code-block {
+      @apply bg-slate-900 text-slate-300 font-mono p-4 rounded-lg overflow-x-auto;
+    }
+    
+    .emphasis-text {
+      @apply font-semibold;
+      color: var(--neon-surge);
+    }
+    
+    .table-row {
+      @apply border-b border-slate-800;
+    }
+    
+    .qr-code-container {
+      @apply flex-shrink-0;
+    }
+    
+    .qr-code-container canvas {
+      @apply transition-transform duration-200;
+    }
+    
+    .qr-code-container canvas:hover {
+      @apply scale-105;
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-200 min-h-screen">
+  <div class="max-w-4xl mx-auto p-6 space-y-8">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold mb-4" style="color: var(--neon-surge);">Linux Cheatsheet 2 📂</h1>
+      <p class="text-slate-300 text-lg">Creating & Moving Files & Folders</p>
+    </div>
+
+    <!-- Video References -->
+    <div class="section-container">
+      <h2 class="section-title">📺 Reference Videos</h2>
+      <p class="text-slate-300 mb-4">This cheat sheet summarizes key concepts and commands from the following videos:</p>
+      <table class="w-full border-collapse bg-slate-800">
+        <tbody>
+          <!-- Video 1 -->
+          <tr>
+            <td class="bg-slate-800 text-white px-4 py-2 text-center">
+              <a href="https://www.youtube.com/watch?v=7JYJO_D8zVs&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=4" 
+                 class="text-emerald-400 hover:text-emerald-300 underline font-medium block" target="_blank" rel="noopener noreferrer">
+                📹 4 - Creating & Moving Files & Folders<br>
+                <span class="text-sm font-normal">https://youtu.be/7JYJO_D8zVs</span>
+              </a>
+            </td>
+            <td class="bg-slate-800 flex items-center justify-center py-2">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOgAAADoCAIAAABqyz8vAAAEG0lEQVR4nO3dy20cMRQAQa2hADYrh2U4LGc1ITgBzWFsEmSLVXft7KfBwwNFvt5/fn9AzY/VbwD+hXBJEi5JwiVJuCQJlyThkiRckoRLknBJEi5JwiVJuCQJlyThkvT59A+un78+Cu72Gd+9/9n7kp8+d9T7vOK/1x0rLknCJUm4JAmXJOGSJFyShMsZc9w7q85nWDWnfPrcp9/P7PnuO/57WXFJEi5JwiVJuCQJlyThkiRczp7jzp7b7bZf9umcdfZzT/u9rLgkCZck4ZIkXJKES5JwSRIuSdPnuHWVOev7sPvqrLgkCZck4ZIkXJKES5JwSRIuScfNcUfto70z+1zb0+a1d6y4JAmXJOGSJFyShEuScEkSLknT57i7zR1nn6c76vOuuqftvdnvdceKS5JwSRIuScIlSbgkCZck4XL2HHfVfWOjrDrvdpUr/ntZcUkSLknCJUm4JAmXJOGSJFySXrvNF3ezai5bmQevYsUlSbgkCZck4ZIkXJKES5JwOWM/7tN9nKPOhX1qt3ln/b60a7PzKKy4JAmXJOGSJFyShEuScEkSLmfvx519v9du89rZ+2VXfQ/XoOfO/n6suCQJlyThkiRckoRLknBJEi5J0+85GzXPGzUvrJ8Lu9tc9lp0/oMVlyThkiRckoRLknBJEi5JwuXscxVGzU13m9eO2k9c+VzXoPdjPy58QbgkCZck4ZIkXJKES5JwOeNchdnnJ6x6ndnq5zBczseF/ydckoRLknBJEi5JwiVJuJw9x/2u59fuNn996v1N5+tWXJKES5JwSRIuScIlSbgkCZez7zmbbbf58W7nJ7zj+2ufsuKSJFyShEuScEkSLknCJUm4JL3q887dnltxTT63+OnrPGXFJUm4JAmXJOGSJFyShEuScEladq7CbveljbLbfWar2I8LXxAuScIlSbgkCZck4ZIkXJIy5yqMsmoOXdk3fEX2JVtxSRIuScIlSbgkCZck4ZIkXJI+n/5BZZ/o3dzx6Xx01Odd9b1dkbnsU1ZckoRLknBJEi5JwiVJuCQJlzPmuHdWzQWfzkdXzVNXzY/fk/fpPuV8XI4mXJKES5JwSRIuScIlSbicPcetzP9Gvf6o+fGo516RfdKjWHFJEi5JwiVJuCQJlyThkiRckqbPcXcz+16x3c7N/a7zbCsuScIlSbgkCZck4ZIkXJKES9Jxc9zZRs1ZR91zdm02V3auAkcTLknCJUm4JAmXJOGSJFySps9xd7tPa9X5BrPnu7vtP57NikuScEkSLknCJUm4JAmXJOGS9Jr9f/SrrJqbrtp3e2f2vthV5zlYcUkSLknCJUm4JAmXJOGSJFzOmOPCDqy4JAmXJOGSJFyShEuScEkSLknCJUm4JAmXJOGSJFyShEuScEkSLh9FfwEb5oZFPS9DHQAAAABJRU5ErkJggg==" alt="QR Code for Creating & Moving Files & Folders" width="120" height="120" class="border border-emerald-500 rounded">
+            </td>
+          </tr>
+          <!-- Empty row for spacing -->
+          <tr>
+            <td class="bg-slate-800 px-4 py-2">&nbsp;</td>
+            <td class="bg-slate-800 px-4 py-2">&nbsp;</td>
+          </tr>
+          <!-- Video 2 -->
+          <tr>
+            <td class="bg-slate-800 text-white px-4 py-2 text-center">
+              <a href="https://www.youtube.com/watch?v=gSVg40u0fZE&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=5" 
+                 class="text-emerald-400 hover:text-emerald-300 underline font-medium block" target="_blank" rel="noopener noreferrer">
+                📹 5 - Advanced File Operations<br>
+                <span class="text-sm font-normal">https://youtu.be/gSVg40u0fZE</span>
+              </a>
+            </td>
+            <td class="bg-slate-800 flex items-center justify-center py-2">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOgAAADoCAIAAABqyz8vAAAEH0lEQVR4nO3d0W0UMRRA0QSlgOmKshBl0dWUQAMMwmgs+8rnfG+Sze6VP56ePJ/Xr58fUPNt9RuA/yFckoRLknBJEi5JwiVJuCQJlyThkiRckoRLknBJEi5JwiVJuCR9jf7A/f3HR8HTnvHT+5+9lzz7c7sG/9/djH7+TlyShEuScEkSLknCJUm4JAmXM+a4T1bdz7BqTjn6d9/6fN76f6/49+XEJUm4JAmXJOGSJFyShEuScDl7jlufO47u6b61//rW3z3t+3LikiRckoRLknBJEi5JwiVJuCRNn+PWVeas12HPq3PikiRckoRLknBJEi5JwiVJuCQdN8edfY/sW/ctmNf+nROXJOGSJFyShEuScEkSLknCJWn6HHe3ueOq5409GZ3Xzp7vXpt9X0+cuCQJlyThkiRckoRLknBJEi5nz3FXPW/sLavuu13ljn9fTlyShEuScEkSLknCJUm4JAmXpM/d5ou7mf3cr7fuYTiNE5ck4ZIkXJKES5JwSRIuScLljH3c2XPH2XPTt4zOZXfb071fus/hLaOfgxOXJOGSJFyShEuScEkSLknC5Yx93Nnzv7fmmrvtuZ72ud2T59ZOXJKES5JwSRIuScIlSbgkCZekr/p+526/Z9X+8aq57Ko9YycuScIlSbgkCZck4ZIkXJKEy9n7uKvMfv+73Uf71rz8mvz6J/ZxOZpwSRIuScIlSbgkCZck4ZI0fY5bmRPPvl9itjv+vbgflyMIlyThkiRckoRLknBJEi5n36tQv8egPgfdbT7tflz4A+GSJFyShEuScEkSLknC5Yx93Pp8d9Ve6W77rPdm72eUE5ck4ZIkXJKES5JwSRIuScIlabs57m7PUXuy6j7ayvPPntjH5WjCJUm4JAmXJOGSJFyShMsZ9yrMnv89vX63Oehsuz1P7t7s+XBOXJKES5JwSRIuScIlSbgkCZekzD5uZa939rx59tz6jszFnbgkCZck4ZIkXJKES5JwSRIuSdP3cVcZ3esd/T27zXfrc9lRTlyShEuScEkSLknCJUm4JAmXM+a4T1bNBUfnqbvdDzD7ft9r8jx4lPtxOZpwSRIuScIlSbgkCZck4XL2HLcy/xu1277s0+vvyJ70W5y4JAmXJOGSJFyShEuScEkSLknT57i7eet+g9nz6d3ez+x96NG/68QlSbgkCZck4ZIkXJKES5JwSTpujvtkt/no7PnuNfn5arP3mJ24JAmXJOGSJFyShEuScEkSLknT57i7PU9rdL44e747atVz2p6s+hycuCQJlyThkiRckoRLknBJEi5nz3FPu5919nx61R7tKPcqwADhkiRckoRLknBJEi5JwiXpc7d9WfgXTlyShEuScEkSLknCJUm4JAmXJOGSJFyShEuScEkSLknCJUm4JAmXj6Lf8epuSyNk2YcAAAAASUVORK5CYII=" alt="QR Code for Advanced File Operations" width="120" height="120" class="border border-emerald-500 rounded">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Main Content -->
+    <div class="section-container">
+      <h2 class="section-title">📋 Cheat Sheet Content</h2>
+      <p class="text-slate-300 mb-6">Here is a cheat sheet summarizing the key commands and concepts from the videos.</p>
+
+      <div class="subsection-title">Creating & Moving Files & Folders 📂</div>
+      
+      <h3 class="text-lg font-semibold mb-3" style="color: var(--neon-surge);">Understanding File Paths: Absolute vs. Relative</h3>
+      <p class="text-slate-300 mb-4">This is a core concept for command line work. A file path tells a command where to find or create something on the computer.</p>
+      
+      <ul class="text-slate-300 mb-6 space-y-3">
+        <li>
+          <span class="emphasis-text">Absolute Paths:</span> Start at the root directory (<span class="command-code">/</span>) and provide the full, specific location of a file or folder. They work from <strong>anywhere</strong> on the computer.
+          <br><span class="text-sm text-slate-400">Example: <span class="command-code">/home/sandbox/desktop/new_folder</span></span>
+        </li>
+        <li>
+          <span class="emphasis-text">Relative Paths:</span> Start from your current working directory. They <strong>do not</strong> begin with a <span class="command-code">/</span>. They are shorter and easier to type, but they only work if you are in the correct starting location.
+          <br><span class="text-sm text-slate-400">Example: If you are already in <span class="command-code">/home/sandbox</span>, you could use <span class="command-code">desktop/new_folder</span> to create a folder there.</span>
+        </li>
+      </ul>
+
+      <h3 class="text-lg font-semibold mb-3" style="color: var(--neon-surge);">Essential Commands ⌨️</h3>
+      
+      <div class="overflow-x-auto mb-6">
+        <table class="w-full border-collapse">
+          <thead>
+            <tr class="bg-slate-700">
+              <th class="border border-slate-600 px-4 py-2 text-left">Command</th>
+              <th class="border border-slate-600 px-4 py-2 text-left">Purpose</th>
+              <th class="border border-slate-600 px-4 py-2 text-left">Example & Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="table-row">
+              <td class="border border-slate-600 px-4 py-2"><span class="command-code">mkdir</span></td>
+              <td class="border border-slate-600 px-4 py-2"><strong>M</strong>a<strong>k</strong>e <strong>d</strong>i<strong>r</strong>ectory. Creates a new folder. Accepts a relative or absolute path as an argument.</td>
+              <td class="border border-slate-600 px-4 py-2">
+                <span class="command-code">mkdir my-stuff</span> (creates a new folder named <span class="command-code">my-stuff</span> in your current location)<br>
+                <span class="command-code">mkdir /home/sandbox/new-folder</span> (creates a new folder using the full path)
+              </td>
+            </tr>
+            <tr class="table-row">
+              <td class="border border-slate-600 px-4 py-2"><span class="command-code">mv</span></td>
+              <td class="border border-slate-600 px-4 py-2"><strong>M</strong>o<strong>v</strong>e. Used for "cutting and pasting" a file or folder from one location to another. It takes at least two arguments: the item you want to move and the destination.</td>
+              <td class="border border-slate-600 px-4 py-2">
+                <span class="command-code">mv file1 folder1/</span> (moves <span class="command-code">file1</span> into <span class="command-code">folder1</span>)<br>
+                <span class="command-code">mv ~/desktop/notes.txt ~/documents/</span> (moves a file using absolute paths)
+              </td>
+            </tr>
+            <tr class="table-row">
+              <td class="border border-slate-600 px-4 py-2"><span class="command-code">cp</span></td>
+              <td class="border border-slate-600 px-4 py-2"><strong>C</strong>o<strong>p</strong>y. Creates a duplicate of a file or folder. It also takes the item to copy and a destination as arguments.</td>
+              <td class="border border-slate-600 px-4 py-2">
+                <span class="command-code">cp resume.txt resume-backup.txt</span> (creates a copy with a new name)<br>
+                <span class="command-code">cp file1 folder1/</span> (copies <span class="command-code">file1</span> into <span class="command-code">folder1</span>)
+              </td>
+            </tr>
+            <tr class="table-row">
+              <td class="border border-slate-600 px-4 py-2"><span class="command-code">cp -r</span></td>
+              <td class="border border-slate-600 px-4 py-2"><strong>C</strong>o<strong>p</strong>y <strong>r</strong>ecursively. The <span class="command-code">-r</span> option is necessary to copy an entire directory and all its contents.</td>
+              <td class="border border-slate-600 px-4 py-2">
+                <span class="command-code">cp -r project/ backup-project/</span> (copies the <span class="command-code">project</span> directory and everything in it)
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="text-lg font-semibold mb-3" style="color: var(--neon-surge);">Key Takeaways 💡</h3>
+      <ul class="text-slate-300 space-y-2">
+        <li><span class="emphasis-text">Single-Step Actions:</span> Unlike the graphical interface, many commands like <span class="command-code">mv</span> and <span class="command-code">cp</span> accomplish a full task in a single step.</li>
+        <li><span class="emphasis-text">Command Structure:</span> Many commands follow a common pattern: <span class="command-code">[command] [options] [arguments]</span>.</li>
+        <li><span class="emphasis-text">Tab is Your Friend:</span> Use the <strong>Tab key</strong> to auto-complete commands and file paths, saving you from having to type everything out and helping you avoid typos.</li>
+      </ul>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center text-slate-400 text-sm mt-12">
+      <p>Linux Cheatsheet 2 - Cyber Club | Essential File & Folder Operations</p>
+    </div>
+  </div>
+</body>
+</html>

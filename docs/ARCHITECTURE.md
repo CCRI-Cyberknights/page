@@ -26,6 +26,7 @@ Key files
 - `js/qrcode.min.js` — local QR encoder (no CDN)
 - `js/qr-code-manager.js` — shared QR Code functionality
 - `document/linux-cheatsheet-1.html` — standalone Linux cheat sheet page with DRY CSS classes, official color palette, and embedded QR codes for video content (dual-mode)
+- `document/linux-cheatsheet-2.html` — standalone Linux cheat sheet page focusing on file operations with DRY CSS classes, official color palette, and embedded QR codes for video content (dual-mode)
 - `document/linux-day-1-setup-tips.html` — Linux day 1 setup guide with consistent styling and DRY implementation (dual-mode)
 - `document/README.md` — comprehensive documentation for QR code integration in educational documents
 - `scripts/generate_qr_codes.py` — Python script for generating base64 QR codes with custom styling

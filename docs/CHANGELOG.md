@@ -5,6 +5,20 @@ All notable changes to the CCRI Cyberknights Landing Pages project are documente
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.5] - 2024-12-19
+
+### Changed
+- **Script Rename**: Renamed `scripts/youtube_url_converter.py` to `scripts/youtube_url_shortener.py` for better accuracy
+- **Terminology Update**: Changed "convert" to "shorten" throughout documentation for clarity
+- **Function Names**: Updated internal function names to reflect shortening terminology
+- **Documentation Updates**: Updated all references to use new filename and terminology
+
+### Technical Implementation
+- **File Rename**: `youtube_url_converter.py` → `youtube_url_shortener.py`
+- **Function Updates**: `convert_youtube_url()` → `shorten_youtube_url()`
+- **Documentation Consistency**: All documentation now uses accurate terminology
+- **Workflow Clarity**: Improved clarity in QR code generation workflow
+
 ## [1.5.4] - 2024-12-19
 
 ### Added

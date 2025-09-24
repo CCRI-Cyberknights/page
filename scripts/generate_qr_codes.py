@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 """
-QR Code Generator Script for Linux Cheat Sheet
+QR Code Generator Script for Educational Documents
 
 This script generates QR codes with custom colors and minimal margins for embedding
-directly into HTML documents as base64 data URLs.
+directly into HTML documents as base64 data URLs. Supports multiple cheatsheet types.
 
 Usage:
-    python generate_qr_codes.py
+    python generate_qr_codes.py                    # Generate for cheatsheet 1 (default)
+    python generate_qr_codes.py --cheatsheet 2     # Generate for cheatsheet 2
+    python generate_qr_codes.py --custom           # Generate for custom URLs
 
 Features:
 - Low Error Correction Level (ECL) for smaller QR codes
@@ -14,6 +16,7 @@ Features:
 - Minimal border for tight spacing
 - Base64 output for direct HTML embedding
 - Configurable box size and border settings
+- Support for multiple cheatsheet types
 """
 
 import qrcode
@@ -62,10 +65,46 @@ def generate_qr_code(data, ecl='L', box_size=8, border=2, fill_color="black", ba
         print(f"Error generating QR code: {e}")
         return None
 
+def get_cheatsheet_videos(cheatsheet_num):
+    """Get video data for specific cheatsheet."""
+    cheatsheets = {
+        1: [
+            {
+                'title': 'Linux Commands and File Structure',
+                'url': 'https://youtu.be/N9j--n-zGgc',
+                'full_url': 'https://www.youtube.com/watch?v=N9j--n-zGgc&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M',
+                'filename': 'video1_qr'
+            },
+            {
+                'title': 'File System Navigation from the Terminal',
+                'url': 'https://youtu.be/lI0mUMqBesU',
+                'full_url': 'https://www.youtube.com/watch?v=lI0mUMqBesU&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=3',
+                'filename': 'video2_qr'
+            }
+        ],
+        2: [
+            {
+                'title': 'Creating & Moving Files & Folders',
+                'url': 'https://youtu.be/7JYJO_D8zVs',
+                'full_url': 'https://www.youtube.com/watch?v=7JYJO_D8zVs&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=4',
+                'filename': 'video1_qr'
+            },
+            {
+                'title': 'Advanced File Operations',
+                'url': 'https://youtu.be/gSVg40u0fZE',
+                'full_url': 'https://www.youtube.com/watch?v=gSVg40u0fZE&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=5',
+                'filename': 'video2_qr'
+            }
+        ]
+    }
+    return cheatsheets.get(cheatsheet_num, [])
+
 def main():
-    """Main function to generate QR codes for Linux cheat sheet videos."""
+    """Main function to generate QR codes for educational document videos."""
     
-    parser = argparse.ArgumentParser(description='Generate QR codes for Linux cheat sheet')
+    parser = argparse.ArgumentParser(description='Generate QR codes for educational document videos')
+    parser.add_argument('--cheatsheet', type=int, choices=[1, 2], default=1,
+                       help='Cheatsheet number (1 or 2, default: 1)')
     parser.add_argument('--ecl', default='L', choices=['L', 'M', 'Q', 'H'],
                        help='Error Correction Level (default: L)')
     parser.add_argument('--box-size', type=int, default=8,
@@ -81,7 +120,7 @@ def main():
     
     args = parser.parse_args()
     
-    print("🎯 Generating QR codes for Linux cheat sheet videos...")
+    print(f"🎯 Generating QR codes for Linux Cheatsheet {args.cheatsheet}...")
     print(f"   ECL: {args.ecl}")
     print(f"   Box size: {args.box_size}px")
     print(f"   Border: {args.border} modules")
@@ -89,19 +128,12 @@ def main():
     print(f"   Background color: {args.back_color}")
     print()
     
-    # Video URLs to encode
-    videos = [
-        {
-            'title': 'Linux Commands and File Structure',
-            'url': 'https://youtu.be/N9j--n-zGgc',
-            'filename': 'video1_qr'
-        },
-        {
-            'title': 'File System Navigation from the Terminal',
-            'url': 'https://youtu.be/lI0mUMqBesU',
-            'filename': 'video2_qr'
-        }
-    ]
+    # Get videos for selected cheatsheet
+    videos = get_cheatsheet_videos(args.cheatsheet)
+    
+    if not videos:
+        print(f"❌ No videos found for cheatsheet {args.cheatsheet}")
+        sys.exit(1)
     
     generated_codes = []
     
@@ -135,7 +167,7 @@ def main():
     if generated_codes:
         try:
             with open(args.output, 'w') as f:
-                f.write("# QR Codes for Linux Cheat Sheet\n")
+                f.write(f"# QR Codes for Linux Cheatsheet {args.cheatsheet}\n")
                 f.write("# Generated with generate_qr_codes.py\n\n")
                 
                 for code in generated_codes:

@@ -22,7 +22,7 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
   - **Calendar**: Meeting schedules with color-coded meeting types and clickable room numbers
   - **Resources**: Comprehensive resource cards with detailed descriptions, bullet-point formatting, modal system with click-anywhere-to-close behavior for enhanced readability, organized categories with default club filter, and consistent footer positioning
   - **Campus Maps**: Interactive maps for meeting locations (e.g., `/map-warwick-4080`)
-  - **Documents**: Standalone HTML documents with DRY CSS classes and consistent styling (Linux Cheatsheet 1, Linux Day 1 Setup Tips) that can be loaded within the SPA or accessed directly
+  - **Documents**: Standalone HTML documents with DRY CSS classes and consistent styling (Linux Cheatsheet 1, Linux Cheatsheet 2, Linux Day 1 Setup Tips) that can be loaded within the SPA or accessed directly
   - **QR Code Integration**: Educational documents feature embedded QR codes for instant access to related video content
   - **Table-Based Layout**: Clean, spreadsheet-like interface with video titles, URLs, and scannable QR codes
   - **Base64 Embedding**: Self-contained QR codes with no external dependencies
