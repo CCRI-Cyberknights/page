@@ -12,7 +12,7 @@ This document covers common issues encountered during development and maintenanc
 - Issue appeared after implementing the Linux cheat sheet functionality
 
 **Root Cause:**
-The issue was caused by navigation links in `resources/linux-cheatsheet-1.html` that explicitly referenced `index.html`:
+The issue was caused by navigation links in `document/linux-cheatsheet-1.html` that explicitly referenced `index.html`:
 
 ```html
 <!-- INCORRECT (caused the issue) -->
@@ -89,6 +89,55 @@ touch .nojekyll
 **Note:** This file was added during troubleshooting but is kept as a best practice for static sites.
 
 ## Common Development Issues
+
+### Modal Bullet Formatting Missing
+
+**Problem:** Resource modals showing empty content instead of bulleted detailed summaries
+
+**Symptoms:**
+- Modals open but show no detailed content
+- Detailed summary text appears to be missing
+- Bullet points not displaying in modal content
+- Issue appeared after removing "more info" pulldowns
+
+**Root Cause:**
+The `formatDetailedSummary` function was accidentally removed when cleaning up the "more info" pulldown functionality, but the modal was still trying to call this function.
+
+**Solution:**
+1. **Re-added the `formatDetailedSummary` function**:
+   ```javascript
+   function formatDetailedSummary(text) {
+     if (!text) return '';
+     
+     // Split by periods and filter out empty strings
+     const sentences = text.split('.').filter(s => s.trim().length > 0);
+     
+     // Create bullet points
+     return sentences.map(sentence => {
+       const trimmed = sentence.trim();
+       return `<li>${trimmed}${trimmed.endsWith('.') ? '' : '.'}</li>`;
+     }).join('');
+   }
+   ```
+
+2. **Updated modal HTML to wrap bullets in `<ul>` tags**:
+   ```html
+   <div class="text-slate-400 mb-6 leading-relaxed">
+     <ul class="list-disc list-inside space-y-1">
+       ${formatDetailedSummary(resource.detailedSummary)}
+     </ul>
+   </div>
+   ```
+
+**Current Implementation:**
+- Detailed summaries are properly formatted as bullet points
+- Modal content displays correctly with proper spacing
+- Function dependency is maintained for consistent formatting
+
+**Verification:**
+- Open any resource modal to confirm bullet points display
+- Check that detailed summaries are properly formatted
+- Verify consistent spacing and styling
 
 ### Modal Interaction Problems
 
@@ -292,4 +341,4 @@ python tests/run_tests.py
 ---
 
 *Last Updated: January 2025*
-*Related Files: `resources/linux-cheatsheet-1.html`, `index.html`, `.nojekyll`*
+*Related Files: `document/linux-cheatsheet-1.html`, `index.html`, `.nojekyll`*

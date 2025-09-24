@@ -38,6 +38,34 @@ This document outlines the comprehensive UI/UX improvements implemented to enhan
 - **Improved card layout**: Enhanced resource cards with descriptions and better visual hierarchy
 - **Default filter**: Set "Cyberknights" as the default filter instead of "All"
 
+### 5.1. Modal Bullet Formatting Fix (v1.5.2)
+- **Function restoration**: Re-added `formatDetailedSummary` function that was accidentally removed during cleanup
+- **Bullet point display**: Fixed modals showing empty content instead of properly formatted bullet points
+- **Consistent formatting**: Detailed summaries now display as clean bullet lists with proper spacing
+- **HTML structure**: Updated modal HTML to wrap bullet points in proper `<ul>` tags with Tailwind classes
+- **Function dependency**: Maintained proper function dependencies for consistent content formatting
+
+### 5.2. Linux Documentation Styling Consistency (v1.5.2)
+- **Dark theme standardization**: Updated `linux-day-1-setup-tips.html` to use dark theme matching `linux-cheatsheet-1.html`
+- **Official color palette**: Applied Cyberknights color palette with CSS custom properties
+- **Visual consistency**: Both Linux documents now use consistent styling and branding
+- **Enhanced structure**: Added proper HTML structure, QR code functionality, and navigation links
+- **Professional appearance**: Unified dark theme provides better readability and brand consistency
+
+### 5.3. Linux Documentation DRY Refactoring (v1.5.2)
+- **Reusable CSS classes**: Implemented DRY principles with `.section-container`, `.section-title`, `.subsection-title`, `.command-code`, `.code-block`, `.emphasis-text`
+- **Tailwind optimization**: Replaced inline styles with Tailwind utility classes and custom CSS classes
+- **Maintainability**: Both Linux documents now use consistent class structure for easier maintenance
+- **Color consistency**: Updated both documents to use official Cyberknights color palette (`--neon-surge: #43CC50`)
+- **Code organization**: Improved CSS organization with clear separation of concerns and reusable components
+
+### 5.4. Footer Positioning Fix (v1.5.2)
+- **Sticky footer layout**: Implemented proper flexbox layout to ensure footer always appears at bottom of viewport
+- **Consistent positioning**: Fixed footer appearing at different heights when switching between resource filters
+- **Visual consistency**: Footer now maintains consistent position regardless of content amount (Cyberknights vs Linux filters)
+- **Responsive behavior**: Footer adapts properly to different screen sizes while maintaining bottom positioning
+- **Layout structure**: Used `flex flex-col` on body, `flex-grow` on main content, and `mt-auto` on footer
+
 ### 6. Content Architecture Refinement (v1.5.1)
 - **Strategic banner placement**: "Excitement • Opportunity • Belonging" banner restored to home page only for QR code users
 - **Content reorganization**: Moved career boost details from Mission box to "Our Members Get Hired!" box for better logical grouping

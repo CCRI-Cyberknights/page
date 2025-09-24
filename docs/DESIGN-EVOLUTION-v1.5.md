@@ -7,7 +7,7 @@ This document provides comprehensive documentation for the major design and func
 ## Version History Context
 
 - **Starting Point**: v1.4.2 (Navigation & Interaction Upgrade)
-- **Current Version**: v1.5.1 (Content and Information Architecture Overhaul)
+- **Current Version**: v1.5.2 (Linux Documentation DRY Refactoring and Footer Positioning Fix)
 - **Major Changes**: Navigation redesign, content restructuring, interactive elements, and DRY implementation
 
 ---

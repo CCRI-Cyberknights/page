@@ -5,6 +5,31 @@ All notable changes to the CCRI Cyberknights Landing Pages project are documente
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.5.2] - 2024-09-24
+
+### Fixed
+- **Modal bullet formatting restoration**: Re-added `formatDetailedSummary` function that was accidentally removed during "more info" pulldown cleanup
+- **Modal content display**: Detailed summaries now properly display as bullet points in resource modals
+- **Function dependency**: Fixed missing function reference that was causing modals to show empty content
+- **Footer positioning inconsistency**: Fixed footer appearing at different heights when different resource filters are selected
+  - Implemented sticky footer layout using flexbox (`flex flex-col` on body, `flex-grow` on main, `mt-auto` on footer)
+  - Footer now consistently appears at bottom of viewport when content is minimal
+  - Resolves visual inconsistency between Cyberknights (3 cards) and Linux (2 cards) resource filters
+
+### Changed
+- **Linux Day 1 Setup Tips styling**: Updated `document/linux-day-1-setup-tips.html` to use dark theme and official color palette
+  - Converted from light theme (blue colors) to dark theme matching `linux-cheatsheet-1.html`
+  - Applied official Cyberknights color palette with CSS custom properties
+  - Used `--neon-surge` (#43CC50) for headings and `--ember-spark` (#C27329) for emphasis
+  - Added proper HTML structure with QR code functionality and footer
+  - Maintained consistent styling with other Linux documentation
+- **Linux Cheatsheet 1 DRY refactoring**: Refactored `document/linux-cheatsheet-1.html` to use more Tailwind elements and DRY principles
+  - Added reusable CSS classes (`.section-container`, `.section-title`, `.subsection-title`, `.command-code`, `.code-block`, `.emphasis-text`)
+  - Updated color palette to match official Cyberknights colors (`--neon-surge: #43CC50`)
+  - Refactored all sections to use consistent DRY classes instead of inline styles
+  - Added navigation links and footer to match other Linux documentation
+  - Improved maintainability and consistency across Linux documents
+
 ## [1.5.1] - 2024-09-23
 
 ### Added

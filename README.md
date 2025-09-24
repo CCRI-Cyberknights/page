@@ -9,18 +9,20 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 - **Multi-page Design**: Uses a single `index.html` file with a JavaScript router to display multiple pages, each corresponding to a different QR code. This allows us to use multiple QR codes that direct to a single, easily manageable URL.
 - **Fully Responsive**: The site is built with Tailwind CSS, ensuring a clean and optimal viewing experience on any device, from desktop computers to mobile phones.
 - **Interactive Elements**: Cyber Knight icons with full-screen modal expansion, button-style navigation with clear visual hierarchy, and mobile-optimized search functionality.
-- **Enhanced UX**: Resource cards with expand/collapse functionality, bullet-point formatting, external link indicators, modal system with click-anywhere-to-close behavior, and streamlined content architecture.
+- **Enhanced UX**: Resource cards with bullet-point formatting, external link indicators, modal system with click-anywhere-to-close behavior, and streamlined content architecture.
 - **Generalized Image Toggle System**: Unified CSS custom properties for consistent image expansion across all toggleable images (navigation icons, welder image, VBox screenshot) with 96% screen width expansion.
 - **Branded Color Palette**: Canonical color palette with CSS variables, hybrid forge color scheme with `#04703C` primary green, industrial accents, and strategic color hierarchy.
+- **Sticky Footer Layout**: Consistent footer positioning using flexbox layout to ensure footer always appears at bottom of viewport when content is minimal.
+- **DRY Documentation**: Linux documents use reusable CSS classes and consistent styling with official Cyberknights color palette.
 - **Automated Testing**: Comprehensive test suite using Selenium WebDriver to ensure functionality across different pages and features.
 - **Automated Versioning**: Intelligent version management with conventional commits, pre-commit hooks, and semantic versioning.
 - **Key Landing Pages**:
   - **Home**: Merged club content with engaging "Who are the Cyber Knights?" headline, strategic "Excitement • Opportunity • Belonging" banner for QR code users, enhanced career messaging with "Our Members Get Hired!" section, and logical content organization
   - **Linux**: Generic Linux installation guides with USB Boot Guide and VirtualBox Boot Guide, step-by-step instructions and common boot menu keys
   - **Calendar**: Meeting schedules with color-coded meeting types and clickable room numbers
-  - **Resources**: Comprehensive resource cards with detailed descriptions, bullet-point formatting, modal system with click-anywhere-to-close behavior for enhanced readability, and organized categories with default club filter
+  - **Resources**: Comprehensive resource cards with detailed descriptions, bullet-point formatting, modal system with click-anywhere-to-close behavior for enhanced readability, organized categories with default club filter, and consistent footer positioning
   - **Campus Maps**: Interactive maps for meeting locations (e.g., `/map-warwick-4080`)
-  - **Documents**: Standalone HTML documents that can be loaded within the SPA or accessed directly
+  - **Documents**: Standalone HTML documents with DRY CSS classes and consistent styling (Linux Cheatsheet 1, Linux Day 1 Setup Tips) that can be loaded within the SPA or accessed directly
   - **Blog**: Updates and announcements (coming soon)
 
 ## Getting Started

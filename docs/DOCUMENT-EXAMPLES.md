@@ -10,7 +10,7 @@ This guide provides practical examples for using the document loading system in 
 
 1. **Create the HTML file**:
    ```html
-   <!-- resources/ctf-guide.html -->
+   <!-- document/ctf-guide.html -->
    <!DOCTYPE html>
    <html lang="en">
    <head>
@@ -68,7 +68,7 @@ This guide provides practical examples for using the document loading system in 
 ### Multi-Section Document
 
 ```html
-<!-- resources/linux-advanced.html -->
+<!-- document/linux-advanced.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -108,7 +108,7 @@ This guide provides practical examples for using the document loading system in 
       <div class="flex flex-wrap gap-4 text-sm">
         <a href="../#/document/linux-cheatsheet-1.html" class="text-emerald-400 hover:text-emerald-300 underline">← Linux Basics</a>
         <span class="text-slate-500">•</span>
-        <a href="../#/resources/linux" class="text-emerald-400 hover:text-emerald-300 underline">Linux Resources</a>
+        <a href="../#/document/linux" class="text-emerald-400 hover:text-emerald-300 underline">Linux Resources</a>
       </div>
     </div>
   </div>
@@ -119,7 +119,7 @@ This guide provides practical examples for using the document loading system in 
 ### Interactive Document with JavaScript
 
 ```html
-<!-- resources/interactive-demo.html -->
+<!-- document/interactive-demo.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -196,7 +196,7 @@ const resources = [
 ### File Organization
 
 ```
-resources/
+document/
 ├── linux-cheatsheet-1.html      # Basic Linux guide
 ├── linux-advanced.html          # Advanced Linux topics
 ├── ctf-guide.html              # CTF competition guide
@@ -259,7 +259,7 @@ resources/
    - Check navigation links work
 
 3. **Test standalone mode**:
-   - Navigate to `http://localhost:8000/resources/your-file.html`
+   - Navigate to `http://localhost:8000/document/your-file.html`
    - Verify document displays correctly
    - Check all functionality works
 
@@ -268,7 +268,7 @@ resources/
 1. **Deploy to GitHub Pages**
 2. **Test both modes**:
    - SPA: `https://your-site.github.io/page/#/document/your-file.html`
-   - Standalone: `https://your-site.github.io/page/resources/your-file.html`
+   - Standalone: `https://your-site.github.io/page/document/your-file.html`
 
 ## Troubleshooting
 

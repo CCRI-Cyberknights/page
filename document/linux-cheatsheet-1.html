@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Linux Cheat Sheet 1 - CCRI Cyberknights</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../js/qrcode.min.js"></script>
+  <script src="../js/qr-code-manager.js"></script>
+  <style>
+    :root { color-scheme: dark; }
+    body { background: #0f172a; color: #e2e8f0; }
+    
+    /* Official Cyberknights Color Palette */
+    :root {
+      --neon-surge: #43CC50;
+      --steel-glow: #5B6E6E;
+      --pale-alloy: #B8B8B8;
+      --primary-green: #04703C;
+      --ember-spark: #C27329;
+      --arc-weld-blue: #2DB2C4;
+    }
+    
+    /* DRY Reusable Classes */
+    .section-container {
+      @apply p-6 rounded-lg border border-slate-800 bg-slate-900/40;
+    }
+    
+    .section-title {
+      @apply text-xl font-bold mb-4;
+      color: var(--neon-surge);
+    }
+    
+    .subsection-title {
+      @apply text-lg font-semibold mb-2;
+      color: var(--neon-surge);
+    }
+    
+    .command-code {
+      @apply bg-slate-800 px-1 rounded text-sm font-mono text-slate-200;
+    }
+    
+    .code-block {
+      @apply bg-slate-800 p-2 rounded text-xs font-mono text-slate-200 overflow-x-auto;
+    }
+    
+    .emphasis-text {
+      color: var(--ember-spark);
+    }
+    
+    .table-header {
+      @apply text-left p-3 font-semibold;
+      color: var(--neon-surge);
+    }
+    
+    .table-cell {
+      @apply p-3;
+    }
+    
+    .command-cell {
+      @apply font-mono font-semibold text-emerald-400;
+    }
+    
+    .table-row {
+      @apply border-b border-slate-800;
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-200 min-h-screen">
+  <div class="max-w-4xl mx-auto p-6 space-y-8">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold mb-4" style="color: var(--neon-surge);">Linux Cheat Sheet 1 📁</h1>
+      <p class="text-slate-300 text-lg">Essential Linux commands and file system navigation guide</p>
+    </div>
+
+    <!-- Video References -->
+    <div class="section-container">
+      <h2 class="section-title">📺 Reference Videos</h2>
+      <p class="text-slate-300 mb-4">This cheat sheet summarizes key concepts and commands from the following videos:</p>
+      <ul class="space-y-2">
+        <li>
+          <a href="https://www.youtube.com/watch?v=N9j--n-zGgc&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M" 
+             class="text-emerald-400 hover:text-emerald-300 underline" target="_blank" rel="noopener noreferrer">
+            📹 2 - Linux Commands and File Structure
+          </a>
+        </li>
+        <li>
+          <a href="https://www.youtube.com/watch?v=lI0mUMqBesU&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=3" 
+             class="text-emerald-400 hover:text-emerald-300 underline" target="_blank" rel="noopener noreferrer">
+            📹 3 - File System Navigation from the Terminal
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <!-- File System & Navigation -->
+    <div class="section-container">
+      <h2 class="section-title">📁 Linux File System & Navigation</h2>
+      
+      <div class="space-y-4">
+        <div>
+          <h3 class="subsection-title">Understanding Your Location</h3>
+          <p class="text-slate-300">In a Linux environment, you don't have visual cues like a mouse to show you where you are. It's crucial to know your current location, or <strong class="emphasis-text">working directory</strong>, which is the folder you are currently "in" at the command line.</p>
+        </div>
+
+        <div>
+          <h3 class="subsection-title">Root Directory (<code class="command-code">/</code>)</h3>
+          <p class="text-slate-300">The very top of the Linux file system is called the <strong class="emphasis-text">root directory</strong>. All other files and directories are contained within it.</p>
+        </div>
+
+        <div>
+          <h3 class="subsection-title">Home Directory (<code class="command-code">~</code> or <code class="command-code">/home/user</code>)</h3>
+          <p class="text-slate-300">Every user has a <strong class="emphasis-text">home directory</strong>, which is a personal space for their files. The tilde symbol (<code class="command-code">~</code>) is a shortcut that always represents your current user's home directory, no matter where you are in the file system.</p>
+        </div>
+
+        <div>
+          <h3 class="subsection-title">Case Sensitivity</h3>
+          <p class="text-slate-300">Linux is <strong class="emphasis-text">case-sensitive</strong>, meaning <code class="command-code">Desktop</code> is different from <code class="command-code">desktop</code>. Be careful with capitalization when typing file or directory names.</p>
+        </div>
+
+        <div>
+          <h3 class="subsection-title">The Tab Key</h3>
+          <p class="text-slate-300">Use the <strong class="emphasis-text">Tab key</strong> for auto-completion. This prevents typos and speeds up navigation. If multiple files or folders match what you've typed, double-tapping Tab will show you all the options.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Essential Commands -->
+    <div class="section-container">
+      <h2 class="section-title">⌨️ Essential Commands</h2>
+      
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse">
+          <thead>
+            <tr class="border-b border-slate-700">
+              <th class="table-header">Command</th>
+              <th class="table-header">Purpose</th>
+              <th class="table-header">Example & Notes</th>
+            </tr>
+          </thead>
+          <tbody class="text-sm">
+            <tr class="table-row">
+              <td class="table-cell command-cell"><code class="command-code">pwd</code></td>
+              <td class="table-cell"><strong class="emphasis-text">P</strong>rint <strong class="emphasis-text">W</strong>orking <strong class="emphasis-text">D</strong>irectory. Shows your current location.</td>
+              <td class="table-cell">
+                <pre class="code-block"><code>pwd</code></pre>
+                <span class="text-slate-400">→</span> <code class="command-code">/home/sandbox/desktop</code>
+              </td>
+            </tr>
+            <tr class="table-row">
+              <td class="table-cell command-cell"><code class="command-code">ls</code></td>
+              <td class="table-cell"><strong class="emphasis-text">L</strong>i<strong class="emphasis-text">s</strong>t. Shows the contents (files and folders) of the current directory.</td>
+              <td class="table-cell">
+                <pre class="code-block"><code>ls</code></pre>
+                <span class="text-slate-400">→</span> shows what's inside the folder you're in
+              </td>
+            </tr>
+            <tr class="table-row">
+              <td class="table-cell command-cell"><code class="command-code">cd</code></td>
+              <td class="table-cell"><strong class="emphasis-text">C</strong>hange <strong class="emphasis-text">D</strong>irectory. Used to move between folders. Requires a location argument.</td>
+              <td class="table-cell">
+                <div class="space-y-1">
+                  <pre class="code-block"><code>cd /</code></pre>
+                  <span class="text-slate-400">→</span> root directory<br>
+                  <pre class="code-block"><code>cd ~</code></pre>
+                  <span class="text-slate-400">→</span> home directory<br>
+                  <pre class="code-block"><code>cd /home/sandbox/desktop</code></pre>
+                  <span class="text-slate-400">→</span> full path
+                </div>
+              </td>
+            </tr>
+            <tr class="table-row">
+              <td class="table-cell command-cell"><code class="command-code">cd ..</code></td>
+              <td class="table-cell">Moves you up one level in the directory tree.</td>
+              <td class="table-cell">
+                From <code class="command-code">/home/sandbox</code>:
+                <pre class="code-block"><code>cd ..</code></pre>
+                <span class="text-slate-400">→</span> <code class="command-code">/home</code>
+              </td>
+            </tr>
+            <tr class="table-row">
+              <td class="table-cell command-cell"><code class="command-code">cd</code> (no args)</td>
+              <td class="table-cell">Shortcut to home directory.</td>
+              <td class="table-cell">
+                <pre class="code-block"><code>cd</code></pre>
+                <span class="text-slate-400">→</span> home directory (same as <code class="command-code">cd ~</code>)
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Tips for Getting Started -->
+    <div class="section-container">
+      <h2 class="section-title">💡 Tips for Getting Started</h2>
+      
+      <div class="space-y-4">
+        <div>
+          <h3 class="subsection-title">Opening the Terminal</h3>
+          <p class="text-slate-300">You can open a terminal by right-clicking and selecting <strong class="emphasis-text">"Open in Terminal"</strong> or by searching for <strong class="emphasis-text">"terminal"</strong> in your applications menu. Be aware that how you open it may change your starting location.</p>
+        </div>
+
+        <div>
+          <h3 class="subsection-title">Full vs. Relative Paths</h3>
+          <p class="text-slate-300">You can navigate using a <strong class="emphasis-text">full path</strong> (starting from <code class="command-code">/</code>, e.g., <code class="command-code">/home/sandbox/documents</code>) or a <strong class="emphasis-text">relative path</strong> (starting from your current location).</p>
+        </div>
+
+        <div>
+          <h3 class="subsection-title">Initial Inventory</h3>
+          <p class="text-slate-300 mb-3">When logging into a new machine, always take an inventory of your surroundings:</p>
+          <ul class="space-y-2 text-sm">
+            <li class="flex items-start">
+              <span class="text-slate-400 mr-2">•</span>
+              <div>
+                <pre class="code-block inline-block"><code>whoami</code></pre>
+                <span class="text-slate-400 ml-2">→</span> shows which user you're logged in as
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-slate-400 mr-2">•</span>
+              <div>
+                <pre class="code-block inline-block"><code>pwd</code></pre>
+                <span class="text-slate-400 ml-2">→</span> shows your current location
+              </div>
+            </li>
+            <li class="flex items-start">
+              <span class="text-slate-400 mr-2">•</span>
+              <div>
+                <pre class="code-block inline-block"><code>ls</code></pre>
+                <span class="text-slate-400 ml-2">→</span> lists files in your current directory
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Links -->
+    <div class="flex justify-center space-x-6 mt-8">
+      <a href="../#/linux" class="text-emerald-400 hover:text-emerald-300 underline">← Back to Linux Learner's Guide</a>
+      <a href="../#/document/linux-day-1-setup-tips.html" class="text-emerald-400 hover:text-emerald-300 underline">Linux Day 1 Setup Tips</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-800 border-t border-slate-700 mt-12">
+    <div class="max-w-4xl mx-auto px-6 py-4">
+      <div class="flex justify-between items-center text-sm text-slate-400">
+        <div>
+          <span>© 2025 CCRI Cyber Club</span>
+        </div>
+        <div class="flex items-center space-x-4">
+          <span id="version" class="hover:text-slate-300 cursor-help transition-colors">v1.5.2</span>
+          <div id="qr-code-container" class="flex items-center space-x-2">
+            <span class="text-slate-400">QR Code</span>
+            <canvas id="qr-canvas" width="32" height="32" class="border border-slate-600 rounded"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Initialize QR code
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof QRCode !== 'undefined') {
+        const canvas = document.getElementById('qr-canvas');
+        const currentUrl = window.location.href;
+        
+        QRCode.toCanvas(canvas, currentUrl, {
+          width: 32,
+          margin: 1,
+          color: {
+            dark: '#43CC50',
+            light: '#0f172a'
+          }
+        }, function (error) {
+          if (error) console.error('QR Code generation failed:', error);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

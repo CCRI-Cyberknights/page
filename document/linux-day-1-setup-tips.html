@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Getting Started with Linux - Day 1 Setup Tips - CCRI Cyberknights</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="../js/qrcode.min.js"></script>
+  <script src="../js/qr-code-manager.js"></script>
+  <style>
+    :root { color-scheme: dark; }
+    body { background: #0f172a; color: #e2e8f0; }
+    
+    /* Official Cyberknights Color Palette */
+    :root {
+      --neon-surge: #43CC50;
+      --steel-glow: #5B6E6E;
+      --pale-alloy: #B8B8B8;
+      --primary-green: #04703C;
+      --ember-spark: #C27329;
+      --arc-weld-blue: #2DB2C4;
+    }
+    
+    /* DRY Reusable Classes */
+    .section-container {
+      @apply p-6 rounded-lg border border-slate-800 bg-slate-900/40;
+    }
+    
+    .section-title {
+      @apply text-xl font-bold mb-4;
+      color: var(--neon-surge);
+    }
+    
+    .subsection-title {
+      @apply text-lg font-semibold mb-2;
+      color: var(--neon-surge);
+    }
+    
+    .emphasis-text {
+      color: var(--ember-spark);
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-200 min-h-screen">
+  <div class="max-w-4xl mx-auto p-6 space-y-8">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h1 id="dayone-heading" class="text-4xl font-bold mb-4" style="color: var(--neon-surge);">
+        Getting started with Linux: Day One essentials for dual-boot beginners
+      </h1>
+      <p class="text-slate-300 text-lg">
+        If you're planning to dual-boot Windows and Linux, two quick steps will save you time and headaches: 
+        <strong class="font-semibold emphasis-text">set up Firefox Sync</strong> for a seamless browser experience, and use 
+        <strong class="font-semibold emphasis-text">Google Drive</strong> for cloud file storage. These are simple, practical moves that keep your data portable and your workflow consistent across both OSs.
+      </p>
+    </div>
+
+    <!-- Why this matters section -->
+    <div class="section-container" aria-labelledby="why-it-matters">
+      <h2 id="why-it-matters" class="section-title">Why this matters</h2>
+      <p class="text-slate-300 mb-4">
+        Many students and newcomers to Linux are accustomed to Windows. By syncing your browser and storing files in the cloud, you avoid being tied to one OS and make switching (or troubleshooting) much easier. These two steps let you:
+      </p>
+      <ul class="list-disc list-inside space-y-1 text-slate-300">
+        <li>Keep bookmarks, passwords, and browser settings consistent</li>
+        <li>Access the same files regardless of which OS you boot</li>
+        <li>Minimize friction when learning or using Linux alongside Windows</li>
+      </ul>
+    </div>
+
+    <!-- Firefox Sync section -->
+    <div class="section-container mb-8" aria-labelledby="firefox-sync">
+      <h2 id="firefox-sync" class="section-title">
+        1. Set up <strong class="emphasis-text">Firefox Sync</strong> (recommended)
+      </h2>
+      <p class="text-slate-300 mb-4">
+        Firefox Sync is one of the best patterns for dual-booting. It mirrors your browser profile (bookmarks, saved passwords, extensions, etc.) between Windows and Linux so your web experience is identical on both systems.
+      </p>
+
+      <ol class="list-decimal list-inside space-y-4 text-slate-300">
+        <li>
+          <strong class="emphasis-text">On your Windows machine</strong>
+          <ul class="list-disc list-inside pl-5 space-y-1 mt-2">
+            <li>Open Firefox and click the <em>menu (hamburger)</em> button.</li>
+            <li>Choose <em>Sign in to Firefox</em> (or <em>Sync</em>) and sign in with your Firefox account. If you don't have one, create it — it's free.</li>
+          </ul>
+        </li>
+
+        <li>
+          <strong class="emphasis-text">On your Linux install</strong>
+          <ul class="list-disc list-inside pl-5 space-y-1 mt-2">
+            <li>Open Firefox (most distributions include it by default).</li>
+            <li>Click the menu and <em>Sign in to Firefox</em> using the same account credentials you used on Windows.</li>
+            <li>Allow time for the sync to complete — your bookmarks, passwords, enabled extensions (like uBlock Origin), and other settings will appear.</li>
+          </ul>
+        </li>
+      </ol>
+
+      <div class="p-4 rounded-lg border border-slate-800 bg-slate-900/40 mt-6">
+        <p class="text-slate-300"><strong class="emphasis-text">Pro tip:</strong> If you rely on specific privacy or ad-blocking extensions, confirm they are enabled after syncing (most popular add-ons like uBlock Origin carry over fine).</p>
+      </div>
+    </div>
+
+    <!-- Google Drive section -->
+    <div class="section-container mb-8" aria-labelledby="google-drive">
+      <h2 id="google-drive" class="section-title">
+        2. Use <strong class="emphasis-text">Google Drive</strong> for files
+      </h2>
+      <p class="text-slate-300 mb-4">
+        Store your important documents, projects, and course files on Google Drive (or another cloud provider). This guarantees you can open and edit the same files whether you boot Windows or Linux.
+      </p>
+      <ul class="list-disc list-inside space-y-1 text-slate-300">
+        <li>Install the appropriate client or use the web interface in both OSs.</li>
+        <li>Keep active project folders in Drive — avoid saving critical work only to an OS-specific partition.</li>
+        <li>For large or confidential datasets, consider additional local backups or encryption before uploading.</li>
+      </ul>
+    </div>
+
+    <!-- Day One Checklist -->
+    <div class="section-container">
+      <h3 class="section-title">Day One Checklist</h3>
+      <ul class="list-disc list-inside space-y-1 mb-4 text-slate-300">
+        <li>Sign in to Firefox Sync on Windows → sign in on Linux</li>
+        <li>Confirm extensions, bookmarks, and passwords synced</li>
+        <li>Move important files into Google Drive and verify access from both OSs</li>
+        <li>Optional: create a small test file, open it on both OSs to confirm everything works</li>
+      </ul>
+      <p class="font-semibold text-slate-300">
+        These two small steps give you portability, continuity, and peace of mind — perfect when you're new to Linux and learning by doing.
+      </p>
+    </div>
+
+    <!-- Navigation Links -->
+    <div class="flex justify-center space-x-6 mt-8">
+      <a href="../#/linux" class="text-emerald-400 hover:text-emerald-300 underline">← Back to Linux Learner's Guide</a>
+      <a href="../#/document/linux-cheatsheet-1.html" class="text-emerald-400 hover:text-emerald-300 underline">Linux Boot Guide</a>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-slate-800 border-t border-slate-700 mt-12">
+    <div class="max-w-4xl mx-auto px-6 py-4">
+      <div class="flex justify-between items-center text-sm text-slate-400">
+        <div>
+          <span>© 2025 CCRI Cyber Club</span>
+        </div>
+        <div class="flex items-center space-x-4">
+          <span id="version" class="hover:text-slate-300 cursor-help transition-colors">v1.5.2</span>
+          <div id="qr-code-container" class="flex items-center space-x-2">
+            <span class="text-slate-400">QR Code</span>
+            <canvas id="qr-canvas" width="32" height="32" class="border border-slate-600 rounded"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Initialize QR code
+    document.addEventListener('DOMContentLoaded', function() {
+      if (typeof QRCode !== 'undefined') {
+        const canvas = document.getElementById('qr-canvas');
+        const currentUrl = window.location.href;
+        
+        QRCode.toCanvas(canvas, currentUrl, {
+          width: 32,
+          margin: 1,
+          color: {
+            dark: '#43CC50',
+            light: '#0f172a'
+          }
+        }, function (error) {
+          if (error) console.error('QR Code generation failed:', error);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title id="page-title">CCRI Cyberknights Club</title>
   <meta name="description" content="A centralized hub for the CCRI Cyber Club. Find information about when and where to find the Cyberknights, and much more!">
-    <meta name="version" content="1.5.1">
+    <meta name="version" content="1.5.2">
   <meta property="og:title" content="CCRI Cyber Club">
   <meta property="og:description" content="A centralized hub for the CCRI Cyber Club. Find information about when and where to find the Cyberknights, and much more!">
   <meta property="og:image" content="https://ccri-cyberknights.github.io/page/images/branding/cybersmith.webp">
@@ -188,7 +188,7 @@
     }
   </style>
 </head>
-<body class="min-h-screen bg-[var(--forge-black)] text-[var(--pale-alloy)]">
+<body class="min-h-screen bg-[var(--forge-black)] text-[var(--pale-alloy)] flex flex-col">
 
   <header class="max-w-5xl mx-auto px-4 py-6">
     <div class="flex items-center justify-between">
@@ -203,9 +203,9 @@
       </nav>
   </header>
 
-  <main id="app" class="max-w-5xl mx-auto px-4 pb-24"></main>
+  <main id="app" class="max-w-5xl mx-auto px-4 pb-24 flex-grow"></main>
 
-  <footer class="border-t border-slate-800/60 mt-16">
+  <footer class="border-t border-slate-800/60 mt-auto">
     <div class="max-w-5xl mx-auto px-4 py-6 text-xs text-slate-400 flex items-center justify-between">
       <div class="flex items-center gap-4">
       <div>
@@ -213,7 +213,7 @@
         </div>
         <div class="text-slate-500">•</div>
         <div>
-          <span id="version" title="Commit: 0a2b75d - 2025-09-23 17:31:58 -0400" class="hover:text-slate-300 cursor-help transition-colors">v1.5.1</span>
+          <span id="version" title="Commit: 2d14c04 - 2025-09-23 23:10:59 -0400" class="hover:text-slate-300 cursor-help transition-colors">v1.5.2</span>
         </div>
       </div>
       <div class="relative">
@@ -732,8 +732,8 @@
         // Use the document template
         app.innerHTML = routes['document'];
 
-        // Build file path (e.g. resources/linux-cheatsheet-1.html)
-        const filePath = 'resources/' + segments.join('/');
+        // Build file path (e.g. document/linux-cheatsheet-1.html)
+        const filePath = 'document/' + segments.join('/');
 
         try {
           const res = await fetch(filePath);
@@ -1229,11 +1229,19 @@
         },
         { name: 'STEM Day 2025 Cyber Game', url: 'https://github.com/CCRI-Cyberknights/stemday_takehome.git', cat: 'stem' },
         { 
-          name: 'Linux Cheat Sheet 1', 
+          name: 'Getting Started with Linux - Day 1 Setup Tips', 
+          url: '#/document/linux-day-1-setup-tips.html', 
+          cat: 'linux', 
+          desc: 'Comprehensive beginner guide for Linux installation and first-day setup',
+          summary: 'A complete guide for cybersecurity students new to Linux, covering installation methods, essential first-day setup tasks, security fundamentals, and cybersecurity-specific configurations.',
+          detailedSummary: 'If you\'re planning to use Linux alongside Windows, two quick steps can save you time and headaches: set up Firefox Sync for a seamless browser experience, and use Google Drive for cloud file storage. These simple moves keep your data portable, secure, and accessible no matter which OS you\'re using.'
+        },
+        { 
+          name: 'Linux Cheatsheet 1', 
           url: '#/document/linux-cheatsheet-1.html', 
           cat: 'linux', 
           desc: 'Essential Linux commands and file system navigation guide',
-          summary: 'The Linux Cheat Sheet 1 is an essential guide for cybersecurity students, covering fundamental commands for file system navigation, operations, permissions, processes, networking, text processing, archive management, and system information.',
+          summary: 'The Linux Cheatsheet 1 is an essential guide for cybersecurity students, covering fundamental commands for file system navigation, operations, permissions, processes, networking, text processing, archive management, and system information.',
           detailedSummary: 'Organized into categories like File System Navigation (e.g., pwd, ls, cd), File Operations (e.g., cp, mv, cat), Permission Management (e.g., chmod, chown), Process Management (e.g., ps, top, kill), Network Commands (e.g., ping, ssh), Text Processing (e.g., grep, sed), Archive Management (e.g., tar, zip), and System Information (e.g., whoami, df), it provides quick references for command-line proficiency. Derived from NCAE resources, it\'s crucial for CCRI students addressing Linux familiarity gaps, supporting hands-on projects like Raspberry Pi and CTF challenges in cybersecurity education.'
         },
         { 
@@ -1268,8 +1276,8 @@
           return 'Visit Site';
         } else if (name.includes('handshake')) {
           return 'Access Handshake';
-        } else if (name.includes('cheat sheet')) {
-          return 'View Guide';
+        } else if (name.includes('cheat sheet') || name.includes('cheatsheet') || name.includes('getting started')) {
+          return 'View';
         } else if (name.includes('competition') || name.includes('ncl') || name.includes('cybergames')) {
           return 'Join Competition';
         }
@@ -1292,8 +1300,12 @@
         return 'px-3 py-1 rounded bg-emerald-500 text-slate-900 font-medium hover:bg-emerald-400';
       }
 
-      function getExternalLinkAttributes() {
-        return 'target="_blank" rel="noopener noreferrer"';
+      function getExternalLinkAttributes(url) {
+        // Only add external link attributes for external URLs
+        if (url && !url.startsWith('#/document/')) {
+          return 'target="_blank" rel="noopener noreferrer"';
+        }
+        return '';
       }
 
       // SVG icon generators for DRY
@@ -1301,6 +1313,20 @@
         return `<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
                 </svg>`;
+      }
+
+      function getDocumentIcon() {
+        return `<svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>`;
+      }
+
+      function getLinkIcon(url) {
+        // Check if it's a local document (starts with #/document/)
+        if (url.startsWith('#/document/')) {
+          return getDocumentIcon();
+        }
+        return getExternalLinkIcon();
       }
 
       function getCloseIcon() {
@@ -1331,23 +1357,6 @@
             summary.className = 'summary-text text-[12px] text-slate-300 mt-2 mb-3';
             summary.textContent = r.summary || r.desc || '';
             
-            // More info section (if detailed summary exists)
-            let moreInfoSection = '';
-            if (r.detailedSummary) {
-              moreInfoSection = `
-                <div class="mb-3">
-                  <div class="flex items-center gap-1 text-[11px] text-slate-500 hover:text-slate-400 cursor-pointer" onclick="event.stopPropagation(); toggleCardDetails(this)">
-                    <svg class="w-3 h-3 transition-transform" fill="currentColor" viewBox="0 0 20 20">
-                      <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path>
-                    </svg>
-                    <span class="toggle-text">more info</span>
-                  </div>
-                  <div class="detailed-summary hidden mt-2 text-[11px] text-slate-400 leading-relaxed cursor-pointer hover:text-slate-300 transition-colors border-l-2 border-transparent hover:border-slate-600 pl-2" onclick="event.stopPropagation(); toggleCardDetails(this.previousElementSibling)" title="Click to collapse">
-                    ${formatDetailedSummary(r.detailedSummary)}
-                  </div>
-                </div>
-              `;
-            }
             
             // Action button
             const actionButton = document.createElement('div');
@@ -1356,18 +1365,17 @@
             const buttonText = getButtonText(r.name);
             
             actionButton.innerHTML = `
-              <a href="${r.url}" ${getExternalLinkAttributes()} 
+              <a href="${r.url}" ${getExternalLinkAttributes(r.url)} 
                  class="inline-flex items-center gap-1 px-3 py-1 text-[12px] bg-emerald-600 hover:bg-emerald-700 text-white rounded transition-colors"
                  onclick="event.stopPropagation()">
                 <span>${buttonText}</span>
-                ${getExternalLinkIcon()}
+                ${getLinkIcon(r.url)}
               </a>
             `;
             
             card.innerHTML = `
               ${header.outerHTML}
               ${summary.outerHTML}
-              ${moreInfoSection}
               ${actionButton.outerHTML}
             `;
             
@@ -1376,6 +1384,20 @@
         }
       }
       
+      // Function to format detailed summary with bullet points
+      function formatDetailedSummary(text) {
+        if (!text) return '';
+        
+        // Split by periods and filter out empty strings
+        const sentences = text.split('.').filter(s => s.trim().length > 0);
+        
+        // Create bullet points
+        return sentences.map(sentence => {
+          const trimmed = sentence.trim();
+          return `<li>${trimmed}${trimmed.endsWith('.') ? '' : '.'}</li>`;
+        }).join('');
+      }
+
       // Function to open resource modal
       window.openResourceModal = function(resource) {
         // Create modal overlay
@@ -1403,27 +1425,22 @@
                 </button>
               </div>
               
-              <!-- Summary -->
-              <div class="text-slate-300 mb-4 leading-relaxed">
-                ${resource.summary || resource.desc || ''}
-              </div>
-              
               <!-- Detailed Summary -->
               ${resource.detailedSummary ? `
                 <div class="text-slate-400 mb-6 leading-relaxed">
-                  ${formatDetailedSummary(resource.detailedSummary)}
+                  <ul class="list-disc list-inside space-y-1">
+                    ${formatDetailedSummary(resource.detailedSummary)}
+                  </ul>
                 </div>
               ` : ''}
               
               <!-- Action Button -->
               <div class="flex justify-end">
-                <a href="${resource.url}" ${getExternalLinkAttributes()} 
+                <a href="${resource.url}" ${getExternalLinkAttributes(resource.url)} 
                    class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded transition-colors" 
-                   onclick="event.stopPropagation()">
+                   onclick="closeResourceModal(); return true;">
                   <span>${buttonText}</span>
-                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
-                  </svg>
+                  ${getLinkIcon(resource.url)}
                 </a>
               </div>
             </div>
@@ -1510,44 +1527,6 @@
         }
       }
       
-      // Function to format detailed summary with bullet points
-      function formatDetailedSummary(text) {
-        if (!text) return '';
-        
-        // Split by sentences and create bullet points
-        const sentences = text.split(/[.!?]+/).filter(s => s.trim().length > 0);
-        return sentences.map(sentence => 
-          `<div class="flex items-start gap-2 mb-1">
-            <span class="text-emerald-400 mt-1">•</span>
-            <span>${sentence.trim()}.</span>
-          </div>`
-        ).join('');
-      }
-      
-      // Function to toggle card details
-      window.toggleCardDetails = function(element) {
-        const detailedSummary = element.nextElementSibling;
-        const icon = element.querySelector('svg');
-        const toggleText = element.querySelector('.toggle-text');
-        
-        // Find the summary text in the same card
-        const card = element.closest('.resource-card');
-        const summaryText = card.querySelector('.summary-text');
-        
-        if (detailedSummary.classList.contains('hidden')) {
-          // Expanding: hide summary, show detailed summary
-          detailedSummary.classList.remove('hidden');
-          if (summaryText) summaryText.style.display = 'none';
-          icon.style.transform = 'rotate(180deg)';
-          toggleText.textContent = 'less info';
-        } else {
-          // Collapsing: show summary, hide detailed summary
-          detailedSummary.classList.add('hidden');
-          if (summaryText) summaryText.style.display = 'block';
-          icon.style.transform = 'rotate(0deg)';
-          toggleText.textContent = 'more info';
-        }
-      };
       
       // Make functions globally available
       window.selectSearchResult = selectSearchResult;

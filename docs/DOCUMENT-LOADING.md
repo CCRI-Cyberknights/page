@@ -17,7 +17,7 @@ The system supports two modes of operation:
 
 #### Route Structure
 - **SPA Route**: `#/document/filename.html` (clean URLs without path prefixes)
-- **Standalone Route**: `resources/filename.html` (direct file access)
+- **Standalone Route**: `document/filename.html` (direct file access)
 
 #### Core Components
 
@@ -32,7 +32,7 @@ The system supports two modes of operation:
 The document template (`page-document`) uses a minimal design approach:
 
 - **No Template Headers**: Documents display with only their native headers
-- **Clean URLs**: `#/document/filename.html` instead of `#/document/resources/filename.html`
+- **Clean URLs**: `#/document/filename.html` instead of `#/document/document/filename.html`
 - **Direct Content Loading**: Content loads directly into `#document-content` without wrapper headers
 - **Bottom Navigation**: Simple navigation links at the bottom for context
 
@@ -69,8 +69,8 @@ async function render() {
   if (page === 'document' && segments.length > 0) {
     app.innerHTML = routes['document'];
     
-    // Build file path with resources/ prefix for clean URLs
-    const filePath = 'resources/' + segments.join('/');
+    // Build file path with document/ prefix for clean URLs
+    const filePath = 'document/' + segments.join('/');
     
     try {
       const res = await fetch(filePath);
@@ -97,7 +97,7 @@ async function render() {
 
 1. **Create Standalone HTML File**:
    ```html
-   <!-- resources/new-guide.html -->
+   <!-- document/new-guide.html -->
    <!DOCTYPE html>
    <html lang="en">
    <head>
@@ -142,7 +142,7 @@ async function render() {
 #### External/Direct Access
 ```html
 <!-- Direct links to standalone files -->
-<a href="resources/linux-cheatsheet-1.html" target="_blank">Linux Cheat Sheet</a>
+<a href="document/linux-cheatsheet-1.html" target="_blank">Linux Cheat Sheet</a>
 ```
 
 ## Benefits
@@ -170,7 +170,7 @@ async function render() {
 ```
 project-root/
 ├── index.html                    # Main SPA with document loading
-├── resources/
+├── document/
 │   ├── linux-cheatsheet-1.html   # Standalone document
 │   └── other-guides.html         # Additional documents
 ├── js/

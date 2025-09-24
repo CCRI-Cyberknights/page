@@ -137,7 +137,7 @@ tests/
 **Purpose**: Ensures standalone HTML pages work independently of the main SPA.
 
 **Coverage**:
-- Direct HTML file loading (`resources/linux-cheatsheet-1.html`)
+- Direct HTML file loading (`document/linux-cheatsheet-1.html`)
 - QR Code functionality on standalone pages
 - Footer positioning and styling consistency
 - Cross-page link functionality

@@ -42,7 +42,7 @@ The system supports loading standalone HTML files into the SPA using the `#/docu
 
 ### Document Routes
 
-1. Create a standalone HTML file (e.g., `resources/your-document.html`).
+1. Create a standalone HTML file (e.g., `document/your-document.html`).
 2. Ensure the file has complete HTML structure with `<body>` content.
 3. Link using `#/document/path/to/your-document.html`.
 4. The file will work both as an SPA route and as a standalone document.
