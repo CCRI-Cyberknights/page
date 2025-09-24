@@ -103,26 +103,66 @@
       --arc-weld-blue: #2DB2C4;   /* electric arc welding */
       --molten-glow: #FFCC33;     /* bright molten metal */
     }
+
+    /* Cyber Knight Icon States - Simplified */
+    .icon-collapsed {
+      width: 2.5rem; /* 40px - equivalent to w-10 */
+      height: 2.5rem; /* 40px - equivalent to h-10 */
+      border-radius: 0.375rem; /* equivalent to rounded */
+    }
+    
+    .icon-collapsed:hover {
+      transform: scale(1.1); /* equivalent to hover:scale-110 */
+    }
+    
+    .icon-expanded {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 50;
+      width: min(90vw, 1200px);
+      height: min(90vh, 800px);
+      object-fit: contain;
+      background-color: rgba(0, 0, 0, 0.9);
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 0 60px rgba(16, 185, 129, 0.5);
+    }
+
+    /* Cyber Knight Welder Large Image States */
+    .welder-collapsed {
+      width: 18rem; /* 288px - equivalent to w-72 */
+      height: 18rem; /* 288px - equivalent to h-72 */
+      object-fit: contain;
+      filter: drop-shadow(0 0 40px rgba(16, 185, 129, 0.25));
+    }
+    
+    .welder-expanded {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 50;
+      width: min(90vw, 1200px);
+      height: min(90vh, 800px);
+      object-fit: contain;
+      background-color: rgba(0, 0, 0, 0.9);
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 0 60px rgba(16, 185, 129, 0.5);
+    }
   </style>
 </head>
 <body class="min-h-screen bg-[var(--forge-black)] text-[var(--pale-alloy)]">
-  <div class="w-full text-white text-xs tracking-wide" style="background-color: var(--primary-green);">
-    <div class="max-w-5xl mx-auto px-4 py-2 flex flex-wrap items-center justify-center gap-3 text-center">
-      <span class="font-semibold">Excitement</span>
-      <span>•</span>
-      <span class="font-semibold">Opportunity</span>
-      <span>•</span>
-      <span class="font-semibold">Belonging</span>
-    </div>
-  </div>
 
   <header class="max-w-5xl mx-auto px-4 py-6">
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <img src="images/branding/cybersmith.webp" alt="Cyberknights" class="w-10 h-10 rounded cursor-pointer hover:scale-110 transition-transform duration-200" onclick="expandIcon()" />
+        <img id="cyberknight-icon" src="images/branding/cybersmith.webp" alt="Cyberknights" class="icon-collapsed cursor-pointer transition-all duration-300 ease-in-out" onclick="toggleIconSize()" />
       </div>
       <nav class="flex gap-2 text-sm">
-        <a href="#/home" class="px-3 py-2 rounded-md bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700 hover:border-slate-600 transition-all duration-200 text-slate-200 hover:text-white font-medium">Club Home</a>
+        <a href="#/home" class="px-3 py-2 rounded-md bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700 hover:border-slate-600 transition-all duration-200 text-slate-200 hover:text-white font-medium">Home</a>
         <a href="#/linux" class="px-3 py-2 rounded-md bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700 hover:border-slate-600 transition-all duration-200 text-slate-200 hover:text-white font-medium">Linux</a>
         <a href="#/calendar" class="px-3 py-2 rounded-md bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700 hover:border-slate-600 transition-all duration-200 text-slate-200 hover:text-white font-medium">Calendar</a>
         <a href="#/resources" class="px-3 py-2 rounded-md bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700 hover:border-slate-600 transition-all duration-200 text-slate-200 hover:text-white font-medium">Resources</a>
@@ -214,10 +254,17 @@
           Who are the Cyber Knights?
         </h2>
         
-        <!-- Key Selling Points -->
-        <div class="mt-6 mb-6 p-4 rounded-lg border border-emerald-700/40 bg-emerald-900/10 text-center" style="color: var(--neon-surge);">
-          <div class="text-lg font-bold mb-2">Our members get hired!</div>
-          <div class="text-sm">Join a community that fosters <span class="font-semibold text-white">Excitement</span>, <span class="font-semibold text-white">Opportunity</span>, and <span class="font-semibold text-white">Belonging</span></div>
+        <!-- Key Selling Points - QR Code Landing Banner -->
+        <div class="mt-6 mb-8 p-6 rounded-lg border-2 border-emerald-500/60 bg-gradient-to-r from-emerald-900/20 to-emerald-800/20 text-center shadow-lg" style="background: linear-gradient(135deg, rgba(4, 112, 60, 0.15), rgba(16, 185, 129, 0.1));">
+          <div class="text-xl font-bold mb-3" style="color: var(--neon-surge);">Our members get hired!</div>
+          <div class="text-base font-medium mb-2" style="color: var(--pale-alloy);">Join a community that fosters</div>
+          <div class="flex justify-center items-center gap-4 text-lg font-bold">
+            <span class="px-3 py-1 rounded-md bg-emerald-600/20 border border-emerald-500/40" style="color: var(--neon-surge);">Excitement</span>
+            <span class="text-emerald-400">•</span>
+            <span class="px-3 py-1 rounded-md bg-emerald-600/20 border border-emerald-500/40" style="color: var(--neon-surge);">Opportunity</span>
+            <span class="text-emerald-400">•</span>
+            <span class="px-3 py-1 rounded-md bg-emerald-600/20 border border-emerald-500/40" style="color: var(--neon-surge);">Belonging</span>
+          </div>
         </div>
         
         <p class="text-slate-300">
@@ -229,7 +276,7 @@
         </div>
       </div>
       <div class="flex justify-center">
-        <img src="images/branding/cyberknight-welder.webp" alt="Cyberknights" class="w-72 h-72 object-contain drop-shadow-[0_0_40px_rgba(16,185,129,0.25)]" />
+        <img id="cyberknight-welder-large" src="images/branding/cyberknight-welder.webp" alt="Cyberknights" class="welder-collapsed cursor-pointer transition-all duration-300 ease-in-out" onclick="toggleWelderSize()" />
       </div>
     </section>
 
@@ -251,7 +298,7 @@
           </li>
           <li class="flex items-start">
             <span class="font-semibold text-white mr-2">•</span>
-            <span>Welcoming environment fostering <span class="font-semibold text-white">Excitement</span>, <span class="font-semibold text-white">Opportunity</span>, and <span class="font-semibold text-white">Belonging</span></span>
+            <span>Welcoming environment for all skill levels</span>
           </li>
           <li class="flex items-start">
             <span class="font-semibold text-white mr-2">•</span>
@@ -617,15 +664,7 @@
 
 
 
-    const routes = {
-      home: document.getElementById('page-home').innerHTML,
-      linux: document.getElementById('page-linux').innerHTML,
-      calendar: document.getElementById('page-calendar').innerHTML,
-      resources: document.getElementById('page-resources') ? document.getElementById('page-resources').innerHTML : '<section class="space-y-6"><h2 class="text-3xl sm:text-4xl font-bold">Resources</h2><p class="text-slate-300">Coming soon.</p></section>',
-      blog: document.getElementById('page-blog').innerHTML,
-      'map-warwick-4080': document.getElementById('page-map-warwick-4080').innerHTML,
-      'document': document.getElementById('page-document').innerHTML
-    };
+    let routes = {};
 
     function normalizeHashRouting() {
       // If old query-param links like ?page=calendar are used, rewrite to #/calendar
@@ -671,7 +710,7 @@
 
       // Fallback to normal routes
       let html;
-      html = routes[fullRoute] || routes[page] || routes.cybersecurity;
+      html = routes[fullRoute] || routes[page] || routes.home;
       app.innerHTML = html;
       // Mobile nav removed - using direct navigation
       if (page === 'calendar') {
@@ -1023,6 +1062,13 @@
 
     // QR Code functionality is now handled by qr-code-manager.js
 
+    // Constants (global scope)
+    const BASE_URL = 'https://ccri-cyberknights.github.io/page/';
+    const ROOM_4080 = 'Room 4080';
+    const CLUB_NAME_SHORT = 'Cyber Club';
+    const CLUB_NAME_FULL = 'CCRI Cyber Club';
+    const CLUB_NAME_OFFICIAL = 'CCRI Cyberknights Club';
+
     // Category-specific intro texts (global scope)
     const categoryTexts = {
       'ctf-tools': '🔧 Versatile online tools for cryptanalysis and data manipulation in Capture the Flag (CTF) challenges. These include quipqiup for automatic cipher solving, Boxentriq for identifying and decoding ciphers, and CyberChef as a comprehensive "Swiss Army knife" for encoding, decoding, and analyzing data.',
@@ -1194,12 +1240,7 @@
         return catNames[category] || category;
       }
 
-      // Constants
-      const BASE_URL = 'https://ccri-cyberknights.github.io/page/';
-      const ROOM_4080 = 'Room 4080';
-      const CLUB_NAME_SHORT = 'Cyber Club';
-      const CLUB_NAME_FULL = 'CCRI Cyber Club';
-      const CLUB_NAME_OFFICIAL = 'CCRI Cyberknights Club';
+      // Constants are now defined in global scope
 
       // CSS class generators for DRY
       function getEmeraldLinkClasses() {
@@ -1244,9 +1285,9 @@
               <div class="text-[11px] text-slate-400">${catLabel}</div>
             `;
             
-            // Summary (always visible)
+            // Summary (hidden when expanded)
             const summary = document.createElement('div');
-            summary.className = 'text-[12px] text-slate-300 mt-2 mb-3';
+            summary.className = 'summary-text text-[12px] text-slate-300 mt-2 mb-3';
             summary.textContent = r.summary || r.desc || '';
             
             // More info section (if detailed summary exists)
@@ -1447,12 +1488,20 @@
         const icon = element.querySelector('svg');
         const toggleText = element.querySelector('.toggle-text');
         
+        // Find the summary text in the same card
+        const card = element.closest('.resource-card');
+        const summaryText = card.querySelector('.summary-text');
+        
         if (detailedSummary.classList.contains('hidden')) {
+          // Expanding: hide summary, show detailed summary
           detailedSummary.classList.remove('hidden');
+          if (summaryText) summaryText.style.display = 'none';
           icon.style.transform = 'rotate(180deg)';
           toggleText.textContent = 'less info';
         } else {
+          // Collapsing: show summary, hide detailed summary
           detailedSummary.classList.add('hidden');
+          if (summaryText) summaryText.style.display = 'block';
           icon.style.transform = 'rotate(0deg)';
           toggleText.textContent = 'more info';
         }
@@ -1522,38 +1571,51 @@
       }
     }
 
-    // Icon expansion functionality
-    window.expandIcon = function() {
-      // Create modal overlay
-      const modal = document.createElement('div');
-      modal.className = 'fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4';
-      modal.onclick = (e) => {
-        if (e.target === modal) closeIconModal();
-      };
+    // DRY Interactive Image Toggle Functionality
+    window.toggleImageSize = function(elementId) {
+      const element = document.getElementById(elementId);
+      if (!element) return;
+
+      // Determine which classes to toggle based on element ID
+      const isWelder = elementId === 'cyberknight-welder-large';
+      const expandedClass = isWelder ? 'welder-expanded' : 'icon-expanded';
+      const collapsedClass = isWelder ? 'welder-collapsed' : 'icon-collapsed';
+
+      element.classList.toggle(expandedClass);
+      element.classList.toggle(collapsedClass);
       
-      modal.innerHTML = `
-        <div class="relative max-w-4xl max-h-full">
-          <img src="images/branding/cybersmith.webp" alt="Cyberknights" class="w-full h-full object-contain drop-shadow-[0_0_40px_rgba(16,185,129,0.5)]" />
-          <button onclick="closeIconModal()" class="absolute top-4 right-4 text-white hover:text-gray-300 text-2xl font-bold">
-            ×
-          </button>
-        </div>
-      `;
-      
-      document.body.appendChild(modal);
-      document.body.style.overflow = 'hidden'; // Prevent background scrolling
-    };
-    
-    window.closeIconModal = function() {
-      const modal = document.querySelector('.fixed.inset-0.bg-black\\/80');
-      if (modal) {
-        modal.remove();
-        document.body.style.overflow = 'auto'; // Restore scrolling
+      // Add/remove body scroll lock when expanded (both images now use full-screen modal)
+      if (element.classList.contains(expandedClass)) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = 'auto';
       }
     };
 
+    // Convenience functions for backward compatibility
+    window.toggleIconSize = function() {
+      window.toggleImageSize('cyberknight-icon');
+    };
+
+    window.toggleWelderSize = function() {
+      window.toggleImageSize('cyberknight-welder-large');
+    };
+
+    // No resize handler needed - CSS handles responsiveness automatically with min(80vw, 600px)
+
     window.addEventListener('hashchange', render);
     window.addEventListener('DOMContentLoaded', () => {
+      // Initialize routes object after DOM is ready
+      routes = {
+        home: document.getElementById('page-home').innerHTML,
+        linux: document.getElementById('page-linux').innerHTML,
+        calendar: document.getElementById('page-calendar').innerHTML,
+        resources: document.getElementById('page-resources') ? document.getElementById('page-resources').innerHTML : '<section class="space-y-6"><h2 class="text-3xl sm:text-4xl font-bold">Resources</h2><p class="text-slate-300">Coming soon.</p></section>',
+        blog: document.getElementById('page-blog').innerHTML,
+        'map-warwick-4080': document.getElementById('page-map-warwick-4080').innerHTML,
+        'document': document.getElementById('page-document').innerHTML
+      };
+      
       document.getElementById('year').textContent = new Date().getFullYear();
       
       // Populate club name constants
