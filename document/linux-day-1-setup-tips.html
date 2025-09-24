@@ -130,50 +130,7 @@
       </p>
     </div>
 
-    <!-- Navigation Links -->
-    <div class="flex justify-center space-x-6 mt-8">
-      <a href="../#/linux" class="text-emerald-400 hover:text-emerald-300 underline">← Back to Linux Learner's Guide</a>
-      <a href="../#/document/linux-cheatsheet-1.html" class="text-emerald-400 hover:text-emerald-300 underline">Linux Boot Guide</a>
-    </div>
   </div>
 
-  <!-- Footer -->
-  <footer class="bg-slate-800 border-t border-slate-700 mt-12">
-    <div class="max-w-4xl mx-auto px-6 py-4">
-      <div class="flex justify-between items-center text-sm text-slate-400">
-        <div>
-          <span>© 2025 CCRI Cyber Club</span>
-        </div>
-        <div class="flex items-center space-x-4">
-          <span id="version" class="hover:text-slate-300 cursor-help transition-colors">v1.5.2</span>
-          <div id="qr-code-container" class="flex items-center space-x-2">
-            <span class="text-slate-400">QR Code</span>
-            <canvas id="qr-canvas" width="32" height="32" class="border border-slate-600 rounded"></canvas>
-          </div>
-        </div>
-      </div>
-    </div>
-  </footer>
-
-  <script>
-    // Initialize QR code
-    document.addEventListener('DOMContentLoaded', function() {
-      if (typeof QRCode !== 'undefined') {
-        const canvas = document.getElementById('qr-canvas');
-        const currentUrl = window.location.href;
-        
-        QRCode.toCanvas(canvas, currentUrl, {
-          width: 32,
-          margin: 1,
-          color: {
-            dark: '#43CC50',
-            light: '#0f172a'
-          }
-        }, function (error) {
-          if (error) console.error('QR Code generation failed:', error);
-        });
-      }
-    });
-  </script>
 </body>
 </html>
