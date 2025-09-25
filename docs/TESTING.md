@@ -20,6 +20,8 @@ The project uses a comprehensive test suite to validate:
 - **Virtual Environment**: `selenium_env/` (Python 3.12)
 - **Server**: Python HTTP server (port 8000)
 
+**⚠️ Important**: The project migrated from `testing_env` (Python 2.7) to `selenium_env` (Python 3.12). All scripts and documentation now reference `selenium_env`. See [Environment Migration](#environment-migration) section for details.
+
 ### Testing Categories
 
 #### 1. Functional Testing
@@ -396,12 +398,53 @@ jobs:
 
 ## Troubleshooting
 
+## Environment Migration
+
+### Migration from testing_env to selenium_env
+
+The project migrated from `testing_env` (Python 2.7) to `selenium_env` (Python 3.12) to support modern Python features and maintain compatibility with current testing frameworks.
+
+#### What Changed
+- **Old Environment**: `testing_env` (Python 2.7, deprecated)
+- **New Environment**: `selenium_env` (Python 3.12, current)
+- **All Scripts Updated**: All Python scripts now reference `selenium_env`
+- **Documentation Updated**: All references updated to reflect new environment
+
+#### Migration Checklist
+- ✅ Deleted `testing_env` directory
+- ✅ Created `selenium_env` with Python 3.12
+- ✅ Installed all required dependencies (selenium, requests, beautifulsoup4)
+- ✅ Updated all script references
+- ✅ Updated documentation references
+- ✅ Updated package.json scripts
+- ✅ Updated pre-commit hooks
+
+#### Troubleshooting Environment Issues
+If you encounter import errors or "environment not found" messages:
+
+1. **Verify Environment Exists**:
+   ```bash
+   ls -la selenium_env/
+   ```
+
+2. **Check Script References**: All scripts should reference `selenium_env`, not `testing_env`
+
+3. **Recreate Environment** (if needed):
+   ```bash
+   python3 -m venv selenium_env
+   source selenium_env/bin/activate
+   pip install selenium requests beautifulsoup4
+   ```
+
+For detailed troubleshooting, see [TROUBLESHOOTING.md](TROUBLESHOOTING.md#environment-issues).
+
 ### Common Issues
 
 **1. Element Not Found**: Check if element exists and is visible
 **2. Timeout Errors**: Increase wait times for slow-loading content
 **3. Chrome Driver Issues**: Ensure ChromeDriver version matches Chrome version
 **4. Port Conflicts**: Verify port 8000 is available for the test server
+**5. Environment Issues**: Ensure using `selenium_env` not `testing_env`
 
 ### Debug Commands
 

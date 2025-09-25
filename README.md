@@ -295,8 +295,10 @@ Intelligent versioning system with conventional commits and file change analysis
 
 2. **Activate the test environment:**
    ```bash
-   source testing_env/bin/activate
+   source selenium_env/bin/activate
    ```
+   
+   **⚠️ Note**: The project migrated from `testing_env` to `selenium_env`. See [TESTING.md](docs/TESTING.md#environment-migration) for details.
 
 3. **Run all tests:**
    ```bash

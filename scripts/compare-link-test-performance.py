@@ -9,7 +9,7 @@ import sys
 import os
 import time
 import subprocess
-sys.path.append('/home/zachary/Cursor_Projects/page/testing_env/lib/python3.12/site-packages')
+sys.path.append('/home/zachary/Cursor_Projects/page/selenium_env/lib/python3.12/site-packages')
 
 def run_test_script(script_name, description):
     """Run a test script and measure execution time"""
@@ -24,7 +24,7 @@ def run_test_script(script_name, description):
         # Activate virtual environment and run script
         result = subprocess.run([
             'bash', '-c', 
-            f'source ./testing_env/bin/activate && python3 {script_name}'
+            f'source ./selenium_env/bin/activate && python3 {script_name}'
         ], capture_output=True, text=True, cwd='/home/zachary/Cursor_Projects/page')
         
         end_time = time.time()

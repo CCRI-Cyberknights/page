@@ -68,7 +68,8 @@ The website features a unified modal overlay system that allows users to expand 
 - **Navigation Icon** (`cyberknight-icon`) - Top navigation bar
 - **Welder Image** (`cyberknight-welder-large`) - Home page hero section  
 - **VBox Summary Image** (`vbox-summary-image`) - Linux page VirtualBox guide
-- **QR Code Canvas** (`footer-qr-canvas`) - Footer QR code
+- **QR Code Canvas** (`footer-qr-canvas`) - Footer QR code (panel)
+- **QR Code SVG** (`footer-qr-svg`) - Footer QR code (small display)
 
 ### Supported Images
 

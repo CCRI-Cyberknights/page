@@ -5,6 +5,28 @@ All notable changes to the CCRI Cyberknights Landing Pages project are documente
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.13] - 2025-09-25
+
+### Added
+- **Footer QR Code**: 64x64px SVG QR code in footer with custom colors
+- **Version Tooltip System**: Hover tooltip showing full version information
+- **QR Panel Auto-Close**: Automatically closes when navigating between pages
+
+### Changed
+- **QR Code Technology**: Canvas-based → SVG-based for crisp display
+- **Footer Layout**: Restructured to vertical layout with centered version number
+- **QR Panel Positioning**: Opens above QR code for better UX
+- **Footer Padding**: Reduced from `py-6` to `py-1` for compact design
+- **Version Display**: Consolidated hover area for copyright and version
+- **Copyright Attribution**: Updated to show "© 2025 Zachary Hartmann (President, CCRI Cyber Club)"
+
+### Technical Implementation
+- **SVG Generation**: Uses `QRCode.toString()` with SVG output
+- **Custom Colors**: Dark blue-green (`#001011`) and light cream (`#f4e4c1`) for print compatibility
+- **Modal Integration**: QR code opens modal when clicked
+- **Clean Code**: Removed extraneous canvas elements and unused functions
+- **Unified Hover**: Single tooltip area for footer text elements
+
 ## [1.5.5] - 2024-12-19
 
 ### Changed

@@ -70,6 +70,15 @@ fi
 2. ✅ Created new `selenium_env` with Python 3
 3. ✅ Installed all required dependencies
 4. ✅ Updated pre-commit hook to use `selenium_env`
+5. ✅ Updated all script references
+6. ✅ Updated documentation references
+
+### Troubleshooting Migration Issues
+If you encounter issues related to the environment migration:
+
+- **Import Errors**: See [TROUBLESHOOTING.md](TROUBLESHOOTING.md#environment-issues)
+- **Script Failures**: Check all scripts reference `selenium_env` not `testing_env`
+- **Link Test Failures**: See [TESTING.md](TESTING.md#environment-migration) for details
 5. ✅ Tested pre-commit hook functionality
 6. ✅ Updated documentation
 

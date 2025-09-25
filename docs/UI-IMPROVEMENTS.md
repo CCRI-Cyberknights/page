@@ -253,3 +253,30 @@ document.addEventListener('keydown', handleKeydown);
 ### Mobile Design Tips
 - Prefer centered buttons for primary actions
 - Avoid placing two primary CTAs in the same row on small screens
+
+## Footer QR Code Integration (v1.6.13)
+
+### Overview
+Implemented a comprehensive footer QR code system that provides instant access to page-specific QR codes with enhanced user experience and print compatibility.
+
+### Key Features
+- **64x64px SVG QR Code**: Crisp, scalable vector graphics in footer
+- **Custom Color Scheme**: Dark blue-green (`#001011`) and light cream (`#f4e4c1`) for print compatibility
+- **Modal Integration**: Click to open large QR code in modal overlay
+- **Compact Layout**: Version number moved underneath copyright text
+- **Hover Effects**: Combined hover area for copyright and version information
+- **Auto-Close Panel**: QR panel automatically closes when navigating between pages
+
+### Technical Implementation
+- **SVG Generation**: Uses `QRCode.toString()` for vector-based output
+- **High-DPI Support**: Perfect scaling on all screen densities
+- **Print Optimization**: Light colors ensure proper contrast on black and white printers
+- **Responsive Design**: Maintains footer height while adding QR functionality
+- **Accessibility**: Proper focus states and keyboard navigation
+
+### Layout Changes
+- **Footer Structure**: Changed from horizontal to vertical layout for text elements
+- **Padding Optimization**: Reduced from `py-6` to `py-1` for compact design
+- **QR Panel Positioning**: Opens above QR code for better UX
+- **Version Display**: Consolidated hover area for better information density
+- **Copyright Attribution**: Updated to show "© 2025 Zachary Hartmann (President, CCRI Cyber Club)"

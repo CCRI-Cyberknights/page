@@ -173,20 +173,28 @@
     <img id="modal-image" class="rounded-xl shadow-[0_0_60px_rgba(16,185,129,0.5)]" />
   </div>
 
-  <footer class="border-t border-slate-800/60 mt-6">
-    <div class="max-w-5xl mx-auto px-4 py-6 text-xs text-slate-400 flex items-center justify-between">
-      <div class="flex items-center gap-4">
-      <div>
-        © <span id="year"></span> <span id="club-name-footer"></span>
-        </div>
-        <div class="text-slate-500">•</div>
+  <footer class="mt-6">
+    <div class="max-w-5xl mx-auto px-4 py-1 text-xs text-slate-400 flex items-center justify-between">
+      <div class="flex flex-col items-center gap-0 hover:text-slate-300 transition-colors relative group">
         <div>
-          <span id="version" class="hover:text-slate-300 cursor-help transition-colors"></span>
+          © <span id="year"></span> Zachary Hartmann
+        </div>
+        <div class="text-slate-500 text-[10px]">
+          (President, CCRI Cyber Club)
+        </div>
+        <div class="text-slate-500 text-[10px]">
+          <span id="version"></span>
+        </div>
+        <!-- Tooltip -->
+        <div class="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 px-2 py-1 bg-slate-800 text-slate-300 text-xs rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-20">
+          <span id="version-tooltip"></span>
         </div>
       </div>
       <div class="relative">
-        <button id="footer-qr-toggle" class="hover:opacity-80 transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-slate-500 focus:outline-none" style="color: var(--pale-alloy);">QR Code</button>
-        <div id="footer-qr-panel" class="hidden absolute right-0 bottom-8 p-4 rounded-lg border border-slate-600 bg-slate-800 shadow-lg w-[300px] sm:w-[300px] max-w-[90vw] z-10">
+        <button id="footer-qr-toggle" class="hover:opacity-80 transition-all duration-200 hover:scale-105 focus:ring-2 focus:ring-slate-500 focus:outline-none inline-flex items-center justify-center" style="color: var(--pale-alloy); height: 64px; width: 64px;">
+          <div id="footer-qr-svg" class="rounded border border-white/20" style="width: 64px; height: 64px;"></div>
+        </button>
+        <div id="footer-qr-panel" class="hidden absolute bottom-full right-0 mb-1 p-4 rounded-lg border border-slate-600 bg-slate-800 shadow-lg w-[300px] sm:w-[300px] max-w-[90vw] z-10">
           <div class="space-y-2">
             <div>
               <input id="footer-qr-input" type="text" placeholder="Enter text or URL" class="w-full px-2 py-1 rounded bg-slate-700 border border-slate-600 outline-none focus:border-emerald-500 text-slate-200 input-flash" />
@@ -213,7 +221,6 @@
               <div class="flex justify-center">
                 <div class="p-4 rounded border border-slate-700 bg-slate-700/60 inline-block">
                   <canvas id="footer-qr-canvas" class="bg-white p-1 rounded cursor-pointer transition-transform duration-200 ease-in-out hover:scale-105" width="160" height="160" onclick="toggleQRCodeSize()" tabindex="0" title="Click to expand QR code"></canvas>
-                  <img id="footer-qr-img" alt="QR code" class="hidden bg-white p-1 rounded" width="160" height="160" />
                 </div>
               </div>
               <div class="flex justify-center">
@@ -693,6 +700,12 @@
       
       // Check for nested routes like 'resources/linux'
       const fullRoute = segments.length > 0 ? `${pageName}/${segments[0]}` : pageName;
+      
+      // Close QR panel when navigating to different pages
+      const qrPanel = document.getElementById('footer-qr-panel');
+      if (qrPanel && !qrPanel.classList.contains('hidden')) {
+        qrPanel.classList.add('hidden');
+      }
       
       const app = document.getElementById('app');
 
@@ -1643,11 +1656,62 @@
       openModal(vbox.src, vbox.alt);
     };
 
+    // Generate small QR code for footer
+    function generateSmallQRCode() {
+      const container = document.getElementById('footer-qr-svg');
+      if (!container) {
+        console.log('QR SVG container not found');
+        return;
+      }
+
+      // Check if QRCode library is available (npm package)
+      if (typeof QRCode === 'undefined') {
+        console.log('QRCode library not loaded');
+        return;
+      }
+
+      const currentUrl = window.location.href;
+
+      try {
+        // Generate SVG QR code
+        QRCode.toString(currentUrl, {
+          type: 'svg',
+          width: 64,
+          margin: 1,
+          color: {
+            dark: '#001011',   // Dark modules
+            light: '#f4e4c1'   // Light modules (very light orange/cream)
+          },
+          errorCorrectionLevel: 'L'  // Low error correction
+        }, function (error, svgString) {
+          if (error) {
+            console.error('QR Code generation error:', error);
+          } else {
+            console.log('QR code SVG generated successfully');
+            // Insert SVG into container
+            container.innerHTML = svgString;
+          }
+        });
+
+      } catch (error) {
+        console.error('Error generating QR code:', error);
+      }
+    }
+
     window.toggleQRCodeSize = function() {
-      const canvas = document.getElementById('footer-qr-canvas');
-      // Convert canvas to data URL for modal display
-      const dataURL = canvas.toDataURL();
-      openModal(dataURL, 'QR Code', true); // true = isCanvas
+      const svgContainer = document.getElementById('footer-qr-svg');
+      if (svgContainer && svgContainer.innerHTML) {
+        // Get the SVG content for modal display
+        const svgContent = svgContainer.innerHTML;
+        // Create a data URL for the SVG
+        const dataURL = 'data:image/svg+xml;base64,' + btoa(svgContent);
+        openModal(dataURL, 'QR Code', true); // true = isCanvas
+      } else {
+        // Fallback to the large canvas if SVG not available
+        const canvas = document.getElementById('footer-qr-canvas');
+        const dataURL = canvas.toDataURL();
+        openModal(dataURL, 'QR Code', true);
+      }
     };
 
     // No resize handler needed - CSS handles responsiveness automatically with min(80vw, 600px)
@@ -1695,9 +1759,17 @@
       // Update footer display
       const versionSpan = document.getElementById('version');
       if (versionSpan) {
-        versionSpan.setAttribute('title', `Commit: ${COMMIT_HASH} - ${COMMIT_DATE}`);
         versionSpan.textContent = `v${VERSION}`;
       }
+      
+      // Update tooltip
+      const versionTooltip = document.getElementById('version-tooltip');
+      if (versionTooltip) {
+        versionTooltip.textContent = `v${VERSION} - Commit: ${COMMIT_HASH} - ${COMMIT_DATE}`;
+      }
+      
+      // Generate small QR code for footer (with delay to ensure qrcode library is loaded)
+      setTimeout(generateSmallQRCode, 100);
     });
   </script>
 </body>

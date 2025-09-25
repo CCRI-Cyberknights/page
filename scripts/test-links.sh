@@ -14,8 +14,8 @@ if [ ! -f "index.html" ]; then
 fi
 
 # Check if testing environment exists
-if [ ! -d "testing_env" ]; then
-    echo "❌ Error: Testing environment not found at testing_env/"
+if [ ! -d "selenium_env" ]; then
+    echo "❌ Error: Testing environment not found at selenium_env/"
     echo "   Please ensure the testing environment is set up correctly"
     exit 1
 fi
@@ -30,7 +30,7 @@ echo "🔍 Running comprehensive link tests..."
 echo ""
 
 # Activate testing environment and run tests
-source testing_env/bin/activate
+source selenium_env/bin/activate
 python3 scripts/test-links.py
 
 # Capture exit code

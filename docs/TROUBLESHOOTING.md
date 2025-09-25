@@ -477,7 +477,126 @@ python tests/run_tests.py
 
 6. **Environment Consistency Matters:** All team members and CI systems must use the same environment configuration.
 
+## Husky Pre-commit Hook Issues
+
+### Problem: Husky Pre-commit Hook Fails with Missing Files
+
+**Symptoms:**
+- Error: `.husky/_/husky.sh: No such file or directory`
+- Error: `syntax error in expression (error token is "0")`
+- Pre-commit hook fails during git commit
+- Version bumping script doesn't run
+
+**Root Cause:**
+The husky package is listed in `package.json` devDependencies but `node_modules` directory doesn't exist, meaning dependencies haven't been installed.
+
+**Solution:**
+```bash
+# Install npm dependencies (this will also run husky install)
+npm install
+
+# Verify husky is working
+ls -la .husky/
+ls -la .husky/_/
+```
+
+**Prevention:**
+- Always run `npm install` after cloning the repository
+- Include `node_modules/` in `.gitignore` (already done)
+- Document dependency installation in README
+- Use `npm ci` in CI/CD environments for consistent installs
+
+### Problem: Pre-commit Hook Variable Issues
+
+**Symptoms:**
+- Error: `syntax error in expression (error token is "0")`
+- Variables appear empty instead of "0"
+
+**Root Cause:**
+Shell variables from `grep -c` commands can return empty strings instead of "0" when no matches are found.
+
+**Solution:**
+```bash
+# Ensure variables are numeric with fallback
+version_const_changes=$(echo "$index_diff" | grep -cE "^[+-].*const VERSION" 2>/dev/null || echo "0")
+version_const_changes=${version_const_changes:-0}  # Fallback to 0 if empty
+```
+
+## Environment Issues
+
+### Problem: Import Errors with testing_env References
+
+**Symptoms:**
+- Error: `ModuleNotFoundError: No module named 'selenium'`
+- Error: `No such file or directory: testing_env/bin/activate`
+- Link tests failing with import errors
+- Scripts referencing non-existent `testing_env` directory
+
+**Root Cause:**
+The project migrated from `testing_env` (Python 2.7) to `selenium_env` (Python 3.12), but some script references weren't updated.
+
+**Solution:**
+1. **Verify Environment Exists**:
+   ```bash
+   ls -la selenium_env/
+   ```
+
+2. **Check All Script References**: Search for any remaining `testing_env` references:
+   ```bash
+   grep -r "testing_env" .
+   ```
+
+3. **Update Script References**: All scripts should reference `selenium_env`:
+   ```bash
+   # Example fixes:
+   sed -i 's/testing_env/selenium_env/g' scripts/*.py
+   sed -i 's/testing_env/selenium_env/g' scripts/*.sh
+   ```
+
+4. **Recreate Environment** (if needed):
+   ```bash
+   python3 -m venv selenium_env
+   source selenium_env/bin/activate
+   pip install selenium requests beautifulsoup4
+   ```
+
+**Prevention:**
+- Always use `selenium_env` in new scripts
+- Run `grep -r "testing_env" .` before committing
+- Document environment requirements clearly
+
+### Problem: Localhost Link Tests Failing
+
+**Symptoms:**
+- Production link tests pass (100% success)
+- Localhost link tests fail (low success rate)
+- Error: "Error detected or incorrect navigation"
+- Links work manually but fail in automated tests
+
+**Root Cause:**
+Environment path issues or JavaScript errors in local development environment.
+
+**Solution:**
+1. **Check Environment**: Ensure using `selenium_env` not `testing_env`
+2. **Verify Dependencies**: Ensure all packages installed in `selenium_env`
+3. **Test Manually**: Verify links work in browser at `http://localhost:8000`
+4. **Check JavaScript**: Look for console errors in browser dev tools
+
+**Debug Steps:**
+```bash
+# Check environment
+source selenium_env/bin/activate
+python3 -c "import selenium; print('Selenium available')"
+
+# Test local server
+python3 -m http.server 8000 &
+curl http://localhost:8000
+
+# Run link tests
+python3 scripts/test-links-dynamic-parallel.py "http://localhost:8000"
+```
+
 ---
 
 *Last Updated: January 2025*
-*Related Files: `scripts/bump-version.sh`, `package.json`, `.husky/pre-commit`, `selenium_env/`, `index.html`*
+*Related Files: `scripts/bump-version.sh`, `package.json`, `.husky/pre-commit`, `selenium_env/`, `index.html`, `node_modules/`, `scripts/test-links-dynamic-parallel.py`*

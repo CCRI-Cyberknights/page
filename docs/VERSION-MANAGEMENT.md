@@ -255,6 +255,11 @@ npm run version:auto
 - Verify JavaScript updates version display
 - Check browser cache for old version
 
+#### **Environment Issues**
+- **Pre-commit Hook Failures**: See [TROUBLESHOOTING.md](TROUBLESHOOTING.md#husky-pre-commit-hook-issues)
+- **Link Test Failures**: See [TROUBLESHOOTING.md](TROUBLESHOOTING.md#environment-issues)
+- **Import Errors**: Ensure using `selenium_env` not `testing_env`
+
 ### **Manual Override Commands**
 ```bash
 # Force specific version

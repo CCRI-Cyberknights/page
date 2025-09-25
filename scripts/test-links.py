@@ -6,7 +6,7 @@ Tests all internal navigation links and external links before commits
 
 import sys
 import os
-sys.path.append('/home/zachary/Cursor_Projects/page/testing_env/lib/python3.12/site-packages')
+sys.path.append('/home/zachary/Cursor_Projects/page/selenium_env/lib/python3.12/site-packages')
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By

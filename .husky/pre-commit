@@ -1,5 +1,5 @@
 #!/bin/bash
-. "$(dirname -- "$0")/_/husky.sh"
+# Husky pre-commit hook for CCRI Cyberknights Landing Pages
 
 cd "$(dirname -- "$0")/.."
 
@@ -21,15 +21,25 @@ if git diff --cached --name-only | grep -q "\.html$"; then
         # 2. Footer span: <span id="version"...>v...
         
         # Count version-related changes (DRY JavaScript constants)
-        version_const_changes=$(echo "$index_diff" | grep -cE "^[+-].*const VERSION" || echo "0")
-        commit_hash_changes=$(echo "$index_diff" | grep -cE "^[+-].*const COMMIT_HASH" || echo "0")
-        commit_date_changes=$(echo "$index_diff" | grep -cE "^[+-].*const COMMIT_DATE" || echo "0")
+        version_const_changes=$(echo "$index_diff" | grep -cE "^[+-].*const VERSION" 2>/dev/null | tr -d '\n' || echo "0")
+        commit_hash_changes=$(echo "$index_diff" | grep -cE "^[+-].*const COMMIT_HASH" 2>/dev/null | tr -d '\n' || echo "0")
+        commit_date_changes=$(echo "$index_diff" | grep -cE "^[+-].*const COMMIT_DATE" 2>/dev/null | tr -d '\n' || echo "0")
         
         # Count total non-context changes (lines starting with + or - but not diff headers)
-        total_changes=$(echo "$index_diff" | grep -cE "^[+-][^+-]" || echo "0")
+        total_changes=$(echo "$index_diff" | grep -cE "^[+-][^+-]" 2>/dev/null | tr -d '\n' || echo "0")
+        
+        # Ensure variables are numeric
+        version_const_changes=${version_const_changes:-0}
+        commit_hash_changes=${commit_hash_changes:-0}
+        commit_date_changes=${commit_date_changes:-0}
+        total_changes=${total_changes:-0}
+        
         
         # Calculate total version-related changes
-        total_version_changes=$((version_const_changes + commit_hash_changes + commit_date_changes))
+        total_version_changes=0
+        total_version_changes=$((total_version_changes + version_const_changes))
+        total_version_changes=$((total_version_changes + commit_hash_changes))
+        total_version_changes=$((total_version_changes + commit_date_changes))
         
         echo "🔍 Analysis: $total_version_changes version changes out of $total_changes total changes"
         
