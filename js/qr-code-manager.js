@@ -45,6 +45,14 @@ class QRCodeManager {
     // Toggle panel
     this.toggle.addEventListener('click', () => {
       this.panel.classList.toggle('hidden');
+      
+      // Trigger input flash animation when panel opens
+      if (!this.panel.classList.contains('hidden') && this.input) {
+        this.input.classList.remove('input-flash');
+        // Force reflow to restart animation
+        this.input.offsetHeight;
+        this.input.classList.add('input-flash');
+      }
     });
 
     // Input changes
@@ -94,7 +102,7 @@ class QRCodeManager {
         let versionDesc = '';
         try {
           const model = QRCode.create(text, { errorCorrectionLevel: this.ECL_LEVELS[this.eclIndex] });
-          versionDesc = `QR Version ${model.version} (${model.modules.size}×${model.modules.size})`;
+          versionDesc = `${model.version} (${model.modules.size}×${model.modules.size})`;
         } catch {}
         QRCode.toCanvas(this.canvas, text, {
           width: 160,
@@ -103,7 +111,7 @@ class QRCodeManager {
         }, (err) => {
           if (err) this.fallbackImg(text);
           if (this.info) this.info.textContent = versionDesc || '';
-          if (this.lengthEl) this.lengthEl.textContent = `Length: ${text.length}`;
+          if (this.lengthEl) this.lengthEl.textContent = text.length;
         });
       } catch {
         this.fallbackImg(text);
@@ -118,7 +126,7 @@ class QRCodeManager {
     const ctx = this.canvas.getContext('2d');
     ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
     if (this.info) this.info.textContent = `Encoder error`;
-    if (this.lengthEl) this.lengthEl.textContent = `length ${text.length}`;
+    if (this.lengthEl) this.lengthEl.textContent = text.length;
   }
 
   downloadQR() {

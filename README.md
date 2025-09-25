@@ -102,6 +102,9 @@ If you are a club member, you can fork this repository and submit a pull request
   - Lets you edit text/URL to generate a custom QR
   - Button: Download PNG
   - ECL Correction Level controls: − M + (cycles L → M → Q → H)
+  - **Enhanced Interface**: Compact 300px width (40% reduction), interactive buttons with hover effects, input field flash animation, improved information layout with two-box design
+  - **Visual Feedback**: Scale transforms, color transitions, shadow effects, and active states for all controls
+  - **Accessibility**: Focus rings, keyboard navigation support, and proper ARIA attributes
 - You can link directly to a page via hash, for example:
   - Home page: `<pages-url>/#/home`
   - Linux guide: `<pages-url>/#/linux`
