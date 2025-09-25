@@ -301,12 +301,118 @@ python scripts/generate_qr_codes.py --cheatsheet 2 --output qr_codes_cheatsheet2
 - **Automated Generation**: Scripts can generate QR codes for new content
 - **Consistent Styling**: Maintains visual consistency across documents
 
+## Mobile Usability Improvements
+
+### Mobile-Friendly Video Links Implementation
+
+In response to user feedback about difficulty tapping video links on mobile devices, we implemented a comprehensive mobile usability improvement using Tailwind CSS group utilities.
+
+#### **Problem Identified**
+- **Small Tap Targets**: Original video links were small text-based links
+- **Mobile Difficulty**: Users needed to tap multiple times to successfully activate links
+- **Poor UX**: Frustrating experience on smartphones and tablets
+
+#### **Solution Implemented**
+We converted the video reference table cells to use Tailwind's group utility pattern, making entire table cells clickable while maintaining visual design.
+
+#### **Technical Implementation**
+
+##### **Before (Small Text Links)**
+```html
+<tr>
+  <td class="bg-slate-800 text-white px-4 py-2 text-center">
+    <a href="https://www.youtube.com/watch?v=..." 
+       class="text-emerald-400 hover:text-emerald-300 underline font-medium block">
+      📹 Video Title<br>
+      <span class="text-sm font-normal">https://youtu.be/...</span>
+    </a>
+  </td>
+</tr>
+```
+
+##### **After (Full Cell Clickable)**
+```html
+<tr class="group">
+  <td class="bg-slate-800 text-white px-4 py-2 text-center relative">
+    <a href="https://www.youtube.com/watch?v=..." 
+       class="absolute inset-0 z-10" target="_blank" rel="noopener noreferrer"></a>
+    <div class="transition-transform duration-300 group-hover:translate-x-1">
+      <span class="text-emerald-400 group-hover:text-emerald-300 font-medium">
+        📹 Video Title<br>
+        <span class="text-sm font-normal">https://youtu.be/...</span>
+      </span>
+    </div>
+  </td>
+</tr>
+```
+
+#### **Key Features of Mobile-Friendly Implementation**
+
+1. **Full Cell Clickability**: 
+   - `absolute inset-0 z-10` creates invisible overlay covering entire cell
+   - Entire table cell becomes the tap target
+
+2. **Visual Feedback**:
+   - `group-hover:translate-x-1` provides subtle slide animation
+   - `group-hover:text-emerald-300` changes text color on hover
+   - `transition-transform duration-300` ensures smooth animations
+
+3. **Accessibility Maintained**:
+   - All original link attributes preserved (`target="_blank"`, `rel="noopener noreferrer"`)
+   - Semantic HTML structure maintained
+   - Screen reader compatibility preserved
+
+4. **Cross-Device Compatibility**:
+   - Works on desktop (hover effects)
+   - Works on mobile (touch targets)
+   - Works on tablets (both hover and touch)
+
+#### **Files Updated**
+- `document/linux-cheatsheet-1.html` - Applied to both video reference rows
+- `document/linux-cheatsheet-2.html` - Applied to both video reference rows
+
+#### **Benefits Achieved**
+
+##### **For Mobile Users**
+- ✅ **Larger Tap Targets**: Entire cell area is clickable
+- ✅ **Better Success Rate**: No more multiple taps needed
+- ✅ **Improved UX**: Intuitive interaction pattern
+- ✅ **Visual Feedback**: Clear indication of interactive elements
+
+##### **For Desktop Users**
+- ✅ **Enhanced Hover Effects**: Smooth animations on mouse hover
+- ✅ **Maintained Functionality**: All original features preserved
+- ✅ **Professional Appearance**: Clean, modern interaction design
+
+##### **For Developers**
+- ✅ **Maintainable Code**: Clear Tailwind utility classes
+- ✅ **Consistent Pattern**: Same approach across all cheat sheets
+- ✅ **Future-Proof**: Easy to apply to new documents
+
+#### **Implementation Pattern for Future Documents**
+
+When creating new cheat sheets or updating existing ones, follow this pattern:
+
+1. **Add Group Class**: Add `class="group"` to table rows containing video links
+2. **Make Cell Relative**: Add `relative` class to table cells with video content
+3. **Create Invisible Overlay**: Add `<a>` tag with `absolute inset-0 z-10` classes
+4. **Add Visual Feedback**: Wrap content in div with `group-hover:translate-x-1` transition
+5. **Style Content**: Use `group-hover:text-emerald-300` for color changes
+
+#### **Testing Recommendations**
+
+1. **Mobile Testing**: Test on actual mobile devices, not just browser dev tools
+2. **Touch Target Size**: Ensure tap targets meet accessibility guidelines (44px minimum)
+3. **Cross-Browser**: Test on different mobile browsers (Safari, Chrome, Firefox)
+4. **Performance**: Verify smooth animations on lower-end devices
+
 ### Best Practices Demonstrated
 
 1. **User-Centered Design**: Prioritizes student learning experience
 2. **Progressive Enhancement**: Works without JavaScript, enhanced with QR codes
 3. **Accessibility**: Multiple ways to access content (direct links + QR codes)
-4. **Maintainability**: Clear separation of content and presentation
-5. **Performance**: Optimized for fast loading and minimal bandwidth
+4. **Mobile-First Approach**: Optimized for mobile devices while maintaining desktop functionality
+5. **Maintainability**: Clear separation of content and presentation
+6. **Performance**: Optimized for fast loading and minimal bandwidth
 
-This approach represents a modern, student-friendly way to integrate multimedia content into educational materials while maintaining the simplicity and reliability of static HTML documents.
+This approach represents a modern, student-friendly way to integrate multimedia content into educational materials while maintaining the simplicity and reliability of static HTML documents, with particular attention to mobile usability and accessibility.
