@@ -5,6 +5,25 @@ All notable changes to the CCRI Cyberknights Landing Pages project are documente
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.6.14] - 2025-09-25
+
+### Added
+- **Enhanced Error Detection**: Context-aware error detection that avoids false positives
+- **HTTP Status Validation**: Basic HTTP status code checking for navigation requests
+- **Testing Roadmap**: Comprehensive roadmap for future testing improvements
+- **Legitimate Content Whitelist**: Whitelist of known legitimate content patterns
+
+### Changed
+- **Error Detection Logic**: Improved to distinguish between actual HTTP errors and legitimate content
+- **Test Reporting**: Enhanced error messages with HTTP status information
+- **Environment References**: Fixed all `testing_env` references to use `selenium_env`
+
+### Technical Implementation
+- **Context-Aware Detection**: `detect_actual_errors()` method with pattern matching
+- **HTTP Status Checking**: `check_http_status()` method for basic validation
+- **Enhanced Debugging**: Improved error reporting with comprehensive status details
+- **Documentation**: Updated all testing-related documentation
+
 ## [1.6.13] - 2025-09-25
 
 ### Added

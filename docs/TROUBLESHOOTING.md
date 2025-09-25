@@ -596,7 +596,54 @@ curl http://localhost:8000
 python3 scripts/test-links-dynamic-parallel.py "http://localhost:8000"
 ```
 
+## Enhanced Error Detection Issues
+
+### Problem: False Positives from Legitimate Content
+
+**Symptoms:**
+- Tests fail with "Error detected or incorrect navigation"
+- Error messages mention legitimate content like "qr svg container not found"
+- Tests pass manually but fail in automated testing
+
+**Root Cause:**
+The error detection logic was too broad and flagged legitimate content containing error-related keywords.
+
+**Solution:**
+The testing system now uses context-aware error detection:
+
+1. **Real Error Patterns**: Only detects actual HTTP errors like `'404 error'`, `'server error'`, `'access denied'`
+2. **Legitimate Content Whitelist**: Ignores known legitimate patterns:
+   - `'qr svg container not found'` (JavaScript console log)
+   - `'error correction level'` (QR code UI text)
+   - `'console.log'`, `'debug'`, `'warning'`, `'info'` (development messages)
+
+**Implementation:**
+```python
+def detect_actual_errors(self, page_source):
+    error_patterns = ['404 error', 'server error', 'access denied', ...]
+    legitimate_patterns = ['qr svg container not found', 'error correction level', ...]
+    
+    has_error_pattern = any(error in page_source for error in error_patterns)
+    is_legitimate_content = any(legit in page_source for legit in legitimate_patterns)
+    
+    return has_error_pattern and not is_legitimate_content
+```
+
+### Problem: Missing HTTP Status Validation
+
+**Symptoms:**
+- Tests don't validate actual HTTP response codes
+- Navigation appears successful but server returns error codes
+- Inconsistent test results between environments
+
+**Solution:**
+Added HTTP status validation to the testing framework:
+
+1. **Status Code Checking**: Basic HTTP status validation for navigation requests
+2. **Enhanced Reporting**: Error messages now include HTTP status information
+3. **Debug Information**: Improved debugging output with comprehensive status details
+
 ---
 
 *Last Updated: January 2025*
-*Related Files: `scripts/bump-version.sh`, `package.json`, `.husky/pre-commit`, `selenium_env/`, `index.html`, `node_modules/`, `scripts/test-links-dynamic-parallel.py`*
+*Related Files: `scripts/bump-version.sh`, `package.json`, `.husky/pre-commit`, `selenium_env/`, `index.html`, `node_modules/`, `scripts/test-links-dynamic-parallel.py`, `docs/TESTING-ROADMAP.md`*

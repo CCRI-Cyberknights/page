@@ -290,6 +290,7 @@ npx husky install
 
 - [Architecture Overview](ARCHITECTURE.md) - Overall system architecture
 - [Testing Strategy](TESTING.md) - Testing approach and tools
+- [Testing Roadmap](TESTING-ROADMAP.md) - Future testing enhancements and goals
 - [Layout Troubleshooting](LAYOUT-TROUBLESHOOTING.md) - CSS debugging methodology
 - [Selenium Debugging Innovation](SELENIUM-DEBUGGING-INNOVATION.md) - Debugging approach
 

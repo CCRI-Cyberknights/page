@@ -128,6 +128,7 @@ If you are a club member, you can fork this repository and submit a pull request
 - **UI Improvements**: `docs/UI-IMPROVEMENTS.md`
 - **Version Management**: `docs/VERSION-MANAGEMENT.md` ⭐
 - **Testing Strategy**: `docs/TESTING.md` ⭐
+- **Testing Roadmap**: `docs/TESTING-ROADMAP.md` ⭐ **NEW - Future Enhancements!**
 - **Dynamic Link Testing**: `docs/DYNAMIC-LINK-TESTING.md` ⭐ **NEW - 5x Faster!**
 - **Selenium Debugging Innovation**: `docs/SELENIUM-DEBUGGING-INNOVATION.md` ⭐
 - **Layout Troubleshooting**: `docs/LAYOUT-TROUBLESHOOTING.md` ⭐
@@ -266,6 +267,8 @@ The project includes a comprehensive test suite with innovative Selenium-based d
 - **Functional Tests**: Routing, QR codes, resource filtering, cross-page navigation
 - **Layout Tests**: Navigation positioning, footer visibility, content width verification
 - **Visual Debugging**: Automated screenshots and CSS analysis for layout troubleshooting
+- **Enhanced Error Detection**: Context-aware error detection that avoids false positives
+- **HTTP Status Validation**: Basic HTTP status code checking for navigation requests
 
 ### Selenium Debugging Innovation ⭐
 We pioneered the use of Selenium WebDriver for systematic layout debugging:
