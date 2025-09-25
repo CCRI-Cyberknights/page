@@ -266,5 +266,5 @@ console.log('Extracted content length:', content.length);
 - [Routing & Navigation](ROUTING-NAV.md) - Routing system details
 - [Resources Management](RESOURCES-MAINTAINERS.md) - Managing resource links
 - [Testing Guide](TESTING.md) - Testing document loading functionality
-- [QR Code Integration](../document/README.md) - QR code implementation in educational documents
+- [QR Code Integration](QR-UI.md) - QR code implementation in educational documents
 - [QR Code Generation](../scripts/README.md) - QR code generation system and tools

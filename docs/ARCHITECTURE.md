@@ -35,7 +35,7 @@ Key files
 - `images/branding/cybersmith.webp` — hero image and social sharing image
 - `images/maps/map-rm4080-optimized.webp` — optimized campus map image
 - `tests/` — automated test suite using Selenium WebDriver
-- `docs/CALENDAR-UPDATING.md` — maintainer guide for calendar
+- Calendar updating information is now documented in this ARCHITECTURE.md file
 - `docs/DOCUMENT-LOADING.md` — comprehensive document loading system guide
 - `docs/TESTING.md` — comprehensive testing strategy and implementation
 - `docs/VERSION-MANAGEMENT.md` — comprehensive versioning system documentation

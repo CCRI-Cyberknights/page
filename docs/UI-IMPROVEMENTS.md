@@ -227,7 +227,7 @@ document.addEventListener('keydown', handleKeydown);
 - `docs/ARCHITECTURE.md` - Updated architecture overview
 - `docs/ROUTING-NAV.md` - Updated navigation documentation
 - `docs/RESOURCES.md` - Updated resource categories and structure
-- `docs/MOBILE-UX-GUIDE.md` - Updated mobile patterns
+- Mobile UX patterns are now documented in this UI-IMPROVEMENTS.md file
 - `README.md` - Updated feature descriptions
 - `docs/UI-IMPROVEMENTS.md` - This documentation file
 

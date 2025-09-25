@@ -1,6 +1,60 @@
 # Troubleshooting Guide
 
-This document covers common issues encountered during development and maintenance of the CCRI Cyberknights website.
+This document covers common issues encountered during development and maintenance of the CCRI Cyberknights website, including version management problems and their solutions.
+
+## Version Management Issues
+
+### Problem: Aggressive Version Bumping
+
+**Symptoms:**
+- Documentation commits incorrectly trigger minor bumps (1.2.5 → 1.3.0)
+- Font improvements cause version jumps (1.2.5 → 1.4.0)
+- Code refactoring triggers major bumps (1.2.5 → 1.5.0)
+- Version numbers inflate rapidly without corresponding feature additions
+
+**Root Cause:**
+The automated version bumping system (`scripts/bump-version.sh`) was overly aggressive and had several logic flaws:
+
+1. **Incorrect Commit Message Analysis**: Script reads previous commit instead of current commit
+2. **Overly Broad Minor Bump Criteria**: Terms like "improve" and "enhance" catch patch-level changes
+3. **File Analysis Issues**: Regex patterns too broad, catching refactoring as new features
+
+**Solution Implemented:**
+Manual approval system for non-patch bumps:
+
+```bash
+# New behavior in bump-version.sh
+if [[ "$bump_type" == "patch" ]]; then
+    echo "✅ Auto-approving PATCH bump"
+    bump_version "$bump_type"
+else
+    if prompt_for_approval "$bump_type" "$CURRENT_VERSION"; then
+        bump_version "$bump_type"
+    else
+        echo "⚠️ Skipping version bump due to user cancellation"
+        exit 0
+    fi
+fi
+```
+
+**Current Status (v1.6.10):**
+- ✅ **PATCH bumps**: Automatically approved and applied
+- ✅ **MINOR/MAJOR bumps**: Require manual user approval
+- ✅ **User Control**: You can approve or cancel any non-patch bump
+- ✅ **Clear Feedback**: System shows what changes would trigger bumps
+
+**Version Bump Guidelines:**
+
+| Type | Trigger | Example | Result |
+|------|---------|---------|---------|
+| **PATCH** | Documentation, bug fixes, refactoring | `docs: update documentation` | 1.6.10 → 1.6.11 |
+| **MINOR** | New features, new pages | `feat: add new resource category` | 1.6.10 → 1.7.0 |
+| **MAJOR** | Breaking changes, complete redesign | `feat!: redesign entire site` | 1.6.10 → 2.0.0 |
+
+**Prevention:**
+- Use proper commit message conventions (`docs:`, `fix:`, `feat:`)
+- Review version bump prompts before approving
+- Monitor version history for inappropriate bumps
 
 ## URL Structure Issues
 
@@ -233,6 +287,60 @@ ${formatDetailedSummary(resource.detailedSummary)}
 - Use relative paths consistently
 - Test both local and deployed versions
 
+## Environment and Testing Issues
+
+### Selenium Environment Problems
+
+**Problem:** Selenium WebDriver not working after environment changes
+
+**Symptoms:**
+- `ModuleNotFoundError: No module named 'selenium'`
+- `selenium.common.exceptions.WebDriverException: Message: 'chromedriver' executable needs to be in PATH`
+- Pre-commit hooks failing with environment errors
+
+**Root Cause:**
+The project migrated from `testing_env` (Python 2.7) to `selenium_env` (Python 3.12), but some references weren't updated.
+
+**Solution:**
+1. **Use correct environment**: `selenium_env` instead of `testing_env`
+2. **Install dependencies**: `pip install selenium requests beautifulsoup4`
+3. **Update pre-commit hook**: Point to `selenium_env/bin/activate`
+4. **Verify installation**: Run tests to confirm environment works
+
+**Current Environment:**
+- **Name**: `selenium_env`
+- **Python Version**: 3.12
+- **Location**: `/home/zachary/Cursor_Projects/page/selenium_env/`
+- **Dependencies**: selenium, requests, beautifulsoup4
+
+### Directory Path References
+
+**Problem:** Scripts referencing old directory path `qr-code-landing-pages`
+
+**Symptoms:**
+- Python scripts failing with `ModuleNotFoundError`
+- Subprocess commands failing with wrong working directory
+- Inconsistent behavior between local and CI environments
+
+**Root Cause:**
+Project was renamed from `qr-code-landing-pages` to `page`, but some hardcoded paths weren't updated.
+
+**Solution:**
+Update all references in Python scripts:
+```python
+# Before
+sys.path.append('/home/zachary/Cursor_Projects/qr-code-landing-pages/testing_env/lib/python3.12/site-packages')
+
+# After
+sys.path.append('/home/zachary/Cursor_Projects/page/testing_env/lib/python3.12/site-packages')
+```
+
+**Files Updated:**
+- `scripts/test-links.py`
+- `scripts/test-links-dynamic-parallel.py`
+- `scripts/compare-link-test-performance.py`
+- `scripts/test-links-dynamic.py`
+
 ## Testing Strategy
 
 ### Manual Testing Checklist
@@ -264,6 +372,12 @@ Before deploying changes:
    - [ ] Action button opens links without closing modal
    - [ ] Inline card expansion shows bulleted content
    - [ ] Inline expansion can be collapsed by re-clicking
+
+5. **Version Management Testing:**
+   - [ ] Documentation commits trigger PATCH bumps only
+   - [ ] Feature commits trigger MINOR bumps with approval
+   - [ ] Breaking changes trigger MAJOR bumps with approval
+   - [ ] Version display updates correctly in footer
 
 ### Automated Testing
 
@@ -312,6 +426,14 @@ python tests/run_tests.py
    curl "https://ccri-cyberknights.github.io/page/index.html#/home"
    ```
 
+3. **Check Environment:**
+   ```bash
+   # Verify Python environment
+   source selenium_env/bin/activate
+   python --version  # Should show Python 3.12
+   pip list | grep selenium  # Should show selenium installed
+   ```
+
 ## Prevention Strategies
 
 ### Code Review Checklist
@@ -321,12 +443,17 @@ python tests/run_tests.py
 - [ ] All routes are properly registered
 - [ ] JavaScript modules load in correct order
 - [ ] Cross-page functionality tested
+- [ ] Commit messages follow conventions (`docs:`, `fix:`, `feat:`)
+- [ ] Version bump prompts reviewed before approval
+- [ ] Environment references use `selenium_env` not `testing_env`
+- [ ] Directory paths reference correct project name (`page`)
 
 ### Documentation Updates
 
 - [ ] Update relevant documentation when making changes
 - [ ] Document new troubleshooting steps
 - [ ] Keep this file current with new issues
+- [ ] Update version references when bumping versions
 
 ## Lessons Learned
 
@@ -338,7 +465,11 @@ python tests/run_tests.py
 
 4. **Document Troubleshooting:** Keep detailed records of issues and solutions for future reference.
 
+5. **Version Management Requires Discipline:** Automated systems need human oversight to prevent inappropriate version inflation.
+
+6. **Environment Consistency Matters:** All team members and CI systems must use the same environment configuration.
+
 ---
 
 *Last Updated: January 2025*
-*Related Files: `document/linux-cheatsheet-1.html`, `index.html`, `.nojekyll`*
+*Related Files: `scripts/bump-version.sh`, `package.json`, `.husky/pre-commit`, `selenium_env/`, `index.html`*

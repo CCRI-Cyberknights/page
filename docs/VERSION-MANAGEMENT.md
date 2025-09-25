@@ -59,7 +59,7 @@ project-root/
 ### **Version Display**
 The version is displayed in the footer between the copyright and QR Code:
 ```
-© 2024 CCRI Cybersecurity Club • v1.0.113
+© 2024 CCRI Cybersecurity Club • v1.6.10
 ```
 
 **Hover Tooltip**: Shows commit hash and timestamp:
@@ -132,7 +132,7 @@ BREAKING CHANGE: Navigation structure has changed"
 
 ### **Version History**
 - **Starting Version**: `1.0.113` (based on 113 existing commits)
-- **Git Tags**: Automatically created (`v1.0.113`, `v1.0.114`, etc.)
+- **Git Tags**: Automatically created (`v1.6.9`, `v1.6.10`, etc.)
 - **Version Display**: Updated in HTML footer with commit information
 - **Metadata**: Stored in HTML comments and meta tags
 

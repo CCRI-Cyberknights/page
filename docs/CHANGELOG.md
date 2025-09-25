@@ -57,7 +57,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Documentation Updates
 - **Updated README.md**: Added QR code integration features and documentation references
 - **Enhanced ARCHITECTURE.md**: Documented QR code system in technical architecture
-- **Updated QR-CODES.md**: Added section on educational guide QR integration
+- **Updated QR-UI.md**: Added section on educational guide QR integration
 - **Cross-Referenced Documentation**: Ensured all relevant docs reference the new QR system
 
 ## [1.5.2] - 2024-09-24
