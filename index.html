@@ -1602,8 +1602,8 @@
       
       // Apply different sizing based on content type
       if (isCanvas) {
-        // For QR codes and canvas-generated images, force larger size
-        modalImage.className = 'w-[85vw] h-[85vh] object-contain rounded-xl shadow-[0_0_60px_rgba(16,185,129,0.5)]';
+        // For QR codes and canvas-generated images, use square container
+        modalImage.className = 'w-[min(85vw,85vh)] h-[min(85vw,85vh)] object-contain rounded-xl shadow-[0_0_60px_rgba(16,185,129,0.5)]';
       } else {
         // For regular images, use responsive sizing
         modalImage.className = 'max-w-[96vw] max-h-[96vh] object-contain rounded-xl shadow-[0_0_60px_rgba(16,185,129,0.5)]';
