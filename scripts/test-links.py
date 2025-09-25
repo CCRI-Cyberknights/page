@@ -54,7 +54,7 @@ class LinkTester:
             {"url": "#/map-warwick-4080", "name": "Map - Warwick 4080", "expected_content": "Room 4080"},
             
             # Document links
-            {"url": "#/document/resources/linux-cheatsheet-1.html", "name": "Linux Cheatsheet", "expected_content": "Linux"},
+            {"url": "#/guides/linux-cheatsheet-1.html", "name": "Linux Cheatsheet", "expected_content": "Linux"},
         ]
         
         # Define external links

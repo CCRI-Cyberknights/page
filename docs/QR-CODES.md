@@ -2,9 +2,9 @@
 
 The site generates QR codes dynamically in the footer for each page. There is no YAML registry, no SVGs checked in, and no build step. Everything runs locally in the browser.
 
-## Educational Document QR Integration ⭐ NEW
+## Educational Guide QR Integration ⭐ NEW
 
-For educational documents like the Linux cheat sheet, we've implemented a **static QR code system** that embeds base64-encoded QR codes directly into HTML documents. This approach provides:
+For educational guides like the Linux cheat sheet, we've implemented a **static QR code system** that embeds base64-encoded QR codes directly into HTML guides. This approach provides:
 
 - **Reliability**: No JavaScript dependencies, works in any browser
 - **Performance**: No external requests, instant loading

@@ -28,7 +28,7 @@ links = driver.find_elements(By.TAG_NAME, "a")
 Links are automatically sorted into categories:
 
 - **Internal Hash Links** (`#/home`, `#/resources/linux`) - 25 discovered
-- **Internal Document Links** (`#/document/path.html`) - 0 discovered  
+- **Internal Guide Links** (`#/guides/path.html`) - 0 discovered  
 - **External Links** (`https://example.com`) - 12 discovered
 - **Navigation Links** (from `<nav>` elements) - 5 discovered
 
@@ -144,8 +144,8 @@ links = driver.find_elements(By.TAG_NAME, "a")
 ### **Smart Categorization**
 ```python
 if href.startswith('#/'):
-    if href.startswith('#/document/'):
-        category = 'internal_document'
+    if href.startswith('#/guides/'):
+        category = 'internal_guide'
     else:
         category = 'internal_hash'
 elif href.startswith('http'):

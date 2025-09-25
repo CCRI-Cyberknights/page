@@ -13,7 +13,7 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 - **Generalized Image Toggle System**: Unified CSS custom properties for consistent image expansion across all toggleable images (navigation icons, welder image, VBox screenshot) with 96% screen width expansion.
 - **Branded Color Palette**: Canonical color palette with CSS variables, hybrid forge color scheme with `#04703C` primary green, industrial accents, and strategic color hierarchy.
 - **Sticky Footer Layout**: Consistent footer positioning using flexbox layout to ensure footer always appears at bottom of viewport when content is minimal.
-- **DRY Documentation**: Linux documents use reusable CSS classes and consistent styling with official Cyberknights color palette.
+- **DRY Documentation**: Linux guides use reusable CSS classes and consistent styling with official Cyberknights color palette.
 - **Automated Testing**: Comprehensive test suite using Selenium WebDriver to ensure functionality across different pages and features.
 - **Automated Versioning**: Intelligent version management with conventional commits, pre-commit hooks, and semantic versioning.
 - **Key Landing Pages**:
@@ -22,8 +22,8 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
   - **Calendar**: Meeting schedules with color-coded meeting types and clickable room numbers
   - **Resources**: Comprehensive resource cards with detailed descriptions, bullet-point formatting, modal system with click-anywhere-to-close behavior for enhanced readability, organized categories with default club filter, and consistent footer positioning
   - **Campus Maps**: Interactive maps for meeting locations (e.g., `/map-warwick-4080`)
-  - **Documents**: Standalone HTML documents with DRY CSS classes and consistent styling (Linux Cheatsheet 1, Linux Cheatsheet 2, Linux Day 1 Setup Tips) that can be loaded within the SPA or accessed directly
-  - **QR Code Integration**: Educational documents feature embedded QR codes for instant access to related video content
+  - **Guides**: Standalone HTML guides with DRY CSS classes and consistent styling (Linux Cheatsheet 1, Linux Cheatsheet 2, Linux Day 1 Setup Tips) that can be loaded within the SPA or accessed directly
+  - **QR Code Integration**: Educational guides feature embedded QR codes for instant access to related video content
   - **Table-Based Layout**: Clean, spreadsheet-like interface with video titles, URLs, and scannable QR codes
   - **Base64 Embedding**: Self-contained QR codes with no external dependencies
   - **Blog**: Updates and announcements (coming soon)
@@ -40,7 +40,7 @@ To link a QR code to a specific page, use hash routes. For example:
 - To link to the Resources: `your-site-url.com/#/resources`
 - To link to the Blog: `your-site-url.com/#/blog`
 - To link to the Warwick Room 4080 map: `your-site-url.com/#/map-warwick-4080`
-- To link to a document: `your-site-url.com/#/document/path/to/file.html`
+- To link to a guide: `your-site-url.com/#/guides/path/to/file.html`
 
 ### Resources Deep Links
 
@@ -54,29 +54,36 @@ To link a QR code to a specific page, use hash routes. For example:
   - Career: `#/resources/career`
   - Linux: `#/resources/linux`
 
-### Document Loading System
+### Guide Loading System
 
-The site includes a sophisticated document loading system that allows standalone HTML files to be seamlessly integrated into the Single-Page Application (SPA) while maintaining their ability to function as independent documents.
+The site includes a sophisticated guide loading system that allows standalone HTML files to be seamlessly integrated into the Single-Page Application (SPA) while maintaining their ability to function as independent guides.
 
 **Dual-Mode Operation:**
-- **SPA Mode**: Documents loaded within the main application shell (`#/document/filename.html`)
-- **Standalone Mode**: Documents accessed directly as independent HTML files (`resources/filename.html`)
+- **SPA Mode**: Guides loaded within the main application shell (`#/guides/filename.html`)
+- **Standalone Mode**: Guides accessed directly as independent HTML files (`guides/filename.html`)
+
+**Legacy Route Support:**
+- **Backward Compatibility**: Legacy `#/document/filename.html` routes continue to work
+- **Deprecation Notice**: Legacy routes display a warning encouraging migration to new format
+- **Migration Path**: Users should update bookmarks from `#/document/` to `#/guides/`
+- **Future Removal**: Legacy routes may be removed in future versions
 
 **Clean Design:**
-- Documents display with only their native headers (no template headers)
+- Guides display with only their native headers (no template headers)
 - Clean URLs without path prefixes for better UX
-- Seamless integration while preserving original document design
+- Seamless integration while preserving original guide design
 
 **Benefits:**
 - Seamless user experience with consistent navigation
 - Fast loading without full page reloads
-- Documents work both within the SPA and as standalone files
+- Guides work both within the SPA and as standalone files
 - Easy sharing with direct URLs
 - Maintains clean URL structure
 
 **Example Usage:**
-- SPA Link: `#/document/resources/linux-cheatsheet-1.html`
-- Direct Link: `resources/linux-cheatsheet-1.html`
+- **New Format**: `#/guides/linux-cheatsheet-1.html` (recommended)
+- **Legacy Format**: `#/document/linux-cheatsheet-1.html` (deprecated, still works)
+- **Direct Access**: `guides/linux-cheatsheet-1.html`
 
 ## Contribution
 

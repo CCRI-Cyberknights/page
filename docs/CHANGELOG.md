@@ -34,7 +34,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Technical Implementation
 - **Documentation Architecture**: Comprehensive cross-referenced documentation system
-- **Replication Framework**: Complete guides for extending QR code system to other documents
+- **Replication Framework**: Complete guides for extending QR code system to other guides
 - **Version Management**: Updated to v1.5.4 with proper changelog documentation
 
 ## [1.5.3] - 2024-12-19
@@ -52,12 +52,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Color Scheme**: Green background (#10b981) with black modules for optimal scanning
 - **HTML Structure**: Table-based layout with centered QR codes and borderless design
 - **URL Strategy**: Short YouTube URLs (youtu.be) for cleaner QR codes, full URLs for clickable links
-- **Replication System**: Complete documentation and tools for extending to other educational documents
+- **Replication System**: Complete documentation and tools for extending to other educational guides
 
 ### Documentation Updates
 - **Updated README.md**: Added QR code integration features and documentation references
 - **Enhanced ARCHITECTURE.md**: Documented QR code system in technical architecture
-- **Updated QR-CODES.md**: Added section on educational document QR integration
+- **Updated QR-CODES.md**: Added section on educational guide QR integration
 - **Cross-Referenced Documentation**: Ensured all relevant docs reference the new QR system
 
 ## [1.5.2] - 2024-09-24
@@ -83,7 +83,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Updated color palette to match official Cyberknights colors (`--neon-surge: #43CC50`)
   - Refactored all sections to use consistent DRY classes instead of inline styles
   - Added navigation links and footer to match other Linux documentation
-  - Improved maintainability and consistency across Linux documents
+  - Improved maintainability and consistency across Linux guides
 
 ## [1.5.1] - 2024-09-23
 

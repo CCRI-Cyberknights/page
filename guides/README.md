@@ -1,6 +1,6 @@
-# Document Directory
+# Guides Directory
 
-This directory contains educational documents and cheat sheets for the CCRI Cyberknights club.
+This directory contains educational guides and cheat sheets for the CCRI Cyberknights club.
 
 ## Linux Cheat Sheet 1
 
@@ -131,7 +131,7 @@ QR codes are embedded as base64 data URLs because:
 
 #### **Complete Workflow for New Cheatsheets**
 
-This section documents the complete process for creating new educational documents with QR code integration, based on the successful implementation of Linux Cheatsheet 2.
+This section documents the complete process for creating new educational guides with QR code integration, based on the successful implementation of Linux Cheatsheet 2.
 
 ##### **Phase 1: QR Code Generation**
 1. **Shorten YouTube URLs**: Use `scripts/youtube_url_shortener.py` to shorten long URLs to short format
@@ -187,7 +187,7 @@ This section documents the complete process for creating new educational documen
    ```javascript
    {
      name: 'Linux Cheatsheet X',
-     url: '#/document/linux-cheatsheet-X.html',
+     url: '#/guides/linux-cheatsheet-X.html',
      cat: 'linux',
      desc: 'Short description for card display',
      summary: 'Medium description for modal preview',
@@ -202,7 +202,7 @@ This section documents the complete process for creating new educational documen
 ##### **Phase 5: Testing & Validation**
 1. **Start Development Server**: `python -m http.server 8000`
 2. **Test Direct Access**: Verify standalone HTML functionality
-3. **Test SPA Integration**: Check `#/document/filename.html` routing
+3. **Test SPA Integration**: Check `#/guides/filename.html` routing
 4. **Test Resources Page**: Verify appearance in category filters
 5. **Validate QR Codes**: Scan codes with mobile device
 6. **Check Responsiveness**: Test on different screen sizes
@@ -262,7 +262,7 @@ python scripts/generate_qr_codes.py --cheatsheet 2 --output qr_codes_cheatsheet2
 ```javascript
 {
   name: 'Linux Cheatsheet 2',
-  url: '#/document/linux-cheatsheet-2.html',
+  url: '#/guides/linux-cheatsheet-2.html',
   cat: 'linux',
   desc: 'Creating & Moving Files & Folders - Essential file operations guide',
   summary: 'Linux Cheatsheet 2 focuses on fundamental file and folder operations...',
@@ -272,8 +272,8 @@ python scripts/generate_qr_codes.py --cheatsheet 2 --output qr_codes_cheatsheet2
 
 ##### **Step 5: Testing & Validation**
 - **Development Server**: Started with `python -m http.server 8000`
-- **Direct Access**: Tested `http://localhost:8000/document/linux-cheatsheet-2.html`
-- **SPA Integration**: Verified `http://localhost:8000/#/document/linux-cheatsheet-2.html`
+- **Direct Access**: Tested `http://localhost:8000/guides/linux-cheatsheet-2.html`
+- **SPA Integration**: Verified `http://localhost:8000/#/guides/linux-cheatsheet-2.html`
 - **Resources Page**: Confirmed appearance in `http://localhost:8000/#/resources/linux`
 - **QR Code Scanning**: Validated with mobile device camera
 
@@ -387,9 +387,9 @@ We converted the video reference table cells to use Tailwind's group utility pat
 ##### **For Developers**
 - ✅ **Maintainable Code**: Clear Tailwind utility classes
 - ✅ **Consistent Pattern**: Same approach across all cheat sheets
-- ✅ **Future-Proof**: Easy to apply to new documents
+- ✅ **Future-Proof**: Easy to apply to new guides
 
-#### **Implementation Pattern for Future Documents**
+#### **Implementation Pattern for Future Guides**
 
 When creating new cheat sheets or updating existing ones, follow this pattern:
 
@@ -502,4 +502,4 @@ When creating new modal functionality, follow this pattern:
 3. **Accessibility**: Test with screen readers and keyboard-only navigation
 4. **Memory Testing**: Ensure no memory leaks from event listeners
 
-This approach represents a modern, student-friendly way to integrate multimedia content into educational materials while maintaining the simplicity and reliability of static HTML documents, with particular attention to mobile usability, accessibility, and consistent keyboard navigation.
+This approach represents a modern, student-friendly way to integrate multimedia content into educational materials while maintaining the simplicity and reliability of static HTML guides, with particular attention to mobile usability, accessibility, and consistent keyboard navigation.

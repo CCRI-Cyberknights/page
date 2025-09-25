@@ -48,15 +48,15 @@ This document outlines the comprehensive UI/UX improvements implemented to enhan
 ### 5.2. Linux Documentation Styling Consistency (v1.5.2)
 - **Dark theme standardization**: Updated `linux-day-1-setup-tips.html` to use dark theme matching `linux-cheatsheet-1.html`
 - **Official color palette**: Applied Cyberknights color palette with CSS custom properties
-- **Visual consistency**: Both Linux documents now use consistent styling and branding
+- **Visual consistency**: Both Linux guides now use consistent styling and branding
 - **Enhanced structure**: Added proper HTML structure, QR code functionality, and navigation links
 - **Professional appearance**: Unified dark theme provides better readability and brand consistency
 
 ### 5.3. Linux Documentation DRY Refactoring (v1.5.2)
 - **Reusable CSS classes**: Implemented DRY principles with `.section-container`, `.section-title`, `.subsection-title`, `.command-code`, `.code-block`, `.emphasis-text`
 - **Tailwind optimization**: Replaced inline styles with Tailwind utility classes and custom CSS classes
-- **Maintainability**: Both Linux documents now use consistent class structure for easier maintenance
-- **Color consistency**: Updated both documents to use official Cyberknights color palette (`--neon-surge: #43CC50`)
+- **Maintainability**: Both Linux guides now use consistent class structure for easier maintenance
+- **Color consistency**: Updated both guides to use official Cyberknights color palette (`--neon-surge: #43CC50`)
 - **Code organization**: Improved CSS organization with clear separation of concerns and reusable components
 
 ### 5.4. Footer Positioning Fix (v1.5.2)

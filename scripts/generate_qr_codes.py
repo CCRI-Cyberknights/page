@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """
-QR Code Generator Script for Educational Documents
+QR Code Generator Script for Educational Guides
 
 This script generates QR codes with custom colors and minimal margins for embedding
-directly into HTML documents as base64 data URLs. Supports multiple cheatsheet types.
+directly into HTML guides as base64 data URLs. Supports multiple cheatsheet types.
 
 Usage:
     python generate_qr_codes.py                    # Generate for cheatsheet 1 (default)

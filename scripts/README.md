@@ -45,13 +45,13 @@ This script is essential for the QR code generation workflow:
 
 1. **Shorten URLs**: Use this script to shorten long YouTube URLs to short format
 2. **Generate QR Codes**: Use the short URLs in `generate_qr_codes.py`
-3. **Embed in HTML**: Use the generated QR codes in educational documents
+3. **Embed in HTML**: Use the generated QR codes in educational guides
 
 ## QR Code Generation Script
 
 ### `generate_qr_codes.py`
 
-A comprehensive Python script for generating QR codes with custom styling and colors, specifically designed for embedding directly into HTML documents. This script was developed to support the QR code integration in educational documents like the Linux cheat sheet.
+A comprehensive Python script for generating QR codes with custom styling and colors, specifically designed for embedding directly into HTML guides. This script was developed to support the QR code integration in educational guides like the Linux cheat sheet.
 
 #### What We Achieved
 
@@ -189,7 +189,7 @@ To add support for new cheatsheets (e.g., Cheatsheet 3):
 
 #### Replication Process
 
-To replicate this QR code system for other documents:
+To replicate this QR code system for other guides:
 
 1. **Install Dependencies**: `pip install qrcode[pil]`
 2. **Run Script**: `python generate_qr_codes.py --cheatsheet 2`

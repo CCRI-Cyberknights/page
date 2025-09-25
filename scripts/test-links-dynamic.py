@@ -27,7 +27,7 @@ class DynamicLinkTester:
         self.driver = None
         self.discovered_links = {
             'internal_hash': [],
-            'internal_document': [],
+            'internal_guide': [],
             'external': [],
             'navigation': []
         }
@@ -78,11 +78,18 @@ class DynamicLinkTester:
                 
                 # Categorize links
                 if href.startswith('#/'):
-                    if href.startswith('#/document/'):
-                        self.discovered_links['internal_document'].append({
+                    if href.startswith('#/guides/'):
+                        self.discovered_links['internal_guide'].append({
                             'url': href,
                             'text': text,
                             'element': link
+                        })
+                    elif href.startswith('#/document/'):
+                        self.discovered_links['internal_guide'].append({
+                            'url': href,
+                            'text': text,
+                            'element': link,
+                            'legacy': True
                         })
                     else:
                         self.discovered_links['internal_hash'].append({
@@ -120,7 +127,7 @@ class DynamicLinkTester:
                         })
             
             print(f"   INTERNAL Discovered {len(self.discovered_links['internal_hash'])} internal hash links")
-            print(f"   DOCUMENT Discovered {len(self.discovered_links['internal_document'])} document links")
+            print(f"   GUIDE Discovered {len(self.discovered_links['internal_guide'])} guide links")
             print(f"   EXTERNAL Discovered {len(self.discovered_links['external'])} external links")
             print(f"   NAVIGATION Discovered {len(self.discovered_links['navigation'])} navigation links")
             
@@ -307,9 +314,9 @@ class DynamicLinkTester:
                 self.results['total_tested'] += 1
                 self.test_internal_link(link)
             
-            # Test internal document links
-            print(f"\nDOCUMENT Testing {len(self.discovered_links['internal_document'])} internal document links...")
-            for link in self.discovered_links['internal_document']:
+            # Test internal guide links
+            print(f"\nGUIDE Testing {len(self.discovered_links['internal_guide'])} internal guide links...")
+            for link in self.discovered_links['internal_guide']:
                 self.results['total_tested'] += 1
                 self.test_internal_link(link)
             
@@ -345,7 +352,7 @@ class DynamicLinkTester:
         # Show discovered links by category
         print(f"\nDISCOVERING DISCOVERED LINKS:")
         print(f"   Internal Hash Links: {len(self.discovered_links['internal_hash'])}")
-        print(f"   Internal Document Links: {len(self.discovered_links['internal_document'])}")
+        print(f"   Internal Guide Links: {len(self.discovered_links['internal_guide'])}")
         print(f"   External Links: {len(self.discovered_links['external'])}")
         print(f"   Navigation Links: {len(self.discovered_links['navigation'])}")
         

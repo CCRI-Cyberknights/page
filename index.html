@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title id="page-title">CCRI Cyberknights Club</title>
   <meta name="description" content="A centralized hub for the CCRI Cyber Club. Find information about when and where to find the Cyberknights, and much more!">
-    <meta name="version" content="1.5.6">
+    <meta name="version" content="1.6.0">
   <meta property="og:title" content="CCRI Cyber Club">
   <meta property="og:description" content="A centralized hub for the CCRI Cyber Club. Find information about when and where to find the Cyberknights, and much more!">
   <meta property="og:image" content="https://ccri-cyberknights.github.io/page/images/branding/cybersmith.webp">
@@ -248,7 +248,7 @@
         </div>
         <div class="text-slate-500">•</div>
         <div>
-          <span id="version" title="Commit: 1c7fa7d - 2025-09-25 10:30:34 -0400" class="hover:text-slate-300 cursor-help transition-colors">v1.5.6</span>
+          <span id="version" title="Commit: 1c7fa7d - 2025-09-25 10:30:34 -0400" class="hover:text-slate-300 cursor-help transition-colors">v1.6.0</span>
         </div>
       </div>
       <div class="relative">
@@ -662,13 +662,27 @@
     </section>
   </template>
 
-  <template id="page-document">
+  <template id="page-guides">
     <section class="space-y-6">
-      <div id="document-content" class="space-y-6">
+      <!-- Legacy route deprecation notice -->
+      <div id="legacy-notice" class="hidden p-4 rounded-lg border border-amber-600 bg-amber-900/20 text-amber-200">
+        <div class="flex items-start space-x-3">
+          <svg class="w-5 h-5 mt-0.5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+          </svg>
+          <div>
+            <h3 class="font-semibold text-amber-300">Legacy Route Detected</h3>
+            <p class="text-sm mt-1">You're using a legacy <code class="bg-amber-800/40 px-1 rounded">#/document/</code> URL. Please update your bookmarks to use the new <code class="bg-amber-800/40 px-1 rounded">#/guides/</code> format.</p>
+            <p class="text-xs mt-2 text-amber-400">Legacy routes will continue to work but may be removed in future versions.</p>
+          </div>
+        </div>
+      </div>
+      
+      <div id="guides-content" class="space-y-6">
         <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
           <div class="text-center">
             <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
-            <p class="text-slate-400 mt-2">Loading document...</p>
+            <p class="text-slate-400 mt-2">Loading guide...</p>
           </div>
         </div>
       </div>
@@ -762,13 +776,22 @@
       
       const app = document.getElementById('app');
 
-      // Handle document pages (e.g., #/document/linux-cheatsheet-1.html)
-      if (page === 'document' && segments.length > 0) {
-        // Use the document template
-        app.innerHTML = routes['document'];
+      // Handle guide pages (e.g., #/guides/linux-cheatsheet-1.html)
+      // Also handle legacy document routes for backward compatibility
+      if ((page === 'guides' || page === 'document') && segments.length > 0) {
+        // Use the guides template
+        app.innerHTML = routes['guides'];
 
-        // Build file path (e.g. document/linux-cheatsheet-1.html)
-        const filePath = 'document/' + segments.join('/');
+        // Show deprecation notice for legacy routes
+        if (page === 'document') {
+          const legacyNotice = document.getElementById('legacy-notice');
+          if (legacyNotice) {
+            legacyNotice.classList.remove('hidden');
+          }
+        }
+
+        // Build file path (e.g. guides/linux-cheatsheet-1.html)
+        const filePath = 'guides/' + segments.join('/');
 
         try {
           const res = await fetch(filePath);
@@ -776,9 +799,9 @@
           const bodyMatch = text.match(/<body[^>]*>([\s\S]*)<\/body>/i);
           const content = bodyMatch ? bodyMatch[1] : text;
 
-          document.getElementById('document-content').innerHTML = content;
+          document.getElementById('guides-content').innerHTML = content;
         } catch (err) {
-          document.getElementById('document-content').innerHTML =
+          document.getElementById('guides-content').innerHTML =
             `<p class="text-red-400">Failed to load ${filePath}</p>`;
         }
         return;
@@ -1265,7 +1288,7 @@
         { name: 'STEM Day 2025 Cyber Game', url: 'https://github.com/CCRI-Cyberknights/stemday_takehome.git', cat: 'stem' },
         { 
           name: 'Getting Started with Linux - Day 1 Setup Tips', 
-          url: '#/document/linux-day-1-setup-tips.html', 
+          url: '#/guides/linux-day-1-setup-tips.html', 
           cat: 'linux', 
           desc: 'Comprehensive beginner guide for Linux installation and first-day setup',
           summary: 'A complete guide for cybersecurity students new to Linux, covering installation methods, essential first-day setup tasks, security fundamentals, and cybersecurity-specific configurations.',
@@ -1273,7 +1296,7 @@
         },
         { 
           name: 'Linux Cheatsheet 1', 
-          url: '#/document/linux-cheatsheet-1.html', 
+          url: '#/guides/linux-cheatsheet-1.html', 
           cat: 'linux', 
           desc: 'Essential Linux commands and file system navigation guide',
           summary: 'The Linux Cheatsheet 1 is an essential guide for cybersecurity students, covering fundamental commands for file system navigation, operations, permissions, processes, networking, text processing, archive management, and system information.',
@@ -1281,7 +1304,7 @@
         },
         { 
           name: 'Linux Cheatsheet 2', 
-          url: '#/document/linux-cheatsheet-2.html', 
+          url: '#/guides/linux-cheatsheet-2.html', 
           cat: 'linux', 
           desc: 'Creating & Moving Files & Folders - Essential file operations guide',
           summary: 'Linux Cheatsheet 2 focuses on fundamental file and folder operations, covering absolute vs. relative paths, directory creation, file movement, and copying operations essential for effective command-line navigation.',
@@ -1345,7 +1368,7 @@
 
       function getExternalLinkAttributes(url) {
         // Only add external link attributes for external URLs
-        if (url && !url.startsWith('#/document/')) {
+        if (url && !url.startsWith('#/guides/') && !url.startsWith('#/document/')) {
           return 'target="_blank" rel="noopener noreferrer"';
         }
         return '';
@@ -1365,8 +1388,8 @@
       }
 
       function getLinkIcon(url) {
-        // Check if it's a local document (starts with #/document/)
-        if (url.startsWith('#/document/')) {
+        // Check if it's a local guide (starts with #/guides/ or legacy #/document/)
+        if (url.startsWith('#/guides/') || url.startsWith('#/document/')) {
           return getDocumentIcon();
         }
         return getExternalLinkIcon();
@@ -1714,7 +1737,8 @@
         resources: document.getElementById('page-resources') ? document.getElementById('page-resources').innerHTML : '<section class="space-y-6"><h2 class="text-3xl sm:text-4xl font-bold">Resources</h2><p class="text-slate-300">Coming soon.</p></section>',
         blog: document.getElementById('page-blog').innerHTML,
         'map-warwick-4080': document.getElementById('page-map-warwick-4080').innerHTML,
-        'document': document.getElementById('page-document').innerHTML
+        'guides': document.getElementById('page-guides').innerHTML,
+        'document': document.getElementById('page-guides').innerHTML  // Legacy route support
       };
       
       document.getElementById('year').textContent = new Date().getFullYear();

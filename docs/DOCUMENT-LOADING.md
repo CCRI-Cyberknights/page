@@ -1,8 +1,8 @@
-# Document Loading System
+# Guide Loading System
 
 ## Overview
 
-The CCRI Cyberknights website includes a sophisticated document loading system that allows standalone HTML files to be seamlessly integrated into the Single-Page Application (SPA) while maintaining their ability to function as independent documents.
+The CCRI Cyberknights website includes a sophisticated guide loading system that allows standalone HTML files to be seamlessly integrated into the Single-Page Application (SPA) while maintaining their ability to function as independent guides.
 
 ## Architecture
 
@@ -16,12 +16,13 @@ The system supports two modes of operation:
 ### Technical Implementation
 
 #### Route Structure
-- **SPA Route**: `#/document/filename.html` (clean URLs without path prefixes)
-- **Standalone Route**: `document/filename.html` (direct file access)
+- **SPA Route**: `#/guides/filename.html` (clean URLs without path prefixes)
+- **Legacy Route**: `#/document/filename.html` (deprecated, backward compatibility)
+- **Standalone Route**: `guides/filename.html` (direct file access)
 
 #### Core Components
 
-1. **Document Template**: `page-document` template in `index.html` (minimal template with no headers)
+1. **Guide Template**: `page-guides` template in `index.html` (minimal template with no headers)
 2. **Async Router**: Enhanced `render()` function with fetch capability
 3. **Content Extraction**: Body content extraction from full HTML documents
 
@@ -32,7 +33,7 @@ The system supports two modes of operation:
 The document template (`page-document`) uses a minimal design approach:
 
 - **No Template Headers**: Documents display with only their native headers
-- **Clean URLs**: `#/document/filename.html` instead of `#/document/document/filename.html`
+- **Clean URLs**: `#/guides/filename.html` instead of `#/guides/guides/filename.html`
 - **Direct Content Loading**: Content loads directly into `#document-content` without wrapper headers
 - **Bottom Navigation**: Simple navigation links at the bottom for context
 
@@ -42,11 +43,29 @@ This approach ensures documents maintain their original design and hierarchy whi
 
 ### SPA Document Loading Process
 
-1. **Route Detection**: Router detects `#/document/` prefix
-2. **Template Loading**: Loads `page-document` template
+1. **Route Detection**: Router detects `#/guides/` prefix (or legacy `#/document/` prefix)
+2. **Template Loading**: Loads `page-guides` template
 3. **File Fetching**: Uses `fetch()` to retrieve the target HTML file
 4. **Content Extraction**: Extracts body content using regex pattern
-5. **Content Injection**: Injects extracted content into `#document-content`
+5. **Content Injection**: Injects extracted content into `#guides-content`
+
+### Legacy Route Support
+
+The system maintains backward compatibility for existing `#/document/` URLs:
+
+- **Automatic Detection**: Legacy routes are automatically detected and handled
+- **Deprecation Notice**: Users accessing legacy routes see a warning banner
+- **Same Functionality**: Legacy routes work identically to new routes
+- **Migration Encouragement**: Users are prompted to update bookmarks to new format
+
+**Legacy Route Examples:**
+- `#/document/linux-cheatsheet-1.html` → loads `guides/linux-cheatsheet-1.html`
+- `#/document/linux-day-1-setup-tips.html` → loads `guides/linux-day-1-setup-tips.html`
+
+**Migration Path:**
+- Update bookmarks from `#/document/` to `#/guides/`
+- Update any hardcoded links in documentation
+- Legacy routes will continue to work but may be removed in future versions
 
 ### Code Implementation
 
@@ -118,14 +137,14 @@ async function render() {
 
 2. **Add SPA Link**:
    ```html
-   <a href="#/document/new-guide.html">New Guide</a>
+   <a href="#/guides/new-guide.html">New Guide</a>
    ```
 
 3. **Add to Resources Data** (if applicable):
    ```javascript
    { 
      name: 'New Guide', 
-     url: '#/document/new-guide.html', 
+     url: '#/guides/new-guide.html', 
      cat: 'category', 
      desc: 'Description of the guide' 
    }
@@ -136,7 +155,7 @@ async function render() {
 #### Internal SPA Navigation
 ```html
 <!-- Links within the SPA -->
-<a href="#/document/linux-cheatsheet-1.html">Linux Cheat Sheet</a>
+<a href="#/guides/linux-cheatsheet-1.html">Linux Cheat Sheet</a>
 ```
 
 #### External/Direct Access

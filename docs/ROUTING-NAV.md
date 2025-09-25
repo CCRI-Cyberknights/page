@@ -5,26 +5,45 @@
 - URLs use `#/page` (e.g., `#/home`, `#/cybersecurity`, `#/linux`, `#/calendar`, `#/resources`).
 - Resources supports optional subpaths for preselected filters: `#/resources/<filter>` where `<filter>` is one of `all`, `cyberknights`, `ccri`, `ctf-competitions`, `ctf-tools`, `stem`, `career`, `linux`.
 - Maps use campus-specific routes: `#/map-{campus}-{room}` (e.g., `#/map-warwick-4080`).
-- Documents use dynamic loading routes: `#/document/filename.html` (e.g., `#/document/linux-cheatsheet-1.html`).
+- Guides use dynamic loading routes: `#/guides/filename.html` (e.g., `#/guides/linux-cheatsheet-1.html`).
+- Legacy document routes are supported: `#/document/filename.html` (deprecated, shows warning).
 - On load, a normalizer converts legacy `?page=` URLs to hash routes via `history.replaceState`.
 - Router logic lives in `index.html` and re-renders on `hashchange`.
 
-## Document Loading Routes
+## Guide Loading Routes
 
-The system supports loading standalone HTML files into the SPA using the `#/document/` prefix:
+The system supports loading standalone HTML files into the SPA using the `#/guides/` prefix:
 
-- **Route Format**: `#/document/filename.html`
-- **Example**: `#/document/linux-cheatsheet-1.html`
+- **Route Format**: `#/guides/filename.html`
+- **Example**: `#/guides/linux-cheatsheet-1.html`
 - **Behavior**: Fetches the HTML file and injects its body content into the document template
 - **Dual Mode**: Files work both as SPA routes and as standalone HTML documents
 
 ### Document Loading Process
 
-1. Router detects `#/document/` prefix
-2. Loads the `page-document` template
+1. Router detects `#/guides/` prefix (or legacy `#/document/` prefix)
+2. Loads the `page-guides` template
 3. Fetches the target HTML file using `fetch()`
 4. Extracts body content using regex pattern
-5. Injects content into `#document-content` element
+5. Injects content into `#guides-content` element
+
+### Legacy Route Support
+
+**Backward Compatibility:**
+- Legacy `#/document/filename.html` routes continue to work
+- Automatic detection and handling of legacy routes
+- Deprecation warning displayed to users
+- Same functionality as new routes
+
+**Migration:**
+- Users should update bookmarks from `#/document/` to `#/guides/`
+- Legacy routes may be removed in future versions
+- All existing links continue to function
+
+**Examples:**
+- Legacy: `#/document/linux-cheatsheet-1.html`
+- New: `#/guides/linux-cheatsheet-1.html`
+- Both load the same content from `guides/linux-cheatsheet-1.html`
 
 ## Navigation Design
 
@@ -44,5 +63,5 @@ The system supports loading standalone HTML files into the SPA using the `#/docu
 
 1. Create a standalone HTML file (e.g., `document/your-document.html`).
 2. Ensure the file has complete HTML structure with `<body>` content.
-3. Link using `#/document/path/to/your-document.html`.
+3. Link using `#/guides/path/to/your-guide.html`.
 4. The file will work both as an SPA route and as a standalone document.
