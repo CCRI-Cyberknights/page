@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title id="page-title">CCRI Cyberknights Club</title>
   <meta name="description" content="A centralized hub for the CCRI Cyber Club. Find information about when and where to find the Cyberknights, and much more!">
-    <meta name="version" content="1.6.0">
+    <meta name="version" content="1.6.1">
   <meta property="og:title" content="CCRI Cyber Club">
   <meta property="og:description" content="A centralized hub for the CCRI Cyber Club. Find information about when and where to find the Cyberknights, and much more!">
   <meta property="og:image" content="https://ccri-cyberknights.github.io/page/images/branding/cybersmith.webp">
@@ -248,7 +248,7 @@
         </div>
         <div class="text-slate-500">•</div>
         <div>
-          <span id="version" title="Commit: 1c7fa7d - 2025-09-25 10:30:34 -0400" class="hover:text-slate-300 cursor-help transition-colors">v1.6.0</span>
+          <span id="version" title="Commit: c6db66a - 2025-09-25 11:48:08 -0400" class="hover:text-slate-300 cursor-help transition-colors">v1.6.1</span>
         </div>
       </div>
       <div class="relative">
@@ -664,19 +664,6 @@
 
   <template id="page-guides">
     <section class="space-y-6">
-      <!-- Legacy route deprecation notice -->
-      <div id="legacy-notice" class="hidden p-4 rounded-lg border border-amber-600 bg-amber-900/20 text-amber-200">
-        <div class="flex items-start space-x-3">
-          <svg class="w-5 h-5 mt-0.5 text-amber-400" fill="currentColor" viewBox="0 0 20 20">
-            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
-          </svg>
-          <div>
-            <h3 class="font-semibold text-amber-300">Legacy Route Detected</h3>
-            <p class="text-sm mt-1">You're using a legacy <code class="bg-amber-800/40 px-1 rounded">#/document/</code> URL. Please update your bookmarks to use the new <code class="bg-amber-800/40 px-1 rounded">#/guides/</code> format.</p>
-            <p class="text-xs mt-2 text-amber-400">Legacy routes will continue to work but may be removed in future versions.</p>
-          </div>
-        </div>
-      </div>
       
       <div id="guides-content" class="space-y-6">
         <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
@@ -782,13 +769,6 @@
         // Use the guides template
         app.innerHTML = routes['guides'];
 
-        // Show deprecation notice for legacy routes
-        if (page === 'document') {
-          const legacyNotice = document.getElementById('legacy-notice');
-          if (legacyNotice) {
-            legacyNotice.classList.remove('hidden');
-          }
-        }
 
         // Build file path (e.g. guides/linux-cheatsheet-1.html)
         const filePath = 'guides/' + segments.join('/');
