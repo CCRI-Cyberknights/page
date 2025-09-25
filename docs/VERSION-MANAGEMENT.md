@@ -196,8 +196,9 @@ npm run version:auto
 - **Transparency**: Shows analysis of what changed
 
 **Version-Only Changes Detected:**
-- `<meta name="version" content="...">` updates
-- `<span id="version"...>v...` updates
+- `const VERSION = "..."` updates
+- `const COMMIT_HASH = "..."` updates  
+- `const COMMIT_DATE = "..."` updates
 
 ### **Package.json Configuration**
 ```json

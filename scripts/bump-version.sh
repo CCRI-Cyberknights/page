@@ -52,11 +52,10 @@ update_html_version() {
     local commit_date=$(git log -1 --format="%ci")
     local commit_hash=$(git rev-parse --short HEAD)
     
-    # Update version in meta tags
-    sed -i "s/<meta name=\"version\" content=\"[^\"]*\">/<meta name=\"version\" content=\"${version}\">/g" index.html
-    
-    # Update footer version display with proper pattern
-    sed -i "s/<span id=\"version\"[^>]*>[^<]*<\/span>/<span id=\"version\" title=\"Commit: ${commit_hash} - ${commit_date}\" class=\"hover:text-slate-300 cursor-help transition-colors\">v${version}<\/span>/g" index.html
+    # Update DRY version constants in JavaScript
+    sed -i "s/const VERSION = \"[^\"]*\"/const VERSION = \"${version}\"/g" index.html
+    sed -i "s/const COMMIT_HASH = \"[^\"]*\"/const COMMIT_HASH = \"${commit_hash}\"/g" index.html
+    sed -i "s/const COMMIT_DATE = \"[^\"]*\"/const COMMIT_DATE = \"${commit_date}\"/g" index.html
     
     echo -e "${BLUE}HTML updated with version ${version}${NC}"
 }

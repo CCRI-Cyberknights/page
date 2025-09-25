@@ -1,6 +1,6 @@
 {
   "name": "ccri-cyberknights-landing-pages",
-  "version": "1.6.11",
+  "version": "1.6.12",
   "description": "QR Code Landing Pages for CCRI Cyberknights Club",
   "private": true,
   "scripts": {
