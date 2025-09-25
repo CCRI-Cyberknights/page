@@ -26,6 +26,9 @@ Thumbs.db
 # Logs
 *.log
 
+# Link testing logs
+tests/tested-links.json
+
 # Node.js dependencies
 node_modules/
 npm-debug.log*

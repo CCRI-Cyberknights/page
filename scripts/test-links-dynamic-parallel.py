@@ -9,6 +9,9 @@ import sys
 import os
 sys.path.append('/home/zachary/Cursor_Projects/qr-code-landing-pages/testing_env/lib/python3.12/site-packages')
 
+# Add tests directory to path for logger import
+sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'tests'))
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -24,6 +27,16 @@ import concurrent.futures
 import threading
 from multiprocessing import cpu_count
 import queue
+import subprocess
+import socket
+
+# Import the link testing logger
+try:
+    from link_testing_logger import LinkTestingLogger
+    LOGGER_AVAILABLE = True
+except ImportError:
+    print("WARNING: Link testing logger not available")
+    LOGGER_AVAILABLE = False
 
 class ParallelLinkTester:
     def __init__(self, base_url="https://ccri-cyberknights.github.io/page", max_workers=None):
@@ -43,6 +56,68 @@ class ParallelLinkTester:
         }
         self.results_lock = threading.Lock()
         self.print_lock = threading.Lock()
+        
+        # Initialize link testing logger
+        if LOGGER_AVAILABLE:
+            self.logger = LinkTestingLogger()
+        else:
+            self.logger = None
+        
+        # Track if we started the server ourselves
+        self.server_started_by_us = False
+
+    def check_local_server(self, port=8000):
+        """Check if local server is running on specified port"""
+        try:
+            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            sock.settimeout(1)
+            result = sock.connect_ex(('localhost', port))
+            sock.close()
+            return result == 0
+        except Exception:
+            return False
+    
+    def start_local_server(self, port=8000):
+        """Start local development server if not running"""
+        if self.check_local_server(port):
+            print(f"SERVER Local server already running on port {port}")
+            return True
+        
+        print(f"SERVER Starting local development server on port {port}...")
+        try:
+            # Start server in background
+            self.server_process = subprocess.Popen(
+                ['python3', '-m', 'http.server', str(port)],
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+                cwd=os.path.dirname(os.path.dirname(__file__))  # Project root
+            )
+            
+            # Wait a moment for server to start
+            time.sleep(2)
+            
+            # Verify server is running
+            if self.check_local_server(port):
+                print(f"SERVER Local server started successfully on port {port}")
+                self.server_started_by_us = True
+                return True
+            else:
+                print(f"SERVER Failed to start local server on port {port}")
+                return False
+                
+        except Exception as e:
+            print(f"SERVER Error starting local server: {e}")
+            return False
+    
+    def stop_local_server(self):
+        """Stop local server if we started it"""
+        if self.server_started_by_us and hasattr(self, 'server_process'):
+            try:
+                self.server_process.terminate()
+                self.server_process.wait(timeout=5)
+                print("SERVER Local server stopped")
+            except Exception as e:
+                print(f"SERVER Error stopping local server: {e}")
 
     def setup_driver(self):
         """Initialize Chrome driver with appropriate options"""
@@ -253,6 +328,11 @@ class ParallelLinkTester:
             if not has_error and is_on_site and hash_correct:
                 with self.print_lock:
                     print(f"   PASS PASS: {text} - Page loaded successfully")
+                
+                # Log successful test
+                if self.logger:
+                    self.logger.log_link_test(full_url, text, True, 200)
+                
                 return True, None
             else:
                 error_msg = f"Page load failed or incorrect navigation - Expected hash: {url}, Current URL: {current_url}, Has error: {has_error}, Is on site: {is_on_site}, Hash correct: {hash_correct}"
@@ -263,12 +343,22 @@ class ParallelLinkTester:
                     print(f"      Has error: {has_error}")
                     print(f"      Is on site: {is_on_site}")
                     print(f"      Hash correct: {hash_correct}")
+                
+                # Log failed test
+                if self.logger:
+                    self.logger.log_link_test(full_url, text, False, None, error_msg)
+                
                 return False, error_msg
                 
         except Exception as e:
             error_msg = str(e)
             with self.print_lock:
                 print(f"   FAIL ERROR: {text} - {error_msg}")
+            
+            # Log failed test
+            if self.logger:
+                self.logger.log_link_test(full_url, text, False, None, error_msg)
+            
             return False, error_msg
             
         finally:
@@ -290,17 +380,32 @@ class ParallelLinkTester:
             if response.status_code == 200:
                 with self.print_lock:
                     print(f"   PASS PASS: {text} - Status {response.status_code}")
+                
+                # Log successful test
+                if self.logger:
+                    self.logger.log_link_test(url, text, True, response.status_code)
+                
                 return True, None
             else:
                 error_msg = f'HTTP {response.status_code}'
                 with self.print_lock:
                     print(f"   FAIL FAIL: {text} - Status {response.status_code}")
+                
+                # Log failed test
+                if self.logger:
+                    self.logger.log_link_test(url, text, False, response.status_code, error_msg)
+                
                 return False, error_msg
                 
         except requests.exceptions.RequestException as e:
             error_msg = str(e)
             with self.print_lock:
                 print(f"   FAIL ERROR: {text} - {error_msg}")
+            
+            # Log failed test
+            if self.logger:
+                self.logger.log_link_test(url, text, False, None, error_msg)
+            
             return False, error_msg
 
     def run_parallel_tests(self, links, test_type, worker_func):
@@ -354,6 +459,23 @@ class ParallelLinkTester:
         print(f"BASE_URL Base URL: {self.base_url}")
         print(f"PARALLEL Using {self.max_workers} parallel workers (CPU cores: {cpu_count()})")
         
+        # Check if we need to start local server
+        if 'localhost' in self.base_url or '127.0.0.1' in self.base_url:
+            port = 8000  # Default port
+            if ':' in self.base_url:
+                try:
+                    port = int(self.base_url.split(':')[-1].rstrip('/'))
+                except ValueError:
+                    port = 8000
+            
+            if not self.start_local_server(port):
+                print("FAIL Failed to start local development server")
+                return False
+        
+        # Start logger session
+        if self.logger:
+            self.logger.start_test_session(self.base_url)
+        
         try:
             # Discover links
             if not self.discover_links_from_html():
@@ -381,10 +503,25 @@ class ParallelLinkTester:
                 self.test_external_link_worker
             )
             
+            # End logger session
+            if self.logger:
+                self.logger.end_test_session()
+            
+            # Stop local server if we started it
+            self.stop_local_server()
+            
             return True
             
         except Exception as e:
             print(f"FAIL Test suite error: {e}")
+            
+            # End logger session even on error
+            if self.logger:
+                self.logger.end_test_session()
+            
+            # Stop local server even on error
+            self.stop_local_server()
+            
             return False
 
     def generate_report(self):
