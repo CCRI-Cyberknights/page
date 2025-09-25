@@ -4,6 +4,15 @@
 
 The CCRI Cyberknights Landing Pages project includes a comprehensive link testing system that validates all internal navigation links and external links before every commit. This ensures that users never encounter broken links on the live site.
 
+## 🌐 Dual URL Testing
+
+The system now tests **both production and local development** URLs to ensure links work correctly in all environments:
+
+- **Production URL**: `https://ccri-cyberknights.github.io/page` (tested first)
+- **Local URL**: `http://localhost:8000` (tested second)  
+- **Pre-commit Hook**: Automatically tests both URLs when HTML files change
+- **Failure Handling**: Commit blocked if either URL has broken links
+
 ## Components
 
 ### 1. Main Testing Script (`scripts/test-links.py`)
@@ -103,8 +112,8 @@ The test script can be integrated into CI/CD pipelines:
 
 ```bash
 # In your CI/CD pipeline
-source testing_env/bin/activate
-python3 scripts/test-links.py
+source selenium_env/bin/activate
+python3 scripts/test-links-dynamic-parallel.py "https://ccri-cyberknights.github.io/page"
 ```
 
 ## Requirements
@@ -118,11 +127,11 @@ python3 scripts/test-links.py
 
 ### Environment Setup
 
-The system uses a dedicated virtual environment at `testing_env/`:
+The system uses a dedicated virtual environment at `selenium_env/`:
 
 ```bash
 # Environment is automatically activated by scripts
-source testing_env/bin/activate
+source selenium_env/bin/activate
 ```
 
 ## Test Results
@@ -166,8 +175,8 @@ source testing_env/bin/activate
 
 1. **Selenium Environment Missing**
    ```bash
-   # Ensure testing_env exists
-   ls -la testing_env/
+   # Ensure selenium_env exists
+   ls -la selenium_env/
    ```
 
 2. **Chrome Driver Issues**

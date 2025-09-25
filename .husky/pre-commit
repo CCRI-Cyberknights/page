@@ -7,14 +7,26 @@ cd "$(dirname -- "$0")/.."
 if git diff --cached --name-only | grep -q "\.html$"; then
     echo "🔗 HTML files changed - running parallel link tests..."
     . ./selenium_env/bin/activate
-    python3 scripts/test-links-dynamic-parallel.py
     
-    # Check if link testing passed
+    # Test production URL first
+    echo "🌐 Testing production URL: https://ccri-cyberknights.github.io/page"
+    python3 scripts/test-links-dynamic-parallel.py "https://ccri-cyberknights.github.io/page"
+    
+    if [ $? -ne 0 ]; then
+        echo "❌ Production link testing failed! Please fix broken links before committing."
+        exit 1
+    fi
+    
+    # Test local URL
+    echo "🏠 Testing local URL: http://localhost:8000"
+    python3 scripts/test-links-dynamic-parallel.py "http://localhost:8000"
+    
+    # Check if both link tests passed
     if [ $? -eq 0 ]; then
-        echo "✅ All links are working correctly. Proceeding with version bump..."
+        echo "✅ All links are working correctly on both production and local. Proceeding with version bump..."
         npm run version:auto
     else
-        echo "❌ Link testing failed! Please fix broken links before committing."
+        echo "❌ Local link testing failed! Please fix broken links before committing."
         exit 1
     fi
 else

@@ -207,6 +207,53 @@ To replicate this QR code system for other guides:
 6. **Scalable**: Easy to generate QR codes for new content
 7. **Maintainable**: Clear separation of generation and embedding
 
+## Link Testing Scripts
+
+### `test-links-dynamic-parallel.py`
+
+A comprehensive Python script using Selenium WebDriver that automatically discovers and tests all links found in HTML files. This script is integrated with the Git pre-commit hook to ensure all links work correctly before commits.
+
+#### Features
+
+- **Dynamic Discovery**: Automatically finds all links in HTML files using BeautifulSoup
+- **Parallel Execution**: Uses multiple CPU cores for faster testing (4.93x speedup)
+- **Dual URL Testing**: Tests both production and local development URLs
+- **Comprehensive Coverage**: Tests internal hash links, external links, and navigation flows
+- **Pre-commit Integration**: Automatically runs when HTML files are modified
+
+#### Usage
+
+```bash
+# Test production URL (default)
+source selenium_env/bin/activate
+python3 scripts/test-links-dynamic-parallel.py
+
+# Test custom URL
+python3 scripts/test-links-dynamic-parallel.py "https://ccri-cyberknights.github.io/page"
+
+# Test local development server
+python3 scripts/test-links-dynamic-parallel.py "http://localhost:8000"
+
+# Custom worker count
+python3 scripts/test-links-dynamic-parallel.py "http://localhost:8000" 4
+```
+
+#### Pre-commit Integration
+
+The script is automatically called by the Git pre-commit hook (`.husky/pre-commit`) when HTML files are modified:
+
+1. **Production Test**: Tests `https://ccri-cyberknights.github.io/page` first
+2. **Local Test**: Tests `http://localhost:8000` second
+3. **Failure Handling**: Blocks commit if either URL has broken links
+4. **Success**: Proceeds with version bump if all tests pass
+
+#### Environment Requirements
+
+- **Python 3.12+**
+- **Selenium WebDriver**
+- **Chrome/Chromium browser**
+- **Virtual Environment**: `selenium_env/` with required dependencies
+
 #### Related Documentation
 
 - **Document Implementation**: See `document/README.md` for HTML integration details

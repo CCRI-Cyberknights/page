@@ -28,7 +28,7 @@ Tests the QR Code functionality on standalone pages:
 
 2. Activate the Selenium environment:
    ```bash
-   source testing_env/bin/activate
+   source selenium_env/bin/activate
    ```
 
 ### Running Individual Tests
@@ -51,7 +51,7 @@ python tests/test_routing.py && python tests/test_qr_standalone.py
 - **Browser**: Chrome (headless mode)
 - **Server**: Python HTTP server on port 8000
 - **Dependencies**: Selenium WebDriver
-- **Environment**: Virtual environment in `testing_env/`
+- **Environment**: Virtual environment in `selenium_env/`
 
 ## Test Coverage
 

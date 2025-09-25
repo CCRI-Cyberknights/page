@@ -428,16 +428,27 @@ class ParallelLinkTester:
 
 def main():
     """Main function to run the parallel dynamic link testing suite"""
-    # Allow override of max workers via command line
+    # Allow override of max workers and base URL via command line
     max_workers = None
+    base_url = "https://ccri-cyberknights.github.io/page"
+    
     if len(sys.argv) > 1:
         try:
             max_workers = int(sys.argv[1])
             print(f"PARALLEL Using custom worker count: {max_workers}")
         except ValueError:
+            # If first arg is not a number, treat it as base URL
+            base_url = sys.argv[1]
+            print(f"BASE_URL Using custom base URL: {base_url}")
+    
+    if len(sys.argv) > 2:
+        try:
+            max_workers = int(sys.argv[2])
+            print(f"PARALLEL Using custom worker count: {max_workers}")
+        except ValueError:
             print("PARALLEL Invalid worker count, using default")
     
-    tester = ParallelLinkTester(max_workers=max_workers)
+    tester = ParallelLinkTester(base_url=base_url, max_workers=max_workers)
     
     if tester.run_all_tests():
         success = tester.generate_report()

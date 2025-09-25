@@ -4,6 +4,15 @@
 
 The CCRI Cyberknights Landing Pages project now includes a **dynamic link testing system** that automatically discovers and validates ALL links found in your HTML before every commit. This ensures that any new links you add will be automatically tested without manual configuration.
 
+## 🌐 Dual URL Testing
+
+The system now tests **both production and local development** URLs to ensure links work correctly in all environments:
+
+- **Production URL**: `https://ccri-cyberknights.github.io/page` (tested first)
+- **Local URL**: `http://localhost:8000` (tested second)
+- **Pre-commit Hook**: Automatically tests both URLs when HTML files change
+- **Failure Handling**: Commit blocked if either URL has broken links
+
 ## ⚡ Parallel Performance
 
 The system now features **parallel execution** that utilizes all available CPU cores for maximum speed:
@@ -115,9 +124,12 @@ git commit -m "add new page"
 # Run parallel link tests (recommended)
 npm run test:links
 
-# Or run directly
-source testing_env/bin/activate
-python3 scripts/test-links-dynamic-parallel.py
+# Or run directly (with custom URL)
+source selenium_env/bin/activate
+python3 scripts/test-links-dynamic-parallel.py "https://ccri-cyberknights.github.io/page"
+
+# Test local development server
+python3 scripts/test-links-dynamic-parallel.py "http://localhost:8000"
 
 # Compare performance between sequential vs parallel
 npm run test:links:compare

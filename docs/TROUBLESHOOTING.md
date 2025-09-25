@@ -274,7 +274,7 @@ Use the Selenium test suite in the `tests/` directory:
 python3 -m http.server 8000
 
 # Activate test environment
-source testing_env/bin/activate
+source selenium_env/bin/activate
 
 # Run all tests
 python tests/run_tests.py
