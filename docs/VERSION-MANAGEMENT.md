@@ -145,12 +145,59 @@ BREAKING CHANGE: Navigation structure has changed"
 - **Git Integration**: Creates version tags automatically
 
 ### **Husky Integration** (`.husky/pre-commit`)
+
+The pre-commit hook has been enhanced with intelligent change detection to optimize performance:
+
 ```bash
-#!/usr/bin/env sh
+#!/bin/bash
 . "$(dirname -- "$0")/_/husky.sh"
+
+cd "$(dirname -- "$0")/.."
+
+# Check if any HTML files have been modified
+if git diff --cached --name-only | grep -q "\.html$"; then
+    echo "🔗 HTML files changed - analyzing changes..."
+    
+    # Check if only index.html was changed
+    html_files=$(git diff --cached --name-only | grep "\.html$")
+    if [ "$html_files" = "index.html" ]; then
+        echo "📄 Only index.html changed - checking if changes are version-only..."
+        
+        # Analyze if changes are version-only
+        index_diff=$(git diff --cached index.html)
+        version_meta_changes=$(echo "$index_diff" | grep -cE "^[+-].*meta name=\"version\"" || echo "0")
+        version_span_changes=$(echo "$index_diff" | grep -cE "^[+-].*span id=\"version\"" || echo "0")
+        total_changes=$(echo "$index_diff" | grep -cE "^[+-]" || echo "0")
+        total_version_changes=$((version_meta_changes + version_span_changes))
+        
+        # If all changes are version-related, skip link tests
+        if [ "$total_version_changes" -gt 0 ] && [ "$total_version_changes" -eq "$total_changes" ]; then
+            echo "✅ Only version numbers changed - skipping link tests"
+            npm run version:auto
+            exit 0
+        fi
+    fi
+    
+    # Run link tests for content changes
+    echo "🔗 Running parallel link tests..."
+    . ./selenium_env/bin/activate
+    python3 scripts/test-links-dynamic-parallel.py "https://ccri-cyberknights.github.io/page"
+    python3 scripts/test-links-dynamic-parallel.py "http://localhost:8000"
+fi
 
 npm run version:auto
 ```
+
+**Optimization Features:**
+
+- **Smart Detection**: Analyzes git diff to identify version-only changes
+- **Performance Optimization**: Skips link tests when only version numbers change
+- **Reliability**: Still runs full tests for actual content changes
+- **Transparency**: Shows analysis of what changed
+
+**Version-Only Changes Detected:**
+- `<meta name="version" content="...">` updates
+- `<span id="version"...>v...` updates
 
 ### **Package.json Configuration**
 ```json

@@ -282,6 +282,9 @@ Intelligent versioning system with conventional commits and file change analysis
 - **Version Display**: Footer shows current version with commit information tooltip
 - **Git Integration**: Automatic version tags and metadata synchronization
 - **Zero Friction**: "Set it and forget it" version management
+- **Performance Optimization**: Pre-commit hook skips link testing for version-only changes
+
+**Documentation**: See [Version Management System](docs/VERSION-MANAGEMENT.md) for complete details on the intelligent versioning system and pre-commit hook optimization.
 
 ### Running Tests
 

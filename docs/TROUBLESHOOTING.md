@@ -448,6 +448,14 @@ python tests/run_tests.py
 - [ ] Environment references use `selenium_env` not `testing_env`
 - [ ] Directory paths reference correct project name (`page`)
 
+### Pre-commit Hook Optimization
+
+**Performance Issue**: Pre-commit hook running unnecessary link tests on version-only changes.
+
+**Solution**: Enhanced pre-commit hook with intelligent change detection that skips link testing when only version numbers change in `index.html`.
+
+**Documentation**: See [Version Management System](VERSION-MANAGEMENT.md#husky-integration-huskypre-commit) for complete details on the pre-commit hook optimization.
+
 ### Documentation Updates
 
 - [ ] Update relevant documentation when making changes

@@ -5,7 +5,47 @@ cd "$(dirname -- "$0")/.."
 
 # Check if any HTML files have been modified
 if git diff --cached --name-only | grep -q "\.html$"; then
-    echo "🔗 HTML files changed - running parallel link tests..."
+    echo "🔗 HTML files changed - analyzing changes..."
+    
+    # Check if only index.html was changed
+    html_files=$(git diff --cached --name-only | grep "\.html$")
+    if [ "$html_files" = "index.html" ]; then
+        echo "📄 Only index.html changed - checking if changes are version-only..."
+        
+        # Get the diff for index.html
+        index_diff=$(git diff --cached index.html)
+        
+        # Check if the diff only contains version-related changes
+        # Look for the specific patterns that the version bumping script updates:
+        # 1. Meta tag: <meta name="version" content="...">
+        # 2. Footer span: <span id="version"...>v...
+        
+        # Count version-related changes
+        version_meta_changes=$(echo "$index_diff" | grep -cE "^[+-].*meta name=\"version\"" || echo "0")
+        version_span_changes=$(echo "$index_diff" | grep -cE "^[+-].*span id=\"version\"" || echo "0")
+        version_comment_changes=$(echo "$index_diff" | grep -cE "^[+-].*Version:" || echo "0")
+        
+        # Count total non-context changes (lines starting with + or - but not diff headers)
+        total_changes=$(echo "$index_diff" | grep -cE "^[+-][^+-]" || echo "0")
+        
+        # Calculate total version-related changes
+        total_version_changes=$((version_meta_changes + version_span_changes + version_comment_changes))
+        
+        echo "🔍 Analysis: $total_version_changes version changes out of $total_changes total changes"
+        
+        # If all changes are version-related, skip link tests
+        if [ "$total_version_changes" -gt 0 ] && [ "$total_version_changes" -eq "$total_changes" ]; then
+            echo "✅ Only version numbers changed in index.html - skipping link tests"
+            npm run version:auto
+            exit 0
+        else
+            echo "🔍 Non-version changes detected in index.html - running link tests..."
+        fi
+    else
+        echo "🔍 Multiple HTML files changed - running link tests..."
+    fi
+    
+    echo "🔗 Running parallel link tests..."
     . ./selenium_env/bin/activate
     
     # Test production URL first

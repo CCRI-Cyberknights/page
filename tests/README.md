@@ -69,3 +69,9 @@ When adding new test files:
 2. Use descriptive names that indicate what is being tested
 3. Update this README with a description of the new test
 4. Ensure tests can run independently and don't interfere with each other
+
+## Pre-commit Hook Integration
+
+**Performance Optimization**: The pre-commit hook includes intelligent change detection that skips link testing when only version numbers change in `index.html`, improving commit performance.
+
+**Documentation**: See [Version Management System](../docs/VERSION-MANAGEMENT.md#husky-integration-huskypre-commit) for complete details on the pre-commit hook optimization and how it integrates with the testing system.

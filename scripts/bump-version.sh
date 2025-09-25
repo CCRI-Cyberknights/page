@@ -52,8 +52,7 @@ update_html_version() {
     local commit_date=$(git log -1 --format="%ci")
     local commit_hash=$(git rev-parse --short HEAD)
     
-    # Update version in HTML comments and meta tags
-    sed -i "s/<!-- Version: [^ ]* -->/<!-- Version: ${version} -->/g" index.html
+    # Update version in meta tags
     sed -i "s/<meta name=\"version\" content=\"[^\"]*\">/<meta name=\"version\" content=\"${version}\">/g" index.html
     
     # Update footer version display with proper pattern
