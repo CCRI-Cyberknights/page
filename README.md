@@ -128,6 +128,7 @@ If you are a club member, you can fork this repository and submit a pull request
 - **UI Improvements**: `docs/UI-IMPROVEMENTS.md`
 - **Version Management**: `docs/VERSION-MANAGEMENT.md` ⭐
 - **Testing Strategy**: `docs/TESTING.md` ⭐
+- **Dynamic Link Testing**: `docs/DYNAMIC-LINK-TESTING.md` ⭐ **NEW - 5x Faster!**
 - **Selenium Debugging Innovation**: `docs/SELENIUM-DEBUGGING-INNOVATION.md` ⭐
 - **Layout Troubleshooting**: `docs/LAYOUT-TROUBLESHOOTING.md` ⭐
 - Calendar maintainer guide: `docs/CALENDAR-UPDATING.md`
