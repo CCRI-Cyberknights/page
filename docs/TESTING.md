@@ -17,6 +17,7 @@ The project uses a comprehensive test suite to validate:
 - **Browser**: Chrome (headless mode for CI/CD compatibility)
 - **Framework**: Selenium WebDriver 4.x
 - **Language**: Python 3.x
+- **Virtual Environment**: `selenium_env/` (Python 3.12)
 - **Server**: Python HTTP server (port 8000)
 
 ### Testing Categories
@@ -38,7 +39,7 @@ The project uses a comprehensive test suite to validate:
 - **CSS Analysis**: Computed style extraction for debugging layout conflicts
 - **Element Positioning**: Precise measurement of element dimensions and positions
 - **Cross-Page Consistency**: Ensuring layout consistency across all pages
-- **Environment**: Isolated virtual environment (`testing_env/`)
+- **Environment**: Isolated virtual environment (`selenium_env/`)
 
 ### Selenium Debugging Methodology
 
@@ -216,9 +217,9 @@ tests/
 
 **Virtual Environment**:
 ```bash
-python -m venv testing_env
-source testing_env/bin/activate
-pip install selenium
+python3 -m venv selenium_env
+source selenium_env/bin/activate
+pip install selenium requests beautifulsoup4
 ```
 
 **Chrome Driver Configuration**:
@@ -260,7 +261,7 @@ time.sleep(2)  # For complex interactions
 
 2. **Activate Test Environment**:
    ```bash
-   source testing_env/bin/activate
+   source selenium_env/bin/activate
    ```
 
 ### Test Execution
@@ -344,13 +345,13 @@ jobs:
           python-version: 3.x
       - name: Install dependencies
         run: |
-          python -m venv testing_env
-          source testing_env/bin/activate
-          pip install selenium
+          python3 -m venv selenium_env
+          source selenium_env/bin/activate
+          pip install selenium requests beautifulsoup4
       - name: Run tests
         run: |
           python3 -m http.server 8000 &
-          source testing_env/bin/activate
+          source selenium_env/bin/activate
           python tests/run_tests.py
 ```
 

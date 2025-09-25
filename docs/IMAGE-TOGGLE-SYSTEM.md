@@ -1,240 +1,195 @@
-# Image Toggle System Documentation
+# Image Modal System Documentation
 
 ## Overview
 
-The CCRI Cyberknights website features a unified image toggle system that allows users to expand images to full-screen modal views for better detail viewing. This system uses CSS custom properties and JavaScript to provide consistent behavior across all interactive images.
+The CCRI Cyberknights website features a clean modal overlay system that allows users to expand images to full-screen views for better detail viewing. This system uses a standard modal/lightbox pattern with Tailwind CSS utilities to provide consistent behavior across all interactive images.
 
 ## System Architecture
 
-### CSS Custom Properties
+### Modal Overlay Pattern
 
-The system uses CSS custom properties defined in `:root` to ensure consistency:
+The system uses a fixed-position modal overlay that appears above the page content:
 
-```css
-:root {
-  --image-expanded-width: min(96vw, 1400px);
-  --image-expanded-height: min(96vh, 1000px);
-  --image-expanded-bg: rgba(0, 0, 0, 0.9);
-  --image-expanded-padding: 2rem;
-  --image-expanded-shadow: 0 0 60px rgba(16, 185, 129, 0.5);
-  --image-expanded-radius: 1rem;
-}
+```html
+<div id="image-modal" class="fixed inset-0 bg-black/90 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+  <img id="modal-image" class="rounded-xl shadow-[0_0_60px_rgba(16,185,129,0.5)]" />
+</div>
 ```
 
-### JavaScript Toggle Function
+### JavaScript Modal Functions
 
-A single DRY function handles all image toggles:
+Clean, simple functions handle modal operations:
 
 ```javascript
-window.toggleImageSize = function(elementId) {
-  const element = document.getElementById(elementId);
-  if (!element) return;
+const modal = document.getElementById('image-modal');
+const modalImage = document.getElementById('modal-image');
 
-  // Determine which classes to toggle based on element ID
-  let expandedClass, collapsedClass;
-  
-  if (elementId === 'cyberknight-welder-large') {
-    expandedClass = 'welder-expanded';
-    collapsedClass = 'welder-collapsed';
-  } else if (elementId === 'vbox-summary-image') {
-    expandedClass = 'vbox-summary-expanded';
-    collapsedClass = 'vbox-summary-collapsed';
+function openModal(src, alt, isCanvas = false) {
+  modalImage.src = src;
+  modalImage.alt = alt;
+  if (isCanvas) {
+    modalImage.className = 'w-[85vw] h-[85vh] object-contain rounded-xl shadow-[0_0_60px_rgba(16,185,129,0.5)]';
   } else {
-    // Default to icon classes for navigation icon
-    expandedClass = 'icon-expanded';
-    collapsedClass = 'icon-collapsed';
+    modalImage.className = 'max-w-[96vw] max-h-[96vh] object-contain rounded-xl shadow-[0_0_60px_rgba(16,185,129,0.5)]';
   }
+  modal.classList.remove('opacity-0', 'pointer-events-none');
+  document.body.style.overflow = 'hidden';
+}
 
-  element.classList.toggle(expandedClass);
-  element.classList.toggle(collapsedClass);
-  
-  // Add/remove body scroll lock when expanded
-  if (element.classList.contains(expandedClass)) {
-    document.body.style.overflow = 'hidden';
-  } else {
-    document.body.style.overflow = 'auto';
-  }
-};
+function closeModal() {
+  modal.classList.add('opacity-0', 'pointer-events-none');
+  document.body.style.overflow = 'auto';
+}
 ```
 
 ## Supported Images
 
 ### 1. Navigation Icon (`cyberknight-icon`)
 - **Location**: Top navigation bar
-- **Collapsed State**: 40px × 40px (2.5rem)
-- **Expanded State**: 96% screen width/height with CSS custom properties
-- **Usage**: `onclick="toggleImageSize('cyberknight-icon')"`
+- **Thumbnail State**: `w-10 h-10 rounded hover:scale-110`
+- **Modal State**: `max-w-[96vw] max-h-[96vh] object-contain`
+- **Usage**: `onclick="toggleIconSize()"`
 
 ### 2. Welder Image (`cyberknight-welder-large`)
 - **Location**: Home page hero section
-- **Collapsed State**: 288px × 288px (18rem)
-- **Expanded State**: 96% screen width/height with CSS custom properties
-- **Usage**: `onclick="toggleImageSize('cyberknight-welder-large')"`
+- **Thumbnail State**: `w-72 h-72 object-contain drop-shadow-[0_0_40px_rgba(16,185,129,0.25)] hover:scale-105`
+- **Modal State**: `max-w-[96vw] max-h-[96vh] object-contain`
+- **Usage**: `onclick="toggleWelderSize()"`
 
 ### 3. VBox Summary Image (`vbox-summary-image`)
 - **Location**: Linux page VirtualBox guide
-- **Collapsed State**: Full container width (100% of mt-6 div)
-- **Expanded State**: 96% screen width/height with CSS custom properties
-- **Usage**: `onclick="toggleImageSize('vbox-summary-image')"`
+- **Thumbnail State**: `w-full mx-auto rounded border border-slate-700 object-contain hover:scale-105`
+- **Modal State**: `max-w-[96vw] max-h-[96vh] object-contain`
+- **Usage**: `onclick="toggleVBoxSummarySize()"`
 
-## CSS Classes
+### 4. QR Code Canvas (`footer-qr-canvas`)
+- **Location**: Footer QR code
+- **Thumbnail State**: `bg-white p-1 rounded hover:scale-105`
+- **Modal State**: `w-[85vw] h-[85vh] object-contain` (fills 85% of screen)
+- **Usage**: `onclick="toggleQRCodeSize()"`
 
-### Expanded State Classes
-All expanded classes use the same CSS custom properties:
+## Tailwind CSS Classes
 
-```css
-.icon-expanded,
-.welder-expanded,
-.vbox-summary-expanded {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 50;
-  width: var(--image-expanded-width);
-  height: var(--image-expanded-height);
-  object-fit: contain;
-  background-color: var(--image-expanded-bg);
-  border-radius: var(--image-expanded-radius);
-  padding: var(--image-expanded-padding);
-  box-shadow: var(--image-expanded-shadow);
-}
+### Modal Overlay Classes
+```html
+<div id="image-modal" class="fixed inset-0 bg-black/90 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
 ```
 
-### Collapsed State Classes
-Each image has its own collapsed state class:
+### Image Classes
+- **Regular Images**: `max-w-[96vw] max-h-[96vh] object-contain rounded-xl shadow-[0_0_60px_rgba(16,185,129,0.5)]`
+- **QR Code**: `w-[85vw] h-[85vh] object-contain rounded-xl shadow-[0_0_60px_rgba(16,185,129,0.5)]`
 
-```css
-.icon-collapsed {
-  width: 2.5rem;
-  height: 2.5rem;
-  border-radius: 0.375rem;
-}
-
-.welder-collapsed {
-  width: 18rem;
-  height: 18rem;
-  object-fit: contain;
-  filter: drop-shadow(0 0 40px rgba(16, 185, 129, 0.25));
-}
-
-.vbox-summary-collapsed {
-  width: 100%;
-  margin: 0 auto;
-  border-radius: 0.375rem;
-  border: 1px solid #334155;
-  object-fit: contain;
-}
-```
+### Thumbnail Classes
+- **Icon**: `w-10 h-10 rounded hover:scale-110 cursor-pointer transition-transform duration-200 ease-in-out`
+- **Welder**: `w-72 h-72 object-contain drop-shadow-[0_0_40px_rgba(16,185,129,0.25)] hover:scale-105 cursor-pointer transition-transform duration-200 ease-in-out`
+- **VBox**: `w-full mx-auto rounded border border-slate-700 object-contain hover:scale-105 cursor-pointer transition-transform duration-200 ease-in-out`
+- **QR Code**: `bg-white p-1 rounded hover:scale-105 cursor-pointer transition-transform duration-200 ease-in-out`
 
 ## Features
 
 ### Responsive Design
-- **Mobile**: Images expand to 96% of viewport width/height
-- **Desktop**: Images expand to maximum 1400px × 1000px
+- **Regular Images**: Expand to 96% of viewport width/height (`max-w-[96vw] max-h-[96vh]`)
+- **QR Code**: Fills 85% of screen (`w-[85vw] h-[85vh]`) for better readability
 - **Aspect Ratio**: Maintained through `object-fit: contain`
 
 ### User Experience
-- **Smooth Transitions**: CSS transitions provide smooth animation
-- **Body Scroll Lock**: Prevents background scrolling when expanded
-- **Click to Close**: Clicking expanded image returns to collapsed state
-- **Consistent Behavior**: All images behave identically
+- **Smooth Transitions**: Opacity transitions provide smooth modal animation
+- **Body Scroll Lock**: Prevents background scrolling when modal is open
+- **Click to Close**: Clicking modal overlay closes the modal
+- **Keyboard Support**: ESC and Backspace keys close the modal
+- **No Layout Shifts**: Thumbnails stay in document flow, modal is separate overlay
 
 ### Accessibility
-- **Keyboard Navigation**: Images are focusable and can be activated with Enter key
+- **Keyboard Navigation**: ESC/Backspace keys close modal
 - **Screen Readers**: Alt text provided for all images
-- **High Contrast**: Dark background with glowing border for visibility
+- **Focus Management**: Modal images are focusable
+- **High Contrast**: Dark overlay with glowing border for visibility
+- **Tab Index**: All interactive images have `tabindex="0"`
 
 ## Implementation Guidelines
 
-### Adding New Toggleable Images
+### Adding New Modal Images
 
-1. **Add CSS Classes**:
-   ```css
-   .new-image-collapsed {
-     /* Define collapsed state styles */
-   }
-   
-   .new-image-expanded {
-     /* Use CSS custom properties for consistency */
-     position: fixed;
-     top: 50%;
-     left: 50%;
-     transform: translate(-50%, -50%);
-     z-index: 50;
-     width: var(--image-expanded-width);
-     height: var(--image-expanded-height);
-     object-fit: contain;
-     background-color: var(--image-expanded-bg);
-     border-radius: var(--image-expanded-radius);
-     padding: var(--image-expanded-padding);
-     box-shadow: var(--image-expanded-shadow);
-   }
-   ```
-
-2. **Update JavaScript**:
-   ```javascript
-   // Add new condition to toggleImageSize function
-   } else if (elementId === 'new-image-id') {
-     expandedClass = 'new-image-expanded';
-     collapsedClass = 'new-image-collapsed';
-   ```
-
-3. **Add HTML**:
+1. **Add HTML with Tailwind Classes**:
    ```html
    <img id="new-image-id" 
         src="path/to/image.jpg" 
         alt="Description" 
-        class="new-image-collapsed cursor-pointer transition-all duration-300 ease-in-out" 
-        onclick="toggleImageSize('new-image-id')" />
+        class="w-32 h-32 object-contain rounded hover:scale-105 cursor-pointer transition-transform duration-200 ease-in-out" 
+        onclick="toggleNewImageSize()" 
+        tabindex="0" 
+        title="Click to expand" />
+   ```
+
+2. **Add JavaScript Function**:
+   ```javascript
+   window.toggleNewImageSize = function() {
+     const image = document.getElementById('new-image-id');
+     openModal(image.src, image.alt);
+   };
+   ```
+
+3. **For Canvas Elements** (like QR codes):
+   ```javascript
+   window.toggleNewCanvasSize = function() {
+     const canvas = document.getElementById('new-canvas-id');
+     const dataURL = canvas.toDataURL();
+     openModal(dataURL, 'Canvas Content', true); // true = isCanvas
+   };
    ```
 
 ## Performance Considerations
 
-- **CSS Custom Properties**: Efficient browser handling of CSS variables
-- **Single JavaScript Function**: DRY approach reduces code duplication
-- **Minimal DOM Manipulation**: Only toggles classes, no style calculations
+- **Modal Overlay**: Single DOM element reused for all images
+- **Tailwind CSS**: Utility classes provide efficient styling
+- **Minimal DOM Manipulation**: Only changes modal visibility and image source
 - **Hardware Acceleration**: CSS transforms use GPU acceleration
+- **No Layout Shifts**: Thumbnails remain in document flow
 
 ## Browser Support
 
-- **Modern Browsers**: Full support for CSS custom properties and transforms
-- **Fallback**: Graceful degradation for older browsers
+- **Modern Browsers**: Full support for CSS Grid, Flexbox, and transforms
 - **Mobile**: Optimized for touch interactions
+- **Accessibility**: Keyboard navigation and screen reader support
 
-## Future Enhancements
+## Key Benefits of Modal Pattern
 
-- **Keyboard Shortcuts**: ESC key to close expanded images
-- **Gesture Support**: Pinch-to-zoom on mobile devices
-- **Image Preloading**: Preload images for faster expansion
-- **Animation Options**: Configurable transition durations
-- **Multiple Images**: Support for image galleries with navigation
+### Eliminates Layout Shifts
+- **Before**: Images morphed between in-flow and fixed positioning, causing layout shifts
+- **After**: Thumbnails stay in document flow, modal is separate overlay
+
+### Standard UI Pattern
+- **Before**: Custom morphing approach with complex CSS classes
+- **After**: Standard modal/lightbox pattern used by Tailwind UI, Headless UI, etc.
+
+### Cleaner Code
+- **Before**: Complex CSS custom properties and class toggling
+- **After**: Simple Tailwind utilities and straightforward JavaScript
+
+### Better Accessibility
+- **Before**: Limited keyboard support
+- **After**: Full keyboard navigation (ESC/Backspace) and focus management
 
 ## Troubleshooting
 
 ### Common Issues
 
-1. **Image Not Expanding**: Check that element ID matches JavaScript condition
-2. **Inconsistent Sizing**: Verify CSS custom properties are defined
-3. **Scroll Lock Not Working**: Ensure body overflow is being set correctly
-4. **Mobile Issues**: Test touch interactions and viewport sizing
+1. **Modal Not Opening**: Check that `openModal()` function is called correctly
+2. **QR Code Too Small**: Ensure `isCanvas = true` parameter is passed to `openModal()`
+3. **Keyboard Not Working**: Verify event listeners are attached to modal
+4. **Layout Shifts**: Ensure thumbnails use normal document flow classes
 
 ### Debug Mode
 
-Add console logging to the toggle function for debugging:
+Add console logging to modal functions for debugging:
 
 ```javascript
-window.toggleImageSize = function(elementId) {
-  console.log('Toggling image:', elementId);
-  const element = document.getElementById(elementId);
-  if (!element) {
-    console.error('Element not found:', elementId);
-    return;
-  }
+function openModal(src, alt, isCanvas = false) {
+  console.log('Opening modal:', { src, alt, isCanvas });
   // ... rest of function
-};
+}
 ```
 
 ## Conclusion
 
-The image toggle system provides a consistent, accessible, and performant way to enhance image viewing across the CCRI Cyberknights website. The use of CSS custom properties ensures maintainability while the DRY JavaScript approach provides scalability for future enhancements.
+The modal overlay system provides a clean, accessible, and performant way to enhance image viewing across the CCRI Cyberknights website. The standard modal pattern eliminates layout shifts while providing a professional user experience that follows established UI conventions.
