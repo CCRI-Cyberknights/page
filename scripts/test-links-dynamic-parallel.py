@@ -7,7 +7,7 @@ Automatically discovers and tests all links found in the HTML using parallel exe
 
 import sys
 import os
-sys.path.append('/home/zachary/Cursor_Projects/qr-code-landing-pages/testing_env/lib/python3.12/site-packages')
+sys.path.append('/home/zachary/Cursor_Projects/page/testing_env/lib/python3.12/site-packages')
 
 # Add tests directory to path for logger import
 sys.path.append(os.path.join(os.path.dirname(__file__), '..', 'tests'))

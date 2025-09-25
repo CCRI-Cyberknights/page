@@ -7,7 +7,7 @@ Automatically discovers and tests all links found in the HTML
 
 import sys
 import os
-sys.path.append('/home/zachary/Cursor_Projects/qr-code-landing-pages/testing_env/lib/python3.12/site-packages')
+sys.path.append('/home/zachary/Cursor_Projects/page/testing_env/lib/python3.12/site-packages')
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By

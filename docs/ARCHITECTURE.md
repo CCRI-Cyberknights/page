@@ -72,7 +72,7 @@ Common keys:
 - Public URL after rename: `https://ccri-cyberknights.github.io/page/`
 
 ### Repository Management
-- Repo renamed to `page` (from `qr-code-landing-pages`)
+- Repo renamed to `page` (from `qr-code-landing-pages`) - All references updated
 - GitHub provides redirects for the repo URL; update docs/links proactively
 
 ### Local Development
