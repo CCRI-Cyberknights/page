@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title id="page-title">CCRI Cyberknights Club</title>
   <meta name="description" content="A centralized hub for the CCRI Cyber Club. Find information about when and where to find the Cyberknights, and much more!">
-    <meta name="version" content="1.5.5">
+    <meta name="version" content="1.5.6">
   <meta property="og:title" content="CCRI Cyber Club">
   <meta property="og:description" content="A centralized hub for the CCRI Cyber Club. Find information about when and where to find the Cyberknights, and much more!">
   <meta property="og:image" content="https://ccri-cyberknights.github.io/page/images/branding/cybersmith.webp">
@@ -222,7 +222,7 @@
         </div>
         <div class="text-slate-500">•</div>
         <div>
-          <span id="version" title="Commit: 171f7e8 - 2025-09-24 15:30:46 -0400" class="hover:text-slate-300 cursor-help transition-colors">v1.5.5</span>
+          <span id="version" title="Commit: 5d4b13b - 2025-09-24 15:56:32 -0400" class="hover:text-slate-300 cursor-help transition-colors">v1.5.6</span>
         </div>
       </div>
       <div class="relative">
@@ -1424,6 +1424,16 @@
           if (e.target === modal) closeResourceModal();
         };
         
+        // Add keyboard event listener for backspace key
+        const handleKeydown = (e) => {
+          if (e.key === 'Backspace') {
+            e.preventDefault();
+            closeResourceModal();
+            document.removeEventListener('keydown', handleKeydown);
+          }
+        };
+        document.addEventListener('keydown', handleKeydown);
+        
         const buttonText = getButtonText(resource.name);
         
         const catLabel = getCategoryLabel(resource.cat);
@@ -1474,6 +1484,9 @@
         if (modal) {
           modal.remove();
           document.body.style.overflow = ''; // Restore scrolling
+          
+          // Clean up any remaining keyboard event listeners
+          // This is handled automatically by the event listener removal in handleKeydown
         }
       };
       
@@ -1629,12 +1642,26 @@
         collapsedClass = 'icon-collapsed';
       }
 
+      const isExpanding = !element.classList.contains(expandedClass);
+      
       element.classList.toggle(expandedClass);
       element.classList.toggle(collapsedClass);
       
       // Add/remove body scroll lock when expanded (all images use full-screen modal)
       if (element.classList.contains(expandedClass)) {
         document.body.style.overflow = 'hidden';
+        
+        // Add keyboard event listener for backspace key when expanding
+        const handleKeydown = (e) => {
+          if (e.key === 'Backspace') {
+            e.preventDefault();
+            element.classList.remove(expandedClass);
+            element.classList.add(collapsedClass);
+            document.body.style.overflow = 'auto';
+            document.removeEventListener('keydown', handleKeydown);
+          }
+        };
+        document.addEventListener('keydown', handleKeydown);
       } else {
         document.body.style.overflow = 'auto';
       }

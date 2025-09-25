@@ -88,6 +88,13 @@ This document outlines the comprehensive UI/UX improvements implemented to enhan
 - **Visual container**: Added styled container for step-by-step instructions
 - **Better visual hierarchy**: Improved spacing and typography
 
+### 9. Keyboard Accessibility Improvements (v1.5.6)
+- **Backspace key functionality**: Added backspace key support to close modals and information cards
+- **Consistent navigation**: Users can now press backspace to dismiss any open modal
+- **Event management**: Proper event listener cleanup prevents memory leaks
+- **Accessibility enhancement**: Keyboard-only users can navigate effectively
+- **Cross-modal support**: Works for both resource modals and image expansion modals
+
 ### 6. Removed Confusing Elements
 - **Eliminated resources table**: Removed the Excel-like "Full list table" section
 - **Simplified display**: Focus on card-based resource display only
@@ -146,6 +153,31 @@ const initialFilter = 'all';
 const initialFilter = 'cyberknights';
 ```
 
+### Keyboard Accessibility Implementation
+```javascript
+// Resource Modal Backspace Support
+const handleKeydown = (e) => {
+  if (e.key === 'Backspace') {
+    e.preventDefault();
+    closeResourceModal();
+    document.removeEventListener('keydown', handleKeydown);
+  }
+};
+document.addEventListener('keydown', handleKeydown);
+
+// Image Expansion Backspace Support
+const handleKeydown = (e) => {
+  if (e.key === 'Backspace') {
+    e.preventDefault();
+    element.classList.remove(expandedClass);
+    element.classList.add(collapsedClass);
+    document.body.style.overflow = 'auto';
+    document.removeEventListener('keydown', handleKeydown);
+  }
+};
+document.addEventListener('keydown', handleKeydown);
+```
+
 ## User Experience Impact
 
 ### Before Improvements
@@ -163,6 +195,7 @@ const initialFilter = 'cyberknights';
 - Clear beginner guidance and resource descriptions
 - Clean, card-based resource display
 - Minimalist header design
+- Intuitive keyboard navigation with backspace key support
 
 ## Maintenance Notes
 

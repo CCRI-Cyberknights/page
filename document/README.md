@@ -415,4 +415,91 @@ When creating new cheat sheets or updating existing ones, follow this pattern:
 5. **Maintainability**: Clear separation of content and presentation
 6. **Performance**: Optimized for fast loading and minimal bandwidth
 
-This approach represents a modern, student-friendly way to integrate multimedia content into educational materials while maintaining the simplicity and reliability of static HTML documents, with particular attention to mobile usability and accessibility.
+## Keyboard Accessibility Improvements
+
+### Backspace Key Modal Closing
+
+In response to user feedback about inconsistent navigation controls, we implemented backspace key functionality to close information cards and modals throughout the application.
+
+#### **Problem Identified**
+- **Inconsistent Navigation**: Users expected backspace key to close open modals/information cards
+- **Poor UX**: Once modals opened, users had to click specific close buttons or click outside
+- **Missing Keyboard Shortcuts**: No intuitive keyboard-based navigation for modal dismissal
+
+#### **Solution Implemented**
+We added JavaScript event listeners that detect backspace key presses and automatically close open modals, providing consistent keyboard navigation.
+
+#### **Technical Implementation**
+
+##### **Resource Modals**
+```javascript
+// Add keyboard event listener for backspace key
+const handleKeydown = (e) => {
+  if (e.key === 'Backspace') {
+    e.preventDefault();
+    closeResourceModal();
+    document.removeEventListener('keydown', handleKeydown);
+  }
+};
+document.addEventListener('keydown', handleKeydown);
+```
+
+##### **Image Expansion Modals**
+```javascript
+// Add keyboard event listener for backspace key when expanding
+const handleKeydown = (e) => {
+  if (e.key === 'Backspace') {
+    e.preventDefault();
+    element.classList.remove(expandedClass);
+    element.classList.add(collapsedClass);
+    document.body.style.overflow = 'auto';
+    document.removeEventListener('keydown', handleKeydown);
+  }
+};
+document.addEventListener('keydown', handleKeydown);
+```
+
+#### **Key Features of Implementation**
+
+1. **Event Prevention**: `e.preventDefault()` prevents browser back navigation
+2. **Automatic Cleanup**: Event listeners are removed after modal closes
+3. **Consistent Behavior**: Works across all modal types (resource cards, image expansion)
+4. **Accessibility**: Provides keyboard-based navigation alternative
+5. **Memory Management**: Prevents memory leaks by cleaning up event listeners
+
+#### **Files Updated**
+- `index.html` - Added backspace functionality to:
+  - Resource modal system (`openResourceModal` function)
+  - Image expansion system (`toggleImageSize` function)
+
+#### **Benefits Achieved**
+
+##### **For Users**
+- ✅ **Intuitive Navigation**: Backspace key works as expected for closing modals
+- ✅ **Consistent UX**: Same keyboard behavior across all modal types
+- ✅ **Accessibility**: Keyboard-only users can navigate effectively
+- ✅ **Faster Interaction**: Quick keyboard dismissal without mouse movement
+
+##### **For Developers**
+- ✅ **Clean Implementation**: Event listeners properly managed and cleaned up
+- ✅ **Extensible Pattern**: Easy to apply to future modal implementations
+- ✅ **Memory Efficient**: No memory leaks from lingering event listeners
+
+#### **Implementation Pattern for Future Modals**
+
+When creating new modal functionality, follow this pattern:
+
+1. **Add Event Listener**: Create `handleKeydown` function in modal open function
+2. **Prevent Default**: Use `e.preventDefault()` to prevent browser back navigation
+3. **Close Modal**: Call appropriate close function
+4. **Clean Up**: Remove event listener to prevent memory leaks
+5. **Test**: Verify backspace works and doesn't interfere with other functionality
+
+#### **Testing Recommendations**
+
+1. **Keyboard Testing**: Test backspace functionality on all modal types
+2. **Cross-Browser**: Verify behavior in different browsers
+3. **Accessibility**: Test with screen readers and keyboard-only navigation
+4. **Memory Testing**: Ensure no memory leaks from event listeners
+
+This approach represents a modern, student-friendly way to integrate multimedia content into educational materials while maintaining the simplicity and reliability of static HTML documents, with particular attention to mobile usability, accessibility, and consistent keyboard navigation.
