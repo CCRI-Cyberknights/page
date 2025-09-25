@@ -44,6 +44,142 @@ Key files
 - `docs/color-palettes/COLOR-PALETTE.md` — comprehensive color palette documentation
 - `README.md` — project guide and developer spec
 
+## Linux Guide Implementation Notes
+
+### Boot Menu Keys
+- Emphasize repeatedly tapping the boot key as soon as the logo appears
+- If you miss the window, restart and try again
+
+Common keys:
+- Dell: F12
+- HP: Esc, F9
+- Lenovo: F12, Novo Button
+- Acer: F12
+- ASUS: Esc, F8, F12
+- MSI: F11
+- Toshiba: F12
+- Samsung: Esc, F12
+
+### Authoring Guidelines
+- Keep instructions concise and brand-agnostic
+- Add new manufacturers as students report them
+
+## Site Operations
+
+### GitHub Pages Deployment
+- Source: Deploy from a branch → `main` → `/ (root)`
+- `.nojekyll` present at repo root
+- Public URL after rename: `https://ccri-cyberknights.github.io/page/`
+
+### Repository Management
+- Repo renamed to `page` (from `qr-code-landing-pages`)
+- GitHub provides redirects for the repo URL; update docs/links proactively
+
+### Local Development
+- Open `index.html` directly in a browser, or
+- Serve statically with `python -m http.server` to test hash routes
+
+### Maintenance Checklist
+- After moving/renaming a doc, update links in:
+  - `index.html` constants
+  - README and docs indices
+- Prefer hash routes; avoid `?page=` style links
+- Keep assets as WebP; remove older PNGs
+
+## Image Assets and Optimization
+
+### Policy
+- Prefer WebP for raster images
+- Strip metadata and target visually lossless quality (≈85)
+- Keep filenames lowercase with hyphens
+
+### Commands (ImageMagick)
+```
+convert source.png -strip -quality 85 -define webp:method=6 output.webp
+```
+- Update references in `index.html` after converting
+- Remove old PNGs once WebP is working
+
+### Current Assets
+
+#### Branding Images
+- `images/branding/cybersmith.webp` — header and home hero, social sharing image
+- `images/branding/cyberknight-welder.webp` — club page hero
+
+#### Map Images
+- `images/maps/map-rm4080-optimized.webp` — Warwick campus Room 4080 map (optimized)
+- `images/maps/map-rm4080-original.png` — Warwick campus Room 4080 map (original)
+- `images/maps/map-warwick-4080-edit.png` — Warwick campus Room 4080 map (edited version)
+
+#### Screenshots
+- `images/screenshots/VBoxSummary-optimized.webp` — VirtualBox configuration screenshot
+
+#### Other Assets
+- `favicon.ico` — site favicon
+
+### Map Image Optimization
+Campus map images follow this optimization process:
+
+```bash
+convert images/maps/map-{campus}-{room}-original.png -quality 85 -strip -resize 1200x800 images/maps/map-{campus}-{room}-optimized.webp
+```
+
+- **Format**: WebP for better compression
+- **Quality**: 85% for optimal size/quality balance
+- **Size**: 1200x800px maximum
+- **Metadata**: Stripped to reduce file size
+
+## Calendar Integration (Admin Guide)
+
+This project pulls events from the public Google Calendar for the club.
+
+- Google account: `ccricyberknightclub@gmail.com`
+- Public ICS: set in `index.html` as `CALENDAR_ICS_URL`
+- Optional Google embed: set in `index.html` as `CALENDAR_EMBED_URL`
+
+### Update the Calendar Contents
+
+1. Open Google Calendar as the club account
+2. Add or edit events as needed
+   - Include Zoom link in the event URL field or in the description
+   - For recurring meetings, use weekly recurrence (choose days and interval)
+3. Save the event(s)
+4. Wait up to ~3–4 hours for the public ICS feed to refresh
+   - Tip: You can sometimes force a quicker refresh by adjusting event details, but Google controls the cadence
+
+### Change Which Calendar Is Used by the Website
+
+1. In Google Calendar → Settings → Integrate calendar
+   - Copy the "Public address in iCal format" (ends with `/public/basic.ics`)
+   - Optional: copy the "Embed code" URL
+2. In this repo, open `index.html` and update the constants:
+
+```
+const CALENDAR_ICS_URL = "https://calendar.google.com/calendar/ical/<CALENDAR_ID>/public/basic.ics";
+const CALENDAR_EMBED_URL = "https://calendar.google.com/calendar/embed?src=<CALENDAR_ID>&ctz=America/New_York"; // optional
+```
+
+3. Commit and push
+4. Visit `#/calendar` to verify the list, FullCalendar grid, and (optionally) the Google embed
+
+### Calendar Troubleshooting
+
+- Nothing appears in the list/grid
+  - Ensure `CALENDAR_ICS_URL` is correct and publicly accessible
+  - Wait for ICS refresh (3–4 hours typical)
+  - The page attempts a read-only proxy fallback for CORS. If it still fails, check browser console
+- Embed shows but list/grid is empty
+  - Likely `CALENDAR_ICS_URL` is missing or blocked; verify constants
+- Times look wrong
+  - Confirm your calendar's timezone and the `ctz` parameter in the embed URL
+- Recurring meetings missing
+  - Ensure recurrence is weekly; site expands weekly `RRULE` into the next ~90 days
+
+### Security Notes
+
+- Public ICS exposes event metadata. Avoid sensitive content in descriptions
+- Prefer Zoom passcodes/waiting rooms when sharing public links
+
 Conventions
 - No build step; all assets static
 - Prefer hash links (`#/page`) for Pages compatibility

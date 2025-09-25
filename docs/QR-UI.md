@@ -6,6 +6,9 @@ Provide a built-in generator for page-specific QR codes with minimal friction an
 
 ## QR Code Generation
 
+### Dynamic QR Codes (Per-page)
+The site generates QR codes dynamically in the footer for each page. There is no YAML registry, no SVGs checked in, and no build step. Everything runs locally in the browser.
+
 ### Behavior
 - Defaults to the current page URL (hash route included)
 - Live preview rendered to `<canvas>` via `qrcode.min.js`
@@ -22,6 +25,40 @@ Provide a built-in generator for page-specific QR codes with minimal friction an
 - Uses `QRCode.create()` to compute version for the info line, then `QRCode.toCanvas()` to draw
 - Export path renders to a temporary canvas and triggers an `<a download>` click
 - Auto-initializes on the main site; standalone pages can explicitly instantiate with custom options
+
+### Educational Guide QR Integration ⭐ NEW
+
+For educational guides like the Linux cheat sheet, we've implemented a **static QR code system** that embeds base64-encoded QR codes directly into HTML guides. This approach provides:
+
+- **Reliability**: No JavaScript dependencies, works in any browser
+- **Performance**: No external requests, instant loading
+- **Customization**: Green background QR codes with black modules
+- **Self-Contained**: All content in a single HTML file
+
+See `document/README.md` for implementation details and `scripts/README.md` for QR code generation.
+
+### How Dynamic QR Generation Works
+
+- Offline encoder (vendored) at `js/qrcode.min.js` renders to a `<canvas>`
+- The input box lets you change the encoded text; by default it uses the current page URL (including `#/...`)
+- Actions:
+  - Download PNG: exports at higher resolution using the current settings
+  - ECL Correction Level: controls to adjust error correction (L → M → Q → H)
+- Info line shows the detected QR version and module size, plus the encoded length
+- Implementation uses the shared `QRCodeManager` class from `js/qr-code-manager.js` for consistent functionality across all pages
+
+### QR Code Tips
+
+- If a text is too long for the chosen ECL, lower the ECL to fit more data or shorten the text
+- Use shorter URLs (or URL shorteners) when you need higher correction levels
+
+### Linking Directly to Pages
+
+Use hash routes:
+- `#/home`
+- `#/cybersecurity`
+- `#/linux`
+- `#/calendar`
 
 ## Unified Image Modal System
 
