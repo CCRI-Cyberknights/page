@@ -156,7 +156,7 @@ class QRCodeManager {
 function initializeQRCodes() {
   // Only auto-initialize if we're on the main site (not standalone pages)
   if (document.getElementById('footer-qr-toggle') && !window.location.pathname.includes('/resources/')) {
-    new QRCodeManager({
+    window.qrCodeManager = new QRCodeManager({
       downloadFilename: 'qr-page.png'
     });
   }

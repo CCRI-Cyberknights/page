@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title id="page-title">CCRI Cyberknights Club</title>
   <meta name="description" content="A centralized hub for the CCRI Cyber Club. Find information about when and where to find the Cyberknights, and much more!">
-    <meta name="version" content="1.6.1">
+    <meta name="version" content="1.6.2">
   <meta property="og:title" content="CCRI Cyber Club">
   <meta property="og:description" content="A centralized hub for the CCRI Cyber Club. Find information about when and where to find the Cyberknights, and much more!">
   <meta property="og:image" content="https://ccri-cyberknights.github.io/page/images/branding/cybersmith.webp">
@@ -248,7 +248,7 @@
         </div>
         <div class="text-slate-500">•</div>
         <div>
-          <span id="version" title="Commit: c6db66a - 2025-09-25 11:48:08 -0400" class="hover:text-slate-300 cursor-help transition-colors">v1.6.1</span>
+          <span id="version" title="Commit: bfa4906 - 2025-09-25 12:09:21 -0400" class="hover:text-slate-300 cursor-help transition-colors">v1.6.2</span>
         </div>
       </div>
       <div class="relative">
@@ -1135,8 +1135,15 @@
     }
 
     function updateFooterQr(page) {
-      // QR Code functionality is now handled by qr-code.js
-      // This function is kept for compatibility but does nothing
+      // Update QR code manager with current URL when navigating between pages
+      if (window.qrCodeManager) {
+        const currentUrl = window.location.href;
+        window.qrCodeManager.url = currentUrl;
+        if (window.qrCodeManager.input) {
+          window.qrCodeManager.input.value = currentUrl;
+        }
+        window.qrCodeManager.render(currentUrl);
+      }
     }
 
     // QR Code functionality is now handled by qr-code-manager.js
