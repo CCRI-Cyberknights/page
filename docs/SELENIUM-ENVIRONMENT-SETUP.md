@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document describes the setup and maintenance of the `selenium_env` virtual environment used for automated testing and debugging in the CCRI Cyberknights project.
+This document describes the setup and maintenance of the `selenium_env` virtual environment used for automated testing and debugging in the Cyber Club project.
 
 ## Environment Details
 
@@ -216,6 +216,6 @@ print('✅ Environment ready!')
 
 ## Conclusion
 
-The `selenium_env` virtual environment provides a clean, isolated testing environment for the CCRI Cyberknights project. The migration from `testing_env` to `selenium_env` ensures compatibility with modern Python features and maintains the project's automated testing capabilities.
+The `selenium_env` virtual environment provides a clean, isolated testing environment for the Cyber Club project. The migration from `testing_env` to `selenium_env` ensures compatibility with modern Python features and maintains the project's automated testing capabilities.
 
 The environment is fully integrated with Git pre-commit hooks and provides all necessary dependencies for link testing and layout debugging using Selenium WebDriver.

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document outlines the comprehensive UI/UX improvements implemented to enhance the user experience and visual consistency of the CCRI Cyberknights landing page. This document covers the evolution from v1.4.x through v1.5.x, including the Navigation & Interaction Upgrade and Content and Information Architecture Overhaul.
+This document outlines the comprehensive UI/UX improvements implemented to enhance the user experience and visual consistency of the Cyber Club landing page. This document covers the evolution from v1.4.x through v1.5.x, including the Navigation & Interaction Upgrade and Content and Information Architecture Overhaul.
 
 **Note**: For comprehensive documentation of v1.5.x changes, see [Design Evolution v1.5](DESIGN-EVOLUTION-v1.5.md).
 

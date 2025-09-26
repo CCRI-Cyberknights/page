@@ -2,7 +2,7 @@
 
 ## Overview
 
-The CCRI Cyberknights Landing Pages project now includes a **dynamic link testing system** that automatically discovers and validates ALL links found in your HTML before every commit. This ensures that any new links you add will be automatically tested without manual configuration.
+The Cyber Club Landing Pages project now includes a **dynamic link testing system** that automatically discovers and validates ALL links found in your HTML before every commit. This ensures that any new links you add will be automatically tested without manual configuration.
 
 ## 🌐 Dual URL Testing
 

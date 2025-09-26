@@ -2,7 +2,7 @@
 
 ## Overview
 
-The CCRI Cyberknights website includes a sophisticated guide loading system that allows standalone HTML files to be seamlessly integrated into the Single-Page Application (SPA) while maintaining their ability to function as independent guides.
+The Cyber Club website includes a sophisticated guide loading system that allows standalone HTML files to be seamlessly integrated into the Single-Page Application (SPA) while maintaining their ability to function as independent guides.
 
 ## Architecture
 
@@ -121,7 +121,7 @@ async function render() {
    <html lang="en">
    <head>
      <meta charset="utf-8">
-     <title>New Guide - CCRI Cyberknights</title>
+     <title>New Guide - Cyber Club</title>
      <script src="https://cdn.tailwindcss.com"></script>
      <!-- Include necessary scripts and styles -->
    </head>

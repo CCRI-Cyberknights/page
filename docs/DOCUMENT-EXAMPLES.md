@@ -2,7 +2,7 @@
 
 ## Quick Start Guide
 
-This guide provides practical examples for using the document loading system in the CCRI Cyberknights website.
+This guide provides practical examples for using the document loading system in the Cyber Club website.
 
 ## Basic Usage
 
@@ -15,7 +15,7 @@ This guide provides practical examples for using the document loading system in 
    <html lang="en">
    <head>
      <meta charset="utf-8">
-     <title>CTF Guide - CCRI Cyberknights</title>
+     <title>CTF Guide - Cyber Club</title>
      <script src="https://cdn.tailwindcss.com"></script>
      <script src="../js/qrcode.min.js"></script>
      <script src="../js/qr-code-manager.js"></script>
@@ -73,7 +73,7 @@ This guide provides practical examples for using the document loading system in 
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Advanced Linux Guide - CCRI Cyberknights</title>
+  <title>Advanced Linux Guide - Cyber Club</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="../js/qrcode.min.js"></script>
   <script src="../js/qr-code-manager.js"></script>
@@ -124,7 +124,7 @@ This guide provides practical examples for using the document loading system in 
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Interactive Demo - CCRI Cyberknights</title>
+  <title>Interactive Demo - Cyber Club</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-slate-900 text-slate-200 min-h-screen">

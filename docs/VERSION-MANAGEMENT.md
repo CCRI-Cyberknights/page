@@ -2,7 +2,7 @@
 
 ## Overview
 
-The CCRI Cyberknights Landing Pages project implements an intelligent, automated versioning system based on conventional commits and file change analysis. This system provides "set it and forget it" version management that maintains semantic versioning while requiring minimal developer attention.
+The Cyber Club Landing Pages project implements an intelligent, automated versioning system based on conventional commits and file change analysis. This system provides "set it and forget it" version management that maintains semantic versioning while requiring minimal developer attention.
 
 ## Architecture
 

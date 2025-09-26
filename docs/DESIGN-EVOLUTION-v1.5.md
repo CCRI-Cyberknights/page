@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document provides comprehensive documentation for the major design and functionality improvements implemented in version 1.5.x of the CCRI Cyberknights Landing Pages project. These changes represent a significant evolution in user experience, visual design, and technical architecture.
+This document provides comprehensive documentation for the major design and functionality improvements implemented in version 1.5.x of the Cyber Club Landing Pages project. These changes represent a significant evolution in user experience, visual design, and technical architecture.
 
 ## Version History Context
 
@@ -381,25 +381,6 @@ window.toggleImageSize = function(elementId) {
 
 **Solution**: Implemented DRY principles throughout the codebase.
 
-#### **Club Name Constants**
-```javascript
-const CLUB_NAME_SHORT = 'Cyber Club';
-const CLUB_NAME_FULL = 'CCRI Cyber Club';
-const CLUB_NAME_OFFICIAL = 'CCRI Cyberknights Club';
-
-// Applied throughout the site
-window.addEventListener('DOMContentLoaded', () => {
-  const footerElement = document.getElementById('club-name-footer');
-  const studentSiteElement = document.querySelector('.club-name-student-site');
-  const calendarIframe = document.getElementById('calendar-iframe');
-  const pageTitleElement = document.getElementById('page-title');
-  
-  if (footerElement) footerElement.textContent = CLUB_NAME_FULL;
-  if (studentSiteElement) studentSiteElement.textContent = CLUB_NAME_FULL + ' Student Site';
-  if (calendarIframe) calendarIframe.title = CLUB_NAME_FULL + ' Calendar';
-  if (pageTitleElement) pageTitleElement.textContent = CLUB_NAME_OFFICIAL;
-});
-```
 
 #### **Unified Toggle Functionality**
 ```javascript
@@ -593,7 +574,7 @@ The v1.5.x design evolution represents a significant improvement in user experie
 4. **Technical Excellence**: DRY implementation and maintainable code structure
 5. **Comprehensive Testing**: Automated testing ensures quality and reliability
 
-These changes position the CCRI Cyberknights Landing Pages as a professional, user-friendly platform that effectively serves both current members and prospective students.
+These changes position the Cyber Club Landing Pages as a professional, user-friendly platform that effectively serves both current members and prospective students.
 
 ---
 

@@ -2,7 +2,7 @@
 
 ## Overview
 
-This document outlines the aspirational goals and future enhancements for the CCRI Cyberknights project's automated testing strategy. These improvements are designed to create a more robust, reliable, and comprehensive testing framework for Single Page Applications (SPAs).
+This document outlines the aspirational goals and future enhancements for the Cyber Club project's automated testing strategy. These improvements are designed to create a more robust, reliable, and comprehensive testing framework for Single Page Applications (SPAs).
 
 ## Current State (Phase 1 - Completed)
 

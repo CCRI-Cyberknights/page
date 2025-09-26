@@ -1,6 +1,6 @@
 # Troubleshooting Guide
 
-This document covers common issues encountered during development and maintenance of the CCRI Cyberknights website, including version management problems and their solutions.
+This document covers common issues encountered during development and maintenance of the Cyber Club website, including version management problems and their solutions.
 
 ## Version Management Issues
 

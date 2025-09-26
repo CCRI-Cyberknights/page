@@ -2,7 +2,7 @@
 
 ## Overview
 
-The CCRI Cyberknights Landing Pages project includes a comprehensive link testing system that validates all internal navigation links and external links before every commit. This ensures that users never encounter broken links on the live site.
+The Cyber Club Landing Pages project includes a comprehensive link testing system that validates all internal navigation links and external links before every commit. This ensures that users never encounter broken links on the live site.
 
 ## 🌐 Dual URL Testing
 

@@ -6,7 +6,7 @@ This document explains the migration from `#/document/` routes to `#/guides/` ro
 
 ## Background
 
-The CCRI Cyberknights website underwent a refactoring to rename the `document/` directory to `guides/` to avoid conflicts with software development documentation. This change affects all guide-related URLs in the Single Page Application (SPA).
+The Cyber Club website underwent a refactoring to rename the `document/` directory to `guides/` to avoid conflicts with software development documentation. This change affects all guide-related URLs in the Single Page Application (SPA).
 
 ## Route Changes
 

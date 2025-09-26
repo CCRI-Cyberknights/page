@@ -498,4 +498,4 @@ chromedriver --version
 curl http://localhost:8000
 ```
 
-This testing strategy ensures the CCRI Cyberknights website maintains high quality and reliability across all features and user interactions.
+This testing strategy ensures the Cyber Club website maintains high quality and reliability across all features and user interactions.
