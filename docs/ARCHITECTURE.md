@@ -12,7 +12,7 @@ Single-file site hosted on GitHub Pages with Tailwind (CDN) and small JS modules
 - QR Codes: Per-page footer generator renders as SVG using npm package encoder. 64x64px footer QR code with custom colors (dark blue-green `#001011`, light cream `#f4e4c1`) for print compatibility. Controls allow changing ECL (L/M/Q/H). Modal integration for enhanced viewing. QR panel auto-closes on navigation.
 - Resources: `#/resources` route renders from a single in-page data array with comprehensive card-based display. Features organized categories, detailed resource descriptions with bullet-point formatting, modal system for enhanced readability with click-anywhere-to-close behavior, dynamic button text, and defaults to "Cyberknights" filter. Supports deep-linking via `#/resources/<filter>` and syncs chip clicks back to the hash. All major resources include comprehensive summaries and detailed descriptions covering technical aspects, practical applications, and user benefits. Cards use 12px font for summaries with modal enlargement for detailed reading. Modal content uses consistent bullet-point formatting via `formatDetailedSummary()` function with proper HTML structure (`<ul>` tags) and Tailwind styling. Footer positioning uses sticky layout with flexbox (`flex flex-col` on body, `flex-grow` on main, `mt-auto` on footer) to ensure consistent bottom positioning regardless of content amount.
 - Guides: `#/guides/filename.html` routes load standalone HTML files into the SPA shell with clean display (no template headers). Guides display with their native headers only. Supports dual-mode operation (SPA integration and standalone access). **Legacy Support**: `#/document/filename.html` routes continue to work with deprecation warnings. Linux guides (`linux-cheatsheet-1.html`, `linux-day-1-setup-tips.html`) use DRY CSS classes with official Cyberknights color palette, consistent dark theme, and reusable styling components. **QR Code Integration**: Educational guides feature embedded base64 QR codes for instant access to related video content, using table-based layouts with green background QR codes and black modules for optimal scanning.
-- Maps: Campus-specific map pages (e.g., `/map-warwick-4080`) with optimized images and meeting location details.
+- Maps: Campus-specific map pages (e.g., `/map-warwick-4080`) with optimized images and meeting location details. See **Campus Maps** section below for detailed implementation.
 - Interactive Elements: DRY implementation for image toggle functionality, CSS-based modal overlays, responsive design with viewport constraints.
 - Testing: Comprehensive Selenium WebDriver test suite with enhanced error detection covering client-side routing, QR code functionality, cross-page navigation, and interactive element behavior. Features context-aware error detection, HTTP status validation, and legitimate content whitelist. Tests run in headless Chrome with isolated `selenium_env` virtual environment.
 - Versioning: **CURRENT** Tag-based deployment model using standard-version with conventional commits, automatic changelog generation, and GitHub Actions deployment. Legacy intelligent versioning system deprecated. Version displayed in footer with commit information tooltip.
@@ -36,13 +36,12 @@ Key files
 - `images/maps/map-rm4080-optimized.webp` — optimized campus map image
 - `tests/` — automated test suite using Selenium WebDriver
 - Calendar updating information is now documented in this ARCHITECTURE.md file
-- `docs/DOCUMENT-LOADING.md` — comprehensive document loading system guide
+- `docs/UI.md` — comprehensive UI documentation including document loading system
 - `docs/TESTING.md` — comprehensive testing strategy and implementation
-- `docs/TAG-BASED-DEPLOYMENT.md` — **NEW** Modern deployment model documentation
-- `docs/VERSION-MANAGEMENT.md` — comprehensive versioning system documentation
-- `docs/LAYOUT-TROUBLESHOOTING.md` — CSS debugging methodology
-- `docs/SELENIUM-DEBUGGING-INNOVATION.md` — debugging innovation documentation
-- `docs/color-palettes/COLOR-PALETTE.md` — comprehensive color palette documentation
+- `docs/VERSIONING.md` — **CURRENT** Tag-based deployment and versioning system documentation
+- `docs/TROUBLESHOOTING.md` — CSS debugging methodology and layout troubleshooting
+- `docs/SELENIUM-ENVIRONMENT-SETUP.md` — environment setup and debugging methodology
+- `docs/COLOR-PALETTE.md` — comprehensive color palette documentation
 - `README.md` — project guide and developer spec
 
 ## Linux Guide Implementation Notes
@@ -182,7 +181,101 @@ const CALENDAR_EMBED_URL = "https://calendar.google.com/calendar/embed?src=<CALE
 - Public ICS exposes event metadata. Avoid sensitive content in descriptions
 - Prefer Zoom passcodes/waiting rooms when sharing public links
 
-Conventions
+## Campus Maps
+
+### Overview
+
+The site includes campus-specific map pages to help students find meeting locations. Maps are designed to be easily expandable for multiple campuses and rooms.
+
+### Current Maps
+
+#### Warwick Campus - Room 4080
+- **URL**: `#/map-warwick-4080`
+- **Image**: `images/maps/map-rm4080-optimized.webp`
+- **Location**: Auditorium (Room 4080)
+- **Meeting Times**: Mondays 5-6pm, Wednesdays 5-6pm, Saturdays 10am-1pm
+
+### Map Page Structure
+
+Each map page follows this template structure:
+
+```html
+<template id="page-map-{campus}-{room}">
+  <section class="space-y-6">
+    <h2 class="text-3xl sm:text-4xl font-bold">Campus Map - Room {room}</h2>
+    <p class="text-slate-300">Find our meeting location in the {room name}.</p>
+    
+    <div class="rounded-lg overflow-hidden border border-slate-800 bg-slate-900/40">
+      <img src="images/maps/map-{campus}-{room}-optimized.webp" alt="Campus Map showing Room {room} location" class="w-full h-auto" />
+    </div>
+    
+    <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
+      <h3 class="text-lg font-semibold mb-4">Meeting Location Details</h3>
+      <!-- Meeting details with icons -->
+    </div>
+  </section>
+</template>
+```
+
+### Adding New Maps
+
+#### 1. Prepare the Image
+- Create or obtain the campus map image
+- Optimize using ImageMagick:
+  ```bash
+  convert images/maps/map-{campus}-{room}-original.png -quality 85 -strip -resize 1200x800 images/maps/map-{campus}-{room}-optimized.webp
+  ```
+
+#### 2. Add Template to index.html
+- Add the map template before the `<script>` section
+- Use the naming convention: `page-map-{campus}-{room}`
+- Update the image source to match the optimized file
+
+#### 3. Add Route
+- Add the route to the `routes` object:
+  ```javascript
+  'map-{campus}-{room}': document.getElementById('page-map-{campus}-{room}').innerHTML
+  ```
+
+#### 4. Update Links
+- Make room numbers clickable in relevant pages
+- Link to the specific map: `#/map-{campus}-{room}`
+
+### Image Optimization
+
+All map images should be optimized for web:
+- Format: WebP for better compression
+- Quality: 85% for good balance of size/quality
+- Size: 1200x800px maximum
+- Strip metadata to reduce file size
+
+### Naming Conventions
+
+- **Template ID**: `page-map-{campus}-{room}`
+- **Route**: `map-{campus}-{room}`
+- **Image**: `images/maps/map-{campus}-{room}-optimized.webp`
+- **Original**: `images/maps/map-{campus}-{room}-original.png`
+
+Examples:
+- Warwick Room 4080: `page-map-warwick-4080`, `#/map-warwick-4080`
+- Newport Room 1234: `page-map-newport-1234`, `#/map-newport-1234`
+- Lincoln Room 5678: `page-map-lincoln-5678`, `#/map-lincoln-5678`
+
+### Integration Points
+
+#### Calendar Page
+- Room numbers in meeting descriptions link to specific maps
+- No generic "View Map" button (context-specific links only)
+
+#### Hero Section
+- Main call-to-action can link to primary meeting location map
+- Should be updated when primary location changes
+
+#### Navigation
+- Maps are accessible via direct URL only
+- No main navigation menu entry (contextual access)
+
+## Conventions
 - No build step; all assets static
 - Prefer hash links (`#/page`) for Pages compatibility
 - Keep code readable and small; avoid heavy dependencies

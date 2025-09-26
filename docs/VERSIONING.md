@@ -1,4 +1,4 @@
-# Tag-Based Deployment with Standard-Version
+# Version Management - Tag-Based Deployment System
 
 ## Overview
 
@@ -263,9 +263,19 @@ git tag -l | tail -10
 3. **Analytics**: Track version bump patterns and frequency
 4. **Automation**: Further automation of release processes
 
+## Legacy System Summary
+
+The previous versioning system used an intelligent analysis engine with conventional commits and file change analysis. Key features included:
+
+- **Two-layer detection**: Commit message analysis + file change analysis
+- **Conservative decision tree**: Strict hierarchy with patch bump defaults
+- **Pre-commit integration**: Automatic triggering on every commit
+- **Manual override system**: Escape hatches for special cases
+
+**Legacy Documentation**: The complete documentation of the old system can be found at commit hash `8e29c16` in the file `docs/VERSION-MANAGEMENT.md`.
+
 ## Related Documentation
 
-- [Version Management System](VERSION-MANAGEMENT.md) - Legacy versioning system documentation
 - [Architecture Overview](ARCHITECTURE.md) - Overall system architecture
 - [Testing Strategy](TESTING.md) - Testing approach and tools
 - [GitHub Actions Workflow](.github/workflows/release.yml) - Deployment workflow
@@ -282,3 +292,8 @@ The tag-based deployment model provides a professional, automated approach to ve
 - **Creates traceable deployments** with clear version mapping
 
 This system creates a **"set it and forget it"** versioning experience that maintains professional standards while requiring minimal developer attention.
+
+---
+
+*Last Updated: 2025-09-26*  
+*Related Files: `package.json`, `scripts/update-index-version.js`, `.github/workflows/release.yml`, `.husky/pre-commit`*

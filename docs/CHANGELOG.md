@@ -46,7 +46,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Clean Code**: Removed extraneous canvas elements and unused functions
 - **Unified Hover**: Single tooltip area for footer text elements
 
-## [1.5.5] - 2024-12-19
+## [1.5.5]
 
 ### Changed
 - **Script Rename**: Renamed `scripts/youtube_url_converter.py` to `scripts/youtube_url_shortener.py` for better accuracy
@@ -60,7 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Documentation Consistency**: All documentation now uses accurate terminology
 - **Workflow Clarity**: Improved clarity in QR code generation workflow
 
-## [1.5.4] - 2024-12-19
+## [1.5.4]
 
 ### Added
 - **Comprehensive QR Code Documentation**: Complete documentation system for QR code integration
@@ -77,7 +77,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Replication Framework**: Complete guides for extending QR code system to other guides
 - **Version Management**: Updated to v1.5.4 with proper changelog documentation
 
-## [1.5.3] - 2024-12-19
+## [1.5.3]
 
 ### Added
 - **QR Code Integration in Educational Documents**: Implemented comprehensive QR code system for Linux cheat sheet
@@ -100,7 +100,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Updated QR-UI.md**: Added section on educational guide QR integration
 - **Cross-Referenced Documentation**: Ensured all relevant docs reference the new QR system
 
-## [1.5.2] - 2024-09-24
+## [1.5.2]
 
 ### Fixed
 - **Modal bullet formatting restoration**: Re-added `formatDetailedSummary` function that was accidentally removed during "more info" pulldown cleanup
@@ -125,7 +125,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Added navigation links and footer to match other Linux documentation
   - Improved maintainability and consistency across Linux guides
 
-## [1.5.1] - 2024-09-23
+## [1.5.1]
 
 ### Added
 - Enhanced QR code landing banner with individual value badges
@@ -163,7 +163,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Clearer visual hierarchy in hiring messaging
   - Consistent text styling for improved readability
 
-## [1.5.0] - 2024-09-23
+## [1.5.0]
 
 ### Added
 - **Navigation & Interaction Upgrade**:
@@ -212,7 +212,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Complex mobile navigation hamburger menu
 - Top banner redundancy across all pages
 
-## [1.4.2] - 2024-09-22
+## [1.4.2]
 
 ### Added
 - Automated version management system
@@ -224,7 +224,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Version management from manual to automated
 - Git workflow integration for versioning
 
-## [1.4.1] - 2024-09-22
+## [1.4.1]
 
 ### Added
 - Comprehensive Selenium WebDriver test suite
@@ -237,7 +237,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Navigation positioning problems
 - Footer visibility issues
 
-## [1.4.0] - 2024-09-21
+## [1.4.0]
 
 ### Added
 - **UI Improvements**:
@@ -316,8 +316,8 @@ npm run release:major   # 1.5.1 → 2.0.0
 
 ## Related Documentation
 
-- [Design Evolution v1.5](DESIGN-EVOLUTION-v1.5.md) - Comprehensive documentation of v1.5.x changes
-- [Version Management](VERSION-MANAGEMENT.md) - Detailed versioning system documentation
+- [UI](UI.md) - Comprehensive UI documentation including design evolution
+- [Versioning](VERSIONING.md) - Current tag-based deployment and versioning system documentation
 - [Architecture Overview](ARCHITECTURE.md) - Overall system architecture
-- [UI Improvements](UI-IMPROVEMENTS.md) - UI enhancement documentation
+- [UI](UI.md) - UI enhancement documentation
 - [Testing Strategy](TESTING.md) - Testing approach and implementation

@@ -66,7 +66,7 @@ docs: update documentation    # Patch bump
 BREAKING CHANGE: major change  # Major bump
 ```
 
-For detailed information, see [Tag-Based Deployment Documentation](docs/TAG-BASED-DEPLOYMENT.md).
+For detailed information, see [Versioning Documentation](docs/VERSIONING.md).
 
 ## Getting Started
 
@@ -162,31 +162,30 @@ If you are a club member, you can fork this repository and submit a pull request
 ## Documentation Index
 
 - **Architecture**: `docs/ARCHITECTURE.md` ⭐
-- **Design Evolution v1.5**: `docs/DESIGN-EVOLUTION-v1.5.md` ⭐ **NEW**
+- **Design Evolution**: `docs/UI.md` ⭐ **NEW**
 - **Image Toggle System**: `docs/IMAGE-TOGGLE-SYSTEM.md` ⭐ **NEW**
 - **Changelog**: `docs/CHANGELOG.md` ⭐ **NEW**
-- **UI Improvements**: `docs/UI-IMPROVEMENTS.md`
-- **Version Management**: `docs/VERSION-MANAGEMENT.md` ⭐
+- **UI**: `docs/UI.md`
+- **Versioning**: `docs/VERSIONING.md` ⭐ **CURRENT**
 - **Testing Strategy**: `docs/TESTING.md` ⭐
 - **Testing Roadmap**: `docs/TESTING-ROADMAP.md` ⭐ **NEW - Future Enhancements!**
 - **Dynamic Link Testing**: `docs/DYNAMIC-LINK-TESTING.md` ⭐ **NEW - 5x Faster!**
 - **Selenium Debugging Innovation**: `docs/SELENIUM-DEBUGGING-INNOVATION.md` ⭐
-- **Layout Troubleshooting**: `docs/LAYOUT-TROUBLESHOOTING.md` ⭐
+- **Layout Troubleshooting**: `docs/TROUBLESHOOTING.md` ⭐
 - Calendar maintainer guide: `docs/CALENDAR-UPDATING.md`
-- Document Loading System: `docs/DOCUMENT-LOADING.md`
-- Document Usage Examples: `docs/DOCUMENT-EXAMPLES.md`
+- Document Loading System: `docs/UI.md`
+- Document Usage Examples: `docs/UI.md`
 - QR Codes: `docs/QR-CODES.md`
 - QR Code Integration: `document/README.md` ⭐ **NEW**
 - QR Code Generation: `scripts/README.md` ⭐ **NEW**
-- Routing & Navigation: `docs/ROUTING-NAV.md`
+- Routing: `docs/ROUTING.md`
 - Mobile UX Guide: `docs/MOBILE-UX-GUIDE.md`
 - Image Assets: `docs/ASSETS-IMAGES.md`
 - QR UI Details: `docs/QR-UI.md`
-- Resources Maintainers: `docs/RESOURCES-MAINTAINERS.md`
+- Resources & Guides: `docs/RESOURCES-GUIDES.md`
 - Site Operations: `docs/SITE-OPERATIONS.md`
-- Resources page: `docs/RESOURCES.md`
 - Troubleshooting: `docs/TROUBLESHOOTING.md`
-- Color Palette: `docs/color-palettes/COLOR-PALETTE.md`
+- Color Palette: `docs/COLOR-PALETTE.md`
 
 ## Calendar Integration (Developer Spec)
 
@@ -327,7 +326,7 @@ Intelligent versioning system with conventional commits and file change analysis
 - **Zero Friction**: "Set it and forget it" version management
 - **Performance Optimization**: Pre-commit hook skips link testing for version-only changes
 
-**Documentation**: See [Version Management System](docs/VERSION-MANAGEMENT.md) for complete details on the intelligent versioning system and pre-commit hook optimization.
+**Documentation**: See [Versioning System](docs/VERSIONING.md) for complete details on the tag-based deployment and versioning system.
 
 ### Running Tests
 
@@ -353,6 +352,14 @@ Intelligent versioning system with conventional commits and file change analysis
    python tests/test_routing.py
    python tests/test_qr_standalone.py
    ```
+
+### Documentation Standards
+
+**Date Format**: All documentation uses the **YYYY-MM-DD** format for dates:
+- ✅ **Correct**: `2025-09-26`
+- ❌ **Incorrect**: `September 2025`, `Jan 2025`, `09/26/2025`
+
+This ensures consistency, international compatibility, and chronological sorting.
 
 ### Test Coverage
 

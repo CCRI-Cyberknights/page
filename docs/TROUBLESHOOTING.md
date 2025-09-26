@@ -454,7 +454,7 @@ python tests/run_tests.py
 
 **Solution**: Enhanced pre-commit hook with intelligent change detection that skips link testing when only version numbers change in `index.html`.
 
-**Documentation**: See [Version Management System](VERSION-MANAGEMENT.md#husky-integration-huskypre-commit) for complete details on the pre-commit hook optimization.
+**Documentation**: See [Versioning](VERSIONING.md#troubleshooting) for complete details on the tag-based deployment system.
 
 ### Documentation Updates
 
@@ -643,7 +643,45 @@ Added HTTP status validation to the testing framework:
 2. **Enhanced Reporting**: Error messages now include HTTP status information
 3. **Debug Information**: Improved debugging output with comprehensive status details
 
+## Layout Troubleshooting
+
+### Overview
+The project uses **Selenium WebDriver-based debugging** for systematic layout issue resolution. This approach provides objective measurements and visual verification for CSS layout problems.
+
+### Key Issues Resolved
+- **Navigation bar centering problems** - Flexbox wrapper conflicts with Tailwind centering
+- **Sticky footer implementation conflicts** - Multiple failed approaches documented
+- **Calendar page width constraints** - Flexbox wrapper constraining main element width
+- **Footer visibility issues** - Layout conflicts with content width
+
+### Selenium Debugging Methodology
+- **Objective measurements** of element positions and sizes using `getBoundingClientRect()`
+- **Automated screenshot capture** for visual verification
+- **Computed style analysis** across different pages
+- **Quantitative analysis** using pixel measurements instead of subjective assessment
+
+### Key Technical Insights
+- **CSS Layout Conflicts**: Modern CSS layout methods (Flexbox, Grid) can interfere with traditional centering methods
+- **Tailwind Centering Pattern**: `max-w-* mx-auto` conflicts with flexbox wrappers on body element
+- **Solution**: Removed flexbox wrapper entirely, used traditional layout with `mt-16` for footer spacing
+
+### Debugging Tools Created
+- `navigation_detailed_analysis.py` - Comprehensive navigation layout analysis
+- `footer_visibility_test.py` - Footer visibility testing across all pages
+- `calendar_width_analysis.py` - Calendar page width issue analysis
+
+### Best Practices Established
+1. **Test-Driven Debugging**: Write Selenium tests before making changes
+2. **Quantitative Analysis**: Use pixel measurements, not subjective assessment
+3. **Incremental Changes**: Test each small change independently
+4. **Documentation**: Capture screenshots and analysis results
+
 ---
 
-*Last Updated: January 2025*
-*Related Files: `scripts/update-index-version.js`, `package.json`, `.husky/pre-commit`, `selenium_env/`, `index.html`, `node_modules/`, `scripts/test-links-dynamic-parallel.py`, `docs/TESTING-ROADMAP.md`, `docs/TAG-BASED-DEPLOYMENT.md`*
+## Legacy Documentation
+
+The following files were consolidated into this document:
+- **`docs/LAYOUT-TROUBLESHOOTING.md`** - Comprehensive Selenium-based layout debugging methodology and CSS conflict resolution (last updated: commit `61c789c`)
+
+*Last Updated: 2025-09-26*
+*Related Files: `scripts/update-index-version.js`, `package.json`, `.husky/pre-commit`, `selenium_env/`, `index.html`, `node_modules/`, `scripts/test-links-dynamic-parallel.py`, `docs/TESTING-ROADMAP.md`, `docs/VERSIONING.md`*
