@@ -1,6 +1,6 @@
 {
   "name": "ccri-cyberknights-landing-pages",
-  "version": "1.6.12",
+  "version": "1.7.0",
   "description": "QR Code Landing Pages for CCRI Cyberknights Club",
   "private": true,
   "scripts": {
@@ -13,6 +13,10 @@
     "version:patch": "./scripts/bump-version.sh patch",
     "version:minor": "./scripts/bump-version.sh minor",
     "version:major": "./scripts/bump-version.sh major",
+    "release": "standard-version",
+    "release:patch": "standard-version --release-as patch",
+    "release:minor": "standard-version --release-as minor",
+    "release:major": "standard-version --release-as major",
     "prepare": "husky install"
   },
   "repository": {
@@ -20,11 +24,17 @@
     "url": "https://github.com/CCRI-Cyberknights/page.git"
   },
   "devDependencies": {
-    "husky": "^8.0.0"
+    "husky": "^8.0.0",
+    "standard-version": "^9.5.0"
   },
   "husky": {
     "hooks": {
       "pre-commit": "npm run version:auto"
+    }
+  },
+  "standard-version": {
+    "scripts": {
+      "postbump": "node scripts/update-index-version.js"
     }
   }
 }
