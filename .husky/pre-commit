@@ -3,6 +3,12 @@
 
 cd "$(dirname -- "$0")/.."
 
+# Check if this is a standard-version commit (skip old version bumping)
+if git log -1 --pretty=%B | grep -q "chore(release):"; then
+    echo "📦 Standard-version release detected - skipping old version bumping system"
+    exit 0
+fi
+
 # Check if any HTML files have been modified
 if git diff --cached --name-only | grep -q "\.html$"; then
     echo "🔗 HTML files changed - analyzing changes..."

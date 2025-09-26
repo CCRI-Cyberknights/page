@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title id="page-title">CCRI Cyberknights Club</title>
+  <title id="page-title">Cyber Club</title>
   <meta name="description" content="A centralized hub for the CCRI Cyber Club. Find information about when and where to find the Cyberknights, and much more!">
     <meta name="version" content="" id="version-meta">
   <meta property="og:title" content="CCRI Cyber Club">
@@ -349,7 +349,7 @@
         </div>
         <div class="mt-4 flex flex-wrap gap-3">
           <a href="https://www.ccri.edu/comp/cybersecurity/studentclub.html" target="_blank" rel="noopener noreferrer" class="px-4 py-2 rounded border border-[#22c55e] text-[#22c55e] hover:bg-[#22c55e]/10">
-            CCRI Cyber Club Student Site
+            CCRI Cybersecurity Student Club
             <svg class="inline w-3 h-3 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path>
             </svg>
@@ -535,14 +535,14 @@
             <div class="flex-shrink-0 w-3 h-3 rounded-full mt-2 mr-3" style="background-color: #6B8E23;"></div>
             <div>
               <h4 class="font-semibold text-white">Warwick - 'A' meet (Mondays, 5-6pm)</h4>
-              <p class="text-slate-300 text-sm">Official, formal meetings for interacting with faculty and discussing college initiatives. <a href="#/map-warwick-4080" class="neon-surge-link transition-opacity underline">${ROOM_4080}</a></p>
+              <p class="text-slate-300 text-sm">Official, formal meetings for interacting with faculty and discussing college initiatives. <a href="#/map-warwick-4080" class="neon-surge-link transition-opacity underline">Room 4080</a></p>
             </div>
           </div>
           <div class="flex items-start">
             <div class="flex-shrink-0 w-3 h-3 rounded-full mt-2 mr-3" style="background-color: #7C3AED;"></div>
             <div>
               <h4 class="font-semibold text-white">Warwick - 'B' meet (Wednesdays, 5-6pm)</h4>
-              <p class="text-slate-300 text-sm">Informal, low-key sessions designed for small group interaction. <a href="#/map-warwick-4080" class="neon-surge-link transition-opacity underline">${ROOM_4080}</a></p>
+              <p class="text-slate-300 text-sm">Informal, low-key sessions designed for small group interaction. <a href="#/map-warwick-4080" class="neon-surge-link transition-opacity underline">Room 4080</a></p>
             </div>
           </div>
           <div class="flex items-start">
@@ -1096,10 +1096,6 @@
 
     // Constants (global scope)
     const BASE_URL = 'https://ccri-cyberknights.github.io/page/';
-    const ROOM_4080 = 'Room 4080';
-    const CLUB_NAME_SHORT = 'Cyber Club';
-    const CLUB_NAME_FULL = 'CCRI Cyber Club';
-    const CLUB_NAME_OFFICIAL = 'CCRI Cyberknights Club';
 
     // Category-specific intro texts (global scope)
     const categoryTexts = {
@@ -1732,25 +1728,14 @@
       
       document.getElementById('year').textContent = new Date().getFullYear();
       
-      // Populate club name constants
-      const footerElement = document.getElementById('club-name-footer');
-      const studentSiteElement = document.querySelector('.club-name-student-site');
-      const calendarIframe = document.getElementById('calendar-iframe');
-      const pageTitleElement = document.getElementById('page-title');
-      
-      if (footerElement) footerElement.textContent = CLUB_NAME_FULL;
-      if (studentSiteElement) studentSiteElement.textContent = CLUB_NAME_FULL + ' Student Site';
-      if (calendarIframe) calendarIframe.title = CLUB_NAME_FULL + ' Calendar';
-      if (pageTitleElement) pageTitleElement.textContent = CLUB_NAME_OFFICIAL;
-      
       normalizeHashRouting();
       // Mobile navigation removed - using direct navigation
       render();
       
       // DRY Version Management - Single source of truth
-      const VERSION = "1.6.12";
-      const COMMIT_HASH = "4a2a0aa";
-      const COMMIT_DATE = "2025-09-25 13:56:46 -0400";
+      const VERSION = "1.7.1";
+      const COMMIT_HASH = "e72a59d";
+      const COMMIT_DATE = "2025-09-26 09:17:29 -0400";
       
       // Update meta tag
       const versionMeta = document.getElementById('version-meta');
