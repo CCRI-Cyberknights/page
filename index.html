@@ -220,7 +220,7 @@
               </div>
               <div class="flex justify-center">
                 <div class="p-4 rounded border border-slate-700 bg-slate-700/60 inline-block">
-                  <canvas id="footer-qr-canvas" class="bg-white p-1 rounded cursor-pointer transition-transform duration-200 ease-in-out hover:scale-105" width="160" height="160" onclick="toggleQRCodeSize()" tabindex="0" title="Click to expand QR code"></canvas>
+                  <canvas id="footer-qr-canvas" class="bg-white p-1 rounded transition-transform duration-200 ease-in-out hover:scale-105" width="160" height="160" tabindex="0" title="QR code canvas (fallback)"></canvas>
                 </div>
               </div>
               <div class="flex justify-center">
@@ -1700,6 +1700,24 @@
             console.log('QR code SVG generated successfully');
             // Insert SVG into container
             container.innerHTML = svgString;
+            
+            // Add click handler to open QR Code Manager in full screen
+            container.style.cursor = 'pointer';
+            container.title = 'Click to open QR Code Manager in full screen';
+            container.addEventListener('click', function(e) {
+              e.stopPropagation(); // Prevent toggle button from opening
+              
+              // Open the QR Code Manager panel first, then expand it
+              if (window.qrCodeManager && window.qrCodeManager.panel) {
+                // First open the panel (remove hidden class)
+                window.qrCodeManager.panel.classList.remove('hidden');
+                
+                // Then expand it to full screen
+                window.qrCodeManager.expandPanel();
+              } else {
+                console.warn('QR Code Manager not available');
+              }
+            });
           }
         });
 
@@ -1709,6 +1727,13 @@
     }
 
     window.toggleQRCodeSize = function() {
+      // Check if QR code manager has an SVG container (for interactive QR codes)
+      if (window.qrCodeManager && window.qrCodeManager.svgContainer && window.qrCodeManager.svgContainer.innerHTML) {
+        window.qrCodeManager.expandQRCode();
+        return;
+      }
+      
+      // Fallback to footer SVG QR code
       const svgContainer = document.getElementById('footer-qr-svg');
       if (svgContainer && svgContainer.innerHTML) {
         // Get the SVG content for modal display
