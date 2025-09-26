@@ -168,8 +168,8 @@ If you are a club member, you can fork this repository and submit a pull request
 - **UI**: `docs/UI.md`
 - **Versioning**: `docs/VERSIONING.md` ⭐ **CURRENT**
 - **Testing Strategy**: `docs/TESTING.md` ⭐
-- **Testing Roadmap**: `docs/TESTING-ROADMAP.md` ⭐ **NEW - Future Enhancements!**
-- **Dynamic Link Testing**: `docs/DYNAMIC-LINK-TESTING.md` ⭐ **NEW - 5x Faster!**
+- **Testing Roadmap**: `docs/TESTING.md` ⭐ **NEW - Future Enhancements!**
+- **Dynamic Link Testing**: `docs/TESTING.md` ⭐ **NEW - 5x Faster!**
 - **Selenium Debugging Innovation**: `docs/SELENIUM-DEBUGGING-INNOVATION.md` ⭐
 - **Layout Troubleshooting**: `docs/TROUBLESHOOTING.md` ⭐
 - Calendar maintainer guide: `docs/CALENDAR-UPDATING.md`

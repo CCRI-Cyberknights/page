@@ -40,7 +40,7 @@ Key files
 - `docs/TESTING.md` — comprehensive testing strategy and implementation
 - `docs/VERSIONING.md` — **CURRENT** Tag-based deployment and versioning system documentation
 - `docs/TROUBLESHOOTING.md` — CSS debugging methodology and layout troubleshooting
-- `docs/SELENIUM-ENVIRONMENT-SETUP.md` — environment setup and debugging methodology
+- `docs/TESTING.md` — comprehensive testing documentation including Selenium environment setup
 - `docs/COLOR-PALETTE.md` — comprehensive color palette documentation
 - `README.md` — project guide and developer spec
 

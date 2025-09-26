@@ -684,4 +684,4 @@ The following files were consolidated into this document:
 - **`docs/LAYOUT-TROUBLESHOOTING.md`** - Comprehensive Selenium-based layout debugging methodology and CSS conflict resolution (last updated: commit `61c789c`)
 
 *Last Updated: 2025-09-26*
-*Related Files: `scripts/update-index-version.js`, `package.json`, `.husky/pre-commit`, `selenium_env/`, `index.html`, `node_modules/`, `scripts/test-links-dynamic-parallel.py`, `docs/TESTING-ROADMAP.md`, `docs/VERSIONING.md`*
+*Related Files: `scripts/update-index-version.js`, `package.json`, `.husky/pre-commit`, `selenium_env/`, `index.html`, `node_modules/`, `scripts/test-links-dynamic-parallel.py`, `docs/TESTING.md`, `docs/VERSIONING.md`*

@@ -498,4 +498,57 @@ chromedriver --version
 curl http://localhost:8000
 ```
 
+## Selenium Environment & Debugging System
+
+### Overview
+The project uses a comprehensive Selenium WebDriver setup with innovative debugging methodology for both automated testing and systematic layout debugging. The system provides unprecedented precision in CSS troubleshooting through objective measurements and visual verification.
+
+### Environment Setup
+Uses a dedicated Python 3.12 virtual environment (`selenium_env`) with key dependencies including Selenium 4.35.0, requests 2.32.5, and BeautifulSoup4 4.13.5. The environment is isolated for WebDriver testing and debugging operations.
+
+### Debugging Methodology
+Features systematic layout debugging using `getBoundingClientRect()` for objective measurements, automated screenshot capture for visual verification, computed style analysis across different pages, and quantitative analysis using pixel measurements instead of subjective assessment.
+
+### Key Tools
+Includes navigation analysis scripts, footer visibility testing, calendar width analysis, and comprehensive debugging tools that provide objective, measurable data for CSS layout troubleshooting.
+
+## Link Testing System
+
+### Overview
+The project includes a comprehensive dynamic link testing system that automatically discovers and validates ALL links found in HTML before every commit. This ensures users never encounter broken links on the live site, with any new links automatically tested without manual configuration.
+
+### Dual URL Testing
+The system tests both production (`https://ccri-cyberknights.github.io/page`) and local development (`http://localhost:8000`) URLs to ensure links work correctly in all environments. Pre-commit hooks automatically test both URLs when HTML files change, blocking commits if broken links are detected.
+
+### Parallel Performance
+Features parallel execution utilizing all available CPU cores for maximum speed - 4.93x faster than sequential testing (29 seconds vs 141 seconds), with automatic scaling up to 8 parallel workers.
+
+### Dynamic Discovery
+Uses HTML parsing with BeautifulSoup to find all `<a>` tags, supports both internal hash routes (`#/page`) and external URLs, and includes comprehensive error detection with context-aware logic to avoid false positives from legitimate content.
+
+## Testing Strategy Roadmap
+
+### Overview
+The project has a comprehensive testing roadmap with aspirational goals for future enhancements. Phase 1 improvements (context-aware error detection, HTTP status validation, legitimate content whitelist) are already implemented. Future phases include DOM-based validation, advanced SPA testing patterns, tool migration to Playwright, and analytics integration.
+
+### Current Capabilities
+- Parallel link testing with Selenium WebDriver
+- Hash-based routing validation for SPAs
+- Dynamic content discovery and testing
+- Environment-specific testing (localhost vs production)
+- Comprehensive error logging and reporting
+
+### Future Enhancements (Phases 2-5)
+- **Phase 2**: DOM-based validation with element presence checks and content validation
+- **Phase 3**: Advanced SPA testing patterns with state management and performance testing
+- **Phase 4**: Tool migration to Playwright for better reliability and performance
+- **Phase 5**: Analytics integration with test result tracking and trend analysis
+
+## Legacy Documentation
+
+The following files were consolidated into this document:
+- **`docs/TESTING-ROADMAP.md`** - Comprehensive testing roadmap with aspirational goals and future enhancements (last updated: commit `61c789c`)
+- **`docs/LINK-TESTING.md`** - Dynamic link testing system with parallel execution and dual URL testing (last updated: commit `61c789c`)
+- **`docs/SELENIUM-ENVIRONMENT-SETUP.md`** - Selenium WebDriver setup and innovative debugging methodology (last updated: commit `61c789c`)
+
 This testing strategy ensures the Cyber Club website maintains high quality and reliability across all features and user interactions.
