@@ -54,7 +54,7 @@ if git diff --cached --name-only | grep -q "\.html$"; then
         exit 1
     fi
     echo "✅ All links are working correctly. Proceeding with version bump..."
-    npm run version:auto
+    npm run test:links
 fi
 ```
 

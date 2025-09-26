@@ -1,17 +1,18 @@
 #!/bin/bash
 # Husky pre-commit hook for CCRI Cyberknights Landing Pages
+# Updated for tag-based deployment with standard-version
 
 cd "$(dirname -- "$0")/.."
 
-# Check if this is a standard-version commit (skip old version bumping)
+# Check if this is a standard-version commit (skip processing)
 if git log -1 --pretty=%B | grep -q "chore(release):"; then
-    echo "📦 Standard-version release detected - skipping old version bumping system"
+    echo "📦 Standard-version release detected - skipping pre-commit processing"
     exit 0
 fi
 
 # Check if any HTML files have been modified
 if git diff --cached --name-only | grep -q "\.html$"; then
-    echo "🔗 HTML files changed - analyzing changes..."
+    echo "🔗 HTML files changed - running link tests..."
     
     # Check if only index.html was changed
     html_files=$(git diff --cached --name-only | grep "\.html$")
@@ -21,17 +22,12 @@ if git diff --cached --name-only | grep -q "\.html$"; then
         # Get the diff for index.html
         index_diff=$(git diff --cached index.html)
         
-        # Check if the diff only contains version-related changes
-        # Look for the specific patterns that the version bumping script updates:
-        # 1. Meta tag: <meta name="version" content="...">
-        # 2. Footer span: <span id="version"...>v...
-        
         # Count version-related changes (DRY JavaScript constants)
         version_const_changes=$(echo "$index_diff" | grep -cE "^[+-].*const VERSION" 2>/dev/null | tr -d '\n' || echo "0")
         commit_hash_changes=$(echo "$index_diff" | grep -cE "^[+-].*const COMMIT_HASH" 2>/dev/null | tr -d '\n' || echo "0")
         commit_date_changes=$(echo "$index_diff" | grep -cE "^[+-].*const COMMIT_DATE" 2>/dev/null | tr -d '\n' || echo "0")
         
-        # Count total non-context changes (lines starting with + or - but not diff headers)
+        # Count total non-context changes
         total_changes=$(echo "$index_diff" | grep -cE "^[+-][^+-]" 2>/dev/null | tr -d '\n' || echo "0")
         
         # Ensure variables are numeric
@@ -39,7 +35,6 @@ if git diff --cached --name-only | grep -q "\.html$"; then
         commit_hash_changes=${commit_hash_changes:-0}
         commit_date_changes=${commit_date_changes:-0}
         total_changes=${total_changes:-0}
-        
         
         # Calculate total version-related changes
         total_version_changes=0
@@ -52,7 +47,7 @@ if git diff --cached --name-only | grep -q "\.html$"; then
         # If all changes are version-related, skip link tests
         if [ "$total_version_changes" -gt 0 ] && [ "$total_version_changes" -eq "$total_changes" ]; then
             echo "✅ Only version numbers changed in index.html - skipping link tests"
-            npm run version:auto
+            echo "ℹ️  Version management now handled by standard-version (npm run release)"
             exit 0
         else
             echo "🔍 Non-version changes detected in index.html - running link tests..."
@@ -79,13 +74,13 @@ if git diff --cached --name-only | grep -q "\.html$"; then
     
     # Check if both link tests passed
     if [ $? -eq 0 ]; then
-        echo "✅ All links are working correctly on both production and local. Proceeding with version bump..."
-        npm run version:auto
+        echo "✅ All links are working correctly on both production and local."
+        echo "ℹ️  Version management now handled by standard-version (npm run release)"
     else
         echo "❌ Local link testing failed! Please fix broken links before committing."
         exit 1
     fi
 else
     echo "📄 No HTML files changed - skipping link tests"
-    npm run version:auto
+    echo "ℹ️  Version management now handled by standard-version (npm run release)"
 fi

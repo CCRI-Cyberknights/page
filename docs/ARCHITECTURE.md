@@ -15,13 +15,13 @@ Single-file site hosted on GitHub Pages with Tailwind (CDN) and small JS modules
 - Maps: Campus-specific map pages (e.g., `/map-warwick-4080`) with optimized images and meeting location details.
 - Interactive Elements: DRY implementation for image toggle functionality, CSS-based modal overlays, responsive design with viewport constraints.
 - Testing: Comprehensive Selenium WebDriver test suite with enhanced error detection covering client-side routing, QR code functionality, cross-page navigation, and interactive element behavior. Features context-aware error detection, HTTP status validation, and legitimate content whitelist. Tests run in headless Chrome with isolated `selenium_env` virtual environment.
-- Versioning: Intelligent automated versioning system with conventional commits, file change analysis, and pre-commit hooks. Version displayed in footer with commit information tooltip.
+- Versioning: **CURRENT** Tag-based deployment model using standard-version with conventional commits, automatic changelog generation, and GitHub Actions deployment. Legacy intelligent versioning system deprecated. Version displayed in footer with commit information tooltip.
 - SEO: Open Graph meta tags for social media sharing and search engine optimization.
 
 Key files
 - `index.html` — UI, routing, calendar logic, footer QR generator, map pages, document loading
 - `package.json` — version tracking and npm scripts for automated versioning
-- `scripts/bump-version.sh` — intelligent version bumping script with commit and file analysis
+- `scripts/update-index-version.js` — DRY version management script for standard-version
 - `.husky/pre-commit` — Git hook for automatic version management
 - `js/qrcode.min.js` — local QR encoder (no CDN)
 - `js/qr-code-manager.js` — shared QR Code functionality
@@ -38,6 +38,7 @@ Key files
 - Calendar updating information is now documented in this ARCHITECTURE.md file
 - `docs/DOCUMENT-LOADING.md` — comprehensive document loading system guide
 - `docs/TESTING.md` — comprehensive testing strategy and implementation
+- `docs/TAG-BASED-DEPLOYMENT.md` — **NEW** Modern deployment model documentation
 - `docs/VERSION-MANAGEMENT.md` — comprehensive versioning system documentation
 - `docs/LAYOUT-TROUBLESHOOTING.md` — CSS debugging methodology
 - `docs/SELENIUM-DEBUGGING-INNOVATION.md` — debugging innovation documentation

@@ -15,7 +15,7 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 - **Sticky Footer Layout**: Consistent footer positioning using flexbox layout to ensure footer always appears at bottom of viewport when content is minimal.
 - **DRY Documentation**: Linux guides use reusable CSS classes and consistent styling with official Cyberknights color palette.
 - **Automated Testing**: Comprehensive test suite using Selenium WebDriver to ensure functionality across different pages and features.
-- **Automated Versioning**: Intelligent version management with conventional commits, pre-commit hooks, and semantic versioning.
+- **Automated Versioning**: Tag-based deployment model using standard-version with conventional commits, automatic changelog generation, and GitHub Actions deployment.
 - **Key Landing Pages**:
   - **Home**: Merged club content with engaging "Who are the Cyber Knights?" headline, strategic "Excitement • Opportunity • Belonging" banner for QR code users, enhanced career messaging with "Our Members Get Hired!" section, and logical content organization
   - **Linux**: Generic Linux installation guides with USB Boot Guide and VirtualBox Boot Guide, step-by-step instructions and common boot menu keys
@@ -27,6 +27,46 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
   - **Table-Based Layout**: Clean, spreadsheet-like interface with video titles, URLs, and scannable QR codes
   - **Base64 Embedding**: Self-contained QR codes with no external dependencies
   - **Blog**: Updates and announcements (coming soon)
+
+## Deployment & Versioning
+
+### **Tag-Based Deployment Model**
+
+The project uses a modern tag-based deployment strategy:
+
+- **Standard-Version**: Automated versioning based on conventional commits
+- **GitHub Actions**: Automatic deployment only on version tags (not every push)
+- **DRY Version Management**: Synchronized updates across `package.json` and `index.html`
+- **Automatic Changelog**: Generated from commit history
+- **GitHub Releases**: Automatic release creation with changelog
+
+### **Creating a Release**
+
+```bash
+# Automatic version bump based on commits
+npm run release
+
+# Manual version bump
+npm run release:patch   # 1.2.3 → 1.2.4
+npm run release:minor   # 1.2.3 → 1.3.0
+npm run release:major   # 1.2.3 → 2.0.0
+
+# Push tags to trigger deployment
+git push origin main --follow-tags
+```
+
+### **Conventional Commits**
+
+Use conventional commit messages for automatic version bumping:
+
+```bash
+feat: add new feature          # Minor bump
+fix: resolve bug              # Patch bump
+docs: update documentation    # Patch bump
+BREAKING CHANGE: major change  # Major bump
+```
+
+For detailed information, see [Tag-Based Deployment Documentation](docs/TAG-BASED-DEPLOYMENT.md).
 
 ## Getting Started
 

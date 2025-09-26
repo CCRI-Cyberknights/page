@@ -24,9 +24,9 @@ The implementation follows a **strict hierarchy** with conservative defaults:
 
 ### **3. Pre-commit Integration**
 The strategy is **automatically triggered** through:
-- **Husky pre-commit hook** that runs `./scripts/bump-version.sh auto`
+- **Husky pre-commit hook** that runs link tests (no longer does versioning)
 - **Git workflow integration** - happens transparently on every commit
-- **No manual intervention required** for normal development
+- **No automatic versioning** - versioning now handled by `standard-version`
 
 ### **4. Version Display Integration**
 The system handles **version synchronization** across:
@@ -37,9 +37,9 @@ The system handles **version synchronization** across:
 
 ### **5. Manual Override System**
 Provides **escape hatches** for special cases:
-- Direct version setting: `./scripts/bump-version.sh patch`
-- Force bump types: `./scripts/bump-version.sh minor`
-- Current version inspection: `./scripts/bump-version.sh show`
+- Direct version setting: `npm run release:patch`
+- Force bump types: `npm run release:minor`
+- Current version inspection: `npm run version:show`
 
 ## Implementation Details
 
@@ -48,12 +48,13 @@ Provides **escape hatches** for special cases:
 project-root/
 ├── package.json                    # Version tracking and npm scripts
 ├── scripts/
-│   └── bump-version.sh            # Intelligent version bumping script
+│   └── update-index-version.js    # DRY version management script
 ├── .husky/
-│   └── pre-commit                  # Git hook for automatic versioning
+│   └── pre-commit                  # Git hook for link testing (no versioning)
 ├── index.html                      # Updated with version metadata
 └── docs/
-    └── VERSION-MANAGEMENT.md       # This documentation
+    ├── VERSION-MANAGEMENT.md       # This documentation (legacy system)
+    └── TAG-BASED-DEPLOYMENT.md     # Current system documentation
 ```
 
 ### **Version Display**
@@ -97,12 +98,12 @@ git commit -m "feat: add new Linux guide page"
 ### **Manual Version Control**
 ```bash
 # Show current version and commit info
-./scripts/bump-version.sh show
+npm run version:show
 
 # Force specific version bump
-./scripts/bump-version.sh patch   # 1.0.113 → 1.0.114
-./scripts/bump-version.sh minor   # 1.0.113 → 1.1.0
-./scripts/bump-version.sh major   # 1.0.113 → 2.0.0
+npm run release:patch   # 1.0.113 → 1.0.114
+npm run release:minor   # 1.0.113 → 1.1.0
+npm run release:major   # 1.0.113 → 2.0.0
 ```
 
 ### **Conventional Commit Examples**
@@ -138,15 +139,15 @@ BREAKING CHANGE: Navigation structure has changed"
 
 ## Technical Implementation
 
-### **Version Bumping Script** (`scripts/bump-version.sh`)
-- **Intelligent Analysis**: Combines commit message and file change analysis
-- **Conservative Approach**: Uses the more conservative bump type when analysis differs
-- **HTML Integration**: Updates version display and metadata automatically
-- **Git Integration**: Creates version tags automatically
+### **DRY Version Management Script** (`scripts/update-index-version.js`)
+- **Version Synchronization**: Reads version from `package.json` and updates `index.html`
+- **Commit Information**: Maintains commit hash and date information
+- **Automatic Integration**: Called by `standard-version` postbump hook
+- **DRY Principle**: Single source of truth for version data
 
 ### **Husky Integration** (`.husky/pre-commit`)
 
-The pre-commit hook has been enhanced with intelligent change detection to optimize performance:
+The pre-commit hook now focuses on link testing and skips versioning (handled by `standard-version`):
 
 ```bash
 #!/bin/bash
@@ -173,7 +174,7 @@ if git diff --cached --name-only | grep -q "\.html$"; then
         # If all changes are version-related, skip link tests
         if [ "$total_version_changes" -gt 0 ] && [ "$total_version_changes" -eq "$total_changes" ]; then
             echo "✅ Only version numbers changed - skipping link tests"
-            npm run version:auto
+            echo "ℹ️  Version management now handled by standard-version (npm run release)"
             exit 0
         fi
     fi
@@ -185,7 +186,8 @@ if git diff --cached --name-only | grep -q "\.html$"; then
     python3 scripts/test-links-dynamic-parallel.py "http://localhost:8000"
 fi
 
-npm run version:auto
+    echo "ℹ️  Version management now handled by standard-version (npm run release)"
+fi
 ```
 
 **Optimization Features:**
@@ -204,14 +206,15 @@ npm run version:auto
 ```json
 {
   "scripts": {
-    "version:auto": "./scripts/bump-version.sh auto",
-    "version:patch": "./scripts/bump-version.sh patch",
-    "version:minor": "./scripts/bump-version.sh minor",
-    "version:major": "./scripts/bump-version.sh major"
+    "version:show": "echo $npm_package_version",
+    "release": "standard-version",
+    "release:patch": "standard-version --release-as patch",
+    "release:minor": "standard-version --release-as minor",
+    "release:major": "standard-version --release-as major"
   },
   "husky": {
     "hooks": {
-      "pre-commit": "npm run version:auto"
+      "pre-commit": "npm run test:links"
     }
   }
 }
@@ -243,10 +246,10 @@ npm run version:auto
 #### **Version Not Bumping**
 - Check if Husky is installed: `npx husky install`
 - Verify pre-commit hook exists: `ls .husky/pre-commit`
-- Check script permissions: `chmod +x scripts/bump-version.sh`
+- Check script permissions: `chmod +x scripts/update-index-version.js`
 
 #### **Wrong Version Bump Type**
-- Use manual override: `./scripts/bump-version.sh minor`
+- Use manual override: `npm run release:minor`
 - Check commit message format (use conventional commits)
 - Verify file changes are staged: `git status`
 
@@ -259,14 +262,15 @@ npm run version:auto
 - **Pre-commit Hook Failures**: See [TROUBLESHOOTING.md](TROUBLESHOOTING.md#husky-pre-commit-hook-issues)
 - **Link Test Failures**: See [TROUBLESHOOTING.md](TROUBLESHOOTING.md#environment-issues)
 - **Import Errors**: Ensure using `selenium_env` not `testing_env`
+- **Tag Conflicts and Invalid Tags**: See [TAG-BASED-DEPLOYMENT.md](TAG-BASED-DEPLOYMENT.md#troubleshooting) for modern deployment issues
 
 ### **Manual Override Commands**
 ```bash
 # Force specific version
-./scripts/bump-version.sh patch
+npm run release:patch
 
 # Show current status
-./scripts/bump-version.sh show
+npm run version:show
 
 # Reinstall Husky hooks
 npx husky install
@@ -288,11 +292,16 @@ npx husky install
 
 ## Related Documentation
 
+- [Tag-Based Deployment](TAG-BASED-DEPLOYMENT.md) - **CURRENT** Modern deployment model using standard-version
 - [Architecture Overview](ARCHITECTURE.md) - Overall system architecture
 - [Testing Strategy](TESTING.md) - Testing approach and tools
 - [Testing Roadmap](TESTING-ROADMAP.md) - Future testing enhancements and goals
 - [Layout Troubleshooting](LAYOUT-TROUBLESHOOTING.md) - CSS debugging methodology
 - [Selenium Debugging Innovation](SELENIUM-DEBUGGING-INNOVATION.md) - Debugging approach
+
+## Legacy System (Deprecated)
+
+**Note**: The original intelligent versioning system (`scripts/bump-version.sh`) has been replaced with the modern tag-based deployment model using `standard-version`. See [Tag-Based Deployment](TAG-BASED-DEPLOYMENT.md) for the current system.
 
 ## Conclusion
 

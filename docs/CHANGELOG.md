@@ -304,12 +304,12 @@ This project uses automated version management with the following features:
 
 ```bash
 # Show current version
-./scripts/bump-version.sh show
+npm run version:show
 
 # Force specific version bump
-./scripts/bump-version.sh patch   # 1.5.1 → 1.5.2
-./scripts/bump-version.sh minor   # 1.5.1 → 1.6.0
-./scripts/bump-version.sh major   # 1.5.1 → 2.0.0
+npm run release:patch   # 1.5.1 → 1.5.2
+npm run release:minor   # 1.5.1 → 1.6.0
+npm run release:major   # 1.5.1 → 2.0.0
 ```
 
 ---

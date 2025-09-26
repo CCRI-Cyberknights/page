@@ -13,7 +13,7 @@ This document covers common issues encountered during development and maintenanc
 - Version numbers inflate rapidly without corresponding feature additions
 
 **Root Cause:**
-The automated version bumping system (`scripts/bump-version.sh`) was overly aggressive and had several logic flaws:
+The automated version bumping system has been replaced with `standard-version` for better reliability and conventional commit support. The old system (`scripts/bump-version.sh`) had several logic flaws:
 
 1. **Incorrect Commit Message Analysis**: Script reads previous commit instead of current commit
 2. **Overly Broad Minor Bump Criteria**: Terms like "improve" and "enhance" catch patch-level changes
@@ -23,7 +23,7 @@ The automated version bumping system (`scripts/bump-version.sh`) was overly aggr
 Manual approval system for non-patch bumps:
 
 ```bash
-# New behavior in bump-version.sh
+# New behavior with standard-version
 if [[ "$bump_type" == "patch" ]]; then
     echo "✅ Auto-approving PATCH bump"
     bump_version "$bump_type"
@@ -646,4 +646,4 @@ Added HTTP status validation to the testing framework:
 ---
 
 *Last Updated: January 2025*
-*Related Files: `scripts/bump-version.sh`, `package.json`, `.husky/pre-commit`, `selenium_env/`, `index.html`, `node_modules/`, `scripts/test-links-dynamic-parallel.py`, `docs/TESTING-ROADMAP.md`*
+*Related Files: `scripts/update-index-version.js`, `package.json`, `.husky/pre-commit`, `selenium_env/`, `index.html`, `node_modules/`, `scripts/test-links-dynamic-parallel.py`, `docs/TESTING-ROADMAP.md`, `docs/TAG-BASED-DEPLOYMENT.md`*
