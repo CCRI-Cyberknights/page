@@ -1726,29 +1726,6 @@
       }
     }
 
-    window.toggleQRCodeSize = function() {
-      // Check if QR code manager has an SVG container (for interactive QR codes)
-      if (window.qrCodeManager && window.qrCodeManager.svgContainer && window.qrCodeManager.svgContainer.innerHTML) {
-        window.qrCodeManager.expandQRCode();
-        return;
-      }
-      
-      // Fallback to footer SVG QR code
-      const svgContainer = document.getElementById('footer-qr-svg');
-      if (svgContainer && svgContainer.innerHTML) {
-        // Get the SVG content for modal display
-        const svgContent = svgContainer.innerHTML;
-        // Create a data URL for the SVG
-        const dataURL = 'data:image/svg+xml;base64,' + btoa(svgContent);
-        openModal(dataURL, 'QR Code', true); // true = isCanvas
-      } else {
-        // Fallback to the large canvas if SVG not available
-        const canvas = document.getElementById('footer-qr-canvas');
-        const dataURL = canvas.toDataURL();
-        openModal(dataURL, 'QR Code', true);
-      }
-    };
-
     // No resize handler needed - CSS handles responsiveness automatically with min(80vw, 600px)
 
     window.addEventListener('hashchange', render);
@@ -1772,9 +1749,9 @@
       render();
       
       // DRY Version Management - Single source of truth
-      const VERSION = "1.7.2";
-      const COMMIT_HASH = "eeea115";
-      const COMMIT_DATE = "2025-09-26 09:58:26 -0400";
+      const VERSION = "1.7.4";
+      const COMMIT_HASH = "5be9a1a";
+      const COMMIT_DATE = "2025-09-27 08:48:20 -0400";
       
       // Update meta tag
       const versionMeta = document.getElementById('version-meta');

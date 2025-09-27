@@ -576,6 +576,15 @@ class QRCodeManager {
       };
       document.addEventListener('keydown', this.escapeHandler);
       
+      // Add back button handler for mobile devices
+      this.backButtonHandler = () => {
+        this.closeFullScreen();
+      };
+      window.addEventListener('popstate', this.backButtonHandler);
+      
+      // Push a state to the history so back button works
+      history.pushState({ qrModalOpen: true }, '', window.location.href);
+      
       // Lock body scroll
       document.body.style.overflow = 'hidden';
       
@@ -682,6 +691,17 @@ class QRCodeManager {
         this.escapeHandler = null;
       }
       
+      // Remove back button handler
+      if (this.backButtonHandler) {
+        window.removeEventListener('popstate', this.backButtonHandler);
+        this.backButtonHandler = null;
+      }
+      
+      // Pop the history state we added
+      if (history.state && history.state.qrModalOpen) {
+        history.back();
+      }
+      
       // Restore body scroll
       document.body.style.overflow = 'auto';
       
@@ -692,21 +712,6 @@ class QRCodeManager {
       const currentText = this.input ? this.input.value : this.url;
       if (currentText) {
         this.render(currentText);
-      }
-    }
-  }
-
-  expandQRCode() {
-    // Expand SVG QR code to full screen modal
-    if (this.svgContainer && this.svgContainer.innerHTML) {
-      const svgContent = this.svgContainer.innerHTML;
-      const dataURL = 'data:image/svg+xml;base64,' + btoa(svgContent);
-      
-      // Use the global openModal function if available
-      if (typeof window.openModal === 'function') {
-        window.openModal(dataURL, 'QR Code', true); // true = isCanvas for modal sizing
-      } else {
-        console.warn('openModal function not available');
       }
     }
   }
