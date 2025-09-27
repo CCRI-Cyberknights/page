@@ -13,6 +13,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="./js/qrcode.min.js"></script>
   <script src="./js/qr-code-manager.js"></script>
+  <script src="./js/version-display.js"></script>
   <style>
     :root { color-scheme: dark; }
     
@@ -1748,26 +1749,8 @@
       // Mobile navigation removed - using direct navigation
       render();
       
-      // DRY Version Management - Single source of truth
-      const VERSION = "1.7.5";
-      const COMMIT_HASH = "97f02c7";
-      const COMMIT_DATE = "2025-09-27 18:59:28 -0400";
-      
-      // Update meta tag
-      const versionMeta = document.getElementById('version-meta');
-      if (versionMeta) versionMeta.setAttribute('content', VERSION);
-      
-      // Update footer display
-      const versionSpan = document.getElementById('version');
-      if (versionSpan) {
-        versionSpan.textContent = `v${VERSION}`;
-      }
-      
-      // Update tooltip
-      const versionTooltip = document.getElementById('version-tooltip');
-      if (versionTooltip) {
-        versionTooltip.textContent = `v${VERSION} - Commit: ${COMMIT_HASH} - ${COMMIT_DATE}`;
-      }
+      // Modern Version Display - Dynamically loaded from version.json
+      // Version is now managed by version-display.js for single source of truth
       
       // Generate small QR code for footer (with delay to ensure qrcode library is loaded)
       setTimeout(generateSmallQRCode, 100);

@@ -21,7 +21,7 @@ Single-file site hosted on GitHub Pages with Tailwind (CDN) and small JS modules
 Key files
 - `index.html` — UI, routing, calendar logic, footer QR generator, map pages, document loading
 - `package.json` — version tracking and npm scripts for automated versioning
-- `scripts/update-index-version.js` — DRY version management script for standard-version
+- `scripts/update-version-json.js` — Modern version management script for standard-version
 - `.husky/pre-commit` — Git hook for automatic version management
 - `js/qrcode.min.js` — local QR encoder (no CDN)
 - `js/qr-code-manager.js` — shared QR Code functionality

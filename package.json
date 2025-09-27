@@ -30,7 +30,7 @@
   },
   "standard-version": {
     "scripts": {
-      "postbump": "node scripts/update-index-version.js"
+      "postbump": "node scripts/update-version-json.js && git add version.json"
     }
   }
 }
