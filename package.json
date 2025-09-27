@@ -1,6 +1,6 @@
 {
   "name": "ccri-cyberknights-landing-pages",
-  "version": "1.7.3",
+  "version": "1.7.4",
   "description": "QR Code Landing Pages for CCRI Cyberknights Club",
   "private": true,
   "scripts": {
@@ -8,6 +8,7 @@
     "test": "python tests/run_tests.py",
     "test:links": "source ./selenium_env/bin/activate && python3 scripts/test-links-dynamic-parallel.py",
     "version:show": "echo $npm_package_version",
+    "version:auto": "standard-version --release-as patch",
     "release": "standard-version",
     "release:patch": "standard-version --release-as patch",
     "release:minor": "standard-version --release-as minor",
