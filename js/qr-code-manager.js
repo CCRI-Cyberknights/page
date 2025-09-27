@@ -579,10 +579,7 @@ class QRCodeManager {
       // Lock body scroll
       document.body.style.overflow = 'hidden';
       
-      // Focus the input field
-      if (this.input) {
-        this.input.focus();
-      }
+      // No auto-focus to prevent keyboard popup on mobile and keep behavior consistent
       
         // Re-render the QR code with full-screen size
         const renderText = this.input ? this.input.value : this.url;
