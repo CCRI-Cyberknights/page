@@ -2,6 +2,9 @@
 testing_env/
 selenium_env/
 
+# Playwright test results and reports
+test-results/
+
 # Python cache files
 __pycache__/
 *.py[cod]

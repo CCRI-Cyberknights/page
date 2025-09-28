@@ -334,7 +334,28 @@ chrome_options.add_argument("--log-level=0")
 
 ### GitHub Actions Integration
 
-**Workflow Example**:
+**Versioning Pipeline Diagnostics Workflow**:
+The project includes automated versioning diagnostics via GitHub Actions:
+
+```yaml
+name: Versioning Pipeline Diagnostics
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+```
+
+**Features**:
+- **Automatic validation** on every push and PR
+- **Post-release validation** for tags
+- **Playwright diagnostics** for comprehensive testing
+- **PR comments** with diagnostic results
+- **Artifact upload** for failed tests
+
+**Manual Testing Workflow Example**:
 ```yaml
 name: Tests
 on: [push, pull_request]

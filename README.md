@@ -28,6 +28,7 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 - **Generalized Image Toggle System**: Unified CSS custom properties for consistent image expansion across all toggleable images (navigation icons, welder image, VBox screenshot) with 96% screen width expansion.
 - **Branded Color Palette**: Canonical color palette with CSS variables, hybrid forge color scheme with `#04703C` primary green, industrial accents, and strategic color hierarchy.
 - **Sticky Footer Layout**: Consistent footer positioning using flexbox layout to ensure footer always appears at bottom of viewport when content is minimal.
+- **Automated Versioning Diagnostics**: Playwright-based diagnostic system that validates versioning pipeline across all layers (files → commits → deployment) with comprehensive error detection and reporting.
 - **DRY Documentation**: Linux guides use reusable CSS classes and consistent styling with official Cyberknights color palette.
 - **Automated Testing**: Comprehensive test suite using Selenium WebDriver to ensure functionality across different pages and features.
 - **Automated Versioning**: Tag-based deployment model using standard-version with conventional commits, automatic changelog generation, and GitHub Actions deployment.

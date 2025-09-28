@@ -2,6 +2,35 @@
 
 This document covers common issues encountered during development and maintenance of the Cyber Club website, including version management problems and their solutions.
 
+## 🔍 **NEW: Automated Versioning Diagnostics**
+
+**Use Playwright to diagnose versioning issues automatically:**
+
+```bash
+# Run comprehensive versioning diagnostics
+npm run version:diagnose
+
+# Debug mode (interactive)
+npm run test:versioning:debug
+
+# UI mode (visual debugging)
+npm run test:versioning:ui
+```
+
+**What it checks:**
+- ✅ File system verification (`version.json` matches `package.json`)
+- ✅ Git history validation (release commits include required files)
+- ✅ Deployment verification (live site shows correct version)
+- ✅ End-to-end pipeline consistency
+
+**Benefits:**
+- **Replaces manual debugging** with automated validation
+- **Catches failures at every layer** (files → commits → deployment)
+- **Provides detailed diagnostic output** for expert analysis
+- **Integrates with CI/CD** for continuous monitoring
+
+---
+
 ## Version Management Issues
 
 ### Problem: Version Display Lag (Off-by-One Issue)
@@ -603,6 +632,101 @@ Pre-commit hook runs `standard-version` which creates commits that re-trigger th
 - Never run `standard-version` without `HUSKY=0` in pre-commit hooks
 - Consider moving version bumping to CI/CD instead of local hooks
 - Always test version bumping in isolation before committing
+
+---
+
+## 🔧 **Playwright Diagnostic System**
+
+### Using Automated Diagnostics
+
+**Quick Diagnosis:**
+```bash
+npm run version:diagnose
+```
+
+**Detailed Debugging:**
+```bash
+# Interactive debugging
+npm run test:versioning:debug
+
+# Visual debugging with UI
+npm run test:versioning:ui
+```
+
+### Diagnostic Test Categories
+
+#### 1. File System Verification
+- **Checks**: `version.json` exists and matches `package.json`
+- **Validates**: JSON structure, timestamps, required fields
+- **Catches**: Missing files, version mismatches, corrupted data
+
+#### 2. Git History Validation  
+- **Checks**: Release commits include required files
+- **Validates**: Commit message format, file staging
+- **Catches**: Silent `postbump` failures, missing artifacts
+
+#### 3. Deployment Verification
+- **Checks**: Live site displays correct version
+- **Validates**: `version.json` accessibility, UI consistency
+- **Catches**: Deployment lag, cache issues, broken URLs
+
+#### 4. End-to-End Pipeline
+- **Checks**: Complete consistency across all layers
+- **Validates**: Local → Git → Deployment alignment
+- **Catches**: Systemic failures, integration issues
+
+### Interpreting Diagnostic Results
+
+**✅ All Tests Pass:**
+- Versioning pipeline is healthy
+- No action required
+
+**❌ File System Tests Fail:**
+- `version.json` missing or corrupted
+- Version mismatch between files
+- Run `node scripts/update-version-json.js` to fix
+
+**❌ Git History Tests Fail:**
+- Release commits missing required files
+- `postbump` script failed silently
+- Check `standard-version` configuration
+
+**❌ Deployment Tests Fail:**
+- Live site shows wrong version
+- `version.json` not accessible
+- GitHub Pages deployment issues
+
+**❌ End-to-End Tests Fail:**
+- Systemic versioning failure
+- Multiple layers affected
+- Requires expert analysis
+
+### Diagnostic Output Example
+
+```
+=== VERSIONING DIAGNOSTIC INFO ===
+Package Version: 1.7.10
+Version.json Version: 1.7.9
+Latest Commit: chore(release): 1.7.10
+Latest Commit Files: CHANGELOG.md, package-lock.json, package.json
+Is Release Commit: true
+================================
+```
+
+**Analysis**: Version mismatch detected - `version.json` shows `1.7.9` but `package.json` shows `1.7.10`. The release commit is missing `version.json`, indicating `postbump` script failure.
+
+### Integration with CI/CD
+
+**GitHub Actions Integration:**
+- Automatic diagnostics on every push/PR
+- Post-release validation for tags
+- Artifact upload for failed tests
+- PR comments with diagnostic results
+
+**Local Development:**
+- Run diagnostics before releases
+- Debug versioning issues quickly
+- Validate fixes before committing
 
 ---
 

@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.11](https://github.com/CCRI-Cyberknights/page/compare/v1.7.10...v1.7.11) (2025-09-28)
+
+
+### Bug Fixes
+
+* add commitAll option to standard-version configuration ([2233930](https://github.com/CCRI-Cyberknights/page/commit/223393012259c3cab2146525b8deacf65f07ca5c))
+* correct boolean type in GitHub Actions workflow ([b2fcbd1](https://github.com/CCRI-Cyberknights/page/commit/b2fcbd192d51ce88d7d2edffc0bbaf1d960670f6))
+* resolve GitHub Actions workflow issues ([bb302b5](https://github.com/CCRI-Cyberknights/page/commit/bb302b536b57908233bd15533efa6d053fbba46c))
+
 ### [1.7.10](https://github.com/CCRI-Cyberknights/page/compare/v1.7.9...v1.7.10) (2025-09-28)
 
 ### [1.7.9](https://github.com/CCRI-Cyberknights/page/compare/v1.7.6...v1.7.9) (2025-09-28)
