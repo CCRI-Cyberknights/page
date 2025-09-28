@@ -1,66 +1,67 @@
-# Version Management - Tag-Based Deployment System
+# Version Management System
 
 ## Overview
 
-The Cyber Club Landing Pages project has transitioned to a **tag-based deployment model** using `standard-version` for automated versioning and GitHub Actions for deployment. This approach resolves tag conflicts, provides better traceability, and creates a more robust release pipeline.
+This project uses a modern, 2025-compliant version management system that eliminates common deployment issues like version lag and off-by-one errors. The system provides a single source of truth for version information and ensures deployed sites always display the correct version.
 
 ## Architecture
 
-### **1. Tag-Based Deployment Strategy**
-- **Single Source of Truth**: Each deployment corresponds to a Git tag (`vX.Y.Z`)
-- **Traceability**: Clear history of releases with exact version mapping
-- **Safety**: Only intentional version bumps trigger deployments
-- **Consistency**: All version files updated atomically
+### Core Components
 
-### **2. Standard-Version Integration**
-- **Conventional Commits**: Automatic version bumping based on commit messages
-- **Changelog Generation**: Automatic `CHANGELOG.md` creation
-- **DRY Version Management**: Synchronized updates across `package.json` and `index.html`
-- **Git Integration**: Automatic tagging and commit creation
+1. **`version.json`** - Single source of truth for version information
+2. **`scripts/update-version-json.js`** - Updates version.json during releases
+3. **`js/version-display.js`** - Dynamically fetches and displays version in UI
+4. **`standard-version`** - Automated version bumping and release management
+5. **GitHub Pages** - Automatic deployment from main branch
 
-### **3. GitHub Actions Workflow**
-- **Tag-Triggered**: Only runs when version tags are pushed
-- **Version Verification**: Ensures consistency between tag and package.json
-- **GitHub Pages Deployment**: Automatic deployment to production
-- **GitHub Releases**: Automatic release creation with changelog
+### Version Information Structure
 
-## Workflow
+```json
+{
+  "version": "1.7.7",
+  "commit": "34884c1",
+  "date": "2025-09-27 19:26:40 -0400",
+  "timestamp": "2025-09-27T23:27:11.388Z"
+}
+```
 
-### **Developer Workflow**
+## How It Works
 
-1. **Development**: Work on `main` branch as usual
-2. **Release**: When ready to release, run:
-   ```bash
-   npm run release
-   git push origin main --follow-tags
-   ```
+### Release Process
 
-### **What Happens During Release**
+1. **Version Bump**: Run `npm run release:patch|minor|major`
+2. **Package Update**: `standard-version` bumps `package.json`
+3. **Version File Update**: `update-version-json.js` updates `version.json`
+4. **Commit**: Both files committed in same release commit
+5. **Tag**: Git tag created (e.g., `v1.7.7`)
+6. **Deploy**: GitHub Pages automatically deploys from main branch
 
-1. **Version Analysis**: `standard-version` analyzes commits since last tag
-2. **Version Bump**: Determines bump type (major/minor/patch) from conventional commits
-3. **File Updates**: Updates `package.json`, `package-lock.json`
-4. **HTML Update**: Runs `scripts/update-index-version.js` to update JavaScript constants
-5. **Changelog**: Generates/updates `CHANGELOG.md` with commit history
-6. **Commit**: Creates commit with message `chore(release): X.Y.Z`
-7. **Tag**: Creates Git tag `vX.Y.Z`
-8. **GitHub Action**: Triggers deployment workflow
+### Runtime Version Display
 
-### **Deployment Process**
+1. **Page Load**: `version-display.js` initializes
+2. **Fetch Version**: Requests `/version.json` with cache-busting
+3. **Update UI**: Updates all version displays in the interface
+4. **Fallback**: Shows fallback version if fetch fails
 
-1. **Tag Push**: GitHub Action triggers on `v*` tag push
-2. **Checkout**: Checks out repository at specific tag
-3. **Verification**: Verifies version consistency
-4. **Deploy**: Deploys to GitHub Pages
-5. **Release**: Creates GitHub Release with changelog
+## File Structure
 
-## Implementation Details
+```
+├── version.json                    # Single source of truth
+├── scripts/
+│   └── update-version-json.js     # Version update script
+├── js/
+│   └── version-display.js         # Runtime version display
+└── package.json                   # Standard-version configuration
+```
 
-### **Standard-Version Configuration**
+## Configuration
+
+### Package.json Scripts
 
 ```json
 {
   "scripts": {
+    "version:auto": "standard-version --release-as patch",
     "release": "standard-version",
     "release:patch": "standard-version --release-as patch",
     "release:minor": "standard-version --release-as minor",
@@ -68,232 +69,147 @@ The Cyber Club Landing Pages project has transitioned to a **tag-based deploymen
   },
   "standard-version": {
     "scripts": {
-      "postbump": "node scripts/update-index-version.js"
+      "postbump": "node scripts/update-version-json.js && git add version.json"
     }
   }
 }
 ```
 
-### **Version Update Script**
+### HTML Integration
 
-`scripts/update-index-version.js`:
-- Reads version from `package.json`
-- Gets commit hash and date from Git
-- Updates JavaScript constants in `index.html`
-- Maintains DRY version management
-
-### **GitHub Actions Workflow**
-
-`.github/workflows/release.yml`:
-- Triggers only on version tag pushes
-- Verifies version consistency
-- Deploys to GitHub Pages
-- Creates GitHub Releases
-
-### **Pre-commit Hook Integration**
-
-The pre-commit hook detects `standard-version` releases and skips the old versioning system:
-```bash
-if git log -1 --pretty=%B | grep -q "chore(release):"; then
-    echo "📦 Standard-version release detected - skipping old version bumping system"
-    exit 0
-fi
+```html
+<script src="./js/version-display.js"></script>
 ```
 
-## Version Bump Rules
+## Usage
 
-### **Major Version (X.0.0)**
-- Breaking changes
-- Commit message contains: `BREAKING CHANGE`, `breaking change`
+### Making a Release
 
-### **Minor Version (X.Y.0)**
-- New features
-- Commit message starts with: `feat:`, `feature:`
+```bash
+# Patch release (1.7.7 -> 1.7.8)
+npm run release:patch
 
-### **Patch Version (X.Y.Z)**
-- Bug fixes, documentation, styling
-- Commit message starts with: `fix:`, `docs:`, `style:`, `refactor:`, `perf:`, `test:`, `chore:`
+# Minor release (1.7.7 -> 1.8.0)
+npm run release:minor
+
+# Major release (1.7.7 -> 2.0.0)
+npm run release:major
+```
+
+### Manual Version Update
+
+```bash
+# Update version.json manually (if needed)
+node scripts/update-version-json.js
+```
 
 ## Benefits
 
-### **For Developers**
-- **Zero Friction**: Versioning happens automatically
-- **Conventional Commits**: Clear commit message standards
-- **No Tag Conflicts**: Proper release workflow eliminates conflicts
-- **Consistent Results**: Same behavior across all contributors
+### ✅ Advantages
 
-### **For Deployment**
-- **Traceability**: Know exactly which version is live
-- **Safety**: No accidental deployments from incomplete work
-- **Reliability**: Version consistency verification
-- **Automation**: Complete CI/CD pipeline
+- **Single Source of Truth**: Version managed in one place (`version.json`)
+- **No Version Lag**: Deployed site always shows correct version
+- **Cache-Bustable**: Version updates immediately with cache-busting
+- **Modern Pattern**: Follows 2025 best practices for static sites
+- **Maintainable**: Simple, clean implementation
+- **Reliable**: No more off-by-one deployment issues
 
-### **For Users**
-- **Transparent Versioning**: Version visible in footer
-- **Commit Information**: Hover tooltip shows when changes were made
-- **Professional Appearance**: Version display enhances credibility
+### ✅ Eliminates Common Issues
 
-## Migration from Old System
-
-### **What Changed**
-- **Old**: Deploy on every push to `main`
-- **New**: Deploy only on version tags
-- **Old**: Custom version bumping script with tag conflicts
-- **New**: `standard-version` with proper release workflow
-- **Old**: Manual changelog maintenance
-- **New**: Automatic changelog generation
-
-### **Backward Compatibility**
-- Old versioning scripts remain available (`npm run version:*`)
-- Pre-commit hook detects and skips old system for `standard-version` releases
-- Existing tags and version history preserved
-
-## Usage Examples
-
-### **Creating a Release**
-```bash
-# Automatic version bump based on commits
-npm run release
-
-# Manual version bump
-npm run release:patch   # 1.2.3 → 1.2.4
-npm run release:minor   # 1.2.3 → 1.3.0
-npm run release:major   # 1.2.3 → 2.0.0
-
-# Push tags to trigger deployment
-git push origin main --follow-tags
-```
-
-### **Conventional Commit Examples**
-```bash
-# Minor bump (new feature)
-git commit -m "feat: add calendar integration"
-
-# Patch bump (bug fix)
-git commit -m "fix: resolve navigation width issue"
-
-# Patch bump (documentation)
-git commit -m "docs: update troubleshooting guide"
-
-# Major bump (breaking change)
-git commit -m "feat: redesign navigation system
-
-BREAKING CHANGE: Navigation structure has changed"
-```
+- **Off-by-one version display** (site shows previous version)
+- **Hardcoded version constants** in multiple files
+- **Manual version synchronization** across files
+- **Cache-related version lag**
+- **Complex deployment workflows**
 
 ## Troubleshooting
 
-### **Common Issues**
+### Version Not Updating on Site
 
-#### **Version Not Bumping**
-- Check if `standard-version` is installed: `npm list standard-version`
-- Verify commit messages follow conventional format
-- Check if commits exist since last tag: `git log --oneline $(git describe --tags --abbrev=0)..HEAD`
+1. **Check GitHub Pages deployment**:
+   ```bash
+   gh api repos/CCRI-Cyberknights/page/pages/builds | jq '.[0]'
+   ```
 
-#### **Tag Conflicts**
-- Old system: `fatal: tag 'vX.Y.Z' already exists`
-- New system: `standard-version` handles tag creation properly
-- Solution: Use `npm run release` instead of old versioning scripts
+2. **Verify version.json is committed**:
+   ```bash
+   git show HEAD --name-only | grep version.json
+   ```
 
-#### **Invalid Tags (vnull, etc.)**
-- **Cause**: Conflicting `--release-as` arguments or invalid version in `package.json`
-- **Example**: `npm run release:patch -- --release-as 1.7.0` creates `vnull` tag
-- **Solution**: Use manual version update for specific versions
-- **Prevention**: `--release-as` only accepts `major`, `minor`, `patch` (not specific versions)
+3. **Test version.json directly**:
+   ```bash
+   curl -s https://ccri-cyberknights.github.io/page/version.json | jq
+   ```
 
-#### **Setting Specific Versions**
-- **Problem**: `standard-version` doesn't support setting specific version numbers
-- **Solution**: Manual update approach:
-  ```bash
-  # Method 1: Edit package.json manually
-  # Edit version in package.json to desired version
-  node scripts/update-index-version.js
-  git add package.json index.html
-  git commit -m "chore: set version to X.Y.Z"
-  
-  # Method 2: Use npm version
-  npm version X.Y.Z --no-git-tag-version
-  node scripts/update-index-version.js
-  git add package.json index.html
-  git commit -m "chore: set version to X.Y.Z"
-  ```
+4. **Check browser cache**:
+   - Open DevTools → Network → Disable cache
+   - Reload page
 
-#### **Deployment Not Triggering**
-- Verify GitHub Actions workflow exists: `.github/workflows/release.yml`
-- Check if tag was pushed: `git push origin main --follow-tags`
-- Verify GitHub Pages settings point to `gh-pages` branch
+### Release Process Issues
 
-#### **Version Inconsistency**
-- Check if `scripts/update-index-version.js` ran successfully
-- Verify JavaScript constants in `index.html` match `package.json`
-- Check GitHub Action logs for version verification errors
+1. **Version.json not in commit**:
+   - Check `standard-version` configuration
+   - Verify `postbump` script runs successfully
 
-### **Manual Override Commands**
-```bash
-# Automatic version bump (recommended)
-npm run release              # Auto-determines bump type from commits
-npm run release:patch        # Force patch bump (1.2.3 → 1.2.4)
-npm run release:minor        # Force minor bump (1.2.3 → 1.3.0)
-npm run release:major       # Force major bump (1.2.3 → 2.0.0)
+2. **GitHub Pages not deploying**:
+   - Check GitHub Actions for "pages build and deployment"
+   - Verify Pages source is set to `main` branch
 
-# Setting specific versions (manual approach)
-# Edit package.json version field manually, then:
-node scripts/update-index-version.js
-git add package.json index.html
-git commit -m "chore: set version to X.Y.Z"
+3. **Version display not working**:
+   - Check browser console for JavaScript errors
+   - Verify `version-display.js` is loaded in HTML
 
-# Show current status
-npm run version:show
+## Migration History
 
-# Check tag history
-git tag -l | tail -10
-```
+### From Old System (Pre-2025)
 
-## Future Enhancements
+**Previous Issues**:
+- Hardcoded version constants in `index.html`
+- `scripts/update-index-version.js` complexity
+- Off-by-one version display issues
+- Manual synchronization across files
 
-### **Planned Features**
-1. **Release Notes**: Enhanced GitHub Releases with detailed descriptions
-2. **Version History**: Web page showing version history and changes
-3. **Approval Workflows**: Manual approval for major/minor bumps
-4. **Notification System**: Notify team of version changes
+**Migration Steps Completed**:
+1. ✅ Replaced hardcoded constants with dynamic fetching
+2. ✅ Implemented `version.json` as single source of truth
+3. ✅ Created `version-display.js` for runtime updates
+4. ✅ Updated `standard-version` configuration
+5. ✅ Removed old `update-index-version.js` script
 
-### **Extension Points**
-1. **Custom Rules**: Add project-specific version bump rules
-2. **Integration**: Connect with external tools and services
-3. **Analytics**: Track version bump patterns and frequency
-4. **Automation**: Further automation of release processes
+## Related Files
 
-## Legacy System Summary
+- **`docs/ARCHITECTURE.md`** - Overall system architecture
+- **`docs/TROUBLESHOOTING.md`** - Common issues and solutions
+- **`docs/UI.md`** - User interface implementation details
+- **`package.json`** - Release configuration and scripts
+- **`version.json`** - Current version information
+- **`js/version-display.js`** - Version display implementation
+- **`scripts/update-version-json.js`** - Version update script
 
-The previous versioning system used an intelligent analysis engine with conventional commits and file change analysis. Key features included:
+## Best Practices
 
-- **Two-layer detection**: Commit message analysis + file change analysis
-- **Conservative decision tree**: Strict hierarchy with patch bump defaults
-- **Pre-commit integration**: Automatic triggering on every commit
-- **Manual override system**: Escape hatches for special cases
+### Development
 
-**Legacy Documentation**: The complete documentation of the old system can be found at commit hash `8e29c16` in the file `docs/VERSION-MANAGEMENT.md`.
+1. **Always use release scripts** instead of manual version bumps
+2. **Test version display** after each release
+3. **Verify deployment** includes `version.json`
+4. **Check cross-browser compatibility** for version display
 
-## Related Documentation
+### Deployment
 
-- [Architecture Overview](ARCHITECTURE.md) - Overall system architecture
-- [Testing Strategy](TESTING.md) - Testing approach and tools
-- [GitHub Actions Workflow](.github/workflows/release.yml) - Deployment workflow
+1. **Monitor GitHub Actions** for successful deployments
+2. **Verify version consistency** between repository and live site
+3. **Use cache-busting** for immediate version updates
+4. **Keep deployment simple** with automatic GitHub Pages
 
-## Conclusion
+### Maintenance
 
-The tag-based deployment model provides a professional, automated approach to version management that:
-
-- **Eliminates manual overhead** through intelligent automation
-- **Maintains semantic meaning** through conventional commits
-- **Provides transparency** through version display and commit information
-- **Ensures consistency** across all contributors and environments
-- **Resolves tag conflicts** through proper release workflow
-- **Creates traceable deployments** with clear version mapping
-
-This system creates a **"set it and forget it"** versioning experience that maintains professional standards while requiring minimal developer attention.
+1. **Regular dependency updates** for `standard-version`
+2. **Documentation updates** when changing version system
+3. **Backup version.json** before major changes
+4. **Test rollback procedures** if needed
 
 ---
 
-*Last Updated: 2025-09-26*  
-*Related Files: `package.json`, `scripts/update-index-version.js`, `.github/workflows/release.yml`, `.husky/pre-commit`*
+*Last updated: 2025-09-27 - Version 1.7.7*
+*Related: [ARCHITECTURE.md](./ARCHITECTURE.md) | [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) | [UI.md](./UI.md)*

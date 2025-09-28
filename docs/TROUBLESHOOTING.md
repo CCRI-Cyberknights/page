@@ -4,57 +4,176 @@ This document covers common issues encountered during development and maintenanc
 
 ## Version Management Issues
 
-### Problem: Aggressive Version Bumping
+### Problem: Version Display Lag (Off-by-One Issue)
 
 **Symptoms:**
-- Documentation commits incorrectly trigger minor bumps (1.2.5 → 1.3.0)
-- Font improvements cause version jumps (1.2.5 → 1.4.0)
-- Code refactoring triggers major bumps (1.2.5 → 1.5.0)
-- Version numbers inflate rapidly without corresponding feature additions
+- Site displays version `v1.7.5` but repository has `v1.7.6`
+- Version display is consistently one version behind
+- GitHub Pages deployment successful but version doesn't update
+- Release commits don't include updated version files
 
 **Root Cause:**
-The automated version bumping system has been replaced with `standard-version` for better reliability and conventional commit support. The old system (`scripts/bump-version.sh`) had several logic flaws:
+This was caused by the old version management system where:
+1. `standard-version` bumped `package.json` but didn't include updated `index.html`
+2. `scripts/update-index-version.js` ran but output wasn't committed with release
+3. GitHub Pages deployed from committed files, showing previous version
 
-1. **Incorrect Commit Message Analysis**: Script reads previous commit instead of current commit
-2. **Overly Broad Minor Bump Criteria**: Terms like "improve" and "enhance" catch patch-level changes
-3. **File Analysis Issues**: Regex patterns too broad, catching refactoring as new features
+**Solution Implemented (2025):**
+Modern version management system with single source of truth:
 
-**Solution Implemented:**
-Manual approval system for non-patch bumps:
-
-```bash
-# New behavior with standard-version
-if [[ "$bump_type" == "patch" ]]; then
-    echo "✅ Auto-approving PATCH bump"
-    bump_version "$bump_type"
-else
-    if prompt_for_approval "$bump_type" "$CURRENT_VERSION"; then
-        bump_version "$bump_type"
-    else
-        echo "⚠️ Skipping version bump due to user cancellation"
-        exit 0
-    fi
-fi
+```json
+// version.json - Single source of truth
+{
+  "version": "1.7.7",
+  "commit": "34884c1",
+  "date": "2025-09-27 19:26:40 -0400",
+  "timestamp": "2025-09-27T23:27:11.388Z"
+}
 ```
 
-**Current Status (v1.6.10):**
-- ✅ **PATCH bumps**: Automatically approved and applied
-- ✅ **MINOR/MAJOR bumps**: Require manual user approval
-- ✅ **User Control**: You can approve or cancel any non-patch bump
-- ✅ **Clear Feedback**: System shows what changes would trigger bumps
+```javascript
+// js/version-display.js - Dynamic fetching
+class VersionDisplay {
+  async updateVersion() {
+    const response = await fetch('/version.json?t=' + Date.now());
+    const versionInfo = await response.json();
+    this.displayVersion(versionInfo);
+  }
+}
+```
 
-**Version Bump Guidelines:**
+**Current Status (v1.7.7):**
+- ✅ **Single source of truth**: `version.json` contains all version info
+- ✅ **Dynamic fetching**: Runtime version updates with cache-busting
+- ✅ **No version lag**: Site always shows correct version
+- ✅ **Cache-bustable**: Immediate updates with timestamp parameters
 
-| Type | Trigger | Example | Result |
-|------|---------|---------|---------|
-| **PATCH** | Documentation, bug fixes, refactoring | `docs: update documentation` | 1.6.10 → 1.6.11 |
-| **MINOR** | New features, new pages | `feat: add new resource category` | 1.6.10 → 1.7.0 |
-| **MAJOR** | Breaking changes, complete redesign | `feat!: redesign entire site` | 1.6.10 → 2.0.0 |
+### Problem: Release Process Issues
 
-**Prevention:**
-- Use proper commit message conventions (`docs:`, `fix:`, `feat:`)
-- Review version bump prompts before approving
-- Monitor version history for inappropriate bumps
+**Symptoms:**
+- `version.json` not included in release commits
+- `standard-version` postbump script fails
+- Version update script runs but doesn't stage files
+- Release commits missing updated version files
+
+**Root Cause:**
+`standard-version` configuration not properly staging updated files:
+
+```json
+// OLD (problematic)
+"postbump": "node scripts/update-index-version.js"
+
+// NEW (working)
+"postbump": "node scripts/update-version-json.js && git add version.json"
+```
+
+**Solution:**
+1. **Update postbump script** to stage version.json
+2. **Use git add** to include updated files in release commit
+3. **Verify commit includes** both package.json and version.json
+
+**Verification Commands:**
+```bash
+# Check release commit includes version.json
+git show HEAD --name-only | grep version.json
+
+# Verify version.json content
+cat version.json | jq
+
+# Test version display
+curl -s https://ccri-cyberknights.github.io/page/version.json | jq
+```
+
+### Problem: GitHub Pages Deployment Issues
+
+**Symptoms:**
+- Custom workflow fails with environment protection errors
+- Automatic Pages deployment works but version doesn't update
+- Site shows old version despite successful deployment
+- GitHub Actions shows failed custom workflow runs
+
+**Root Cause:**
+Conflicting deployment systems:
+1. **Custom workflow**: Fails due to environment protection rules
+2. **Automatic Pages**: Works but doesn't include version updates
+3. **Dual deployment**: Two systems fighting each other
+
+**Solution Implemented:**
+Simplified deployment using GitHub Pages automatic deployment:
+
+1. **Removed custom workflow** (`.github/workflows/release.yml`)
+2. **Use automatic Pages deployment** from main branch
+3. **Rely on version.json** for version display
+4. **Single deployment path** eliminates conflicts
+
+**Current Deployment Flow:**
+1. Make changes → commit to `main`
+2. Run `npm run release:patch` → bumps version, updates version.json
+3. Push commit + tag → GitHub Pages automatically deploys
+4. Site updates → version display fetches version.json
+
+### Problem: Version Display Not Working
+
+**Symptoms:**
+- Version display shows fallback version
+- JavaScript console shows fetch errors
+- version.json not accessible
+- Version elements not updating
+
+**Root Cause:**
+Runtime version fetching issues:
+
+1. **version.json not deployed**: File missing from deployment
+2. **JavaScript errors**: version-display.js not loading
+3. **Network issues**: Fetch requests failing
+4. **Cache issues**: Browser caching old version
+
+**Solution:**
+1. **Check version.json deployment**:
+   ```bash
+   curl -s https://ccri-cyberknights.github.io/page/version.json
+   ```
+
+2. **Verify JavaScript loading**:
+   ```html
+   <script src="./js/version-display.js"></script>
+   ```
+
+3. **Check browser console** for errors
+
+4. **Test with cache-busting**:
+   ```bash
+   curl -s "https://ccri-cyberknights.github.io/page/version.json?t=$(date +%s)"
+   ```
+
+### Version Management Best Practices
+
+**Release Process:**
+1. **Always use release scripts**: `npm run release:patch|minor|major`
+2. **Verify version.json included**: Check release commit includes version.json
+3. **Test version display**: Verify site shows correct version
+4. **Monitor deployment**: Check GitHub Actions for successful deployment
+
+**Troubleshooting Steps:**
+1. **Check repository state**: `git log --oneline -3`
+2. **Verify version.json**: `cat version.json | jq`
+3. **Test live site**: `curl -s https://ccri-cyberknights.github.io/page/version.json | jq`
+4. **Check browser cache**: Disable cache in DevTools
+
+**Common Commands:**
+```bash
+# Check current version
+npm run version:show
+
+# Create patch release
+npm run release:patch
+
+# Verify deployment
+gh api repos/CCRI-Cyberknights/page/pages/builds | jq '.[0]'
+
+# Test version display
+curl -s https://ccri-cyberknights.github.io/page/version.json | jq '.version'
+```
 
 ## URL Structure Issues
 
@@ -681,7 +800,7 @@ The project uses **Selenium WebDriver-based debugging** for systematic layout is
 ## Legacy Documentation
 
 The following files were consolidated into this document:
-- **`docs/LAYOUT-TROUBLESHOOTING.md`** - Comprehensive Selenium-based layout debugging methodology and CSS conflict resolution (last updated: commit `61c789c`)
+- **`docs/TROUBLESHOOTING.md`** - Comprehensive Selenium-based layout debugging methodology and CSS conflict resolution (consolidated)
 
 *Last Updated: 2025-09-26*
-*Related Files: `scripts/update-index-version.js`, `package.json`, `.husky/pre-commit`, `selenium_env/`, `index.html`, `node_modules/`, `scripts/test-links-dynamic-parallel.py`, `docs/TESTING.md`, `docs/VERSIONING.md`*
+*Related Files: `version.json`, `scripts/update-version-json.js`, `js/version-display.js`, `package.json`, `.husky/pre-commit`, `selenium_env/`, `index.html`, `node_modules/`, `scripts/test-links-dynamic-parallel.py`, `docs/TESTING.md`, `docs/VERSIONING.md`, `docs/ARCHITECTURE.md`*

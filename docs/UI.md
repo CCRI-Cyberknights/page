@@ -4,7 +4,7 @@
 
 This document outlines the comprehensive UI/UX improvements implemented to enhance the user experience and visual consistency of the Cyber Club landing page. This document covers the evolution from v1.4.x through v1.5.x, including the Navigation & Interaction Upgrade and Content and Information Architecture Overhaul.
 
-**Note**: For comprehensive documentation of v1.5.x changes, see [Design Evolution](DESIGN-EVOLUTION.md).
+**Note**: For comprehensive documentation of v1.5.x changes, see [UI.md](UI.md) - Design Evolution section.
 
 ## Implemented Improvements
 
@@ -281,6 +281,104 @@ Implemented a comprehensive footer QR code system that provides instant access t
 - **Version Display**: Consolidated hover area for better information density
 - **Copyright Attribution**: Updated to show "© 2025 Zachary Hartmann (President, CCRI Cyber Club)"
 
+## Version Display System
+
+### Overview
+The version display system provides users with current version information and build details through a modern, dynamic implementation that eliminates common version synchronization issues.
+
+### Implementation
+
+#### Dynamic Version Display (2025)
+- **Single Source of Truth**: Version information stored in `version.json`
+- **Runtime Fetching**: JavaScript dynamically fetches version data on page load
+- **Cache-Busting**: Uses timestamp parameters to ensure fresh version data
+- **Fallback Handling**: Shows fallback version if fetch fails
+
+#### Version Information Structure
+```json
+{
+  "version": "1.7.7",
+  "commit": "34884c1",
+  "date": "2025-09-27 19:26:40 -0400",
+  "timestamp": "2025-09-27T23:27:11.388Z"
+}
+```
+
+#### Display Elements
+- **Footer Version**: Shows current version number (e.g., `v1.7.7`)
+- **Version Tooltip**: Displays full version info on hover
+- **Meta Tag**: SEO version information for search engines
+- **Data Attributes**: Custom elements can display version via `data-version` attribute
+
+#### JavaScript Implementation
+```javascript
+class VersionDisplay {
+  constructor() {
+    this.versionUrl = '/version.json';
+    this.cacheBuster = `?t=${Date.now()}`;
+    this.init();
+  }
+
+  async updateVersion() {
+    const response = await fetch(`${this.versionUrl}${this.cacheBuster}`);
+    const versionInfo = await response.json();
+    this.displayVersion(versionInfo);
+  }
+
+  displayVersion(versionInfo) {
+    // Update footer version display
+    const versionSpan = document.getElementById('version');
+    if (versionSpan) {
+      versionSpan.textContent = `v${versionInfo.version}`;
+    }
+
+    // Update meta tag for SEO
+    const versionMeta = document.getElementById('version-meta');
+    if (versionMeta) {
+      versionMeta.setAttribute('content', versionInfo.version);
+    }
+
+    // Update tooltip with full info
+    const versionTooltip = document.getElementById('version-tooltip');
+    if (versionTooltip) {
+      versionTooltip.textContent = `v${versionInfo.version} - Commit: ${versionInfo.commit} - ${versionInfo.date}`;
+    }
+  }
+}
+```
+
+### Benefits
+
+#### ✅ Eliminates Common Issues
+- **No Version Lag**: Site always displays correct version
+- **Cache-Bustable**: Immediate updates with timestamp parameters
+- **Single Source**: No duplicate version constants across files
+- **Automatic Updates**: Version updates without manual synchronization
+
+#### ✅ Modern Best Practices
+- **Runtime Fetching**: Dynamic version loading without rebuilds
+- **Error Handling**: Graceful fallback if version fetch fails
+- **Performance**: Minimal impact on page load time
+- **Maintainable**: Clean, simple implementation
+
+### HTML Integration
+```html
+<!-- Version display elements -->
+<span id="version">v1.7.7</span>
+<meta id="version-meta" name="version" content="1.7.7">
+<div id="version-tooltip" title="Version information">v1.7.7 - Commit: 34884c1 - 2025-09-27</div>
+
+<!-- Script inclusion -->
+<script src="./js/version-display.js"></script>
+```
+
+### Related Files
+- **`version.json`**: Single source of truth for version information
+- **`js/version-display.js`**: Runtime version fetching and display
+- **`scripts/update-version-json.js`**: Version update script for releases
+- **`docs/VERSIONING.md`**: Comprehensive version management documentation
+- **`docs/TROUBLESHOOTING.md`**: Version-related issues and solutions
+
 ## QR Code UI & Image Modal System
 
 ### Purpose
@@ -520,7 +618,7 @@ Practical examples for using the document loading system, including quick start 
 
 The following files were consolidated into this document:
 - **`docs/QR-UI.md`** - QR code UI and unified image modal system (last updated: commit `61c789c`)
-- **`docs/DESIGN-EVOLUTION.md`** - Comprehensive v1.5.x design improvements and technical implementation details (last updated: commit `61c789c`)
+- **`docs/UI.md`** - Comprehensive v1.5.x design improvements and technical implementation details (consolidated)
 - **`docs/CONTENT-ARCHITECTURE-v1.5.1.md`** - Content strategy and messaging changes for v1.5.1 (last updated: commit `61c789c`)
 - **`docs/DOCUMENT-LOADING.md`** - Guide loading system with dual-mode operation and async routing (last updated: commit `61c789c`)
 - **`docs/DOCUMENT-EXAMPLES.md`** - Practical examples and usage patterns for document loading system (last updated: commit `61c789c`)

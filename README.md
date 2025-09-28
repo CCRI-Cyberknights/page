@@ -4,6 +4,21 @@
 
 This repository hosts the official landing pages for the CCRI Cybersecurity Club's various QR code campaigns. The goal is to provide a single, easy-to-manage web platform that delivers targeted information and resources to new and prospective club members. This project is a foundational part of our recruitment and outreach strategy.
 
+## Documentation
+
+### Core Documentation
+- **[Architecture](docs/ARCHITECTURE.md)** - Overall system architecture and component overview
+- **[Versioning](docs/VERSIONING.md)** - Modern version management system (2025 best practices)
+- **[UI/UX](docs/UI.md)** - User interface implementation and design evolution
+- **[Testing](docs/TESTING.md)** - Comprehensive testing strategy and implementation
+- **[Troubleshooting](docs/TROUBLESHOOTING.md)** - Common issues and solutions
+
+### Specialized Documentation
+- **[Color Palette](docs/COLOR-PALETTE.md)** - Official CyberKnights color scheme and usage
+- **[Routing](docs/ROUTING.md)** - Client-side routing system and navigation
+- **[Resources & Guides](docs/RESOURCES-GUIDES.md)** - Resource management and guide system
+- **[Changelog](docs/CHANGELOG.md)** - Complete version history and changes
+
 ## Features
 
 - **Multi-page Design**: Uses a single `index.html` file with a JavaScript router to display multiple pages, each corresponding to a different QR code. This allows us to use multiple QR codes that direct to a single, easily manageable URL.
@@ -30,30 +45,81 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 
 ## Deployment & Versioning
 
-### **Tag-Based Deployment Model**
+### **Modern Version Management System (2025)**
 
-The project uses a modern tag-based deployment strategy:
+The project uses a cutting-edge version management system that eliminates common deployment issues:
 
+- **Single Source of Truth**: Version information stored in `version.json`
+- **Dynamic Version Display**: Runtime fetching with cache-busting for immediate updates
+- **No Version Lag**: Site always displays the correct version
 - **Standard-Version**: Automated versioning based on conventional commits
-- **GitHub Actions**: Automatic deployment only on version tags (not every push)
-- **DRY Version Management**: Synchronized updates across `package.json` and `index.html`
+- **GitHub Pages**: Automatic deployment from main branch
 - **Automatic Changelog**: Generated from commit history
-- **GitHub Releases**: Automatic release creation with changelog
+
+### **Version Management Architecture**
+
+```json
+// version.json - Single source of truth
+{
+  "version": "1.7.7",
+  "commit": "34884c1",
+  "date": "2025-09-27 19:26:40 -0400",
+  "timestamp": "2025-09-27T23:27:11.388Z"
+}
+```
+
+```javascript
+// js/version-display.js - Dynamic fetching
+class VersionDisplay {
+  async updateVersion() {
+    const response = await fetch('/version.json?t=' + Date.now());
+    const versionInfo = await response.json();
+    this.displayVersion(versionInfo);
+  }
+}
+```
 
 ### **Creating a Release**
 
 ```bash
-# Automatic version bump based on commits
-npm run release
+# Patch release (bug fixes, documentation)
+npm run release:patch   # 1.7.7 → 1.7.8
 
-# Manual version bump
-npm run release:patch   # 1.2.3 → 1.2.4
-npm run release:minor   # 1.2.3 → 1.3.0
-npm run release:major   # 1.2.3 → 2.0.0
+# Minor release (new features)
+npm run release:minor   # 1.7.7 → 1.8.0
 
-# Push tags to trigger deployment
+# Major release (breaking changes)
+npm run release:major   # 1.7.7 → 2.0.0
+
+# Push to trigger deployment
 git push origin main --follow-tags
 ```
+
+### **Benefits of Modern System**
+
+#### ✅ Eliminates Common Issues
+- **No Off-by-One Version Display**: Site always shows correct version
+- **No Hardcoded Versions**: Single source of truth eliminates synchronization
+- **Cache-Bustable Updates**: Immediate version updates with timestamp parameters
+- **No Manual Synchronization**: Automatic version management
+
+#### ✅ Modern Best Practices
+- **Runtime Fetching**: Dynamic version loading without rebuilds
+- **Error Handling**: Graceful fallback if version fetch fails
+- **Performance**: Minimal impact on page load time
+- **Maintainable**: Clean, simple implementation
+
+### **Deployment Process**
+
+1. **Version Bump**: Run release script to update `package.json` and `version.json`
+2. **Automatic Commit**: Both files committed together in release commit
+3. **Tag Creation**: Git tag created (e.g., `v1.7.7`)
+4. **GitHub Pages**: Automatic deployment from main branch
+5. **Version Display**: Site fetches `version.json` and updates UI immediately
+
+### **Version Display**
+
+The site displays the current version in the footer with commit information tooltip, fetched dynamically from `version.json` with cache-busting for immediate updates.
 
 ### **Conventional Commits**
 

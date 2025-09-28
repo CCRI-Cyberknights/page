@@ -15,13 +15,15 @@ Single-file site hosted on GitHub Pages with Tailwind (CDN) and small JS modules
 - Maps: Campus-specific map pages (e.g., `/map-warwick-4080`) with optimized images and meeting location details. See **Campus Maps** section below for detailed implementation.
 - Interactive Elements: DRY implementation for image toggle functionality, CSS-based modal overlays, responsive design with viewport constraints.
 - Testing: Comprehensive Selenium WebDriver test suite with enhanced error detection covering client-side routing, QR code functionality, cross-page navigation, and interactive element behavior. Features context-aware error detection, HTTP status validation, and legitimate content whitelist. Tests run in headless Chrome with isolated `selenium_env` virtual environment.
-- Versioning: **CURRENT** Tag-based deployment model using standard-version with conventional commits, automatic changelog generation, and GitHub Actions deployment. Legacy intelligent versioning system deprecated. Version displayed in footer with commit information tooltip.
+- Versioning: **CURRENT** Modern 2025-compliant version management using `version.json` as single source of truth, dynamic runtime fetching via `version-display.js`, and `standard-version` for automated releases. Eliminates off-by-one version display issues and provides cache-bustable version updates. Version displayed in footer with commit information tooltip.
 - SEO: Open Graph meta tags for social media sharing and search engine optimization.
 
 Key files
 - `index.html` — UI, routing, calendar logic, footer QR generator, map pages, document loading
 - `package.json` — version tracking and npm scripts for automated versioning
+- `version.json` — Single source of truth for version information
 - `scripts/update-version-json.js` — Modern version management script for standard-version
+- `js/version-display.js` — Dynamic version fetching and display system
 - `.husky/pre-commit` — Git hook for automatic version management
 - `js/qrcode.min.js` — local QR encoder (no CDN)
 - `js/qr-code-manager.js` — shared QR Code functionality
@@ -274,6 +276,68 @@ Examples:
 #### Navigation
 - Maps are accessible via direct URL only
 - No main navigation menu entry (contextual access)
+
+## Version Management System
+
+### Overview
+The project uses a modern, 2025-compliant version management system that eliminates common deployment issues like version lag and off-by-one errors. The system provides a single source of truth for version information and ensures deployed sites always display the correct version.
+
+### Architecture Components
+
+#### 1. Single Source of Truth
+- **`version.json`**: Contains current version, commit hash, date, and timestamp
+- **Structure**: JSON format with version, commit, date, and timestamp fields
+- **Location**: Repository root, deployed alongside site assets
+
+#### 2. Version Update Process
+- **`scripts/update-version-json.js`**: Updates version.json during releases
+- **Integration**: Runs via `standard-version` postbump hook
+- **Automation**: Automatically stages version.json for commit
+
+#### 3. Runtime Version Display
+- **`js/version-display.js`**: Dynamically fetches and displays version
+- **Features**: Cache-busting, fallback handling, multiple display targets
+- **Initialization**: Auto-loads on page load, updates all version elements
+
+#### 4. Release Management
+- **`standard-version`**: Automated version bumping and release management
+- **Scripts**: `release:patch`, `release:minor`, `release:major`
+- **Integration**: Husky pre-commit hooks for automatic version management
+
+### Deployment Integration
+
+#### GitHub Pages Deployment
+- **Source**: Automatic deployment from `main` branch
+- **Trigger**: Any push to main branch
+- **Process**: GitHub Pages builds and deploys static files
+- **Version Sync**: version.json deployed with site, runtime fetching ensures accuracy
+
+#### Release Workflow
+1. **Version Bump**: `npm run release:patch|minor|major`
+2. **Package Update**: `standard-version` bumps `package.json`
+3. **Version File Update**: `update-version-json.js` updates `version.json`
+4. **Commit**: Both files committed in same release commit
+5. **Tag**: Git tag created (e.g., `v1.7.7`)
+6. **Deploy**: GitHub Pages automatically deploys from main branch
+
+### Benefits
+
+#### ✅ Eliminates Common Issues
+- **Off-by-one version display**: Site always shows correct version
+- **Hardcoded version constants**: No more manual synchronization
+- **Cache-related version lag**: Cache-busting ensures immediate updates
+- **Complex deployment workflows**: Simple, reliable automatic deployment
+
+#### ✅ Modern Best Practices
+- **Single source of truth**: Version managed in one place
+- **Dynamic fetching**: Runtime version updates without rebuilds
+- **Cache-bustable**: Immediate version updates with timestamp parameters
+- **Maintainable**: Clean, simple implementation
+
+### Related Documentation
+- **`docs/VERSIONING.md`**: Comprehensive version management documentation
+- **`docs/TROUBLESHOOTING.md`**: Version-related issues and solutions
+- **`docs/UI.md`**: Version display implementation details
 
 ## Conventions
 - No build step; all assets static

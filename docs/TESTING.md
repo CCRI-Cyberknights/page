@@ -471,7 +471,7 @@ def detect_actual_errors(self, page_source):
 ```
 
 ### Future Enhancements
-For detailed roadmap of future testing improvements, see [TESTING-ROADMAP.md](TESTING-ROADMAP.md).
+For detailed roadmap of future testing improvements, see [TESTING.md](TESTING.md) - Testing Roadmap section.
 
 ### Common Issues
 
@@ -547,7 +547,7 @@ The project has a comprehensive testing roadmap with aspirational goals for futu
 ## Legacy Documentation
 
 The following files were consolidated into this document:
-- **`docs/TESTING-ROADMAP.md`** - Comprehensive testing roadmap with aspirational goals and future enhancements (last updated: commit `61c789c`)
+- **`docs/TESTING.md`** - Comprehensive testing roadmap with aspirational goals and future enhancements (consolidated)
 - **`docs/LINK-TESTING.md`** - Dynamic link testing system with parallel execution and dual URL testing (last updated: commit `61c789c`)
 - **`docs/SELENIUM-ENVIRONMENT-SETUP.md`** - Selenium WebDriver setup and innovative debugging methodology (last updated: commit `61c789c`)
 
