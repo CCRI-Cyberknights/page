@@ -49,6 +49,7 @@ jobs:
           tests/test-results/
           tests/playwright-report/
         retention-days: 30
+        if-no-files-found: warn
     
     - name: Comment on PR with diagnostics
       if: github.event_name == 'pull_request' && always()
