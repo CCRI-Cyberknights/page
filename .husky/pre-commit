@@ -4,83 +4,73 @@
 
 cd "$(dirname -- "$0")/.."
 
+# Safety guard: Skip if HUSKY is disabled or if this is a release commit
+if [ "$HUSKY" = "0" ]; then
+    echo "🚫 Husky disabled - skipping pre-commit processing"
+    exit 0
+fi
+
 # Check if this is a standard-version commit (skip processing)
 if git log -1 --pretty=%B | grep -q "chore(release):"; then
     echo "📦 Standard-version release detected - skipping pre-commit processing"
     exit 0
 fi
 
-# Check if any HTML files have been modified
-if git diff --cached --name-only | grep -q "\.html$"; then
-    echo "🔗 HTML files changed - running link tests..."
+# Check if any significant files have been modified (HTML, JS, JSON, or docs)
+significant_files=$(git diff --cached --name-only | grep -E "\.(html|js|json)$|^docs/")
+if [ -n "$significant_files" ]; then
+    echo "📝 Significant files changed - checking for version bumping..."
     
-    # Check if only index.html was changed
+    # Check if any HTML files have been modified for link testing
     html_files=$(git diff --cached --name-only | grep "\.html$")
-    if [ "$html_files" = "index.html" ]; then
-        echo "📄 Only index.html changed - checking if changes are version-only..."
+    if [ -n "$html_files" ]; then
+        echo "🔗 HTML files changed - running link tests..."
         
-        # Get the diff for index.html
-        index_diff=$(git diff --cached index.html)
-        
-        # Count version-related changes (DRY JavaScript constants)
-        version_const_changes=$(echo "$index_diff" | grep -cE "^[+-].*const VERSION" 2>/dev/null | tr -d '\n' || echo "0")
-        commit_hash_changes=$(echo "$index_diff" | grep -cE "^[+-].*const COMMIT_HASH" 2>/dev/null | tr -d '\n' || echo "0")
-        commit_date_changes=$(echo "$index_diff" | grep -cE "^[+-].*const COMMIT_DATE" 2>/dev/null | tr -d '\n' || echo "0")
-        
-        # Count total non-context changes
-        total_changes=$(echo "$index_diff" | grep -cE "^[+-][^+-]" 2>/dev/null | tr -d '\n' || echo "0")
-        
-        # Ensure variables are numeric
-        version_const_changes=${version_const_changes:-0}
-        commit_hash_changes=${commit_hash_changes:-0}
-        commit_date_changes=${commit_date_changes:-0}
-        total_changes=${total_changes:-0}
-        
-        # Calculate total version-related changes
-        total_version_changes=0
-        total_version_changes=$((total_version_changes + version_const_changes))
-        total_version_changes=$((total_version_changes + commit_hash_changes))
-        total_version_changes=$((total_version_changes + commit_date_changes))
-        
-        echo "🔍 Analysis: $total_version_changes version changes out of $total_changes total changes"
-        
-        # If all changes are version-related, skip link tests
-        if [ "$total_version_changes" -gt 0 ] && [ "$total_version_changes" -eq "$total_changes" ]; then
-            echo "✅ Only version numbers changed in index.html - skipping link tests"
-            echo "ℹ️  Version management now handled by standard-version (npm run release)"
-            exit 0
+        # Check if only index.html was changed
+        if [ "$html_files" = "index.html" ]; then
+            echo "📄 Only index.html changed - running link tests..."
         else
-            echo "🔍 Non-version changes detected in index.html - running link tests..."
+            echo "🔍 Multiple HTML files changed - running link tests..."
+        fi
+        
+        echo "🔗 Running parallel link tests..."
+        . ./selenium_env/bin/activate
+        
+        # Test production URL first
+        echo "🌐 Testing production URL: https://ccri-cyberknights.github.io/page"
+        python3 scripts/test-links-dynamic-parallel.py "https://ccri-cyberknights.github.io/page"
+        
+        if [ $? -ne 0 ]; then
+            echo "❌ Production link testing failed! Please fix broken links before committing."
+            exit 1
+        fi
+        
+        # Test local URL
+        echo "🏠 Testing local URL: http://localhost:8000"
+        python3 scripts/test-links-dynamic-parallel.py "http://localhost:8000"
+        
+        # Check if both link tests passed
+        if [ $? -eq 0 ]; then
+            echo "✅ All links are working correctly on both production and local."
+        else
+            echo "❌ Local link testing failed! Please fix broken links before committing."
+            exit 1
         fi
     else
-        echo "🔍 Multiple HTML files changed - running link tests..."
+        echo "📄 No HTML files changed - skipping link tests"
     fi
     
-    echo "🔗 Running parallel link tests..."
-    . ./selenium_env/bin/activate
+    # Always run version bumping for significant changes
+    echo "🚀 Running automatic version bump..."
+    npm run version:auto
     
-    # Test production URL first
-    echo "🌐 Testing production URL: https://ccri-cyberknights.github.io/page"
-    python3 scripts/test-links-dynamic-parallel.py "https://ccri-cyberknights.github.io/page"
-    
-    if [ $? -ne 0 ]; then
-        echo "❌ Production link testing failed! Please fix broken links before committing."
-        exit 1
-    fi
-    
-    # Test local URL
-    echo "🏠 Testing local URL: http://localhost:8000"
-    python3 scripts/test-links-dynamic-parallel.py "http://localhost:8000"
-    
-    # Check if both link tests passed
     if [ $? -eq 0 ]; then
-        echo "✅ All links are working correctly on both production and local."
-        echo "ℹ️  Version management now handled by standard-version (npm run release)"
+        echo "✅ Version bumped successfully"
     else
-        echo "❌ Local link testing failed! Please fix broken links before committing."
+        echo "❌ Version bumping failed! Please check the error above."
         exit 1
     fi
 else
-    echo "📄 No HTML files changed - skipping link tests"
+    echo "📄 No significant files changed - skipping version bumping and link tests"
     echo "ℹ️  Version management now handled by standard-version (npm run release)"
 fi

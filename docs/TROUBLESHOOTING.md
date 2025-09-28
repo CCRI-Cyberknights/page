@@ -15,7 +15,7 @@ This document covers common issues encountered during development and maintenanc
 **Root Cause:**
 This was caused by the old version management system where:
 1. `standard-version` bumped `package.json` but didn't include updated `index.html`
-2. `scripts/update-index-version.js` ran but output wasn't committed with release
+2. The old `scripts/update-index-version.js` ran but output wasn't committed with release
 3. GitHub Pages deployed from committed files, showing previous version
 
 **Solution Implemented (2025):**
@@ -60,7 +60,7 @@ class VersionDisplay {
 `standard-version` configuration not properly staging updated files:
 
 ```json
-// OLD (problematic)
+// OLD (problematic) - removed in 2025 modernization
 "postbump": "node scripts/update-index-version.js"
 
 // NEW (working)
@@ -567,11 +567,49 @@ python tests/run_tests.py
 - [ ] Environment references use `selenium_env` not `testing_env`
 - [ ] Directory paths reference correct project name (`page`)
 
-### Pre-commit Hook Optimization
+### Pre-commit Hook Issues
 
-**Performance Issue**: Pre-commit hook running unnecessary link tests on version-only changes.
+### Problem: Infinite Loop in Version Bumping
 
-**Solution**: Enhanced pre-commit hook with intelligent change detection that skips link testing when only version numbers change in `index.html`.
+**Symptoms:**
+- Version jumps dramatically (e.g., from 1.7.8 to 1.7.420+)
+- Multiple `chore(release)` commits created rapidly
+- Pre-commit hook runs continuously
+- Repository becomes unstable
+
+**Root Cause:**
+Pre-commit hook runs `standard-version` which creates commits that re-trigger the hook, creating an infinite loop.
+
+**Solution Implemented:**
+1. **Add HUSKY=0 to version:auto script**:
+   ```json
+   "version:auto": "HUSKY=0 standard-version --release-as patch"
+   ```
+
+2. **Add safety guard in pre-commit hook**:
+   ```bash
+   if [ "$HUSKY" = "0" ]; then
+       echo "🚫 Husky disabled - skipping pre-commit processing"
+       exit 0
+   fi
+   ```
+
+3. **Reset version to reasonable number**:
+   ```bash
+   npm version 1.7.8 --no-git-tag-version
+   ```
+
+**Prevention:**
+- Never run `standard-version` without `HUSKY=0` in pre-commit hooks
+- Consider moving version bumping to CI/CD instead of local hooks
+- Always test version bumping in isolation before committing
+
+---
+
+
+**Performance Issue**: Pre-commit hook running unnecessary link tests on every commit.
+
+**Solution**: Modern 2025-compliant version management system eliminates the need for complex change detection. All commits run comprehensive link testing to ensure site integrity.
 
 **Documentation**: See [Versioning](VERSIONING.md#troubleshooting) for complete details on the tag-based deployment system.
 
@@ -636,7 +674,7 @@ Shell variables from `grep -c` commands can return empty strings instead of "0" 
 
 **Solution:**
 ```bash
-# Ensure variables are numeric with fallback
+# Ensure variables are numeric with fallback (LEGACY - no longer used)
 version_const_changes=$(echo "$index_diff" | grep -cE "^[+-].*const VERSION" 2>/dev/null || echo "0")
 version_const_changes=${version_const_changes:-0}  # Fallback to 0 if empty
 ```

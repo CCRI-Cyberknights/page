@@ -247,7 +247,7 @@ The script is automatically called by the Git pre-commit hook (`.husky/pre-commi
 3. **Failure Handling**: Blocks commit if either URL has broken links
 4. **Success**: Proceeds with version bump if all tests pass
 
-**Performance Optimization**: The pre-commit hook includes intelligent change detection that skips link testing when only version numbers change in `index.html`. See [Version Management System](../docs/VERSION-MANAGEMENT.md#husky-integration-huskypre-commit) for complete details.
+**Performance Optimization**: The pre-commit hook includes comprehensive link testing for all HTML changes, ensuring site integrity with modern 2025-compliant version management. See [Version Management System](../docs/VERSIONING.md#husky-integration) for complete details.
 
 #### Environment Requirements
 

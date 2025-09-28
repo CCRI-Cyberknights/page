@@ -163,10 +163,10 @@ node scripts/update-version-json.js
 
 ### From Old System (Pre-2025)
 
-**Previous Issues**:
-- Hardcoded version constants in `index.html`
-- `scripts/update-index-version.js` complexity
-- Off-by-one version display issues
+**Previous Issues (Resolved)**:
+- Hardcoded version constants in `index.html` (removed)
+- Old `scripts/update-index-version.js` complexity (replaced with `update-version-json.js`)
+- Off-by-one version display issues (eliminated)
 - Manual synchronization across files
 
 **Migration Steps Completed**:
@@ -174,7 +174,7 @@ node scripts/update-version-json.js
 2. ✅ Implemented `version.json` as single source of truth
 3. ✅ Created `version-display.js` for runtime updates
 4. ✅ Updated `standard-version` configuration
-5. ✅ Removed old `update-index-version.js` script
+5. ✅ Removed old `update-index-version.js` script (replaced with `update-version-json.js`)
 
 ## Related Files
 

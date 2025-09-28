@@ -72,6 +72,6 @@ When adding new test files:
 
 ## Pre-commit Hook Integration
 
-**Performance Optimization**: The pre-commit hook includes intelligent change detection that skips link testing when only version numbers change in `index.html`, improving commit performance.
+**Performance Optimization**: The pre-commit hook includes comprehensive link testing for all HTML changes, ensuring site integrity with modern 2025-compliant version management.
 
 **Documentation**: See [Version Management System](../docs/VERSION-MANAGEMENT.md#husky-integration-huskypre-commit) for complete details on the pre-commit hook optimization and how it integrates with the testing system.
