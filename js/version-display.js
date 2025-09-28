@@ -6,7 +6,7 @@
 
 class VersionDisplay {
   constructor() {
-    this.versionUrl = '/version.json';
+    this.versionUrl = '/page/version.json';  // Fixed path for GitHub Pages deployment
     this.cacheBuster = `?t=${Date.now()}`;
     this.retryCount = 0;
     this.maxRetries = 3;
@@ -112,11 +112,6 @@ class VersionDisplay {
   }
 
   showFallback() {
-    // Fallback to package.json version if available
-    const versionSpan = document.getElementById('version');
-    if (versionSpan) {
-      versionSpan.textContent = 'v1.7.6'; // Fallback version
-    }
     console.warn('Using fallback version display');
   }
 }
