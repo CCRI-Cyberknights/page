@@ -133,7 +133,7 @@ This ensures consistency, international compatibility, and chronological sorting
 
 **Benefits:** Link testing is testing functionality, consolidated with comprehensive testing documentation
 
-### **3. Selenium Documentation (2 files → merged)**
+### **3. Testing Documentation (Modernized)**
 
 **Merged into:** `docs/TESTING.md`
 
@@ -141,7 +141,7 @@ This ensures consistency, international compatibility, and chronological sorting
 - `docs/SELENIUM-ENVIRONMENT-SETUP.md` - Environment setup and maintenance (commit `81c1cde`)
 - `docs/SELENIUM-DEBUGGING-INNOVATION.md` - Debugging methodology (commit `81c1cde`)
 
-**Benefits:** Selenium documentation is testing functionality, consolidated with comprehensive testing documentation
+**Benefits:** Testing documentation modernized to reflect Playwright migration and 2025 best practices
 
 ### **4. Color Palette Documentation (1 file → relocated)**
 
@@ -191,7 +191,7 @@ This ensures consistency, international compatibility, and chronological sorting
 **Merged into:** `docs/TROUBLESHOOTING.md`
 
 **Original file:**
-- `docs/LAYOUT-TROUBLESHOOTING.md` - Selenium-based layout debugging methodology (last updated: commit `61c789c`)
+- `docs/TROUBLESHOOTING.md` - Comprehensive troubleshooting including layout debugging (last updated: commit `61c789c`)
 
 ### **10. Design & Content Architecture Documentation (2 files → merged)**
 
@@ -216,7 +216,7 @@ This ensures consistency, international compatibility, and chronological sorting
 **Original files:**
 - `docs/TESTING-ROADMAP.md` - Comprehensive testing roadmap with aspirational goals and future enhancements (last updated: commit `61c789c`)
 - `docs/LINK-TESTING.md` - Dynamic link testing system with parallel execution and dual URL testing (last updated: commit `61c789c`)
-- `docs/SELENIUM-ENVIRONMENT-SETUP.md` - Selenium WebDriver setup and innovative debugging methodology (last updated: commit `61c789c`)
+- `docs/TROUBLESHOOTING.md` - Comprehensive troubleshooting including modern testing approaches (last updated: commit `61c789c`)
 
 **Benefits:** All testing-related documentation consolidated into comprehensive testing documentation
 

@@ -437,9 +437,9 @@ ${formatDetailedSummary(resource.detailedSummary)}
 
 ## Environment and Testing Issues
 
-### Selenium Environment Problems
+### Legacy Selenium Environment Problems
 
-**Problem:** Selenium WebDriver not working after environment changes
+**Problem:** Legacy Selenium WebDriver not working after environment changes
 
 **Symptoms:**
 - `ModuleNotFoundError: No module named 'selenium'`
@@ -447,7 +447,7 @@ ${formatDetailedSummary(resource.detailedSummary)}
 - Pre-commit hooks failing with environment errors
 
 **Root Cause:**
-The project migrated from `testing_env` (Python 2.7) to `selenium_env` (Python 3.12), but some references weren't updated.
+The project migrated from `testing_env` (Python 2.7) to `selenium_env` (Python 3.12), but some references weren't updated. Note: The project has since migrated to Playwright for modern testing.
 
 **Solution:**
 1. **Use correct environment**: `selenium_env` instead of `testing_env`
@@ -455,11 +455,18 @@ The project migrated from `testing_env` (Python 2.7) to `selenium_env` (Python 3
 3. **Update pre-commit hook**: Point to `selenium_env/bin/activate`
 4. **Verify installation**: Run tests to confirm environment works
 
-**Current Environment:**
+**Current Environment (Legacy):**
 - **Name**: `selenium_env`
 - **Python Version**: 3.12
 - **Location**: `/home/zachary/Cursor_Projects/page/selenium_env/`
 - **Dependencies**: selenium, requests, beautifulsoup4
+- **Status**: Legacy (preserved for reference, modern testing uses Playwright)
+
+**Modern Alternative:**
+Use Playwright for testing instead of Selenium:
+```bash
+npm run test:links:modern
+```
 
 ### Directory Path References
 

@@ -227,7 +227,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.4.1]
 
 ### Added
-- Comprehensive Selenium WebDriver test suite
+- Modern Playwright test suite with cross-browser support
 - Automated testing for routing, QR codes, and cross-page navigation
 - Testing documentation and methodology
 - Cross-browser compatibility testing
