@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.13](https://github.com/CCRI-Cyberknights/page/compare/v1.7.12...v1.7.13) (2025-09-28)
+
+
+### Features
+
+* migrate from Selenium to Playwright for link testing ([8a44712](https://github.com/CCRI-Cyberknights/page/commit/8a44712955b0d5b0789a805dd64a92c77bb41628))
+
 ### [1.7.12](https://github.com/CCRI-Cyberknights/page/compare/v1.7.11...v1.7.12) (2025-09-28)
 
 ### [1.7.11](https://github.com/CCRI-Cyberknights/page/compare/v1.7.10...v1.7.11) (2025-09-28)

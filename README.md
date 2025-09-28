@@ -30,7 +30,7 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 - **Sticky Footer Layout**: Consistent footer positioning using flexbox layout to ensure footer always appears at bottom of viewport when content is minimal.
 - **Automated Versioning Diagnostics**: Playwright-based diagnostic system that validates versioning pipeline across all layers (files → commits → deployment) with comprehensive error detection and reporting.
 - **DRY Documentation**: Linux guides use reusable CSS classes and consistent styling with official Cyberknights color palette.
-- **Automated Testing**: Comprehensive test suite using Selenium WebDriver to ensure functionality across different pages and features.
+- **Automated Testing**: Comprehensive test suite using Playwright for fast, reliable link testing and cross-browser validation.
 - **Automated Versioning**: Tag-based deployment model using standard-version with conventional commits, automatic changelog generation, and GitHub Actions deployment.
 - **Key Landing Pages**:
   - **Home**: Merged club content with engaging "Who are the Cyber Knights?" headline, strategic "Excitement • Opportunity • Belonging" banner for QR code users, enhanced career messaging with "Our Members Get Hired!" section, and logical content organization
