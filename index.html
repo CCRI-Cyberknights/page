@@ -14,8 +14,91 @@
   <script src="./js/qrcode.min.js"></script>
   <script src="./js/qr-code-manager.js"></script>
   <script src="./js/version-display.js"></script>
+  <script src="./js/universal-modal.js"></script>
   <style>
     :root { color-scheme: dark; }
+    
+    /* Universal Modal System Styles */
+    .modal-container {
+      transition: transform 0.3s ease-out;
+    }
+    
+    .modal-container.scale-95 {
+      transform: scale(0.95);
+    }
+    
+    .modal-container.scale-100 {
+      transform: scale(1);
+    }
+    
+    /* Modal Size Variants */
+    .modal-small .modal-container {
+      max-width: 28rem; /* 448px */
+    }
+    
+    .modal-medium .modal-container {
+      max-width: 32rem; /* 512px */
+    }
+    
+    .modal-large .modal-container {
+      max-width: 48rem; /* 768px */
+    }
+    
+    .modal-fullscreen .modal-container {
+      max-width: none;
+      max-height: none;
+      width: 100vw;
+      height: 100vh;
+      border-radius: 0;
+      margin: 0;
+    }
+    
+    .modal-fullscreen {
+      padding: 0;
+    }
+    
+    /* Modal Animation States */
+    .modal-enter {
+      opacity: 0;
+    }
+    
+    .modal-enter-active {
+      opacity: 1;
+      transition: opacity 0.3s ease-out;
+    }
+    
+    .modal-exit {
+      opacity: 1;
+    }
+    
+    .modal-exit-active {
+      opacity: 0;
+      transition: opacity 0.3s ease-in;
+    }
+    
+    /* Focus trap styles */
+    .modal-focus-trap {
+      outline: none;
+    }
+    
+    /* Scrollbar styling for modal content */
+    .modal-body::-webkit-scrollbar {
+      width: 6px;
+    }
+    
+    .modal-body::-webkit-scrollbar-track {
+      background: #1e293b;
+      border-radius: 3px;
+    }
+    
+    .modal-body::-webkit-scrollbar-thumb {
+      background: #475569;
+      border-radius: 3px;
+    }
+    
+    .modal-body::-webkit-scrollbar-thumb:hover {
+      background: #64748b;
+    }
     
     
     /* Dynamic intro text with smooth CSS transitions */
@@ -169,10 +252,44 @@
 
   <main id="app" class="max-w-5xl mx-auto px-4 pb-8"></main>
 
-  <!-- Image Modal Overlay -->
-  <div id="image-modal" class="fixed inset-0 bg-black/90 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
-    <img id="modal-image" class="rounded-xl shadow-[0_0_60px_rgba(16,185,129,0.5)]" />
+  <!-- Universal Modal System -->
+  <div id="universal-modal" 
+       class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 opacity-0 pointer-events-none transition-opacity duration-300" 
+       role="dialog" 
+       aria-modal="true" 
+       aria-labelledby="modal-title" 
+       aria-hidden="true">
+    
+    <!-- Modal Backdrop (clickable overlay) -->
+    <div class="absolute inset-0" data-modal-close></div>
+    
+    <!-- Modal Container -->
+    <div class="modal-container bg-slate-900 border border-slate-700 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-hidden relative z-10 transform transition-transform duration-300 scale-95">
+      
+      <!-- Modal Header -->
+      <div class="modal-header flex items-start justify-between p-6 border-b border-slate-700">
+        <h2 id="modal-title" class="modal-title text-xl font-semibold text-slate-100 flex-1 mr-4"></h2>
+        <button class="modal-close text-slate-400 hover:text-slate-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-slate-900 rounded" 
+                data-modal-close 
+                aria-label="Close dialog">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+      
+      <!-- Modal Body -->
+      <div id="modal-content" class="modal-body p-6 overflow-y-auto max-h-[60vh]"></div>
+      
+      <!-- Modal Footer -->
+      <div id="modal-actions" class="modal-footer p-6 border-t border-slate-700 flex justify-end gap-3"></div>
+    </div>
   </div>
+
+  <!-- Legacy Image Modal (deprecated - use Universal Modal) -->
+  <!-- <div id="image-modal" class="fixed inset-0 bg-black/90 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
+    <img id="modal-image" class="rounded-xl shadow-[0_0_60px_rgba(16,185,129,0.5)]" />
+  </div> -->
 
   <footer class="mt-6">
     <div class="max-w-5xl mx-auto px-4 py-1 text-xs text-slate-400 flex items-center justify-between">
@@ -1408,79 +1525,35 @@
         }).join('');
       }
 
-      // Function to open resource modal
+      // Function to open resource modal (now uses Universal Modal)
       window.openResourceModal = function(resource) {
-        // Create modal overlay
-        const modal = document.createElement('div');
-        modal.className = 'fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4';
-        modal.onclick = (e) => {
-          if (e.target === modal) closeResourceModal();
-        };
-        
-        // Add keyboard event listener for backspace key
-        const handleKeydown = (e) => {
-          if (e.key === 'Backspace') {
-            e.preventDefault();
-            closeResourceModal();
-            document.removeEventListener('keydown', handleKeydown);
-          }
-        };
-        document.addEventListener('keydown', handleKeydown);
-        
         const buttonText = getButtonText(resource.name);
-        
         const catLabel = getCategoryLabel(resource.cat);
         
-        modal.innerHTML = `
-          <div class="bg-slate-900 border border-slate-700 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-y-auto cursor-pointer" onclick="closeResourceModal()">
-            <div class="p-6">
-              <!-- Header -->
-              <div class="flex items-start justify-between mb-4">
-                <div class="flex-1">
-                  <h3 class="text-xl font-semibold text-slate-100 mb-1">${resource.name}</h3>
-                  <div class="text-sm text-slate-400">${catLabel}</div>
-                </div>
-                <button onclick="closeResourceModal()" class="text-slate-400 hover:text-slate-200 ml-4">
-                  ${getCloseIcon()}
-                </button>
-              </div>
-              
-              <!-- Detailed Summary -->
-              ${resource.detailedSummary ? `
-                <div class="text-slate-400 mb-6 leading-relaxed">
-                  <ul class="list-disc list-inside space-y-1">
-                    ${formatDetailedSummary(resource.detailedSummary)}
-                  </ul>
-                </div>
-              ` : ''}
-              
-              <!-- Action Button -->
-              <div class="flex justify-end">
-                <a href="${resource.url}" ${getExternalLinkAttributes(resource.url)} 
-                   class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded transition-colors" 
-                   onclick="closeResourceModal(); return true;">
-                  <span>${buttonText}</span>
-                  ${getLinkIcon(resource.url)}
-                </a>
-              </div>
-            </div>
+        const content = resource.detailedSummary ? `
+          <div class="text-slate-400 leading-relaxed">
+            <ul class="list-disc list-inside space-y-1">
+              ${formatDetailedSummary(resource.detailedSummary)}
+            </ul>
           </div>
+        ` : '';
+        
+        const actions = `
+          <a href="${resource.url}" ${getExternalLinkAttributes(resource.url)} 
+             class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded transition-colors" 
+             onclick="closeModal(); return true;">
+            <span>${buttonText}</span>
+            ${getLinkIcon(resource.url)}
+          </a>
         `;
         
-        document.body.appendChild(modal);
-        document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        // Use Universal Modal
+        openModal(content, resource.name, actions, { size: 'medium' });
       };
       
-      // Function to close resource modal
+      // Function to close resource modal (now uses Universal Modal)
       window.closeResourceModal = function() {
-        const modal = document.querySelector('.fixed.inset-0.bg-black\\/50');
-        if (modal) {
-          modal.remove();
-          document.body.style.overflow = ''; // Restore scrolling
-          
-          // Clean up any remaining keyboard event listeners
-          // This is handled automatically by the event listener removal in handleKeydown
-        }
+        closeModal();
       };
       
       // Function to toggle detailed summaries
@@ -1615,56 +1688,37 @@
       }
     }
 
-    // Modal Overlay Pattern - Clean Implementation
-    const modal = document.getElementById('image-modal');
-    const modalImage = document.getElementById('modal-image');
-
+    // Image Modal System (now uses Universal Modal)
     function openModal(src, alt, isCanvas = false) {
-      modalImage.src = src;
-      modalImage.alt = alt;
+      const imageClass = isCanvas 
+        ? 'w-[min(85vw,85vh)] h-[min(85vw,85vh)] object-contain rounded-xl shadow-[0_0_60px_rgba(16,185,129,0.5)]'
+        : 'max-w-[96vw] max-h-[96vh] object-contain rounded-xl shadow-[0_0_60px_rgba(16,185,129,0.5)]';
       
-      // Apply different sizing based on content type
-      if (isCanvas) {
-        // For QR codes and canvas-generated images, use square container
-        modalImage.className = 'w-[min(85vw,85vh)] h-[min(85vw,85vh)] object-contain rounded-xl shadow-[0_0_60px_rgba(16,185,129,0.5)]';
-      } else {
-        // For regular images, use responsive sizing
-        modalImage.className = 'max-w-[96vw] max-h-[96vh] object-contain rounded-xl shadow-[0_0_60px_rgba(16,185,129,0.5)]';
-      }
+      const content = `<img src="${src}" alt="${alt}" class="${imageClass}" />`;
       
-      modal.classList.remove('opacity-0', 'pointer-events-none');
-      document.body.style.overflow = 'hidden';
+      // Use Universal Modal
+      openImageModal(src, alt, isCanvas);
     }
 
-    function closeModal() {
-      modal.classList.add('opacity-0', 'pointer-events-none');
-      document.body.style.overflow = 'auto';
+    function closeImageModal() {
+      // Universal Modal handles this automatically
+      closeModal();
     }
 
-    // Close on overlay click or Escape key
-    modal.addEventListener('click', closeModal);
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' || e.key === 'Backspace') {
-        closeModal();
-      }
-    });
-
-    // Old toggleImageSize function removed - now using modal pattern
-
-    // Simple modal functions for each image
+    // Simple modal functions for each image (now use Universal Modal)
     window.toggleIconSize = function() {
       const icon = document.getElementById('cyberknight-icon');
-      openModal(icon.src, icon.alt);
+      openImageModal(icon.src, icon.alt);
     };
 
     window.toggleWelderSize = function() {
       const welder = document.getElementById('cyberknight-welder-large');
-      openModal(welder.src, welder.alt);
+      openImageModal(welder.src, welder.alt);
     };
 
     window.toggleVBoxSummarySize = function() {
       const vbox = document.getElementById('vbox-summary-image');
-      openModal(vbox.src, vbox.alt);
+      openImageModal(vbox.src, vbox.alt);
     };
 
     // Generate small QR code for footer

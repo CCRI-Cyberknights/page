@@ -23,6 +23,7 @@ Key files
 - `package.json` — version tracking and npm scripts for automated versioning
 - `version.json` — Single source of truth for version information
 - `scripts/update-version-json.js` — Modern version management script for standard-version
+- `js/universal-modal.js` — Universal modal system with accessibility, mobile support, and standardized behavior
 - `js/version-display.js` — Dynamic version fetching and display system
 - `.husky/pre-commit` — Git hook for automatic version management
 - `js/qrcode.min.js` — local QR encoder (no CDN)
@@ -335,9 +336,9 @@ The project uses a modern, 2025-compliant version management system that elimina
 - **Maintainable**: Clean, simple implementation
 
 ### Related Documentation
-- **`docs/VERSIONING.md`**: Comprehensive version management documentation
-- **`docs/TROUBLESHOOTING.md`**: Version-related issues and solutions
-- **`docs/UI.md`**: Version display implementation details
+- **`docs/MODAL-GUIDELINES.md`**: Comprehensive modal implementation guidelines and standards
+- **`docs/MODAL-REVIEW-CHECKLIST.md`**: Code review checklist for modal compliance
+- **`docs/MODAL-INVENTORY.md`**: Analysis of existing modal implementations
 
 ## Conventions
 - No build step; all assets static
