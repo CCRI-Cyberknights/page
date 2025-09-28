@@ -33,29 +33,18 @@ if [ -n "$significant_files" ]; then
             echo "🔍 Multiple HTML files changed - running link tests..."
         fi
         
-        echo "🔗 Running parallel link tests..."
-        . ./selenium_env/bin/activate
+        echo "🔗 Running Playwright link tests..."
         
-        # Test production URL first
-        echo "🌐 Testing production URL: https://ccri-cyberknights.github.io/page"
-        python3 scripts/test-links-dynamic-parallel.py "https://ccri-cyberknights.github.io/page"
+        # Run comprehensive Playwright link testing
+        echo "🌐 Testing production and local URLs with Playwright..."
+        npm run test:links
         
         if [ $? -ne 0 ]; then
-            echo "❌ Production link testing failed! Please fix broken links before committing."
+            echo "❌ Playwright link testing failed! Please fix broken links before committing."
             exit 1
         fi
         
-        # Test local URL
-        echo "🏠 Testing local URL: http://localhost:8000"
-        python3 scripts/test-links-dynamic-parallel.py "http://localhost:8000"
-        
-        # Check if both link tests passed
-        if [ $? -eq 0 ]; then
-            echo "✅ All links are working correctly on both production and local."
-        else
-            echo "❌ Local link testing failed! Please fix broken links before committing."
-            exit 1
-        fi
+        echo "✅ All links are working correctly on both production and local."
     else
         echo "📄 No HTML files changed - skipping link tests"
     fi
