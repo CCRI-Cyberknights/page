@@ -336,9 +336,7 @@ The project uses a modern, 2025-compliant version management system that elimina
 - **Maintainable**: Clean, simple implementation
 
 ### Related Documentation
-- **`docs/MODAL-GUIDELINES.md`**: Comprehensive modal implementation guidelines and standards
-- **`docs/MODAL-REVIEW-CHECKLIST.md`**: Code review checklist for modal compliance
-- **`docs/MODAL-INVENTORY.md`**: Analysis of existing modal implementations
+- **`docs/UI.md`**: Universal Modal System implementation and guidelines (consolidated)
 
 ## Conventions
 - No build step; all assets static

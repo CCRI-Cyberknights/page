@@ -379,6 +379,176 @@ class VersionDisplay {
 - **`docs/VERSIONING.md`**: Comprehensive version management documentation
 - **`docs/TROUBLESHOOTING.md`**: Version-related issues and solutions
 
+## Universal Modal System
+
+### Overview
+
+The Universal Modal System provides a comprehensive, standardized modal implementation that ensures consistent behavior, full accessibility support, and maintainable code across all modal interactions on the site. This system replaces all previous modal implementations with a single, reusable solution.
+
+### Core Features
+
+- **Single Source of Truth**: All modals use the `#universal-modal` container
+- **Full Accessibility**: ARIA attributes, focus management, keyboard navigation
+- **Mobile Support**: Back button handling and touch-optimized interactions
+- **Size Variants**: Small, medium, large, and fullscreen options
+- **Animation Support**: Smooth open/close transitions
+- **Event Cleanup**: Proper event listener management
+- **Scroll Locking**: Prevents background scrolling when modal is open
+
+### Implementation
+
+#### HTML Structure
+```html
+<div id="universal-modal" 
+     class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 opacity-0 pointer-events-none transition-opacity duration-300" 
+     role="dialog" 
+     aria-modal="true" 
+     aria-labelledby="modal-title" 
+     aria-hidden="true">
+  
+  <!-- Modal Backdrop (clickable overlay) -->
+  <div class="absolute inset-0" data-modal-close></div>
+  
+  <!-- Modal Container -->
+  <div class="modal-container bg-slate-900 border border-slate-700 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-hidden relative z-10 transform transition-transform duration-300 scale-95">
+    
+    <!-- Modal Header -->
+    <div class="modal-header flex items-start justify-between p-6 border-b border-slate-700">
+      <h2 id="modal-title" class="modal-title text-xl font-semibold text-slate-100 flex-1 mr-4"></h2>
+      <button class="modal-close text-slate-400 hover:text-slate-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-slate-900 rounded" 
+              data-modal-close 
+              aria-label="Close dialog">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+      </button>
+    </div>
+    
+    <!-- Modal Body -->
+    <div id="modal-content" class="modal-body p-6 overflow-y-auto max-h-[60vh]"></div>
+    
+    <!-- Modal Footer -->
+    <div id="modal-actions" class="modal-footer p-6 border-t border-slate-700 flex justify-end gap-3"></div>
+  </div>
+</div>
+```
+
+#### JavaScript Usage
+```javascript
+// Basic usage
+const modal = new UniversalModal();
+modal.open(content, title, actions);
+
+// Advanced configuration
+const modal = new UniversalModal({
+  size: 'large',              // small, medium, large, fullscreen
+  closable: true,             // Allow closing via standard methods
+  mobileBackButton: true,     // Enable mobile back button support
+  focusTrap: true,           // Trap focus within modal
+  scrollLock: true,          // Lock body scroll when open
+  animation: true            // Enable open/close animations
+});
+
+// Convenience functions
+openModal(content, title, actions, options);
+openResourceModal(resourceObject);
+openImageModal(imageSrc, imageAlt, isCanvas);
+closeModal();
+```
+
+### Size Variants
+
+- **Small** (`size: 'small'`): 28rem max-width, for simple confirmations
+- **Medium** (`size: 'medium'`): 32rem max-width, for standard content
+- **Large** (`size: 'large'`): 48rem max-width, for complex content and images
+- **Fullscreen** (`size: 'fullscreen'`): 100vw × 100vh, for complex interfaces
+
+### Required Closing Methods
+
+#### Mandatory Methods
+1. **Escape Key** - Universal keyboard shortcut
+2. **Overlay Click** - Click outside modal content
+3. **Close Button** - Explicit X button in header
+4. **Action Buttons** - Buttons that complete modal purpose
+
+#### Optional Methods
+1. **Backspace Key** - Legacy support for backward compatibility
+2. **Mobile Back Button** - For full-screen modals only
+
+### Accessibility Features
+
+- **Focus Management**: Focus trapping and restoration
+- **Screen Reader Support**: Proper ARIA attributes and announcements
+- **Keyboard Navigation**: Tab cycling within modal
+- **High Contrast**: Dark overlay with proper contrast ratios
+- **Touch Targets**: Minimum 44px touch targets for mobile
+
+### Migration from Legacy Modals
+
+#### Resource Modals
+```javascript
+// OLD: Custom modal implementation
+// NEW: Uses openResourceModal() convenience function
+openResourceModal({
+  name: 'Resource Name',
+  detailedSummary: 'Resource description...',
+  url: 'https://example.com'
+});
+```
+
+#### Image Modals
+```javascript
+// OLD: Custom image modal
+// NEW: Uses openImageModal() convenience function
+openImageModal('image.jpg', 'Image Description', false);
+```
+
+#### QR Manager
+```javascript
+// OLD: expandPanel() - custom full-screen implementation
+// NEW: Use UniversalModal with size: 'fullscreen' and mobileBackButton: true
+const modal = new UniversalModal({
+  size: 'fullscreen',
+  mobileBackButton: true,
+  closable: true
+});
+```
+
+### Code Review Checklist
+
+#### Pre-Submission Requirements
+- [ ] Uses Universal Modal System (no custom modal HTML)
+- [ ] Includes proper ARIA attributes
+- [ ] Implements focus management
+- [ ] Handles mobile back button (if full-screen)
+- [ ] Includes proper cleanup
+- [ ] Follows Tailwind class standards
+- [ ] Tests keyboard navigation
+- [ ] Tests screen reader compatibility
+
+#### Common Anti-Patterns to Avoid
+```javascript
+// DON'T: Create custom modal HTML
+const modal = document.createElement('div');
+modal.className = 'fixed inset-0 bg-black/50...';
+
+// DON'T: Custom event handlers
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') { /* custom logic */ }
+});
+
+// DO: Use Universal Modal
+openModal(content, title, actions, { size: 'medium' });
+```
+
+### Benefits
+
+- **Consistent User Experience**: All modals behave identically
+- **Reduced Maintenance**: Single system to maintain and update
+- **Better Accessibility**: Standardized ARIA implementation
+- **Mobile-Friendly**: Consistent mobile support across all modals
+- **Developer Experience**: Simple, reusable API for all modal needs
+
 ## QR Code UI & Image Modal System
 
 ### Purpose
@@ -617,6 +787,9 @@ Practical examples for using the document loading system, including quick start 
 ## Legacy Documentation
 
 The following files were consolidated into this document:
+- **`docs/MODAL-GUIDELINES.md`** - Comprehensive modal implementation guidelines and standards (last updated: commit `3630b7e`)
+- **`docs/MODAL-INVENTORY.md`** - Analysis of existing modal implementations and migration plan (last updated: commit `3630b7e`)
+- **`docs/MODAL-REVIEW-CHECKLIST.md`** - Code review checklist for modal compliance (last updated: commit `3630b7e`)
 - **`docs/QR-UI.md`** - QR code UI and unified image modal system (last updated: commit `61c789c`)
 - **`docs/UI.md`** - Comprehensive v1.5.x design improvements and technical implementation details (consolidated)
 - **`docs/CONTENT-ARCHITECTURE-v1.5.1.md`** - Content strategy and messaging changes for v1.5.1 (last updated: commit `61c789c`)
