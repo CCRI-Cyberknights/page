@@ -29,8 +29,9 @@ Thumbs.db
 # Logs
 *.log
 
-# Link testing logs
+# Legacy link testing logs (removed in 2025 modernization)
 tests/tested-links.json
+tests/link_testing_logger.py
 
 # Node.js dependencies
 node_modules/
