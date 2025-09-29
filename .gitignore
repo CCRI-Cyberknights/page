@@ -2,6 +2,10 @@
 testing_env/
 
 # Playwright test results and reports
+tests/test-results/
+tests/playwright-report/
+.test-results/
+playwright-report/
 test-results/
 
 # Python cache files
