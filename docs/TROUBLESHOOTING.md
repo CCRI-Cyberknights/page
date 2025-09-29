@@ -912,6 +912,107 @@ npm run test:ui
 
 **1. Test-Driven Debugging**: Write Playwright tests before making changes
 
+## Universal Modal System Troubleshooting Case Study
+
+### Problem: Over-Engineered Modal System Causing Multiple Issues
+
+**Symptoms:**
+- `.webp` images no longer expand when clicked
+- Modal scrolling issues (background content scrollable while modal open)
+- Complex debugging required to identify root causes
+- System became increasingly difficult to maintain
+- Multiple failed attempts to fix scrolling and visual issues
+
+**Root Cause Analysis:**
+The Universal Modal system (`js/universal-modal.js`) was over-engineered with:
+1. **Complex inheritance patterns** - `UniversalModal` class with `ImageModal` inheritance
+2. **Multiple modal variants** - Different size classes (`modal-large`, `modal-image`) causing conflicts
+3. **CSS specificity wars** - Competing styles between universal and specific modal CSS
+4. **Scroll locking complexity** - Multiple approaches to prevent background scrolling
+5. **Focus management overhead** - Complex focus trapping that interfered with normal behavior
+
+**Advanced Troubleshooting Techniques Used:**
+
+#### 1. **Playwright-Based Visual Debugging**
+```javascript
+// Systematic before/after comparison
+const beforeScreenshot = await page.screenshot({ path: 'before-modal.png' });
+await page.click('#cyberknight-icon');
+const afterScreenshot = await page.screenshot({ path: 'after-modal.png' });
+```
+
+#### 2. **Computed Style Analysis**
+```javascript
+// Extract complete CSS state for debugging
+const computedStyles = await page.evaluate(() => {
+  const modal = document.querySelector('.modal-image');
+  return {
+    overflow: getComputedStyle(modal).overflow,
+    position: getComputedStyle(modal).position,
+    zIndex: getComputedStyle(modal).zIndex
+  };
+});
+```
+
+#### 3. **Scroll Behavior Testing**
+```javascript
+// Test multiple scroll scenarios
+await page.keyboard.press('PageDown');
+await page.mouse.wheel(0, 500);
+await page.evaluate(() => window.scrollTo(0, 100));
+```
+
+#### 4. **Environment Comparison**
+- Created temporary project copy (`/tmp/page-pre-universal-modal`) to compare implementations
+- Used side-by-side Playwright testing to identify differences
+- Documented visual discrepancies with screenshots
+
+**Solution Implemented:**
+Complete system replacement with **DRY Expandable Element System**:
+
+```javascript
+// Single, simple function replaces complex class hierarchy
+window.expandElement = function (trigger, options = {}) {
+  // Simple, robust implementation
+  // Automatic type detection
+  // Consistent behavior across all elements
+  // Proper scroll locking
+  // Accessibility features
+};
+```
+
+**Key Improvements:**
+1. **Single Entry Point**: `expandElement(element)` replaces multiple modal classes
+2. **Automatic Type Detection**: No need to specify modal types manually
+3. **Consistent CSS**: Single set of styles for all expandable elements
+4. **Proper Scroll Locking**: Simple, reliable background scroll prevention
+5. **Accessibility**: Built-in ARIA support and focus management
+6. **Maintainable**: ~200 lines vs. 500+ lines of complex inheritance
+
+**Lessons Learned:**
+
+1. **Simplicity Over Complexity**: The DRY principle should reduce complexity, not increase it
+2. **Visual Debugging is Essential**: Playwright screenshots provided objective evidence of issues
+3. **Environment Isolation**: Temporary project copies help isolate problems
+4. **Systematic Testing**: Test-driven debugging catches issues before they become problems
+5. **Know When to Start Over**: Sometimes complete replacement is better than incremental fixes
+
+**Prevention Strategies:**
+- **Start Simple**: Begin with minimal implementation, add complexity only when needed
+- **Visual Testing**: Use Playwright for systematic visual verification
+- **Document Decisions**: Record why architectural choices were made
+- **Regular Refactoring**: Don't let systems become too complex before refactoring
+
+**Advanced Techniques Demonstrated:**
+- **Playwright Visual Debugging**: Systematic before/after comparison
+- **Computed Style Analysis**: Complete CSS state extraction
+- **Environment Comparison**: Side-by-side implementation testing
+- **Scroll Behavior Testing**: Multiple scroll scenario validation
+- **Timeout Management**: Proper browser session management
+- **Temporary File Organization**: Systematic test file organization
+
+---
+
 ## Layout Troubleshooting
 
 ---

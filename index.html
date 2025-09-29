@@ -1850,6 +1850,15 @@
         // Event listeners
         function close(reason) {
           if (!overlay.parentNode) return;
+          
+          // Remove popstate listener
+          window.removeEventListener('popstate', popstateHandler);
+          
+          // Restore history state if we pushed one
+          if (history.state && history.state.modal) {
+            history.back();
+          }
+          
           overlay.parentNode.removeChild(overlay);
           document.documentElement.style.overflow = prevOverflow || '';
           if (previousActive && previousActive.focus) previousActive.focus();
@@ -1866,6 +1875,15 @@
         // ESC handler
         const escHandler = (e) => { if (e.key === 'Escape') close('esc'); };
         document.addEventListener('keydown', escHandler);
+
+        // Mobile back button support
+        const popstateHandler = (e) => { 
+          close('mobile-back'); 
+        };
+        window.addEventListener('popstate', popstateHandler);
+        
+        // Push a dummy state to enable back button detection
+        history.pushState({ modal: true }, '', window.location.href);
 
         // focus trap
         const offKey = trapFocus(dialog);

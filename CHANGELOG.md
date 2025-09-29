@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.21](https://github.com/CCRI-Cyberknights/page/compare/v1.7.20...v1.7.21) (2025-09-29)
+
+
+### Features
+
+* implement DRY expandable element system ([69c0232](https://github.com/CCRI-Cyberknights/page/commit/69c02326d52913272ccfdc27f0c4a49a5dc8af64))
+
 ### [1.7.20](https://github.com/CCRI-Cyberknights/page/compare/v1.7.18...v1.7.20) (2025-09-29)
 
 ### [1.7.18](https://github.com/CCRI-Cyberknights/page/compare/v1.7.17...v1.7.18) (2025-09-29)

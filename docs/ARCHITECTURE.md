@@ -23,11 +23,10 @@ Key files
 - `package.json` — version tracking and npm scripts for automated versioning
 - `version.json` — Single source of truth for version information
 - `scripts/update-version-json.js` — Modern version management script for standard-version
-- `js/universal-modal.js` — Universal modal system with accessibility, mobile support, and standardized behavior
+- `js/qr-code-manager.js` — QR code generation and management functionality
 - `js/version-display.js` — Dynamic version fetching and display system
 - `.husky/pre-commit` — Git hook for automatic version management
 - `js/qrcode.min.js` — local QR encoder (no CDN)
-- `js/qr-code-manager.js` — shared QR Code functionality
 - `guides/linux-cheatsheet-1.html` — standalone Linux cheat sheet page with DRY CSS classes, official color palette, and embedded QR codes for video content (dual-mode)
 - `guides/linux-cheatsheet-2.html` — standalone Linux cheat sheet page focusing on file operations with DRY CSS classes, official color palette, and embedded QR codes for video content (dual-mode)
 - `guides/linux-day-1-setup-tips.html` — Linux day 1 setup guide with consistent styling and DRY implementation (dual-mode)

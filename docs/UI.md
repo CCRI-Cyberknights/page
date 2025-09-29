@@ -379,184 +379,222 @@ class VersionDisplay {
 - **`docs/VERSIONING.md`**: Comprehensive version management documentation
 - **`docs/TROUBLESHOOTING.md`**: Version-related issues and solutions
 
-## Universal Modal System
+## DRY Expandable Element System
 
 ### Overview
 
-The Universal Modal System provides a comprehensive, standardized modal implementation that ensures consistent behavior, full accessibility support, and maintainable code across all modal interactions on the site. This system replaces all previous modal implementations with a single, reusable solution.
+The DRY Expandable Element System provides a simple, maintainable solution for expanding any element to full-screen views. This system replaces the previous Universal Modal system with a cleaner, more robust implementation that follows the DRY (Don't Repeat Yourself) principle.
 
 ### Core Features
 
-- **Single Source of Truth**: All modals use the `#universal-modal` container
-- **Full Accessibility**: ARIA attributes, focus management, keyboard navigation
-- **Mobile Support**: Back button handling and touch-optimized interactions
-- **Size Variants**: Small, medium, large, and fullscreen options
-- **Animation Support**: Smooth open/close transitions
-- **Event Cleanup**: Proper event listener management
-- **Scroll Locking**: Prevents background scrolling when modal is open
+- **Single Entry Point**: `expandElement(element)` function for all expandable content
+- **Automatic Type Detection**: Detects image, QR code, or HTML content automatically
+- **Consistent Behavior**: Same overlay, sizing, and interaction patterns across all elements
+- **Proper Scroll Locking**: Prevents background scrolling when expanded
+- **Accessibility**: Built-in ARIA support and focus management
+- **Mobile-Friendly**: Touch-optimized interactions and responsive sizing
 
 ### Implementation
 
-#### HTML Structure
+#### HTML Usage
 ```html
-<div id="universal-modal" 
-     class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 opacity-0 pointer-events-none transition-opacity duration-300" 
-     role="dialog" 
-     aria-modal="true" 
-     aria-labelledby="modal-title" 
-     aria-hidden="true">
-  
-  <!-- Modal Backdrop (clickable overlay) -->
-  <div class="absolute inset-0" data-modal-close></div>
-  
-  <!-- Modal Container -->
-  <div class="modal-container bg-slate-900 border border-slate-700 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-hidden relative z-10 transform transition-transform duration-300 scale-95">
-    
-    <!-- Modal Header -->
-    <div class="modal-header flex items-start justify-between p-6 border-b border-slate-700">
-      <h2 id="modal-title" class="modal-title text-xl font-semibold text-slate-100 flex-1 mr-4"></h2>
-      <button class="modal-close text-slate-400 hover:text-slate-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-slate-900 rounded" 
-              data-modal-close 
-              aria-label="Close dialog">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-        </svg>
-      </button>
-    </div>
-    
-    <!-- Modal Body -->
-    <div id="modal-content" class="modal-body p-6 overflow-y-auto max-h-[60vh]"></div>
-    
-    <!-- Modal Footer -->
-    <div id="modal-actions" class="modal-footer p-6 border-t border-slate-700 flex justify-end gap-3"></div>
-  </div>
+<!-- Image expansion -->
+<img src="image.jpg" alt="Description" onclick="expandElement(this)" />
+
+<!-- QR code expansion -->
+<img src="qrcode.png" alt="QR Code" data-type="qr" onclick="expandElement(this)" />
+
+<!-- Custom HTML expansion -->
+<div data-type="html" onclick="expandElement(this)">
+  <!-- Custom content -->
 </div>
 ```
 
-#### JavaScript Usage
+#### JavaScript API
 ```javascript
-// Basic usage
-const modal = new UniversalModal();
-modal.open(content, title, actions);
+// Basic usage - automatic type detection
+expandElement(element);
 
 // Advanced configuration
-const modal = new UniversalModal({
-  size: 'large',              // small, medium, large, fullscreen
-  closable: true,             // Allow closing via standard methods
-  mobileBackButton: true,     // Enable mobile back button support
-  focusTrap: true,           // Trap focus within modal
-  scrollLock: true,          // Lock body scroll when open
-  animation: true            // Enable open/close animations
+expandElement(element, {
+  type: 'image',           // 'image', 'qr', 'html'
+  maxWidth: '90vw',        // CSS units
+  maxHeight: '90vh',       // CSS units
+  zoom: 1.6,              // Multiplier for small elements
+  clone: true,            // Clone element vs. move it
+  onClose: (reason) => {}  // Callback when closed
 });
-
-// Convenience functions
-openModal(content, title, actions, options);
-openResourceModal(resourceObject);
-openImageModal(imageSrc, imageAlt, isCanvas);
-closeModal();
 ```
 
-### Size Variants
+### Supported Element Types
 
-- **Small** (`size: 'small'`): 28rem max-width, for simple confirmations
-- **Medium** (`size: 'medium'`): 32rem max-width, for standard content
-- **Large** (`size: 'large'`): 48rem max-width, for complex content and images
-- **Fullscreen** (`size: 'fullscreen'`): 100vw × 100vh, for complex interfaces
+#### Images (`type: 'image'`)
+- **Automatic Detection**: `<img>` and `<picture>` elements
+- **Natural Sizing**: Uses image's natural dimensions when possible
+- **Aspect Ratio Preservation**: Maintains original proportions
+- **High DPI Support**: Crisp rendering on all screen densities
 
-### Required Closing Methods
+#### QR Codes (`type: 'qr'`)
+- **Square Container**: Perfect aspect ratio for QR codes
+- **Metadata Display**: Optional QR manager information
+- **Zoom Support**: Configurable enlargement for small QR codes
 
-#### Mandatory Methods
+#### HTML Content (`type: 'html'`)
+- **Content Cloning**: Safely clones HTML without ID conflicts
+- **Scrollable Container**: Handles overflow content gracefully
+- **Flexible Sizing**: Adapts to content dimensions
+
+### CSS Classes
+
+```css
+.expand-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1200;
+}
+
+.expand-dialog {
+  position: relative;
+  max-width: var(--expand-max-width, 90vw);
+  max-height: var(--expand-max-height, 90vh);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+  border-radius: 8px;
+  background: transparent;
+  overflow: hidden;
+}
+
+.expand-content {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  box-sizing: border-box;
+}
+
+.expand-content img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+  border-radius: 8px;
+  box-shadow: 0 0 60px rgba(16,185,129,0.5);
+}
+
+.expand-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0,0,0,0.7);
+  color: white;
+  border-radius: 6px;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+```
+
+### Closing Methods
+
+#### Standard Methods
 1. **Escape Key** - Universal keyboard shortcut
-2. **Overlay Click** - Click outside modal content
-3. **Close Button** - Explicit X button in header
-4. **Action Buttons** - Buttons that complete modal purpose
+2. **Overlay Click** - Click outside the expanded content
+3. **Close Button** - Explicit ✕ button in top-right corner
+4. **Mobile Back Button** - Swipe back gesture on mobile devices
 
-#### Optional Methods
-1. **Backspace Key** - Legacy support for backward compatibility
-2. **Mobile Back Button** - For full-screen modals only
-
-### Accessibility Features
-
+#### Accessibility Features
 - **Focus Management**: Focus trapping and restoration
-- **Screen Reader Support**: Proper ARIA attributes and announcements
-- **Keyboard Navigation**: Tab cycling within modal
+- **Screen Reader Support**: Proper ARIA attributes
+- **Keyboard Navigation**: ESC key support
 - **High Contrast**: Dark overlay with proper contrast ratios
-- **Touch Targets**: Minimum 44px touch targets for mobile
+- **Mobile Support**: Back button/swipe gesture support
 
-### Migration from Legacy Modals
+### Migration from Universal Modal
 
-#### Resource Modals
+#### Before (Universal Modal)
 ```javascript
-// OLD: Custom modal implementation
-// NEW: Uses openResourceModal() convenience function
-openResourceModal({
-  name: 'Resource Name',
-  detailedSummary: 'Resource description...',
-  url: 'https://example.com'
-});
-```
-
-#### Image Modals
-```javascript
-// OLD: Custom image modal
-// NEW: Uses openImageModal() convenience function
-openImageModal('image.jpg', 'Image Description', false);
-```
-
-#### QR Manager
-```javascript
-// OLD: expandPanel() - custom full-screen implementation
-// NEW: Use UniversalModal with size: 'fullscreen' and mobileBackButton: true
-
-// Current implementation maintains custom full-screen QR Code Manager
-// with improved layout and responsive design:
-// - URL input spans full width of container
-// - Length information appears below URL input
-// - Both URL/Length and Controls boxes share same width via common container
-// - Simplified responsive behavior with single 600px breakpoint
-// - All CSS contained within JavaScript file for better component isolation
-```
+// Complex class-based system
 const modal = new UniversalModal({
-  size: 'fullscreen',
-  mobileBackButton: true,
-  closable: true
+  size: 'large',
+  closable: true,
+  mobileBackButton: true
 });
+modal.open(content, title, actions);
 ```
 
-### Code Review Checklist
-
-#### Pre-Submission Requirements
-- [ ] Uses Universal Modal System (no custom modal HTML)
-- [ ] Includes proper ARIA attributes
-- [ ] Implements focus management
-- [ ] Handles mobile back button (if full-screen)
-- [ ] Includes proper cleanup
-- [ ] Follows Tailwind class standards
-- [ ] Tests keyboard navigation
-- [ ] Tests screen reader compatibility
-
-#### Common Anti-Patterns to Avoid
+#### After (DRY Expandable System)
 ```javascript
-// DON'T: Create custom modal HTML
-const modal = document.createElement('div');
-modal.className = 'fixed inset-0 bg-black/50...';
-
-// DON'T: Custom event handlers
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') { /* custom logic */ }
-});
-
-// DO: Use Universal Modal
-openModal(content, title, actions, { size: 'medium' });
+// Simple function call
+expandElement(element);
 ```
+
+### Mobile Back Button Implementation
+
+The system includes comprehensive mobile back button support using the HTML5 History API:
+
+```javascript
+// Mobile back button support
+const popstateHandler = (e) => { 
+  close('mobile-back'); 
+};
+window.addEventListener('popstate', popstateHandler);
+
+// Push a dummy state to enable back button detection
+history.pushState({ modal: true }, '', window.location.href);
+
+// Enhanced cleanup function
+function close(reason) {
+  // Remove popstate listener
+  window.removeEventListener('popstate', popstateHandler);
+  
+  // Restore history state if we pushed one
+  if (history.state && history.state.modal) {
+    history.back();
+  }
+  
+  // ... rest of cleanup
+}
+```
+
+**How it works:**
+1. **State Push**: When modal opens, pushes a dummy state to browser history
+2. **Event Listener**: Listens for `popstate` events (back button/swipe gestures)
+3. **Automatic Close**: When back button is pressed, closes modal and restores history
+4. **Clean Restoration**: Properly removes event listeners and restores scroll state
 
 ### Benefits
 
-- **Consistent User Experience**: All modals behave identically
-- **Reduced Maintenance**: Single system to maintain and update
-- **Better Accessibility**: Standardized ARIA implementation
-- **Mobile-Friendly**: Consistent mobile support across all modals
-- **Developer Experience**: Simple, reusable API for all modal needs
+- **Simplified API**: Single function replaces complex class hierarchy
+- **Better Performance**: ~200 lines vs. 500+ lines of complex inheritance
+- **Easier Maintenance**: Single system to maintain and update
+- **Consistent Behavior**: Same interaction patterns across all elements
+- **Automatic Detection**: No need to specify element types manually
+- **Robust Implementation**: Handles edge cases and error states gracefully
+- **Mobile-First**: Native mobile back button/swipe gesture support
+
+### Troubleshooting
+
+#### Common Issues
+1. **Element Not Expanding**: Check that `expandElement()` function is available globally
+2. **Scroll Issues**: Verify scroll locking is working (check `document.documentElement.style.overflow`)
+3. **Sizing Problems**: Ensure CSS custom properties are set correctly
+4. **Focus Issues**: Verify focus management and ARIA attributes
+
+#### Debug Mode
+```javascript
+// Add logging to debug expansion issues
+window.expandElement = function(trigger, options = {}) {
+  console.log('Expanding element:', trigger, options);
+  // ... rest of implementation
+};
+```
 
 ## QR Code UI & Image Modal System
 
