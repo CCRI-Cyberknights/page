@@ -1,7 +1,18 @@
 #!/usr/bin/env python3
 """
-Test runner for CCRI Cyberknights website tests
+⚠️  DEPRECATED: This Selenium-based testing system is deprecated.
+    The project has migrated to modern Playwright testing for better performance and reliability.
+    
+    Modern alternative: npm run test:links:modern
+    
+    This file will be removed in a future release.
+    See docs/SELENIUM-DEPRECATION-PLAN.md for migration details.
 """
+
+print("⚠️  WARNING: Selenium testing system is DEPRECATED")
+print("   Modern alternative: npm run test:links:modern")
+print("   See docs/SELENIUM-DEPRECATION-PLAN.md for details")
+print("")
 
 import subprocess
 import sys

@@ -126,12 +126,21 @@ class ModernLinkTester {
     
     try {
       if (linkInfo.type === 'external') {
-        // Test external link
-        const response = await page.goto(url, { timeout: 10000 });
-        const success = response && response.status() === 200;
-        const message = success ? `Status ${response?.status()}` : `HTTP ${response?.status() || 'Error'}`;
-        
-        return { success, message, duration: Date.now() - linkStartTime };
+        // Test external link with redirect handling
+        try {
+          const response = await page.goto(url, { 
+            timeout: 10000,
+            waitUntil: 'domcontentloaded'
+          });
+          
+          // Consider 200-299 status codes as success (handles redirects)
+          const success = response && response.status() >= 200 && response.status() < 300;
+          const message = success ? `Status ${response?.status()}` : `HTTP ${response?.status() || 'Error'}`;
+          
+          return { success, message, duration: Date.now() - linkStartTime };
+        } catch (error) {
+          return { success: false, message: `Network Error: ${error.message}`, duration: Date.now() - linkStartTime };
+        }
       } else {
         // Test internal link
         const fullUrl = url.startsWith('#/') ? `${BASE_URL}/${url}` : url;
