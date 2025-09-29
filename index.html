@@ -14,47 +14,81 @@
   <script src="./js/qrcode.min.js"></script>
   <script src="./js/qr-code-manager.js"></script>
   <script src="./js/version-display.js"></script>
-  <script src="./js/universal-modal.js"></script>
   <style>
     :root { color-scheme: dark; }
     
-    /* Universal Modal System Styles */
-    .modal-container {
-      transition: transform 0.3s ease-out;
+    /* Expandable Element System - Clean and DRY */
+    .expand-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.9);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1200;
+      -webkit-tap-highlight-color: transparent;
     }
-    
-    .modal-container.scale-95 {
-      transform: scale(0.95);
+
+    .expand-dialog {
+      position: relative;
+      max-width: var(--expand-max-width, 90vw);
+      max-height: var(--expand-max-height, 90vh);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      border-radius: 8px;
+      background: transparent;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
-    
-    .modal-container.scale-100 {
-      transform: scale(1);
+
+    .expand-content {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 8px;
+      box-sizing: border-box;
     }
-    
-    /* Modal Size Variants */
-    .modal-small .modal-container {
-      max-width: 28rem; /* 448px */
+
+    .expand-content img {
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+      display: block;
+      border-radius: 8px;
+      box-shadow: 0 0 60px rgba(16,185,129,0.5);
     }
-    
-    .modal-medium .modal-container {
-      max-width: 32rem; /* 512px */
+
+    .expand-close {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.7);
+      color: white;
+      border-radius: 6px;
+      border: none;
+      padding: 8px 12px;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: bold;
+      transition: background 0.2s ease;
     }
-    
-    .modal-large .modal-container {
-      max-width: 48rem; /* 768px */
+
+    .expand-close:hover {
+      background: rgba(0,0,0,0.9);
     }
-    
-    .modal-fullscreen .modal-container {
-      max-width: none;
-      max-height: none;
-      width: 100vw;
-      height: 100vh;
-      border-radius: 0;
-      margin: 0;
-    }
-    
-    .modal-fullscreen {
-      padding: 0;
+
+    .expand-qr-meta {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      padding: 6px 8px;
+      border-radius: 6px;
+      font-size: 13px;
     }
     
     /* Modal Animation States */
@@ -249,7 +283,7 @@
   <header class="max-w-5xl mx-auto px-4 py-6">
     <div class="flex items-center justify-between">
       <div class="flex items-center gap-3">
-        <img id="cyberknight-icon" src="images/branding/cybersmith.webp" alt="Cyberknights" class="w-10 h-10 rounded hover:scale-110 cursor-pointer transition-transform duration-200 ease-in-out" onclick="toggleIconSize()" tabindex="0" title="Click to expand" />
+        <img id="cyberknight-icon" src="images/branding/cybersmith.webp" alt="Cyberknights" class="w-10 h-10 rounded hover:scale-110 cursor-pointer transition-transform duration-200 ease-in-out" onclick="expandElement(this)" tabindex="0" title="Click to expand" />
       </div>
       <nav class="flex gap-2 text-sm">
         <a href="#/home" class="px-3 py-2 rounded-md bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700 hover:border-slate-600 transition-all duration-200 text-slate-200 hover:text-white font-medium">Home</a>
@@ -261,44 +295,6 @@
 
   <main id="app" class="max-w-5xl mx-auto px-4 pb-8 flex-grow"></main>
 
-  <!-- Universal Modal System -->
-  <div id="universal-modal" 
-       class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4 opacity-0 pointer-events-none transition-opacity duration-300" 
-       role="dialog" 
-       aria-modal="true" 
-       aria-labelledby="modal-title" 
-       aria-hidden="true">
-    
-    <!-- Modal Backdrop (clickable overlay) -->
-    <div class="absolute inset-0" data-modal-close></div>
-    
-    <!-- Modal Container -->
-    <div class="modal-container bg-slate-900 border border-slate-700 rounded-lg max-w-2xl w-full max-h-[90vh] overflow-hidden relative z-10 transform transition-transform duration-300 scale-95">
-      
-      <!-- Modal Header -->
-      <div class="modal-header flex items-start justify-between p-6 border-b border-slate-700">
-        <h2 id="modal-title" class="modal-title text-xl font-semibold text-slate-100 flex-1 mr-4"></h2>
-        <button class="modal-close text-slate-400 hover:text-slate-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:ring-offset-slate-900 rounded" 
-                data-modal-close 
-                aria-label="Close dialog">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
-          </svg>
-        </button>
-      </div>
-      
-      <!-- Modal Body -->
-      <div id="modal-content" class="modal-body p-6 overflow-y-auto max-h-[60vh]"></div>
-      
-      <!-- Modal Footer -->
-      <div id="modal-actions" class="modal-footer p-6 border-t border-slate-700 flex justify-end gap-3"></div>
-    </div>
-  </div>
-
-  <!-- Legacy Image Modal (deprecated - use Universal Modal) -->
-  <!-- <div id="image-modal" class="fixed inset-0 bg-black/90 flex items-center justify-center z-50 opacity-0 pointer-events-none transition-opacity duration-300">
-    <img id="modal-image" class="rounded-xl shadow-[0_0_60px_rgba(16,185,129,0.5)]" />
-  </div> -->
 
   <footer class="mt-auto pb-safe">
     <div class="max-w-5xl mx-auto px-4 py-1 text-xs text-slate-400 flex items-center justify-between">
@@ -411,7 +407,7 @@
         </div>
       </div>
       <div class="flex justify-center">
-        <img id="cyberknight-welder-large" src="images/branding/cyberknight-welder.webp" alt="Cyberknights" class="w-72 h-72 object-contain drop-shadow-[0_0_40px_rgba(16,185,129,0.25)] cursor-pointer transition-transform duration-200 ease-in-out hover:scale-105" onclick="toggleWelderSize()" tabindex="0" title="Click to expand" />
+        <img id="cyberknight-welder-large" src="images/branding/cyberknight-welder.webp" alt="Cyberknights" class="w-72 h-72 object-contain drop-shadow-[0_0_40px_rgba(16,185,129,0.25)] cursor-pointer transition-transform duration-200 ease-in-out hover:scale-105" onclick="expandElement(this)" tabindex="0" title="Click to expand" />
       </div>
     </section>
 
@@ -635,7 +631,7 @@
         
         <div class="mt-6 p-4 rounded-lg border border-slate-800 bg-slate-900/40">
           <h4 class="text-sm font-semibold mb-3 text-slate-300">Expected Summary Screen:</h4>
-          <img id="vbox-summary-image" src="images/screenshots/VBoxSummary-optimized.webp" alt="VirtualBox Summary Screen showing expected configuration" class="w-full mx-auto rounded border border-slate-700 object-contain cursor-pointer transition-transform duration-200 ease-in-out hover:scale-105" onclick="toggleVBoxSummarySize()" tabindex="0" title="Click to expand" />
+          <img id="vbox-summary-image" src="images/screenshots/VBoxSummary-optimized.webp" alt="VirtualBox Summary Screen showing expected configuration" class="w-full mx-auto rounded border border-slate-700 object-contain cursor-pointer transition-transform duration-200 ease-in-out hover:scale-105" onclick="expandElement(this)" tabindex="0" title="Click to expand" />
         </div>
       </div>
 
@@ -1697,38 +1693,221 @@
       }
     }
 
-    // Image Modal System (now uses Universal Modal)
-    function openModal(src, alt, isCanvas = false) {
-      const imageClass = isCanvas 
-        ? 'w-[min(85vw,85vh)] h-[min(85vw,85vh)] object-contain rounded-xl shadow-[0_0_60px_rgba(16,185,129,0.5)]'
-        : 'max-w-[96vw] max-h-[96vh] object-contain rounded-xl shadow-[0_0_60px_rgba(16,185,129,0.5)]';
-      
-      const content = `<img src="${src}" alt="${alt}" class="${imageClass}" />`;
-      
-      // Use Universal Modal
-      openImageModal(src, alt, isCanvas);
-    }
+    // DRY Expandable Element System - Clean and Simple
+    (function () {
+      // Defaults
+      const DEFAULTS = {
+        maxWidth: '90vw',
+        maxHeight: '90vh',
+        zoom: 1.6,
+        focusSelector: '.expand-close'
+      };
 
-    function closeImageModal() {
-      // Universal Modal handles this automatically
-      closeModal();
-    }
+      // Helper: create element with attrs
+      function el(tag, attrs = {}, children = []) {
+        const e = document.createElement(tag);
+        Object.entries(attrs).forEach(([k, v]) => {
+          if (v === true) e.setAttribute(k, '');
+          else if (v !== false && v != null) e.setAttribute(k, v);
+        });
+        children.forEach(c => e.appendChild(c));
+        return e;
+      }
 
-    // Simple modal functions for each image (now use Universal Modal)
-    window.toggleIconSize = function() {
-      const icon = document.getElementById('cyberknight-icon');
-      openImageModal(icon.src, icon.alt);
-    };
+      // Basic focus trap
+      function trapFocus(container) {
+        const focusable = 'a[href], area[href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), button:not([disabled]), iframe, [tabindex]:not([tabindex="-1"])';
+        const nodes = Array.from(container.querySelectorAll(focusable));
+        if (!nodes.length) return () => {};
+        let first = nodes[0], last = nodes[nodes.length - 1];
+        function handle(e) {
+          if (e.key !== 'Tab') return;
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        }
+        document.addEventListener('keydown', handle);
+        return () => document.removeEventListener('keydown', handle);
+      }
 
-    window.toggleWelderSize = function() {
-      const welder = document.getElementById('cyberknight-welder-large');
-      openImageModal(welder.src, welder.alt);
-    };
+      // Compute size: respects aspect ratio, natural sizes, and max constraints
+      function computeSize(naturalW, naturalH, maxW, maxH) {
+        const ratio = naturalW && naturalH ? naturalW / naturalH : 1;
+        let width = maxW, height = maxH;
 
-    window.toggleVBoxSummarySize = function() {
-      const vbox = document.getElementById('vbox-summary-image');
-      openImageModal(vbox.src, vbox.alt);
-    };
+        if (naturalW && naturalH) {
+          if (naturalW <= maxW && naturalH <= maxH) {
+            width = naturalW; height = naturalH;
+          } else {
+            if (maxW / ratio <= maxH) {
+              width = maxW;
+              height = Math.round(maxW / ratio);
+            } else {
+              height = maxH;
+              width = Math.round(maxH * ratio);
+            }
+          }
+        }
+        return { width, height };
+      }
+
+      // Main API
+      window.expandElement = function (trigger, options = {}) {
+        if (!trigger || !(trigger instanceof Element)) return;
+        const dataset = trigger.dataset || {};
+        const opts = {
+          type: options.type || dataset.type || detectType(trigger),
+          maxWidth: options.maxWidth || dataset.maxWidth || DEFAULTS.maxWidth,
+          maxHeight: options.maxHeight || dataset.maxHeight || DEFAULTS.maxHeight,
+          zoom: options.zoom || dataset.zoom || DEFAULTS.zoom,
+          clone: options.clone == null ? (dataset.clone !== 'false') : options.clone,
+          onClose: options.onClose
+        };
+
+        // Prevent opening multiple overlays
+        if (document.querySelector('.expand-overlay')) return;
+
+        // Create overlay & dialog
+        const overlay = el('div', { class: 'expand-overlay', tabindex: '-1' });
+        const dialog = el('div', { class: 'expand-dialog', role: 'dialog', 'aria-modal': 'true' });
+        dialog.style.setProperty('--expand-max-width', opts.maxWidth);
+        dialog.style.setProperty('--expand-max-height', opts.maxHeight);
+
+        const content = el('div', { class: 'expand-content' });
+        const closeBtn = el('button', { class: 'expand-close', 'aria-label': 'Close expanded view', type: 'button' });
+        closeBtn.textContent = '✕';
+
+        // Insert content based on type
+        if (opts.type === 'image') {
+          let srcEl = trigger;
+          if (trigger.tagName.toLowerCase() === 'picture') {
+            srcEl = trigger.querySelector('img') || trigger;
+          }
+          const img = document.createElement('img');
+          img.alt = srcEl.alt || srcEl.getAttribute('aria-label') || 'Expanded image';
+          img.src = srcEl.src || srcEl.dataset.src || srcEl.getAttribute('src');
+          img.loading = 'eager';
+          content.appendChild(img);
+
+          // Wait to get natural size to compute exact dialog size
+          img.addEventListener('load', () => {
+            const maxWpx = Math.min(window.innerWidth * 0.95, parseCssSize(opts.maxWidth, window.innerWidth));
+            const maxHpx = Math.min(window.innerHeight * 0.95, parseCssSize(opts.maxHeight, window.innerHeight));
+            const { width, height } = computeSize(img.naturalWidth, img.naturalHeight, maxWpx, maxHpx);
+            dialog.style.width = width + 'px';
+            dialog.style.height = height + 'px';
+          });
+        } else if (opts.type === 'qr') {
+          // For QR, clone and enlarge
+          if (trigger.tagName.toLowerCase() === 'img') {
+            const img = trigger.cloneNode(true);
+            img.alt = trigger.alt || 'QR code';
+            img.style.width = 'auto';
+            img.style.height = 'auto';
+            img.style.maxWidth = '90%';
+            img.style.maxHeight = '90%';
+            content.appendChild(img);
+            // Add metadata area for QR manager
+            const meta = el('div', { class: 'expand-qr-meta' });
+            meta.textContent = 'QR Manager';
+            dialog.appendChild(meta);
+          } else {
+            const clone = trigger.cloneNode(true);
+            content.appendChild(clone);
+          }
+          dialog.style.width = opts.maxWidth;
+          dialog.style.height = opts.maxHeight;
+        } else {
+          // default: clone node content (HTML)
+          const clone = opts.clone ? trigger.cloneNode(true) : trigger;
+          sanitizeClonedNodes(clone);
+          content.appendChild(clone);
+          dialog.style.width = opts.maxWidth;
+          dialog.style.height = opts.maxHeight;
+        }
+
+        dialog.appendChild(content);
+        dialog.appendChild(closeBtn);
+        overlay.appendChild(dialog);
+        document.body.appendChild(overlay);
+
+        // Accessibility: label dialog
+        const label = trigger.getAttribute('aria-label') || trigger.alt || trigger.title || 'Expanded content';
+        dialog.setAttribute('aria-label', label);
+
+        // Save focus and set focus to close button
+        const previousActive = document.activeElement;
+        closeBtn.focus();
+
+        // Prevent background scroll
+        const prevOverflow = document.documentElement.style.overflow;
+        document.documentElement.style.overflow = 'hidden';
+
+        // Event listeners
+        function close(reason) {
+          if (!overlay.parentNode) return;
+          overlay.parentNode.removeChild(overlay);
+          document.documentElement.style.overflow = prevOverflow || '';
+          if (previousActive && previousActive.focus) previousActive.focus();
+          if (offKey) offKey();
+          if (opts.onClose) opts.onClose(reason);
+        }
+
+        function onOverlayClick(e) {
+          if (e.target === overlay) close('overlay');
+        }
+        overlay.addEventListener('click', onOverlayClick);
+        closeBtn.addEventListener('click', () => close('close-button'));
+
+        // ESC handler
+        const escHandler = (e) => { if (e.key === 'Escape') close('esc'); };
+        document.addEventListener('keydown', escHandler);
+
+        // focus trap
+        const offKey = trapFocus(dialog);
+
+        return { close };
+      };
+
+      // Utility: detect type from element
+      function detectType(node) {
+        const tag = node.tagName.toLowerCase();
+        const typeAttr = node.dataset && node.dataset.type;
+        if (typeAttr) return typeAttr;
+        if (tag === 'img' || tag === 'picture') return 'image';
+        if (node.classList && node.classList.contains('qr')) return 'qr';
+        return 'html';
+      }
+
+      // Utility: parse CSS size like '90vw' to px fallback
+      function parseCssSize(sizeStr, fallbackBase) {
+        if (!sizeStr) return fallbackBase;
+        if (sizeStr.endsWith('vw')) {
+          return (parseFloat(sizeStr) / 100) * window.innerWidth;
+        }
+        if (sizeStr.endsWith('vh')) {
+          return (parseFloat(sizeStr) / 100) * window.innerHeight;
+        }
+        if (sizeStr.endsWith('px')) {
+          return parseFloat(sizeStr);
+        }
+        const parsed = parseFloat(sizeStr);
+        if (!isNaN(parsed)) return parsed;
+        return fallbackBase;
+      }
+
+      // Remove duplicate IDs in clones to avoid document-wide ID collisions
+      function sanitizeClonedNodes(node) {
+        if (!node.querySelectorAll) return;
+        const nodesWithId = node.querySelectorAll('[id]');
+        nodesWithId.forEach(n => n.removeAttribute('id'));
+      }
+
+    })();
 
     // Generate small QR code for footer
     function generateSmallQRCode() {
