@@ -95,6 +95,20 @@ def get_cheatsheet_videos(cheatsheet_num):
                 'full_url': 'https://www.youtube.com/watch?v=gSVg40u0fZE&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=5',
                 'filename': 'video2_qr'
             }
+        ],
+        3: [
+            {
+                'title': 'Files, Deleting, History & Redirects',
+                'url': 'https://youtu.be/twREXouRxns',
+                'full_url': 'https://www.youtube.com/watch?v=twREXouRxns&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=6',
+                'filename': 'video1_qr'
+            },
+            {
+                'title': 'Advanced File Operations & Redirects',
+                'url': 'https://youtu.be/2DcDQe8idtU',
+                'full_url': 'https://www.youtube.com/watch?v=2DcDQe8idtU&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=7',
+                'filename': 'video2_qr'
+            }
         ]
     }
     return cheatsheets.get(cheatsheet_num, [])
@@ -103,8 +117,8 @@ def main():
     """Main function to generate QR codes for educational document videos."""
     
     parser = argparse.ArgumentParser(description='Generate QR codes for educational document videos')
-    parser.add_argument('--cheatsheet', type=int, choices=[1, 2], default=1,
-                       help='Cheatsheet number (1 or 2, default: 1)')
+    parser.add_argument('--cheatsheet', type=int, choices=[1, 2, 3], default=1,
+                       help='Cheatsheet number (1, 2, or 3, default: 1)')
     parser.add_argument('--ecl', default='L', choices=['L', 'M', 'Q', 'H'],
                        help='Error Correction Level (default: L)')
     parser.add_argument('--box-size', type=int, default=8,

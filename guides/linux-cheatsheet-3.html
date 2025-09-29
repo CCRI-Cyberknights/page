@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Linux Cheatsheet 3 - Cyber Club</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root { color-scheme: dark; }
+    body { background: #0f172a; color: #e2e8f0; }
+    
+    /* Official Cyberknights Color Palette */
+    :root {
+      --neon-surge: #43CC50;
+      --steel-glow: #5B6E6E;
+      --pale-alloy: #B8B8B8;
+      --primary-green: #04703C;
+      --ember-spark: #C27329;
+      --arc-weld-blue: #2DB2C4;
+    }
+    
+    /* DRY Reusable Classes */
+    .section-container {
+      @apply p-6 rounded-lg border border-slate-800 bg-slate-900/40;
+    }
+    
+    .section-title {
+      @apply text-xl font-bold mb-4;
+      color: var(--neon-surge);
+    }
+    
+    .subsection-title {
+      @apply text-lg font-semibold mb-2;
+      color: var(--neon-surge);
+    }
+    
+    .command-code {
+      @apply bg-slate-800 px-1 rounded text-sm font-mono text-slate-200;
+    }
+    
+    .code-block {
+      @apply bg-slate-800 p-2 rounded text-xs font-mono text-slate-200 overflow-x-auto;
+    }
+    
+    .emphasis-text {
+      color: var(--ember-spark);
+    }
+    
+    .table-header {
+      @apply text-left p-3 font-semibold;
+      color: var(--neon-surge);
+    }
+    
+    .table-cell {
+      @apply p-3;
+    }
+    
+    .command-cell {
+      @apply font-mono font-semibold text-emerald-400;
+    }
+    
+    .table-row {
+      @apply border-b border-slate-800;
+    }
+    
+    .qr-code-container {
+      @apply flex-shrink-0;
+    }
+    
+    .qr-code-container canvas {
+      @apply transition-transform duration-200;
+    }
+    
+    .qr-code-container canvas:hover {
+      @apply scale-105;
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-200 min-h-screen">
+  <div class="max-w-4xl mx-auto p-6 space-y-8">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold mb-4" style="color: var(--neon-surge);">Linux Cheatsheet 3 📑</h1>
+      <p class="text-slate-300 text-lg">Deleting Directories, File Creation, Viewing & Redirecting Data</p>
+    </div>
+
+    <!-- Video References -->
+    <div class="section-container">
+      <h2 class="section-title">📺 Reference Videos</h2>
+      <p class="text-slate-300 mb-4">This cheat sheet summarizes key concepts and commands from the following videos:</p>
+      <table class="w-full border-collapse bg-slate-800">
+        <tbody>
+          <!-- Video 1 -->
+          <tr class="group">
+            <td class="bg-slate-800 text-white px-4 py-2 text-center relative">
+              <a href="https://www.youtube.com/watch?v=twREXouRxns&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=6" 
+                 class="absolute inset-0 z-10" target="_blank" rel="noopener noreferrer"></a>
+              <div class="transition-transform duration-300 group-hover:translate-x-1">
+                <span class="text-emerald-400 group-hover:text-emerald-300 font-medium">
+                  📹 6 - Files, Deleting, History & Redirects<br>
+                  <span class="text-sm font-normal">https://youtu.be/twREXouRxns</span>
+                </span>
+              </div>
+            </td>
+            <td class="bg-slate-800 flex items-center justify-center py-2">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOgAAADoCAIAAABqyz8vAAAEKElEQVR4nO3dwY1cNxBAQa/hAJyVwhIclrNyCD7ozAOFJsi3U3WW/gx2HnhoNPi//v73nz+g5s/bXwB+h3BJEi5JwiVJuCQJlyThkiRckoRLknBJEi5JwiVJuCQJlyThkvTX7n/478fPE99j3GrP+PT33/3c0/vQ9d9rxYlLknBJEi5JwiVJuCQJlyThkrQ9x125dT/D1Jxy9/vvfu7UfHdqHlz/vZy4JAmXJOGSJFyShEuScEkSLkljc9yVW3PW3efszkdPz31XKvu7p7+nE5ck4ZIkXJKES5JwSRIuScIl6fgct2JqLjs1v7x1D0OFE5ck4ZIkXJKES5JwSRIuScIl6ePmuLfmryuvzY8rnLgkCZck4ZIkXJKES5JwSRIuScfnuJX54un7bnc/99bfrfJ7OXFJEi5JwiVJuCQJlyThkiRcksbmuFP3qt4yNZe99fxd9d/LiUuScEkSLknCJUm4JAmXJOGStD3Hrexr7trdi31tj3blte8zxYlLknBJEi5JwiVJuCQJlyThkrQ9xz29nzr1ua/NL6fmxLvPn/La7+XEJUm4JAmXJOGSJFyShEuScEl67n7c0/O/0/Pd0/PalannV/aPnbgkCZck4ZIkXJKES5JwSRIuSV9Tc7hb+7JT88Vb+6y39ptXbs2V7ePyEYRLknBJEi5JwiVJuCQJl6TtOe7pfdOp+d9r893633n3Oac5cUkSLknCJUm4JAmXJOGSJFySxvZxV+r3DJx+/mvz79Ps4/LRhEuScEkSLknCJUm4JAmXpLH7cSvv2Zp6zmt7q1PvRXvtfoYVJy5JwiVJuCQJlyThkiRckoRL0vYct36P7K391NOf+9r9Eqd/RycuScIlSbgkCZck4ZIkXJKES9LxexVWKu9Fq++tVt6vtsuJS5JwSRIuScIlSbgkCZck4ZI09p6zXbc+d6Wyj3v677By616LFScuScIlSbgkCZck4ZIkXJKES9K1fdxbbr13bddr+8GvPd+JS5JwSRIuScIlSbgkCZck4ZL03P24U1ZzQXPrX+p/BycuScIlSbgkCZck4ZIkXJKES9L2HHelcs/u7lzz1l7slO/6fZy4JAmXJOGSJFyShEuScEkSLkljc9yV196nVZnLTs2nvysnLknCJUm4JAmXJOGSJFyShEvS8TnudzV1n+7unPj0HPr0/Ng+Lh9NuCQJlyThkiRckoRLknBJ+rg57ul5Z2Vv+PR9FKt/7z1nfDThkiRckoRLknBJEi5JwiXp+Bz3tftZV6b2SqfmnbtuzZWn/v0uJy5JwiVJuCQJlyThkiRckoRL0tfpPc5bbs1ZT88vb903/NoesxOXJOGSJFyShEuScEkSLknCJWl7jgsvcOKSJFyShEuScEkSLknCJUm4JAmXJOGSJFyShEuScEkSLknCJUm4JP0PRcF4m+5HlMoAAAAASUVORK5CYII=" alt="QR Code for Files, Deleting, History & Redirects" width="120" height="120" class="border border-emerald-500 rounded">
+            </td>
+          </tr>
+          <!-- Empty row for spacing -->
+          <tr>
+            <td class="bg-slate-800 px-4 py-2">&nbsp;</td>
+            <td class="bg-slate-800 px-4 py-2">&nbsp;</td>
+          </tr>
+          <!-- Video 2 -->
+          <tr class="group">
+            <td class="bg-slate-800 text-white px-4 py-2 text-center relative">
+              <a href="https://www.youtube.com/watch?v=2DcDQe8idtU&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=7" 
+                 class="absolute inset-0 z-10" target="_blank" rel="noopener noreferrer"></a>
+              <div class="transition-transform duration-300 group-hover:translate-x-1">
+                <span class="text-emerald-400 group-hover:text-emerald-300 font-medium">
+                  📹 7 - Advanced File Operations & Redirects<br>
+                  <span class="text-sm font-normal">https://youtu.be/2DcDQe8idtU</span>
+                </span>
+              </div>
+            </td>
+            <td class="bg-slate-800 flex items-center justify-center py-2">
+              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOgAAADoCAIAAABqyz8vAAAENUlEQVR4nO3dwa3dNhBA0fwgBbirlBW4LHeVErJwtgRCgwPy5p2ztiVZ74KLAU19ffvx/Teo+f32A8CvEC5JwiVJuCQJlyThkiRckoRLknBJEi5JwiVJuCQJlyThkiRckv7Y/Qt///nXxHMct7vP+NS/a3Xf1fVPPefufV+z+x6suCQJlyThkiRckoRLknBJEi5J23PclVvnM0zPX3fv+3+dm55y6v1YcUkSLknCJUm4JAmXJOGSJFySjs1xV27NWXdVnnNa5T1YcUkSLknCJUm4JAmXJOGSJFySxue4r5k+l2D6/AR+suKSJFyShEuScEkSLknCJUm4JH3cHPeU6fNo6/t6p1lxSRIuScIlSbgkCZck4ZIkXJLG57ivzSNfm7+e2h986j2/9nutWHFJEi5JwiVJuCQJlyThkiRcko7NcSvnAFTOVZhW+b1WrLgkCZck4ZIkXJKES5JwSRIuSV+vzRdvqc9fX3vOaVZckoRLknBJEi5JwiVJuCQJl6Tt/bi7+zhPzRcr5x7sXmfX9Lz21u+7y4pLknBJEi5JwiVJuCQJlyThkvTcd85OzRFvXefW9Xeduu+tua8VlyThkiRckoRLknBJEi5JwiVpe447vb92d945PY+c3nf72rm8p76vtvt77T6nFZck4ZIkXJKES5JwSRIuScIlafxchZVT88KV6Xnq6s/fOm9hV33/sRWXJOGSJFyShEuScEkSLknCJem5cxVWpued0/tfb+1nnZ5D32LFJUm4JAmXJOGSJFyShEuScEkan+Pe+n/9r7n1fbJb73P6+lZckoRLknBJEi5JwiVJuCQJl6Rjc9zXzs1dOfWc0/tuT9331D7j3efZvb7zcfkIwiVJuCQJlyThkiRckoRL0vh+3OnzEG6dS7D7PBWvvc8VKy5JwiVJuCQJlyThkiRckoRL0nPn4976/tYpp/abTr+Hlcqc24pLknBJEi5JwiVJuCQJlyThkrQ9xz01j5y+78qpOetr5/VOv5/p++6y4pIkXJKES5JwSRIuScIlSbgkbc9xp/eDnnLrHNyVW+/ttXmz83H5aMIlSbgkCZck4ZIkXJKES9Jz3znbdWs+eus7Z7vq5/WuWHFJEi5JwiVJuCQJlyThkiRckjLfObt1PsOp55/ev/vaft8V5+Py0YRLknBJEi5JwiVJuCQJl6TnvnNWd2tOvOvWuRPOVeCjCZck4ZIkXJKES5JwSRIuSea4/zq1r/TUnPK1765Nv59dVlyShEuScEkSLknCJUm4JAmXpPE57mvns946B2DXrfMcVl77Ha24JAmXJOGSJFyShEuScEkSLknH5ri3zgd4za3zCk5df2V6v+8uKy5JwiVJuCQJlyThkiRckoRL0tdr+yzhv7DikiRckoRLknBJEi5JwiVJuCQJlyThkiRckoRLknBJEi5JwiVJuCT9A4KUYQ0GmOqhAAAAAElFTkSuQmCC" alt="QR Code for Advanced File Operations & Redirects" width="120" height="120" class="border border-emerald-500 rounded">
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Essential Commands -->
+    <div class="section-container">
+      <h2 class="section-title">⌨️ Essential Commands</h2>
+      
+      <div class="overflow-x-auto">
+        <table class="w-full border-collapse">
+          <thead>
+            <tr class="border-b border-slate-700">
+              <th class="table-header">Command</th>
+              <th class="table-header">Purpose</th>
+              <th class="table-header">Example & Notes</th>
+            </tr>
+          </thead>
+          <tbody class="text-sm">
+            <tr class="table-row">
+              <td class="table-cell command-cell"><code class="command-code">rmdir</code></td>
+              <td class="table-cell"><strong class="emphasis-text">R</strong>e<strong class="emphasis-text">m</strong>ove <strong class="emphasis-text">dir</strong>ectory. Deletes an empty directory.</td>
+              <td class="table-cell">
+                <pre class="code-block"><code>rmdir folder_name</code></pre>
+                <span class="text-slate-400">→</span> Works with absolute or relative paths<br>
+                <pre class="code-block"><code>rmdir ~/desktop/james/rice</code></pre>
+                <span class="text-slate-400">→</span> Example with full path
+              </td>
+            </tr>
+            <tr class="table-row">
+              <td class="table-cell command-cell"><code class="command-code">history</code></td>
+              <td class="table-cell">Shows command history. Displays the last ~1000 commands.</td>
+              <td class="table-cell">
+                <pre class="code-block"><code>history</code></pre>
+                <span class="text-slate-400">→</span> Shows numbered list of past commands
+              </td>
+            </tr>
+            <tr class="table-row">
+              <td class="table-cell command-cell"><code class="command-code">!12</code></td>
+              <td class="table-cell">Re-runs command number 12 from history.</td>
+              <td class="table-cell">
+                <pre class="code-block"><code>!12</code></pre>
+                <span class="text-slate-400">→</span> Executes the 12th command from history
+              </td>
+            </tr>
+            <tr class="table-row">
+              <td class="table-cell command-cell"><code class="command-code">touch</code></td>
+              <td class="table-cell">Creates empty files or updates file timestamps.</td>
+              <td class="table-cell">
+                <pre class="code-block"><code>touch example1</code></pre>
+                <span class="text-slate-400">→</span> Creates empty file<br>
+                <pre class="code-block"><code>touch example2 example3 ~/desktop/example4</code></pre>
+                <span class="text-slate-400">→</span> Multiple files at once
+              </td>
+            </tr>
+            <tr class="table-row">
+              <td class="table-cell command-cell"><code class="command-code">cat</code></td>
+              <td class="table-cell">Displays file contents. Different from <code class="command-code">ls</code> which shows folder contents.</td>
+              <td class="table-cell">
+                <pre class="code-block"><code>cat filename</code></pre>
+                <span class="text-slate-400">→</span> Shows file contents (not folder contents)
+              </td>
+            </tr>
+            <tr class="table-row">
+              <td class="table-cell command-cell"><code class="command-code">echo</code></td>
+              <td class="table-cell">Prints text to terminal or redirects to files.</td>
+              <td class="table-cell">
+                <pre class="code-block"><code>echo "Hello World"</code></pre>
+                <span class="text-slate-400">→</span> Prints to terminal<br>
+                <pre class="code-block"><code>echo "Hello World" > example1</code></pre>
+                <span class="text-slate-400">→</span> Overwrites file contents
+              </td>
+            </tr>
+            <tr class="table-row">
+              <td class="table-cell command-cell"><code class="command-code">>></code></td>
+              <td class="table-cell">Appends text to a file (keeps existing data).</td>
+              <td class="table-cell">
+                <pre class="code-block"><code>echo "Another line" >> example1</code></pre>
+                <span class="text-slate-400">→</span> Adds to end of file without overwriting
+              </td>
+            </tr>
+            <tr class="table-row">
+              <td class="table-cell command-cell"><code class="command-code">cp</code></td>
+              <td class="table-cell">Copies files or directories.</td>
+              <td class="table-cell">
+                <pre class="code-block"><code>cp file1 file2</code></pre>
+                <span class="text-slate-400">→</span> Copies file<br>
+                <pre class="code-block"><code>cp -r folder1 folder2</code></pre>
+                <span class="text-slate-400">→</span> Copies directory recursively
+              </td>
+            </tr>
+            <tr class="table-row">
+              <td class="table-cell command-cell"><code class="command-code">mv</code></td>
+              <td class="table-cell">Moves files or directories. Supports multiple files.</td>
+              <td class="table-cell">
+                <pre class="code-block"><code>mv example1 james/</code></pre>
+                <span class="text-slate-400">→</span> Moves single file<br>
+                <pre class="code-block"><code>mv example2 example3 ~/desktop/james/</code></pre>
+                <span class="text-slate-400">→</span> Moves multiple files
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Redirection & Output -->
+    <div class="section-container">
+      <h2 class="section-title">📤 Redirection & Output</h2>
+      
+      <div class="space-y-4">
+        <div>
+          <h3 class="subsection-title">Understanding Redirection</h3>
+          <p class="text-slate-300">Redirection operators allow you to control where command output goes:</p>
+          <ul class="text-slate-300 space-y-2 mt-3">
+            <li><code class="command-code">></code> <strong class="emphasis-text">Overwrites</strong> a file (replaces all content)</li>
+            <li><code class="command-code">>></code> <strong class="emphasis-text">Appends</strong> to a file (adds to existing content)</li>
+            <li>If the target file doesn't exist, both operators will <strong class="emphasis-text">create it</strong></li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="subsection-title">Practical Examples</h3>
+          <div class="space-y-3">
+            <div>
+              <pre class="code-block"><code>ls / > example4</code></pre>
+              <span class="text-slate-400">→</span> Saves directory listing to file
+            </div>
+            <div>
+              <pre class="code-block"><code>history >> example4</code></pre>
+              <span class="text-slate-400">→</span> Appends command history to same file
+            </div>
+            <div>
+              <pre class="code-block"><code>echo "New file made this way" > example5</code></pre>
+              <span class="text-slate-400">→</span> Creates new file with content
+            </div>
+            <div>
+              <pre class="code-block"><code>cat file1 > file2</code></pre>
+              <span class="text-slate-400">→</span> Copies file contents using redirection
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Command History Navigation -->
+    <div class="section-container">
+      <h2 class="section-title">⏳ Command History Navigation</h2>
+      
+      <div class="space-y-4">
+        <div>
+          <h3 class="subsection-title">Arrow Key Navigation</h3>
+          <p class="text-slate-300">Use arrow keys to navigate through your command history:</p>
+          <ul class="text-slate-300 space-y-2 mt-3">
+            <li><code class="command-code">↑</code> <strong class="emphasis-text">Scrolls back</strong> through previous commands</li>
+            <li><code class="command-code">↓</code> <strong class="emphasis-text">Scrolls forward</strong> through command history</li>
+            <li>Press <strong class="emphasis-text">Enter</strong> to execute the selected command</li>
+          </ul>
+        </div>
+
+        <div>
+          <h3 class="subsection-title">History Number Execution</h3>
+          <p class="text-slate-300">You can also execute commands by their history number:</p>
+          <div class="space-y-2 mt-3">
+            <div>
+              <pre class="code-block"><code>history</code></pre>
+              <span class="text-slate-400">→</span> Shows numbered list (e.g., 12 ls -la)
+            </div>
+            <div>
+              <pre class="code-block"><code>!12</code></pre>
+              <span class="text-slate-400">→</span> Executes command number 12
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Key Takeaways -->
+    <div class="section-container">
+      <h2 class="section-title">🔑 Key Takeaways</h2>
+      
+      <ul class="text-slate-300 space-y-2">
+        <li><code class="command-code">rmdir</code> deletes <strong class="emphasis-text">empty directories</strong>.</li>
+        <li>Use <strong class="emphasis-text">history</strong> and <code class="command-code">!number</code> to recall past commands quickly.</li>
+        <li><strong class="emphasis-text">touch</strong> makes empty files; <strong class="emphasis-text">cat</strong> shows file contents.</li>
+        <li><code class="command-code">></code> overwrites a file, <code class="command-code">>></code> appends to a file.</li>
+        <li>Redirects (<code class="command-code">></code>, <code class="command-code">>></code>) work with most commands, not just <code class="command-code">echo</code>.</li>
+        <li><code class="command-code">mv</code> moves, <code class="command-code">cp</code> copies — both support multiple files.</li>
+      </ul>
+    </div>
+
+  </div>
+
+</body>
+</html>
