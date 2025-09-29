@@ -1,6 +1,5 @@
 # Python virtual environment
 testing_env/
-selenium_env/
 
 # Playwright test results and reports
 test-results/

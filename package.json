@@ -1,6 +1,6 @@
 {
   "name": "page",
-  "version": "1.7.15",
+  "version": "1.7.16",
   "description": "A centralized hub for the Cyber Club. This repository hosts a single, multi-page web app to provide information on events, club resources, and technical guides.",
   "private": true,
   "scripts": {
@@ -13,7 +13,6 @@
     "test:versioning": "npx playwright test tests/versioning-diagnostics.spec.ts",
     "test:versioning:debug": "npx playwright test tests/versioning-diagnostics.spec.ts --debug",
     "test:versioning:ui": "npx playwright test tests/versioning-diagnostics.spec.ts --ui",
-    "test:links:selenium": "source ./selenium_env/bin/activate && python3 scripts/test-links-dynamic-parallel.py",
     "test:links:playwright": "npx playwright test tests/playwright-link-testing-comprehensive.spec.ts",
     "test:links:playwright:debug": "npx playwright test tests/playwright-link-testing-comprehensive.spec.ts --debug",
     "test:links:playwright:ui": "npx playwright test tests/playwright-link-testing-comprehensive.spec.ts --ui",
