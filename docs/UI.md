@@ -745,6 +745,15 @@ function close(reason) {
 3. **Automatic Close**: When back button is pressed, closes modal and restores history
 4. **Clean Restoration**: Properly removes event listeners and restores scroll state
 
+**Testing Coverage**:
+- ✅ Image modals closing with back button
+- ✅ Resource card modals closing with back button
+- ✅ Multiple modal scenarios
+- ✅ Navigation integrity preservation
+- ✅ Mobile viewport simulation (375x667)
+
+This ensures users are never trapped in modals on mobile devices and can always navigate back using native mobile gestures.
+
 ### Benefits
 
 - **Simplified API**: Single function replaces complex class hierarchy

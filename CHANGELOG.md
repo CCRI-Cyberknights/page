@@ -2,12 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.24](https://github.com/CCRI-Cyberknights/page/compare/v1.7.23...v1.7.24) (2025-09-29)
+
+
+### Bug Fixes
+
+* restore mobile back button functionality for all modals ([4851459](https://github.com/CCRI-Cyberknights/page/commit/4851459881b3aba14d39c37aaf7f038cb1a8c594))
+
 ### [1.7.23](https://github.com/CCRI-Cyberknights/page/compare/v1.7.22...v1.7.23) (2025-09-29)
 
 
 ### Features
 
 * add pipeline monitoring scripts and fix GitHub Actions permissions ([985d16e](https://github.com/CCRI-Cyberknights/page/commit/985d16e87048863333dfa17165658ba1c313d092))
+
+
+### Bug Fixes
+
+* restore mobile back button functionality for all modals ([4851459](https://github.com/CCRI-Cyberknights/page/commit/4851459))
 
 ### [1.7.22](https://github.com/CCRI-Cyberknights/page/compare/v1.7.21...v1.7.22) (2025-09-29)
 

@@ -49,6 +49,7 @@ The project uses a comprehensive test suite to validate:
 ```
 tests/
 ├── README.md                                    # Test documentation and usage
+├── mobile-back-button.spec.ts                  # Mobile back button functionality tests
 ├── playwright-link-testing-comprehensive.spec.ts # Comprehensive link testing
 ├── playwright-link-testing-modern.spec.ts       # Modern link testing approach
 ├── playwright-link-testing.spec.ts             # Feature parity verification
@@ -74,7 +75,30 @@ tests/
 - Test "Back to Club" navigation
 - Validate QR Code panel visibility and generation
 
-### 2. Modern Link Testing (`playwright-link-testing-modern.spec.ts`)
+### 3. Mobile Back Button Testing (`mobile-back-button.spec.ts`)
+
+**Purpose**: Comprehensive testing of mobile back button/swipe functionality for modals.
+
+**Coverage**:
+- Image modal closing with mobile back button
+- Resource card modal closing with mobile back button
+- Multiple modal open/close scenarios
+- Navigation integrity preservation
+- Mobile viewport simulation (375x667)
+
+**Key Test Cases**:
+- Open image modal → Press back button → Verify modal closes
+- Open resource card modal → Press back button → Verify modal closes
+- Test multiple modal opens/closes with back button
+- Verify back button doesn't interfere with normal page navigation
+
+**Mobile UX Validation**:
+- Ensures critical mobile functionality works correctly
+- Prevents modal trapping users on mobile devices
+- Validates HTML5 History API integration
+- Tests popstate event handling
+
+### 4. Modern Link Testing (`playwright-link-testing-modern.spec.ts`)
 
 **Purpose**: Modern approach to link testing with ephemeral results and performance monitoring.
 
@@ -272,8 +296,8 @@ jobs:
 
 **1. Visual Regression Testing**: Add screenshot comparison tests
 **2. Performance Testing**: Measure page load times and interaction responsiveness
-**3. Mobile Testing**: Add mobile device simulation tests
-**4. Accessibility Testing**: Integrate aXe-core for accessibility validation
+**3. Accessibility Testing**: Integrate aXe-core for accessibility validation
+**4. QR Code Modal Testing**: Add comprehensive QR code modal functionality tests
 
 ### Test Coverage Expansion
 

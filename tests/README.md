@@ -70,6 +70,22 @@ The project operates in two distinct environments with different URL structures:
 - **Server**: GitHub Pages CDN
 - **Testing**: Live deployment verification
 
+### Mobile Back Button Testing
+
+**File**: `mobile-back-button.spec.ts`
+
+**Purpose**: Ensures critical mobile UX functionality works correctly.
+
+**Key Tests**:
+- Image modals close with mobile back button
+- Resource card modals close with mobile back button
+- Multiple modal scenarios work correctly
+- Navigation integrity is preserved
+
+**Mobile Viewport**: Tests run in 375x667 (iPhone SE) viewport to simulate real mobile devices.
+
+**Critical UX**: This prevents users from being trapped in modals on mobile devices.
+
 ### Automatic Environment Detection
 
 The application automatically detects the environment and adjusts behavior:
