@@ -6,7 +6,9 @@
 
 class VersionDisplay {
   constructor() {
-    this.versionUrl = '/page/version.json';  // Fixed path for GitHub Pages deployment
+    // Detect environment and use correct path
+    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+    this.versionUrl = isLocalhost ? '/version.json' : '/page/version.json';
     this.cacheBuster = `?t=${Date.now()}`;
     this.retryCount = 0;
     this.maxRetries = 3;
@@ -112,7 +114,20 @@ class VersionDisplay {
   }
 
   showFallback() {
-    console.warn('Using fallback version display');
+    console.error('Version display failed - using fallback');
+    
+    // Set a clearly wrong version to make failures visible
+    const versionSpan = document.getElementById('version');
+    if (versionSpan) {
+      versionSpan.textContent = 'vERROR';
+      versionSpan.style.color = '#ef4444'; // Red color to indicate error
+    }
+    
+    // Set error tooltip
+    const versionTooltip = document.getElementById('version-tooltip');
+    if (versionTooltip) {
+      versionTooltip.textContent = 'Version display failed - check console for details';
+    }
   }
 }
 

@@ -178,6 +178,10 @@ test.describe('Deployment Verification', () => {
     const versionText = await page.textContent('#version');
     const packageVersion = getPackageVersion();
     
+    // Check that version is not ERROR (indicates failure)
+    expect(versionText).not.toContain('ERROR');
+    
+    // Check that version matches package.json
     expect(versionText).toContain(packageVersion);
   });
 

@@ -21,32 +21,23 @@ significant_files=$(git diff --cached --name-only | grep -E "\.(html|js|json)$|^
 if [ -n "$significant_files" ]; then
     echo "📝 Significant files changed - checking for version bumping..."
     
-    # Check if any HTML files have been modified for link testing
-    html_files=$(git diff --cached --name-only | grep "\.html$")
-    if [ -n "$html_files" ]; then
-        echo "🔗 HTML files changed - running link tests..."
-        
-        # Check if only index.html was changed
-        if [ "$html_files" = "index.html" ]; then
-            echo "📄 Only index.html changed - running link tests..."
-        else
-            echo "🔍 Multiple HTML files changed - running link tests..."
-        fi
-        
-        echo "🔗 Running Playwright link tests..."
-        
-        # Run comprehensive Playwright link testing
+    # Check if any HTML or JavaScript files have been modified for testing
+    web_files=$(git diff --cached --name-only | grep -E "\.(html|js)$")
+    if [ -n "$web_files" ]; then
+        echo "🌐 Web files changed - running comprehensive tests..."
+        echo "🔗 Running Playwright tests (links + version display)..."
         echo "🌐 Testing production and local URLs with Playwright..."
+        
         npm run test:links
         
         if [ $? -ne 0 ]; then
-            echo "❌ Playwright link testing failed! Please fix broken links before committing."
+            echo "❌ Playwright testing failed! Please fix issues before committing."
             exit 1
         fi
         
-        echo "✅ All links are working correctly on both production and local."
+        echo "✅ All tests passed - links and version display working correctly."
     else
-        echo "📄 No HTML files changed - skipping link tests"
+        echo "📄 No web files changed - skipping tests"
     fi
     
     # Always run version bumping for significant changes

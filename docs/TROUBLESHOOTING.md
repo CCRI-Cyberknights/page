@@ -7,14 +7,14 @@ This document covers common issues encountered during development and maintenanc
 **Use Playwright to diagnose versioning issues automatically:**
 
 ```bash
-# Run comprehensive versioning diagnostics
-npm run version:diagnose
+# Run comprehensive tests (includes version display)
+npm run test:links
 
 # Debug mode (interactive)
-npm run test:versioning:debug
+npm run test:debug
 
 # UI mode (visual debugging)
-npm run test:versioning:ui
+npm run test:ui
 ```
 
 **What it checks:**
@@ -437,6 +437,29 @@ ${formatDetailedSummary(resource.detailedSummary)}
 
 ## Environment and Testing Issues
 
+### Local vs Production Environment Differences
+
+**Problem:** 404 errors for version.json and other assets during local development
+
+**Symptoms:**
+- `GET /page/version.json HTTP/1.1" 404` in local server logs
+- Version display not working locally
+- Assets failing to load during development
+
+**Root Cause:** The project uses different URL structures for local development vs GitHub Pages deployment:
+- **Local**: `http://localhost:8000/version.json` (root-relative paths)
+- **Production**: `https://ccri-cyberknights.github.io/page/version.json` (subdirectory paths)
+
+**Solution:**
+- The application automatically detects environment using `window.location.hostname`
+- Local development uses `/version.json`, production uses `/page/version.json`
+- See `tests/README.md` for detailed environment documentation
+
+**Prevention:**
+- Always test both local and production environments
+- Use environment detection patterns for any new assets
+- Verify paths work in both contexts
+
 ### Legacy Testing Environment Problems
 
 **Problem:** Legacy testing environment issues (historical reference)
@@ -453,14 +476,14 @@ The project previously used Selenium WebDriver for testing, but has since migrat
 Use Playwright for testing instead of Selenium:
 
 ```bash
-# Run modern Playwright tests
-npm run test:links:modern
+# Run comprehensive tests
+npm run test:links
 
 # Debug mode
-npm run test:links:modern:debug
+npm run test:debug
 
 # Interactive UI
-npm run test:links:modern:ui
+npm run test:ui
 ```
 
 **Modern Alternative:**
@@ -513,17 +536,14 @@ Before deploying changes:
 Use the Playwright test suite in the `tests/` directory:
 
 ```bash
-# Run comprehensive Playwright tests
-npm run test:links:playwright
-
-# Run modern Playwright tests
-npm run test:links:modern
+# Run comprehensive tests
+npm run test:links
 
 # Debug mode
-npm run test:links:playwright:debug
+npm run test:debug
 
 # Interactive UI
-npm run test:links:playwright:ui
+npm run test:ui
 ```
 
 ### Testing Environment Setup
@@ -542,7 +562,7 @@ npm ci
 npx playwright install --with-deps
 
 # Verify installation
-npm run test:links:playwright:debug
+npm run test:debug
 ```
 
 ## Debugging Tips
@@ -649,10 +669,10 @@ npm run version:diagnose
 **Detailed Debugging:**
 ```bash
 # Interactive debugging
-npm run test:versioning:debug
+npm run test:debug
 
 # Visual debugging with UI
-npm run test:versioning:ui
+npm run test:ui
 ```
 
 ### Diagnostic Test Categories
@@ -868,14 +888,14 @@ The project uses **Playwright-based debugging** for systematic layout issue reso
 
 **Usage:**
 ```bash
-# Run layout debugging tests
-npm run test:links:playwright:debug
+# Run comprehensive tests
+npm run test:links
 
-# Interactive debugging
-npm run test:links:playwright:ui
+# Debug mode
+npm run test:debug
 
-# Comprehensive testing
-npm run test:links:playwright
+# Interactive UI
+npm run test:ui
 ```
 
 ### Why Playwright?

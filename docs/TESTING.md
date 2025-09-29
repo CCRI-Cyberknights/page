@@ -312,11 +312,12 @@ curl http://localhost:8000
 
 ## Link Testing System
 
-### Playwright Link Testing System (Current)
+### Comprehensive Testing System (Current)
 
-The project uses **Playwright** for comprehensive link testing with modern testing patterns and cross-browser support.
+The project uses **Playwright** for comprehensive testing with modern patterns and cross-browser support.
 
 **Key Features:**
+- **Comprehensive coverage**: Links + version display testing
 - **Faster execution**: 3-5x faster than previous testing approaches
 - **Better error handling**: Comprehensive timeouts and graceful fallbacks
 - **Cross-browser support**: Chrome, Firefox, Safari testing
@@ -324,23 +325,20 @@ The project uses **Playwright** for comprehensive link testing with modern testi
 - **Modern API**: Cleaner, more maintainable code
 - **Ephemeral results**: No persistent logging, focus on actionable outcomes
 
-**Running Link Tests:**
+**Running Tests:**
 ```bash
-# Run comprehensive link testing (production + local)
+# Run comprehensive testing (links + version display)
 npm run test:links
 
-# Run modern Playwright tests
-npm run test:links:modern
-
 # Debug mode with visible browser
-npm run test:links:modern:debug
+npm run test:debug
 
 # Interactive UI mode
-npm run test:links:modern:ui
+npm run test:ui
 ```
 
 **Pre-commit Integration:**
-Link tests automatically run in the pre-commit hook when HTML files are modified, ensuring all links work before commits.
+Tests automatically run in the pre-commit hook when HTML or JavaScript files are modified, ensuring all functionality works before commits.
 
 ### Dual URL Testing
 The system tests both production (`https://ccri-cyberknights.github.io/page`) and local development (`http://localhost:8000`) URLs to ensure links work correctly in all environments. Pre-commit hooks automatically test both URLs when HTML files change, blocking commits if broken links are detected.

@@ -221,10 +221,10 @@ function closeResourceModal() {
 ### Automated Testing
 ```bash
 # Test resource card functionality
-npm run test:links:playwright:debug
+npm run test:debug
 
 # Test modal system
-npm run test:links:modern
+npm run test:links
 ```
 
 ## Future Considerations

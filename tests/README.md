@@ -7,29 +7,22 @@ This project uses **Playwright** for comprehensive end-to-end testing, replacing
 ## Quick Start
 
 ```bash
-# Run all link tests
+# Run comprehensive tests (links + version display)
 npm run test:links
 
-# Run modern Playwright tests
-npm run test:links:modern
-
 # Debug mode with visible browser
-npm run test:links:modern:debug
+npm run test:debug
 
 # Interactive UI mode
-npm run test:links:modern:ui
+npm run test:ui
 ```
 
 ## Test Suites
 
-### Link Testing
-- **`npm run test:links`** - Main link testing (comprehensive)
-- **`npm run test:links:modern`** - Modern ephemeral approach
-- **`npm run test:links:playwright`** - Full Playwright suite
-
-### Versioning Diagnostics
-- **`npm run test:versioning`** - Version pipeline diagnostics
-- **`npm run version:diagnose`** - Quick version check
+### Comprehensive Testing
+- **`npm run test:links`** - Main comprehensive test (links + version display)
+- **`npm run test:debug`** - Debug mode with visible browser
+- **`npm run test:ui`** - Interactive UI mode
 
 ## Modern Approach Benefits
 
@@ -61,6 +54,47 @@ The modern system includes performance monitoring:
 - CI/CD optimization insights
 - Fail-fast approach for broken links
 
+## Environment Differences
+
+The project operates in two distinct environments with different URL structures:
+
+### Local Development Environment
+- **URL**: `http://localhost:8000` or `http://127.0.0.1:8000`
+- **File Paths**: Root-relative (e.g., `/version.json`, `/js/version-display.js`)
+- **Server**: Python HTTP server (`python -m http.server 8000`)
+- **Testing**: Direct file system access
+
+### Production Environment (GitHub Pages)
+- **URL**: `https://ccri-cyberknights.github.io/page`
+- **File Paths**: Subdirectory-relative (e.g., `/page/version.json`, `/page/js/version-display.js`)
+- **Server**: GitHub Pages CDN
+- **Testing**: Live deployment verification
+
+### Automatic Environment Detection
+
+The application automatically detects the environment and adjusts behavior:
+
+```javascript
+// Example from js/version-display.js
+const isLocalhost = window.location.hostname === 'localhost' || 
+                   window.location.hostname === '127.0.0.1';
+const versionUrl = isLocalhost ? '/version.json' : '/page/version.json';
+```
+
+This pattern ensures:
+- **No 404 errors** during local development
+- **Correct paths** for production deployment
+- **Seamless testing** across both environments
+
+### Testing Both Environments
+```bash
+# Test both local and production environments
+npm run test:links
+
+# Debug mode for troubleshooting
+npm run test:debug
+```
+
 ## Troubleshooting
 
 For testing issues, see:
@@ -70,7 +104,7 @@ For testing issues, see:
 
 ## Development Workflow
 
-1. **Pre-commit**: Automatic link testing via Playwright
+1. **Pre-commit**: Automatic comprehensive testing (links + version display)
 2. **CI/CD**: GitHub Actions with Playwright
-3. **Local Development**: Use `npm run test:links:modern:debug` for debugging
-4. **Performance**: Monitor with `npm run test:links:modern`
+3. **Local Development**: Use `npm run test:debug` for debugging
+4. **Performance**: Monitor with `npm run test:links`
