@@ -6,18 +6,96 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 
 ## Documentation
 
-### Core Documentation
-- **[Architecture](docs/ARCHITECTURE.md)** - Overall system architecture and component overview
-- **[Versioning](docs/VERSIONING.md)** - Modern version management system (2025 best practices)
-- **[UI/UX](docs/UI.md)** - User interface implementation and design evolution
-- **[Testing](docs/TESTING.md)** - Comprehensive testing strategy and implementation
-- **[Troubleshooting](docs/TROUBLESHOOTING.md)** - Common issues and solutions
+### 📚 **Master Documentation Index**
 
-### Specialized Documentation
-- **[Color Palette](docs/COLOR-PALETTE.md)** - Official CyberKnights color scheme and usage
-- **[Routing](docs/ROUTING.md)** - Client-side routing system and navigation
-- **[Resources & Guides](docs/RESOURCES-GUIDES.md)** - Resource management and guide system
-- **[Changelog](docs/CHANGELOG.md)** - Complete version history and changes
+| Document | Purpose | Audience | Key Topics |
+|----------|---------|----------|------------|
+| **[Architecture](docs/ARCHITECTURE.md)** | System overview | Developers, Maintainers | Components, file structure, technical decisions |
+| **[Versioning](docs/VERSIONING.md)** | Release management | Maintainers, Contributors | `version.json`, `standard-version`, deployment |
+| **[UI/UX](docs/UI.md)** | Design & interface | Designers, Developers | Color palette, responsive design, user experience |
+| **[Testing](docs/TESTING.md)** | Quality assurance | Developers, Contributors | Playwright, test strategy, CI/CD integration |
+| **[Troubleshooting](docs/TROUBLESHOOTING.md)** | Problem solving | All users | Common issues, debugging, automated diagnostics |
+| **[Routing](docs/ROUTING.md)** | Navigation system | Developers | Hash routing, SPA navigation, page loading |
+| **[Resources & Guides](docs/RESOURCES-GUIDES.md)** | Content management | Content creators, Users | Resource cards, guides, modal system |
+| **[Color Palette](docs/COLOR-PALETTE.md)** | Design system | Designers, Developers | Official colors, usage guidelines, CSS variables |
+| **[Changelog](docs/CHANGELOG.md)** | Version history | All users | Release notes, feature changes, bug fixes |
+
+### 🚀 **Quick Start Guide**
+
+#### **For New Contributors**
+1. **Clone & Setup**:
+   ```bash
+   git clone https://github.com/CCRI-Cyberknights/page.git
+   cd page
+   npm ci
+   npx playwright install --with-deps
+   ```
+
+2. **Local Development**:
+   ```bash
+   # Start development server
+   python3 -m http.server 8000
+   # Open http://localhost:8000
+   ```
+
+3. **Run Tests**:
+   ```bash
+   # Comprehensive testing
+   npm run test:links:playwright
+   
+   # Debug mode
+   npm run test:links:playwright:debug
+   ```
+
+4. **Make Changes**:
+   - Edit `index.html` for UI changes
+   - Update `docs/` for documentation
+   - Follow conventional commits: `feat:`, `fix:`, `docs:`
+
+5. **Release Process**:
+   ```bash
+   # Automatic version bumping
+   npm run version:auto
+   git push --follow-tags
+   ```
+
+#### **For Content Creators**
+- **Resources**: Edit the `RESOURCES` array in `index.html`
+- **Guides**: Add HTML files to `guides/` directory
+- **Images**: Place in `images/` with WebP format preferred
+- **Colors**: Use official palette from `docs/COLOR-PALETTE.md`
+
+#### **For Maintainers**
+- **Version Issues**: Run `npm run version:diagnose`
+- **Testing Problems**: Check `docs/TESTING.md` troubleshooting
+- **Deployment Issues**: See `docs/VERSIONING.md` deployment section
+- **UI Problems**: Reference `docs/TROUBLESHOOTING.md` layout section
+
+### 📖 **Technical Glossary**
+
+| Term | Definition | Context |
+|------|------------|---------|
+| **SPA** | Single Page Application | Hash-based routing system (`#/page`) |
+| **ECL** | Error Correction Level | QR code quality setting (L/M/Q/H) |
+| **DRY** | Don't Repeat Yourself | Reusable CSS classes and components |
+| **CTF** | Capture The Flag | Cybersecurity competition format |
+| **ICS** | Internet Calendar Specification | Calendar file format for events |
+| **WebP** | Web Picture format | Modern image format for web |
+| **Tailwind** | Utility-first CSS framework | Styling system used throughout |
+| **Playwright** | End-to-end testing framework | Modern testing tool replacing Selenium |
+| **standard-version** | Automated versioning tool | Semantic versioning and changelog generation |
+| **Husky** | Git hooks manager | Pre-commit automation |
+| **GitHub Pages** | Static site hosting | Deployment platform |
+| **Base64** | Binary-to-text encoding | QR code embedding format |
+| **SVG** | Scalable Vector Graphics | QR code rendering format |
+| **Flexbox** | CSS layout method | Footer positioning and responsive design |
+| **Modal** | Overlay dialog system | Universal modal for images and resources |
+| **Hash Routing** | URL fragment navigation | Client-side routing (`#/page`) |
+| **CDN** | Content Delivery Network | Tailwind CSS loading from external source |
+| **CI/CD** | Continuous Integration/Deployment | Automated testing and deployment |
+| **Conventional Commits** | Commit message standard | `feat:`, `fix:`, `docs:` format |
+| **Semantic Versioning** | Version numbering system | `MAJOR.MINOR.PATCH` format |
+| **Pre-commit Hook** | Git automation | Automated testing before commits |
 
 ## Features
 
