@@ -286,6 +286,31 @@ class QRCodeManager {
           gap: 0.25rem;
         `;
         
+        // Add responsive CSS for mobile viewports
+        if (!document.getElementById('qr-mobile-responsive')) {
+          const mobileStyle = document.createElement('style');
+          mobileStyle.id = 'qr-mobile-responsive';
+          mobileStyle.textContent = `
+            @media (max-width: 480px) {
+              .qr-fullscreen .glow-container-mobile {
+                width: 100vw !important;
+                height: 100vh !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+                border: none !important;
+                border-radius: 0 !important;
+                max-width: none !important;
+                max-height: none !important;
+              }
+            }
+          `;
+          document.head.appendChild(mobileStyle);
+        }
+        
+        // Add mobile class for CSS targeting
+        this.glowContainer.classList.add('glow-container-mobile');
+        
         // Store original panel content before moving it
         this.originalPanelContent = Array.from(this.panel.children);
         
