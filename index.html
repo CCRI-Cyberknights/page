@@ -233,9 +233,17 @@
     }
 
     /* All image toggle states now handled by modal overlay pattern */
+    
+    /* Mobile footer fix - ensure footer is never clipped by mobile browser UI */
+    @media (max-width: 768px) {
+      footer {
+        padding-bottom: 20px !important;
+        margin-bottom: 10px !important;
+      }
+    }
   </style>
 </head>
-<body class="min-h-screen bg-[var(--forge-black)] text-[var(--pale-alloy)]">
+<body class="min-h-screen bg-[var(--forge-black)] text-[var(--pale-alloy)] flex flex-col">
 
   <header class="max-w-5xl mx-auto px-4 py-6">
     <div class="flex items-center justify-between">
@@ -250,7 +258,7 @@
       </nav>
   </header>
 
-  <main id="app" class="max-w-5xl mx-auto px-4 pb-8"></main>
+  <main id="app" class="max-w-5xl mx-auto px-4 pb-8 flex-grow"></main>
 
   <!-- Universal Modal System -->
   <div id="universal-modal" 
@@ -291,7 +299,7 @@
     <img id="modal-image" class="rounded-xl shadow-[0_0_60px_rgba(16,185,129,0.5)]" />
   </div> -->
 
-  <footer class="mt-6">
+  <footer class="mt-auto pb-safe">
     <div class="max-w-5xl mx-auto px-4 py-1 text-xs text-slate-400 flex items-center justify-between">
       <div class="flex flex-col items-center gap-0 hover:text-slate-300 transition-colors relative group">
         <div>

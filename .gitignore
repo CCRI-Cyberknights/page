@@ -1,6 +1,3 @@
-# Python virtual environment
-testing_env/
-
 # Playwright test results and reports
 tests/test-results/
 tests/playwright-report/
@@ -33,9 +30,8 @@ Thumbs.db
 # Logs
 *.log
 
-# Legacy link testing logs (removed in 2025 modernization)
-tests/tested-links.json
-tests/link_testing_logger.py
+# Cursor configuration
+.cursor-rules
 
 # Node.js dependencies
 node_modules/
@@ -47,3 +43,20 @@ yarn-error.log*
 # package-lock.json
 
 # Note: js/ folder is intentionally tracked for shared JavaScript files
+
+# Modern development patterns
+.env
+.env.local
+.env.*.local
+*.tsbuildinfo
+.turbo/
+.next/
+.nuxt/
+dist/
+build/
+out/
+
+# Temporary files
+*.tmp
+*.temp
+.cache/
