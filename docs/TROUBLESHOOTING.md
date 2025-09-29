@@ -741,7 +741,6 @@ Is Release Commit: true
 
 **GitHub Actions Integration:**
 - Automatic diagnostics on every push/PR
-- Post-release validation for tags
 - Artifact upload for failed tests
 - PR comments with diagnostic results
 

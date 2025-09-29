@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.23](https://github.com/CCRI-Cyberknights/page/compare/v1.7.22...v1.7.23) (2025-09-29)
+
+
+### Features
+
+* add pipeline monitoring scripts and fix GitHub Actions permissions ([985d16e](https://github.com/CCRI-Cyberknights/page/commit/985d16e87048863333dfa17165658ba1c313d092))
+
 ### [1.7.22](https://github.com/CCRI-Cyberknights/page/compare/v1.7.21...v1.7.22) (2025-09-29)
 
 
