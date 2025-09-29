@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.22](https://github.com/CCRI-Cyberknights/page/compare/v1.7.21...v1.7.22) (2025-09-29)
+
+
+### Features
+
+* implement navigation active state and remove redundant headers ([2763654](https://github.com/CCRI-Cyberknights/page/commit/27636547eeff2e5b9de057432f2e83585fd7008d))
+
+
+### Bug Fixes
+
+* resolve layout architecture conflicts and add validation ([202ed6a](https://github.com/CCRI-Cyberknights/page/commit/202ed6a1b8a71e9abe8c37a9b0ca0578311df51c))
+
 ### [1.7.21](https://github.com/CCRI-Cyberknights/page/compare/v1.7.20...v1.7.21) (2025-09-29)
 
 

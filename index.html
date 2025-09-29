@@ -1557,36 +1557,44 @@
         }).join('');
       }
 
-      // Function to open resource modal (now uses Universal Modal)
+      // Function to open resource modal (now uses expandElement system)
       window.openResourceModal = function(resource) {
         const buttonText = getButtonText(resource.name);
         const catLabel = getCategoryLabel(resource.cat);
         
-        const content = resource.detailedSummary ? `
-          <div class="text-slate-400 leading-relaxed">
-            <ul class="list-disc list-inside space-y-1">
-              ${formatDetailedSummary(resource.detailedSummary)}
-            </ul>
+        // Create a temporary element to expand
+        const tempElement = document.createElement('div');
+        tempElement.className = 'resource-modal-content';
+        tempElement.innerHTML = `
+          <div class="p-6 max-w-2xl">
+            <h3 class="text-xl font-bold text-slate-100 mb-4">${resource.name}</h3>
+            <div class="text-sm text-slate-400 mb-4">${catLabel}</div>
+            ${resource.detailedSummary ? `
+              <div class="text-slate-300 leading-relaxed mb-6">
+                <ul class="list-disc list-inside space-y-2">
+                  ${formatDetailedSummary(resource.detailedSummary)}
+                </ul>
+              </div>
+            ` : ''}
+            <div class="flex justify-end">
+              <a href="${resource.url}" ${getExternalLinkAttributes(resource.url)} 
+                 class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded transition-colors">
+                <span>${buttonText}</span>
+                ${getLinkIcon(resource.url)}
+              </a>
+            </div>
           </div>
-        ` : '';
-        
-        const actions = `
-          <a href="${resource.url}" ${getExternalLinkAttributes(resource.url)} 
-             class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded transition-colors" 
-             onclick="closeModal(); return true;">
-            <span>${buttonText}</span>
-            ${getLinkIcon(resource.url)}
-          </a>
         `;
         
-        // Use Universal Modal
-        openModal(content, resource.name, actions, { size: 'medium' });
+        // Use the new expandElement system
+        expandElement(tempElement, { 
+          type: 'html',
+          maxWidth: '90vw',
+          maxHeight: '90vh'
+        });
       };
       
-      // Function to close resource modal (now uses Universal Modal)
-      window.closeResourceModal = function() {
-        closeModal();
-      };
+      
       
       // Function to toggle detailed summaries
       window.toggleDetails = function(element) {
