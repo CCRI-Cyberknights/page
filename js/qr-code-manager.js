@@ -95,6 +95,35 @@ class QRCodeManager {
     }
   }
 
+  resizeInputToContent(input) {
+    // Create a temporary span to measure text width
+    const tempSpan = document.createElement('span');
+    tempSpan.style.cssText = `
+      position: absolute;
+      visibility: hidden;
+      white-space: nowrap;
+      font-size: 0.875rem;
+      font-family: inherit;
+      padding: 0.5rem;
+    `;
+    tempSpan.textContent = input.value || input.placeholder || 'M';
+    
+    document.body.appendChild(tempSpan);
+    
+    // Get the measured width
+    const textWidth = tempSpan.getBoundingClientRect().width;
+    document.body.removeChild(tempSpan);
+    
+    // Calculate the desired width (text width + padding)
+    const padding = 32; // 0.5rem * 2 + border
+    const desiredWidth = Math.max(textWidth + padding, 300); // Minimum 300px
+    const maxWidth = window.innerWidth * 0.9; // 90% of viewport width
+    
+    // Set the width, constrained by min and max
+    const finalWidth = Math.min(Math.max(desiredWidth, 300), maxWidth);
+    input.style.width = `${finalWidth}px`;
+  }
+
   render(text) {
     if (window.QRCode) {
       try {
@@ -149,8 +178,8 @@ class QRCodeManager {
             }
             
             this.svgContainer.innerHTML = svgString;
-            if (this.info) this.info.textContent = versionDesc || '';
-            if (this.lengthEl) this.lengthEl.textContent = text.length;
+          if (this.info) this.info.textContent = versionDesc || '';
+          if (this.lengthEl) this.lengthEl.textContent = text.length;
           }
         });
       } catch {
@@ -187,6 +216,28 @@ class QRCodeManager {
       // Make panel full screen with glow effect
       this.panel.className = 'fixed inset-0 z-50 bg-slate-900/95 backdrop-blur-sm flex items-center justify-center qr-fullscreen';
       this.panel.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 50; background: rgba(15, 23, 42, 0.95); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center;';
+      
+      // Add the fullscreen CSS styles dynamically if not already added
+      if (!document.getElementById('qr-fullscreen-styles')) {
+        const style = document.createElement('style');
+        style.id = 'qr-fullscreen-styles';
+        style.textContent = `
+          .qr-fullscreen {
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            z-index: 9999 !important;
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+            background: rgba(15, 23, 42, 0.95) !important;
+            backdrop-filter: blur(8px) !important;
+          }
+        `;
+        document.head.appendChild(style);
+      }
       
       // Create a glowing container for the QR Code Manager content
       // Always recreate to ensure proper styling
@@ -262,58 +313,7 @@ class QRCodeManager {
         // Create a new layout from scratch
         // Add input field with responsive length info
         if (currentInput) {
-          const inputWrapper = document.createElement('div');
-          inputWrapper.style.cssText = `
-            width: 100%; 
-            margin-bottom: 0.125rem; 
-            flex-shrink: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 0.125rem;
-          `;
-          
-          // Create input row
-          const inputRow = document.createElement('div');
-          inputRow.className = 'qr-input-row';
-          inputRow.style.cssText = 'display: flex; gap: 0.5rem; align-items: center;';
-          inputRow.appendChild(currentInput);
-          
-          // Add length info that will be responsive
-          if (this.lengthEl) {
-            const lengthInfo = document.createElement('div');
-            lengthInfo.className = 'qr-length-info';
-            lengthInfo.style.cssText = `
-              color: #B8B8B8; 
-              font-size: 0.875rem; 
-              margin-left: 0.5rem;
-              white-space: nowrap;
-            `;
-            lengthInfo.textContent = `Length: ${this.lengthEl.textContent}`;
-            
-            // Update display when length changes
-            const updateLength = () => {
-              lengthInfo.textContent = `Length: ${this.lengthEl.textContent}`;
-            };
-            
-            // Listen for changes to the original element
-            const lengthObserver = new MutationObserver(updateLength);
-            lengthObserver.observe(this.lengthEl, { childList: true, subtree: true, characterData: true });
-            
-            inputRow.appendChild(lengthInfo);
-          }
-          
-          inputWrapper.appendChild(inputRow);
-          this.glowContainer.appendChild(inputWrapper);
-          
-          // Ensure input event listener is attached
-          if (!currentInput.hasAttribute('data-fullscreen-listener-attached')) {
-            currentInput.addEventListener('input', () => {
-              const currentText = currentInput.value || this.url;
-              this.render(currentText);
-              this.renderQRInContainer(currentText);
-            });
-            currentInput.setAttribute('data-fullscreen-listener-attached', 'true');
-          }
+          // Input is now handled in the controls box - skip this section
         }
         
         // Length info will be moved to QR version box
@@ -352,65 +352,148 @@ class QRCodeManager {
           this.renderQRInContainer(currentText);
         }, 100);
         
-        // Create responsive controls area with boxes
-        const controlsWrapper = document.createElement('div');
-        controlsWrapper.style.cssText = `
+        // Create single common box for all controls
+        const controlsBox = document.createElement('div');
+        controlsBox.style.cssText = `
+          background: rgba(55, 65, 81, 0.8);
+          border: 1px solid #374151;
+          border-radius: 0.5rem;
+          padding: 1rem;
+          color: #B8B8B8;
+          margin-top: 0.5rem;
           display: flex;
           flex-direction: row;
-          gap: 0.25rem;
+          gap: 1rem;
           align-items: center;
-          justify-content: center;
-          margin-top: 0.25rem;
+          justify-content: space-between;
           flex-wrap: wrap;
         `;
         
-          // Add responsive styles
-          controlsWrapper.innerHTML = `
-            <style>
-              @media (max-width: 768px) {
-                .qr-controls-responsive {
-                  flex-direction: column !important;
-                  gap: 0.75rem !important;
-                }
+        // Add responsive styles
+        controlsBox.innerHTML = `
+          <style>
+            @media (max-width: 600px) {
+              .qr-controls-box {
+                flex-direction: column !important;
+                gap: 0.75rem !important;
+                align-items: center !important;
               }
-              
-              @media (max-width: 600px) {
-                .qr-input-row {
-                  flex-direction: column !important;
-                  align-items: flex-start !important;
-                  gap: 0.25rem !important;
-                }
-                .qr-length-info {
-                  margin-left: 0 !important;
-                }
-              }
-            </style>
-          `;
-        controlsWrapper.className = 'qr-controls-responsive';
+            }
+          </style>
+        `;
+        controlsBox.className = 'qr-controls-box';
         
-        // Create QR version box with two-line format
-        if (this.info) {
-          const versionBox = document.createElement('div');
-          versionBox.style.cssText = `
+        // Create a common container for both boxes to ensure same width
+        const commonContainer = document.createElement('div');
+        commonContainer.style.cssText = `
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          align-items: center;
+          width: fit-content;
+          max-width: 400px;
+          margin-left: auto;
+          margin-right: auto;
+        `;
+        
+        // Create URL/Length box with vertical layout
+        if (currentInput) {
+          const urlLengthBox = document.createElement('div');
+          urlLengthBox.style.cssText = `
             background: rgba(55, 65, 81, 0.8);
             border: 1px solid #374151;
             border-radius: 0.5rem;
-            padding: 0.75rem 1rem;
+            padding: 1rem;
             color: #B8B8B8;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            align-items: center;
+            width: 100%;
+          `;
+          
+          // Style the input to span the full width of the box
+          currentInput.style.cssText = `
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #4B5563;
+            background: #374151;
+            color: #B8B8B8;
+            border-radius: 0.25rem;
             font-size: 0.875rem;
-            text-align: center;
-            min-width: 120px;
+            transition: width 0.2s ease;
+          `;
+          
+          // Add length info with center justification
+          if (this.lengthEl) {
+            const lengthInfo = document.createElement('div');
+            lengthInfo.className = 'qr-length-info';
+            lengthInfo.style.cssText = `
+              color: #B8B8B8; 
+              font-size: 0.875rem; 
+              white-space: nowrap;
+              text-align: center;
+            `;
+            lengthInfo.textContent = `Length: ${this.lengthEl.textContent}`;
+            
+            // Update display when length changes
+            const updateLength = () => {
+              lengthInfo.textContent = `Length: ${this.lengthEl.textContent}`;
+            };
+            
+            const lengthObserver = new MutationObserver(updateLength);
+            lengthObserver.observe(this.lengthEl, { childList: true, subtree: true, characterData: true });
+            
+            // Store length info to add after input
+            urlLengthBox.lengthInfo = lengthInfo;
+          }
+          
+          urlLengthBox.appendChild(currentInput);
+          
+          // Add length info after input (so it appears below)
+          if (urlLengthBox.lengthInfo) {
+            urlLengthBox.appendChild(urlLengthBox.lengthInfo);
+          }
+          urlLengthBox.className = 'qr-url-length-box';
+          commonContainer.appendChild(urlLengthBox);
+          
+          // Ensure input event listener is attached
+          if (!currentInput.hasAttribute('data-fullscreen-listener-attached')) {
+            currentInput.addEventListener('input', () => {
+              const currentText = currentInput.value || this.url;
+              this.render(currentText);
+              this.renderQRInContainer(currentText);
+              
+              // Dynamically resize input based on content
+              this.resizeInputToContent(currentInput);
+            });
+            currentInput.setAttribute('data-fullscreen-listener-attached', 'true');
+            
+            // Initial resize
+            this.resizeInputToContent(currentInput);
+          }
+        }
+        
+        // Create QR version section
+        if (this.info) {
+          const versionSection = document.createElement('div');
+          versionSection.style.cssText = `
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.25rem;
           `;
           
           const versionTitle = document.createElement('div');
           versionTitle.textContent = 'QR Version:';
-          versionTitle.style.cssText = 'font-size: 0.75rem; color: #9CA3AF; margin-bottom: 0.25rem;';
-          versionBox.appendChild(versionTitle);
+          versionTitle.style.cssText = 'font-size: 0.75rem; color: #9CA3AF;';
           
           const versionSpan = document.createElement('div');
           versionSpan.textContent = this.info.textContent;
-          versionSpan.style.cssText = 'font-weight: bold;';
-          versionBox.appendChild(versionSpan);
+          versionSpan.style.cssText = 'font-weight: bold; font-size: 0.875rem;';
+          
+          versionSection.appendChild(versionTitle);
+          versionSection.appendChild(versionSpan);
           
           // Update display when version changes
           const updateVersion = () => {
@@ -421,31 +504,34 @@ class QRCodeManager {
           const versionObserver = new MutationObserver(updateVersion);
           versionObserver.observe(this.info, { childList: true, subtree: true, characterData: true });
           
-          controlsWrapper.appendChild(versionBox);
+          controlsBox.appendChild(versionSection);
         }
         
-        // Create error correction box
+        // Create error correction section
         if (this.eclDec && this.eclInc && this.eclText) {
-          const eclBox = document.createElement('div');
-          eclBox.style.cssText = `
-            background: rgba(55, 65, 81, 0.8);
-            border: 1px solid #374151;
-            border-radius: 0.5rem;
-            padding: 0.75rem 1rem;
-            color: #B8B8B8;
-            font-size: 0.875rem;
-            text-align: center;
-            min-width: 160px;
+          const eclSection = document.createElement('div');
+          eclSection.style.cssText = `
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
           `;
           
           const eclTitle = document.createElement('div');
           eclTitle.textContent = 'Error Correction Level';
-          eclTitle.style.cssText = 'margin-bottom: 0.5rem; font-size: 0.75rem; color: #9CA3AF;';
+          eclTitle.style.cssText = 'font-size: 0.75rem; color: #9CA3AF;';
+          
+          const eclControls = document.createElement('div');
+          eclControls.style.cssText = `
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+          `;
           
           // Create new buttons with event handlers
           const decBtn = document.createElement('button');
           decBtn.textContent = '-';
-          decBtn.style.cssText = 'padding: 0.25rem 0.5rem; border: 1px solid #4B5563; background: #4B5563; color: #B8B8B8; border-radius: 0.25rem; cursor: pointer; margin-right: 0.5rem;';
+          decBtn.style.cssText = 'padding: 0.25rem 0.5rem; border: 1px solid #4B5563; background: #4B5563; color: #B8B8B8; border-radius: 0.25rem; cursor: pointer;';
           decBtn.addEventListener('click', () => {
             if (this.eclIndex > 0) {
               this.eclIndex--;
@@ -458,7 +544,7 @@ class QRCodeManager {
           
           const incBtn = document.createElement('button');
           incBtn.textContent = '+';
-          incBtn.style.cssText = 'padding: 0.25rem 0.5rem; border: 1px solid #4B5563; background: #4B5563; color: #B8B8B8; border-radius: 0.25rem; cursor: pointer; margin-left: 0.5rem;';
+          incBtn.style.cssText = 'padding: 0.25rem 0.5rem; border: 1px solid #4B5563; background: #4B5563; color: #B8B8B8; border-radius: 0.25rem; cursor: pointer;';
           incBtn.addEventListener('click', () => {
             if (this.eclIndex < this.ECL_LEVELS.length - 1) {
               this.eclIndex++;
@@ -482,42 +568,102 @@ class QRCodeManager {
           const observer = new MutationObserver(updateDisplay);
           observer.observe(this.eclText, { childList: true, subtree: true, characterData: true });
           
-          eclBox.appendChild(eclTitle);
-          eclBox.appendChild(decBtn);
-          eclBox.appendChild(displaySpan);
-          eclBox.appendChild(incBtn);
+          eclControls.appendChild(decBtn);
+          eclControls.appendChild(displaySpan);
+          eclControls.appendChild(incBtn);
           
-          controlsWrapper.appendChild(eclBox);
+          eclSection.appendChild(eclTitle);
+          eclSection.appendChild(eclControls);
+          
+          controlsBox.appendChild(eclSection);
         }
         
-        // Create download box
+        // Create download section
         if (this.download) {
-          const downloadBox = document.createElement('div');
-          downloadBox.style.cssText = `
-            background: rgba(55, 65, 81, 0.8);
-            border: 1px solid #374151;
-            border-radius: 0.5rem;
-            padding: 0.75rem 1rem;
-            color: #B8B8B8;
-            font-size: 0.875rem;
-            text-align: center;
-            min-width: 120px;
+          const downloadSection = document.createElement('div');
+          downloadSection.style.cssText = `
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
           `;
           
-          const downloadClone = this.download.cloneNode(true);
-          downloadClone.style.cssText = 'padding: 0.5rem 1rem; border: 1px solid #4B5563; background: #4B5563; color: #B8B8B8; border-radius: 0.25rem; cursor: pointer; width: 100%;';
-          // Add direct download functionality
-          downloadClone.addEventListener('click', () => {
-            this.downloadQR();
+          const downloadTitle = document.createElement('div');
+          downloadTitle.textContent = 'DOWNLOAD:';
+          downloadTitle.style.cssText = 'font-size: 0.75rem; color: #9CA3AF;';
+          
+          const downloadButtons = document.createElement('div');
+          downloadButtons.style.cssText = `
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+          `;
+          
+          // PNG Button
+          const pngBtn = document.createElement('button');
+          pngBtn.textContent = 'PNG';
+          pngBtn.style.cssText = `
+            padding: 0.5rem 1rem;
+            border: 1px solid #4B5563;
+            background: #4B5563;
+            color: #B8B8B8;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+          `;
+          pngBtn.addEventListener('click', () => {
+            this.downloadQR('png');
+          });
+          pngBtn.addEventListener('mouseenter', () => {
+            pngBtn.style.background = '#6B7280';
+            pngBtn.style.borderColor = '#6B7280';
+          });
+          pngBtn.addEventListener('mouseleave', () => {
+            pngBtn.style.background = '#4B5563';
+            pngBtn.style.borderColor = '#4B5563';
           });
           
-          downloadBox.appendChild(downloadClone);
-          controlsWrapper.appendChild(downloadBox);
+          // SVG Button
+          const svgBtn = document.createElement('button');
+          svgBtn.textContent = 'SVG';
+          svgBtn.style.cssText = `
+            padding: 0.5rem 1rem;
+            border: 1px solid #4B5563;
+            background: #4B5563;
+            color: #B8B8B8;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.2s ease;
+          `;
+          svgBtn.addEventListener('click', () => {
+            this.downloadQR('svg');
+          });
+          svgBtn.addEventListener('mouseenter', () => {
+            svgBtn.style.background = '#6B7280';
+            svgBtn.style.borderColor = '#6B7280';
+          });
+          svgBtn.addEventListener('mouseleave', () => {
+            svgBtn.style.background = '#4B5563';
+            svgBtn.style.borderColor = '#4B5563';
+          });
+          
+          downloadButtons.appendChild(pngBtn);
+          downloadButtons.appendChild(svgBtn);
+          
+          downloadSection.appendChild(downloadTitle);
+          downloadSection.appendChild(downloadButtons);
+          controlsBox.appendChild(downloadSection);
         }
         
-        controlsArea.appendChild(controlsWrapper);
+        // Add controls box to common container
+        commonContainer.appendChild(controlsBox);
         
-        // Assemble the layout in correct order
+        // Add common container to controls area
+        controlsArea.appendChild(commonContainer);
+        
+        // Assemble the layout in correct order: QR code first, then controls
         this.glowContainer.appendChild(qrDisplayArea);
         this.glowContainer.appendChild(controlsArea);
         
@@ -716,13 +862,11 @@ class QRCodeManager {
     }
   }
 
-  downloadQR() {
-    // Always download as PNG for better compatibility
-    const tmpCanvas = document.createElement('canvas');
+  downloadQR(format = 'png') {
     const text = (this.input && this.input.value) || this.url;
     
     // Generate filename based on current page URL or custom URL
-    const generateFilename = () => {
+    const generateFilename = (fileFormat) => {
       const currentPageUrl = window.location.href;
       const inputUrl = text;
       
@@ -740,7 +884,7 @@ class QRCodeManager {
         
         // Remove leading slash and convert to filename-friendly format
         if (pathname === '/' || pathname === '' || pathname === 'home') {
-          return 'qr-home.png';
+          return `qr-home.${fileFormat}`;
         }
         
         // Remove leading slash and replace remaining slashes with hyphens
@@ -751,22 +895,55 @@ class QRCodeManager {
         
         // If pathname is empty after cleaning, use 'home'
         if (!pathname) {
-          return 'qr-home.png';
+          return `qr-home.${fileFormat}`;
         }
         
-        return `qr-${pathname}.png`;
+        return `qr-${pathname}.${fileFormat}`;
       } else {
         // Use custom URL - return generic filename
-        return 'qr-custom.png';
+        return `qr-custom.${fileFormat}`;
       }
     };
     
-    const filename = generateFilename();
+    const filename = generateFilename(format);
     
-    try {
-      QRCode.toCanvas(tmpCanvas, text, { width: 512, margin: 1, errorCorrectionLevel: this.ECL_LEVELS[this.eclIndex] }, () => {
+    if (format === 'svg') {
+      // Generate SVG QR code
+      try {
+        QRCode.toString(text, { 
+          type: 'svg', 
+          width: 512, 
+          margin: 1, 
+          errorCorrectionLevel: this.ECL_LEVELS[this.eclIndex] 
+        }, (err, svgString) => {
+          if (err) throw err;
+          
+          // Create blob and download
+          const blob = new Blob([svgString], { type: 'image/svg+xml' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.download = filename;
+          link.href = url;
+          link.click();
+          URL.revokeObjectURL(url);
+        });
+      } catch (err) {
+        console.error('SVG generation failed:', err);
+        // Fallback to PNG
+        this.downloadQR('png');
+      }
+    } else {
+      // Generate PNG QR code (default)
+      const tmpCanvas = document.createElement('canvas');
+      
+      try {
+        QRCode.toCanvas(tmpCanvas, text, { 
+          width: 512, 
+          margin: 1, 
+          errorCorrectionLevel: this.ECL_LEVELS[this.eclIndex] 
+        }, () => {
         const link = document.createElement('a');
-        link.download = filename;
+          link.download = filename;
         link.href = tmpCanvas.toDataURL('image/png');
         link.click();
       });
@@ -776,9 +953,10 @@ class QRCodeManager {
       tmpCanvas.height = this.canvas.height;
       ctx.drawImage(this.canvas, 0, 0);
       const link = document.createElement('a');
-      link.download = filename;
+        link.download = filename;
       link.href = tmpCanvas.toDataURL('image/png');
       link.click();
+      }
     }
   }
 }

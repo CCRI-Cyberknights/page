@@ -507,6 +507,15 @@ openImageModal('image.jpg', 'Image Description', false);
 ```javascript
 // OLD: expandPanel() - custom full-screen implementation
 // NEW: Use UniversalModal with size: 'fullscreen' and mobileBackButton: true
+
+// Current implementation maintains custom full-screen QR Code Manager
+// with improved layout and responsive design:
+// - URL input spans full width of container
+// - Length information appears below URL input
+// - Both URL/Length and Controls boxes share same width via common container
+// - Simplified responsive behavior with single 600px breakpoint
+// - All CSS contained within JavaScript file for better component isolation
+```
 const modal = new UniversalModal({
   size: 'fullscreen',
   mobileBackButton: true,

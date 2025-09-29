@@ -5,6 +5,25 @@ All notable changes to the Cyber Club Landing Pages project are documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.7.19] - 2025-09-29
+
+### Enhanced
+- **QR Code Manager Layout Improvements**: Comprehensive redesign of the full-screen QR Code Manager interface
+  - **Unified Box Design**: URL/Length and Controls boxes now share the same width via common container
+  - **Improved Layout Order**: Length information appears below URL input for better visual hierarchy
+  - **Full-Width URL Input**: URL input field spans the full width of its container for better usability
+  - **Simplified Responsive Design**: Single 600px breakpoint for cleaner responsive behavior
+  - **Component Isolation**: All CSS moved from HTML to JavaScript file for better component architecture
+  - **Consistent Styling**: Both PNG and SVG download buttons use identical gray styling
+  - **Enhanced Download Options**: Separate PNG and SVG download buttons with dynamic filename generation
+
+### Technical Implementation
+- **Common Container Architecture**: Both control boxes constrained by same `max-width: 400px`
+- **CSS Consolidation**: Moved `.qr-fullscreen` styles from HTML to JavaScript for self-contained components
+- **Responsive Simplification**: Removed multiple breakpoints in favor of single 600px transition
+- **Dynamic Input Sizing**: URL input maintains full-width behavior while respecting container constraints
+- **Download Format Support**: Enhanced `downloadQR()` method supports both PNG and SVG formats with proper MIME types
+
 ## [1.6.14] - 2025-09-25
 
 ### Added
