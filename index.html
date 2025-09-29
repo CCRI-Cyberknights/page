@@ -276,6 +276,19 @@
       }
     }
 
+    /* Navigation active state styling - visible emerald accent */
+    nav a[data-route].active {
+      background-color: rgba(16, 185, 129, 0.3) !important;
+      border-color: rgb(16, 185, 129) !important;
+      color: rgb(209, 250, 229) !important;
+    }
+    
+    nav a[data-route].active:hover {
+      background-color: rgba(16, 185, 129, 0.4) !important;
+      border-color: rgb(52, 211, 153) !important;
+      color: rgb(255, 255, 255) !important;
+    }
+
   </style>
 </head>
 <body class="min-h-screen bg-[var(--forge-black)] text-[var(--pale-alloy)] flex flex-col">
@@ -286,10 +299,10 @@
         <img id="cyberknight-icon" src="images/branding/cybersmith.webp" alt="Cyberknights" class="w-10 h-10 rounded hover:scale-110 cursor-pointer transition-transform duration-200 ease-in-out" onclick="expandElement(this)" tabindex="0" title="Click to expand" />
       </div>
       <nav class="flex gap-2 text-sm">
-        <a href="#/home" class="px-3 py-2 rounded-md bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700 hover:border-slate-600 transition-all duration-200 text-slate-200 hover:text-white font-medium">Home</a>
-        <a href="#/linux" class="px-3 py-2 rounded-md bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700 hover:border-slate-600 transition-all duration-200 text-slate-200 hover:text-white font-medium">Linux</a>
-        <a href="#/calendar" class="px-3 py-2 rounded-md bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700 hover:border-slate-600 transition-all duration-200 text-slate-200 hover:text-white font-medium">Calendar</a>
-        <a href="#/resources" class="px-3 py-2 rounded-md bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700 hover:border-slate-600 transition-all duration-200 text-slate-200 hover:text-white font-medium">Resources</a>
+        <a href="#/home" class="px-3 py-2 rounded-md bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700 hover:border-slate-600 transition-all duration-200 text-slate-200 hover:text-white font-medium" data-route="home">Home</a>
+        <a href="#/linux" class="px-3 py-2 rounded-md bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700 hover:border-slate-600 transition-all duration-200 text-slate-200 hover:text-white font-medium" data-route="linux">Linux</a>
+        <a href="#/calendar" class="px-3 py-2 rounded-md bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700 hover:border-slate-600 transition-all duration-200 text-slate-200 hover:text-white font-medium" data-route="calendar">Calendar</a>
+        <a href="#/resources" class="px-3 py-2 rounded-md bg-slate-800/50 hover:bg-slate-700/70 border border-slate-700 hover:border-slate-600 transition-all duration-200 text-slate-200 hover:text-white font-medium" data-route="resources">Resources</a>
       </nav>
   </header>
 
@@ -532,7 +545,6 @@
   <template id="page-linux">
     <section class="space-y-6">
       <div class="text-center mb-8">
-        <h2 class="text-3xl sm:text-4xl font-bold mb-2">Linux Installation Guide</h2>
         <p class="text-slate-300 mt-4">Learn how to install Linux distributions using USB drives or virtual machines.</p>
       </div>
 
@@ -645,7 +657,6 @@
 
   <template id="page-calendar">
     <section class="space-y-6">
-      <h2 class="text-3xl sm:text-4xl font-bold">Club Calendar</h2>
       <p class="text-slate-300">Upcoming meetings and events managed via the club Google Calendar.</p>
 
       <div id="calendar-callout" class="p-4 rounded border border-amber-500/40 bg-amber-900/20 text-amber-200 text-sm"></div>
@@ -693,8 +704,6 @@
 
   <template id="page-resources">
     <section class="space-y-6">
-      <h2 class="text-3xl sm:text-4xl font-bold">Resources</h2>
-      
       <div class="p-4 rounded-lg border border-emerald-500/40 bg-emerald-900/10 text-sm mb-6" style="color: var(--neon-surge);">
         <p id="intro-text">Essential tools and competitions for learning cybersecurity—whether you're just starting with CTF basics or sharpening your skills in advanced challenges.</p>
       </div>
@@ -816,6 +825,19 @@
       }
     }
 
+    // Update navigation active state
+    function updateNavigationActiveState(currentPage) {
+      const navLinks = document.querySelectorAll('nav a[data-route]');
+      navLinks.forEach(link => {
+        const route = link.getAttribute('data-route');
+        if (route === currentPage) {
+          link.classList.add('active');
+        } else {
+          link.classList.remove('active');
+        }
+      });
+    }
+
     async function render() {
       const raw = (location.hash || '').replace(/^#\/?/, '');
       const [pageName, ...segments] = raw.split('/');
@@ -823,6 +845,9 @@
       
       // Check for nested routes like 'resources/linux'
       const fullRoute = segments.length > 0 ? `${pageName}/${segments[0]}` : pageName;
+      
+      // Update navigation active state
+      updateNavigationActiveState(page);
       
       // Close QR panel when navigating to different pages
       const qrPanel = document.getElementById('footer-qr-panel');
@@ -1850,15 +1875,6 @@
         // Event listeners
         function close(reason) {
           if (!overlay.parentNode) return;
-          
-          // Remove popstate listener
-          window.removeEventListener('popstate', popstateHandler);
-          
-          // Restore history state if we pushed one
-          if (history.state && history.state.modal) {
-            history.back();
-          }
-          
           overlay.parentNode.removeChild(overlay);
           document.documentElement.style.overflow = prevOverflow || '';
           if (previousActive && previousActive.focus) previousActive.focus();
@@ -1875,15 +1891,6 @@
         // ESC handler
         const escHandler = (e) => { if (e.key === 'Escape') close('esc'); };
         document.addEventListener('keydown', escHandler);
-
-        // Mobile back button support
-        const popstateHandler = (e) => { 
-          close('mobile-back'); 
-        };
-        window.addEventListener('popstate', popstateHandler);
-        
-        // Push a dummy state to enable back button detection
-        history.pushState({ modal: true }, '', window.location.href);
 
         // focus trap
         const offKey = trapFocus(dialog);

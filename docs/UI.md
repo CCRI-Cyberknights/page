@@ -14,11 +14,13 @@ This document outlines the comprehensive UI/UX improvements implemented to enhan
 - **Consistent header styling** with matching color scheme
 - **Reverted banner** to original green shade (#00703d) for brand consistency
 
-### 2. Simplified Navigation
+### 2. Simplified Navigation with Active State
 - **Removed hamburger menu** and mobile navigation complexity
 - **Direct navigation** always visible across all screen sizes
 - **Clean header design** featuring only the CyberKnights logo and navigation links
-- **Improved accessibility** with simplified navigation structure
+- **Active state indication** - current page highlighted with visible emerald accent color
+- **Eliminated redundant headers** - removed "Club Calendar", "Linux Installation Guide", and "Resources" page titles
+- **Improved accessibility** with simplified navigation structure and clear visual feedback
 
 ### 3. Organized Resource Categories
 - **Combined categories**: Merged "Code Breaking Tools" and "CTF Tools" into "CTF & Code Breaking Tools"
@@ -100,7 +102,13 @@ This document outlines the comprehensive UI/UX improvements implemented to enhan
 - **Simplified display**: Focus on card-based resource display only
 - **Cleaner interface**: Reduced visual clutter and improved focus
 
-### 7. Header Cleanup
+### 7. Eliminated Redundant Headers
+- **Removed page titles**: Eliminated "Club Calendar", "Linux Installation Guide", and "Resources" headers
+- **Navigation-based context**: Active navigation button provides clear page indication
+- **Cleaner layouts**: Pages start directly with descriptive content
+- **Reduced redundancy**: No duplicate information between navigation and page content
+
+### 8. Header Cleanup
 - **Removed redundant text**: Eliminated "CCRI Cybersecurity Club" text from header
 - **Logo-only design**: Clean header with just the CyberKnights logo
 - **Maintained functionality**: All navigation links remain intact
@@ -117,6 +125,48 @@ bg-[#22c55e] /* Buttons */
 bg-emerald-500 /* All interactive elements */
 bg-[#00703d] /* Banner (reverted to original) */
 ```
+
+### Navigation Active State Implementation
+
+The navigation system includes automatic active state management using data attributes and CSS with `!important` declarations to override Tailwind classes:
+
+```css
+/* Navigation active state styling - visible emerald accent */
+nav a[data-route].active {
+  background-color: rgba(16, 185, 129, 0.3) !important;
+  border-color: rgb(16, 185, 129) !important;
+  color: rgb(209, 250, 229) !important;
+}
+
+nav a[data-route].active:hover {
+  background-color: rgba(16, 185, 129, 0.4) !important;
+  border-color: rgb(52, 211, 153) !important;
+  color: rgb(255, 255, 255) !important;
+}
+```
+
+```javascript
+// Update navigation active state
+function updateNavigationActiveState(currentPage) {
+  const navLinks = document.querySelectorAll('nav a[data-route]');
+  navLinks.forEach(link => {
+    const route = link.getAttribute('data-route');
+    if (route === currentPage) {
+      link.classList.add('active');
+    } else {
+      link.classList.remove('active');
+    }
+  });
+}
+```
+
+**How it works:**
+1. **Data Attributes**: Each nav link has `data-route` attribute (home, linux, calendar, resources)
+2. **Route Detection**: JavaScript extracts current page from URL hash
+3. **State Update**: `updateNavigationActiveState()` function called on route changes
+4. **Visual Feedback**: Active page highlighted with visible emerald accent color
+5. **CSS Specificity**: Uses `!important` to override Tailwind classes
+6. **Automatic Management**: No manual intervention required
 
 ### Navigation Simplification
 ```html
@@ -190,12 +240,14 @@ document.addEventListener('keydown', handleKeydown);
 
 ### After Improvements
 - Consistent emerald-500 color palette throughout
-- Simplified, always-visible navigation
+- Simplified, always-visible navigation with visible active state indication
 - Organized, combined resource categories
 - Clear beginner guidance and resource descriptions
 - Clean, card-based resource display
 - Minimalist header design
 - Intuitive keyboard navigation with backspace key support
+- Eliminated redundant page headers for cleaner layouts
+- Navigation-based context eliminates need for page titles
 
 ## Maintenance Notes
 
