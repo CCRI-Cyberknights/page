@@ -16,6 +16,8 @@
     "release:patch": "standard-version --release-as patch",
     "release:minor": "standard-version --release-as minor",
     "release:major": "standard-version --release-as major",
+    "pipeline:check": "gh run list --limit 10",
+    "pipeline:status": "gh run list --limit 5 --json status,conclusion,displayTitle,createdAt | jq '.[] | {title: .displayTitle, status: .status, conclusion: .conclusion, created: .createdAt}'",
     "prepare": "husky install"
   },
   "repository": {
