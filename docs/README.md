@@ -228,7 +228,7 @@ This ensures consistency, international compatibility, and chronological sorting
 |---------------|---------------|-------------|---------|
 | Resources | 3 → 1 | ~290 lines | Single source of truth |
 | Link Testing | 2 → 1 | ~481 lines | Eliminates redundancy |
-| Selenium | 2 → 1 | ~428 lines | Complete documentation |
+| Testing | 2 → 1 | ~428 lines | Complete documentation |
 | Color Palette | 2 → 1 | ~250 lines | Quick reference + detailed docs |
 | Version Management | 2 → 1 | ~598 lines | Current system + legacy reference |
 | Routing | 2 → 1 | ~260 lines | Complete routing + legacy context |

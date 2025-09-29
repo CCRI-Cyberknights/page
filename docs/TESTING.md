@@ -1,6 +1,6 @@
 # Testing Strategy & Implementation
 
-Modern testing using Playwright to ensure functionality across client-side routing, QR code generation, and cross-page navigation. The project has migrated from Selenium WebDriver to Playwright for better performance, reliability, and cross-browser support.
+Modern testing using Playwright to ensure functionality across client-side routing, QR code generation, and cross-page navigation. The project uses Playwright for comprehensive end-to-end testing with better performance, reliability, and cross-browser support.
 
 ## Overview
 
@@ -22,7 +22,7 @@ The project uses a comprehensive test suite to validate:
 - **Virtual Environment**: Node.js with npm
 - **Server**: Python HTTP server (port 8000) for local testing
 
-**ℹ️ Migration Note**: The project migrated from Selenium WebDriver to Playwright in 2025 for better performance, reliability, and cross-browser support. Legacy Selenium testing is preserved for reference. See [Modern Link Testing](#modern-link-testing) section for current approach.
+**ℹ️ Current Testing**: The project uses Playwright for comprehensive end-to-end testing with cross-browser support (Chrome, Firefox, Safari), providing better performance and reliability than previous testing approaches.
 
 ### Testing Categories
 
@@ -43,86 +43,23 @@ The project uses a comprehensive test suite to validate:
 - **CSS Analysis**: Computed style extraction for debugging layout conflicts
 - **Element Positioning**: Precise measurement of element dimensions and positions
 - **Cross-Page Consistency**: Ensuring layout consistency across all pages
-- **Environment**: Isolated virtual environment (`selenium_env/`)
-
-### Selenium Debugging Methodology
-
-### Innovation: Automated Layout Debugging
-
-We pioneered the use of Selenium WebDriver for systematic layout debugging, providing objective measurements and visual documentation that traditional debugging methods cannot match.
-
-#### Traditional Debugging Limitations
-- **Visual inspection**: Subjective and error-prone
-- **Browser dev tools**: Manual, time-consuming
-- **CSS inspection**: Limited to single elements
-- **Cross-page testing**: Inconsistent and manual
-
-#### Our Selenium Approach
-- **Objective measurements**: Pixel-perfect element positioning
-- **Automated screenshots**: Visual documentation of issues
-- **Computed style analysis**: Complete CSS property extraction
-- **Cross-page consistency**: Systematic testing across all routes
-- **Quantitative analysis**: Mathematical verification of layout behavior
-
-#### Example Debugging Script
-```python
-def analyze_layout_issue():
-    driver = setup_driver()
-    try:
-        # Navigate and capture measurements
-        driver.get("http://localhost:8000")
-        
-        # Get precise element positioning
-        element_rect = driver.execute_script("return arguments[0].getBoundingClientRect();", element)
-        
-        # Extract computed styles
-        styles = driver.execute_script("return window.getComputedStyle(arguments[0]);", element)
-        
-        # Calculate layout relationships
-        center_offset = abs(element_center - window_center)
-        
-        # Document with screenshot
-        driver.save_screenshot("layout_analysis.png")
-        
-        # Report quantitative findings
-        print(f"Element width: {element_rect['width']}px")
-        print(f"Center offset: {center_offset}px")
-        print(f"Computed styles: {styles}")
-        
-    finally:
-        driver.quit()
-```
-
-#### Debugging Tools Created
-- **`navigation_detailed_analysis.py`**: Comprehensive navigation layout analysis
-- **`footer_visibility_test.py`**: Cross-page footer positioning verification
-- **`calendar_width_analysis.py`**: Content width constraint analysis
-
-#### Key Benefits
-1. **Reproducible**: Same results every time
-2. **Comprehensive**: Tests all pages automatically
-3. **Documented**: Screenshots provide visual proof
-4. **Quantitative**: Precise measurements, not estimates
-5. **Efficient**: Automated analysis vs. manual inspection
+- **Modern Tooling**: Playwright provides comprehensive debugging capabilities
 
 ## Test Organization
 ```
 tests/
-├── README.md              # Test documentation and usage
-├── run_tests.py           # Test runner (executable)
-├── test_routing.py        # Main site routing tests
-├── test_qr_standalone.py  # Standalone page tests
-├── navigation_detailed_analysis.py  # Layout debugging tool
-├── footer_visibility_test.py        # Footer positioning analysis
-├── footer_positioning_test.py       # Detailed footer debugging
-└── calendar_width_analysis.py       # Content width verification
+├── README.md                                    # Test documentation and usage
+├── playwright-link-testing-comprehensive.spec.ts # Comprehensive link testing
+├── playwright-link-testing-modern.spec.ts       # Modern link testing approach
+├── playwright-link-testing.spec.ts             # Feature parity verification
+└── versioning-diagnostics.spec.ts              # Versioning pipeline diagnostics
 ```
 
 ## Test Categories
 
-### 1. Client-Side Routing Tests (`test_routing.py`)
+### 1. Link Testing (`playwright-link-testing-comprehensive.spec.ts`)
 
-**Purpose**: Validates the JavaScript router and page navigation functionality.
+**Purpose**: Comprehensive link testing with cross-browser support.
 
 **Coverage**:
 - Hash-based routing (`#/resources/linux`)
@@ -137,9 +74,9 @@ tests/
 - Test "Back to Club" navigation
 - Validate QR Code panel visibility and generation
 
-### 2. Standalone Page Tests (`test_qr_standalone.py`)
+### 2. Modern Link Testing (`playwright-link-testing-modern.spec.ts`)
 
-**Purpose**: Ensures standalone HTML pages work independently of the main SPA.
+**Purpose**: Modern approach to link testing with ephemeral results and performance monitoring.
 
 **Coverage**:
 - Direct HTML file loading (`document/linux-cheatsheet-1.html`)
@@ -153,41 +90,13 @@ tests/
 - Verify QR Code generation and info display
 - Validate navigation links work correctly
 
-### 3. Layout Debugging Tools (NEW)
-
-**Purpose**: Systematic debugging of CSS layout issues using Selenium WebDriver.
-
-**Tools**:
-- **`navigation_detailed_analysis.py`**: Comprehensive navigation layout analysis
-- **`footer_visibility_test.py`**: Cross-page footer positioning verification
-- **`footer_positioning_test.py`**: Detailed footer positioning analysis
-- **`calendar_width_analysis.py`**: Content width constraint analysis
-
-**Coverage**:
-- Element positioning and dimensions
-- CSS computed styles extraction
-- Cross-page layout consistency
-- Automated screenshot documentation
-- Quantitative layout analysis
-
-**Key Features**:
-- Objective measurements instead of visual inspection
-- Automated screenshot capture for visual verification
-- Computed style analysis for debugging CSS conflicts
-- Cross-page testing for layout consistency
-- Mathematical verification of layout behavior
-
 ## Testing Approach
-
-### Why Selenium?
-
-**Client-Side Heavy Application**: The site relies heavily on JavaScript for:
 - Hash-based routing (`#/page` navigation)
 - Dynamic content rendering
 - QR Code generation and interaction
 - Resource filtering and display
 
-**Cross-Browser Compatibility**: Selenium ensures functionality works across different browsers and environments.
+**Cross-Browser Compatibility**: Playwright ensures functionality works across different browsers and environments (Chrome, Firefox, Safari).
 
 **User Journey Testing**: Tests simulate real user interactions (clicks, navigation, form input).
 
@@ -215,46 +124,6 @@ tests/
 - Validate error states and fallbacks
 - Cover all major user workflows
 
-## Implementation Details
-
-### Test Setup
-
-**Virtual Environment**:
-```bash
-python3 -m venv selenium_env
-source selenium_env/bin/activate
-pip install selenium requests beautifulsoup4
-```
-
-**Chrome Driver Configuration**:
-```python
-chrome_options = Options()
-chrome_options.add_argument("--headless")
-chrome_options.add_argument("--no-sandbox")
-chrome_options.add_argument("--disable-dev-shm-usage")
-```
-
-### Wait Strategies
-
-**Explicit Waits**: Use `WebDriverWait` for dynamic content:
-```python
-WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.ID, "app"))
-)
-```
-
-**Implicit Waits**: Allow time for JavaScript execution:
-```python
-time.sleep(2)  # For complex interactions
-```
-
-### Element Selection Patterns
-
-**Stable Selectors**:
-- IDs: `driver.find_element(By.ID, "footer-qr-toggle")`
-- XPath with text: `driver.find_element(By.XPATH, "//a[contains(text(), '← Back to Resources')]")`
-- CSS selectors: `driver.find_element(By.CSS_SELECTOR, ".qr-panel")`
-
 ## Running Tests
 
 ### Prerequisites
@@ -263,48 +132,51 @@ time.sleep(2)  # For complex interactions
    python3 -m http.server 8000
    ```
 
-2. **Activate Test Environment**:
+2. **Install Dependencies**:
    ```bash
-   source selenium_env/bin/activate
+   npm ci
+   npx playwright install --with-deps
    ```
 
 ### Test Execution
 
 **Run All Tests**:
 ```bash
-python tests/run_tests.py
+npm run test:links:playwright
 ```
 
 **Run Individual Tests**:
 ```bash
-python tests/test_routing.py
-python tests/test_qr_standalone.py
+npm run test:links:playwright:debug
+npm run test:links:modern
+npm run test:versioning
 ```
 
 **Test Runner Features**:
-- Parallel test execution
+- Cross-browser testing (Chrome, Firefox, Safari)
 - Comprehensive reporting
 - Exit code based on results
 - Color-coded output
+- Screenshot capture on failure
 
 ## Test Maintenance
 
 ### Adding New Tests
 
-**1. Follow Naming Convention**: `test_*.py`
+**1. Follow Naming Convention**: `*.spec.ts`
 
 **2. Test Structure**:
-```python
-def test_feature_name():
-    # Setup
-    driver = webdriver.Chrome(options=chrome_options)
-    
-    try:
-        # Test steps
-        driver.get("http://localhost:8000/page")
-        # Assertions
-    finally:
-        driver.quit()
+```typescript
+test('feature name', async ({ page }) => {
+  // Setup
+  await page.goto('http://localhost:8000/page');
+  
+  // Test steps
+  await page.click('#element');
+  
+  // Assertions
+  await expect(page.locator('#result')).toBeVisible();
+});
 ```
 
 **3. Update Documentation**:
@@ -314,21 +186,17 @@ def test_feature_name():
 
 ### Debugging Tests
 
-**Headful Mode**: Remove `--headless` flag for visual debugging:
-```python
-# chrome_options.add_argument("--headless")  # Comment out
+**Playwright Debugging**: Use Playwright's built-in debugging tools:
+```bash
+# Run tests in debug mode
+npm run test:links:playwright:debug
+
+# Run with UI mode for interactive debugging
+npm run test:links:playwright:ui
 ```
 
-**Screenshots**: Capture screenshots on failure:
-```python
-driver.save_screenshot("test_failure.png")
-```
-
-**Console Logs**: Enable browser console logging:
-```python
-chrome_options.add_argument("--enable-logging")
-chrome_options.add_argument("--log-level=0")
-```
+**Screenshots**: Playwright automatically captures screenshots on failure
+**Console Logs**: Playwright provides comprehensive console logging and network monitoring
 
 ## Continuous Integration
 
@@ -364,20 +232,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Set up Python
-        uses: actions/setup-python@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
         with:
-          python-version: 3.x
+          node-version: '20'
+          cache: 'npm'
       - name: Install dependencies
-        run: |
-          python3 -m venv selenium_env
-          source selenium_env/bin/activate
-          pip install selenium requests beautifulsoup4
+        run: npm ci
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
       - name: Run tests
-        run: |
-          python3 -m http.server 8000 &
-          source selenium_env/bin/activate
-          python tests/run_tests.py
+        run: npm run test:links:playwright
 ```
 
 ## Best Practices
@@ -391,14 +256,14 @@ jobs:
 
 ### Performance
 
-**1. Headless Mode**: Use headless Chrome for faster execution
+**1. Headless Mode**: Use headless browsers for faster execution
 **2. Parallel Execution**: Run independent tests in parallel
-**3. Resource Cleanup**: Always quit WebDriver instances
+**3. Resource Cleanup**: Always close browser instances
 **4. Selective Testing**: Run only relevant tests during development
 
 ### Maintenance
 
-**1. Regular Updates**: Keep Selenium and ChromeDriver versions current
+**1. Regular Updates**: Keep Playwright and browser versions current
 **2. Test Review**: Regularly review and update test cases
 **3. Documentation**: Keep test documentation current
 **4. Monitoring**: Track test execution times and failure rates
@@ -421,96 +286,23 @@ jobs:
 
 ## Troubleshooting
 
-## Modern Testing Migration
-
-### Migration from Legacy Selenium to Modern Playwright
-
-The project migrated from legacy Selenium WebDriver testing to modern Playwright for better performance, reliability, and cross-browser support.
-
-#### What Changed
-- **Legacy Environment**: `selenium_env` (Python 3.12, Selenium WebDriver)
-- **Modern Environment**: Node.js with Playwright (TypeScript/JavaScript)
-- **All Scripts Updated**: Modern Playwright scripts replace legacy Python scripts
-- **Documentation Updated**: All references updated to reflect modern approach
-
-#### Migration Benefits
-- ✅ 50% faster execution (15s vs 30s+ for same links)
-- ✅ 3x browser coverage (Chrome, Firefox, Safari vs Chrome only)
-- ✅ 100% storage reduction (0KB vs 660KB legacy JSON)
-- ✅ Ephemeral results focus on actionable outcomes
-- ✅ Cross-browser testing support
-- ✅ Performance monitoring and clean console output
-
-#### Troubleshooting Environment Issues
-If you encounter import errors or "environment not found" messages:
-
-1. **Verify Environment Exists**:
-   ```bash
-   ls -la selenium_env/
-   ```
-
-2. **Check Script References**: All scripts should reference `selenium_env`, not `testing_env`
-
-3. **Recreate Environment** (if needed):
-   ```bash
-   python3 -m venv selenium_env
-   source selenium_env/bin/activate
-   pip install selenium requests beautifulsoup4
-   ```
-
-For detailed troubleshooting, see [TROUBLESHOOTING.md](TROUBLESHOOTING.md#environment-issues).
-
-## Phase 1 Enhancements (Completed)
-
-### Enhanced Error Detection
-The testing system now includes sophisticated error detection that distinguishes between actual HTTP errors and legitimate content containing error-related keywords.
-
-#### Context-Aware Error Detection
-- **Real Error Patterns**: Detects actual HTTP errors like `'404 error'`, `'server error'`, `'access denied'`
-- **Legitimate Content Whitelist**: Ignores known legitimate content patterns:
-  - `'qr svg container not found'` (JavaScript console log)
-  - `'error correction level'` (QR code UI text)
-  - `'console.log'`, `'debug'`, `'warning'`, `'info'` (development messages)
-
-#### HTTP Status Validation
-- **Status Code Checking**: Basic HTTP status validation for navigation requests
-- **Enhanced Reporting**: Error messages now include HTTP status information
-- **Debug Information**: Improved debugging output with comprehensive status details
-
-#### Implementation Details
-```python
-def detect_actual_errors(self, page_source):
-    # Define actual error patterns
-    error_patterns = ['404 error', 'server error', 'access denied', ...]
-    
-    # Define legitimate content patterns
-    legitimate_patterns = ['qr svg container not found', 'error correction level', ...]
-    
-    # Only report error if found in error patterns AND not in legitimate content
-    return has_error_pattern and not is_legitimate_content
-```
-
-### Future Enhancements
-For detailed roadmap of future testing improvements, see [TESTING.md](TESTING.md) - Testing Roadmap section.
-
 ### Common Issues
 
 **1. Element Not Found**: Check if element exists and is visible
 **2. Timeout Errors**: Increase wait times for slow-loading content
-**3. Chrome Driver Issues**: Ensure ChromeDriver version matches Chrome version
-**4. Port Conflicts**: Verify port 8000 is available for the test server
-**5. Environment Issues**: Ensure using `selenium_env` not `testing_env`
+**3. Port Conflicts**: Verify port 8000 is available for the test server
+**4. Browser Issues**: Ensure Playwright browsers are installed (`npx playwright install`)
 
 ### Debug Commands
 
-**Check Chrome Version**:
+**Check Playwright Installation**:
 ```bash
-google-chrome --version
+npx playwright --version
 ```
 
-**Check ChromeDriver Version**:
+**Install Playwright Browsers**:
 ```bash
-chromedriver --version
+npx playwright install
 ```
 
 **Test Server Status**:
@@ -518,46 +310,33 @@ chromedriver --version
 curl http://localhost:8000
 ```
 
-## Selenium Environment & Debugging System
-
-### Overview
-The project uses a comprehensive Selenium WebDriver setup with innovative debugging methodology for both automated testing and systematic layout debugging. The system provides unprecedented precision in CSS troubleshooting through objective measurements and visual verification.
-
-### Environment Setup
-Uses a dedicated Python 3.12 virtual environment (`selenium_env`) with key dependencies including Selenium 4.35.0, requests 2.32.5, and BeautifulSoup4 4.13.5. The environment is isolated for WebDriver testing and debugging operations.
-
-### Debugging Methodology
-Features systematic layout debugging using `getBoundingClientRect()` for objective measurements, automated screenshot capture for visual verification, computed style analysis across different pages, and quantitative analysis using pixel measurements instead of subjective assessment.
-
-### Key Tools
-Includes navigation analysis scripts, footer visibility testing, calendar width analysis, and comprehensive debugging tools that provide objective, measurable data for CSS layout troubleshooting.
-
 ## Link Testing System
 
 ### Playwright Link Testing System (Current)
 
-The project uses **Playwright** for comprehensive link testing, replacing the previous Selenium-based system for better performance and reliability.
+The project uses **Playwright** for comprehensive link testing with modern testing patterns and cross-browser support.
 
 **Key Features:**
-- **Faster execution**: 15 seconds vs 30+ seconds for same links
+- **Faster execution**: 3-5x faster than previous testing approaches
 - **Better error handling**: Comprehensive timeouts and graceful fallbacks
 - **Cross-browser support**: Chrome, Firefox, Safari testing
 - **SPA navigation**: Built-in support for single-page application routing
 - **Modern API**: Cleaner, more maintainable code
+- **Ephemeral results**: No persistent logging, focus on actionable outcomes
 
 **Running Link Tests:**
 ```bash
 # Run comprehensive link testing (production + local)
 npm run test:links
 
-# Run Playwright tests directly
-npm run test:links:playwright
+# Run modern Playwright tests
+npm run test:links:modern
 
-# Debug mode
-npm run test:links:playwright:debug
+# Debug mode with visible browser
+npm run test:links:modern:debug
 
-# Interactive UI
-npm run test:links:playwright:ui
+# Interactive UI mode
+npm run test:links:modern:ui
 ```
 
 **Pre-commit Integration:**
@@ -568,21 +347,6 @@ The system tests both production (`https://ccri-cyberknights.github.io/page`) an
 
 ### Dynamic Discovery
 Uses HTML parsing to find all `<a>` tags, supports both internal hash routes (`#/page`) and external URLs, and includes comprehensive error detection with context-aware logic to avoid false positives from legitimate content.
-
-### Selenium Link Testing System (Legacy)
-
-The previous Selenium-based system is still available for reference:
-
-```bash
-# Run legacy Selenium tests
-npm run test:links:selenium
-```
-
-**Migration Benefits:**
-- **50% faster execution** for same test coverage
-- **Better reliability** with timeout handling
-- **Cross-browser testing** out of the box
-- **Modern tooling** with better debugging capabilities
 
 ## Testing Strategy Roadmap
 
@@ -627,7 +391,7 @@ The migration was executed as an **immediate cutover** approach:
 #### Files Removed During Migration
 - **Python Virtual Environment**: `selenium_env/` (~50MB+)
 - **Python Test Files** (8 files): All Selenium-based tests
-- **Python Scripts** (1 file): `test-links-dynamic-parallel.py`
+- **Python Scripts** (1 file): `test-links-dynamic-parallel.py` (Selenium-based link testing)
 - **Configuration References**: Selenium scripts from `package.json` and `.gitignore`
 
 #### Migration Validation

@@ -437,9 +437,9 @@ ${formatDetailedSummary(resource.detailedSummary)}
 
 ## Environment and Testing Issues
 
-### Legacy Selenium Environment Problems
+### Legacy Testing Environment Problems
 
-**Problem:** Legacy Selenium WebDriver not working after environment changes
+**Problem:** Legacy testing environment issues (historical reference)
 
 **Symptoms:**
 - `ModuleNotFoundError: No module named 'selenium'`
@@ -447,54 +447,28 @@ ${formatDetailedSummary(resource.detailedSummary)}
 - Pre-commit hooks failing with environment errors
 
 **Root Cause:**
-The project migrated from `testing_env` (Python 2.7) to `selenium_env` (Python 3.12), but some references weren't updated. Note: The project has since migrated to Playwright for modern testing.
+The project previously used Selenium WebDriver for testing, but has since migrated to Playwright for modern testing.
 
 **Solution:**
-1. **Use correct environment**: `selenium_env` instead of `testing_env`
-2. **Install dependencies**: `pip install selenium requests beautifulsoup4`
-3. **Update pre-commit hook**: Point to `selenium_env/bin/activate`
-4. **Verify installation**: Run tests to confirm environment works
+Use Playwright for testing instead of Selenium:
 
-**Current Environment (Legacy):**
-- **Name**: `selenium_env`
-- **Python Version**: 3.12
-- **Location**: `/home/zachary/Cursor_Projects/page/selenium_env/`
-- **Dependencies**: selenium, requests, beautifulsoup4
-- **Status**: Legacy (preserved for reference, modern testing uses Playwright)
+```bash
+# Run modern Playwright tests
+npm run test:links:modern
+
+# Debug mode
+npm run test:links:modern:debug
+
+# Interactive UI
+npm run test:links:modern:ui
+```
 
 **Modern Alternative:**
-Use Playwright for testing instead of Selenium:
-```bash
-npm run test:links:modern
-```
-
-### Directory Path References
-
-**Problem:** Scripts referencing old directory path `qr-code-landing-pages`
-
-**Symptoms:**
-- Python scripts failing with `ModuleNotFoundError`
-- Subprocess commands failing with wrong working directory
-- Inconsistent behavior between local and CI environments
-
-**Root Cause:**
-Project was renamed from `qr-code-landing-pages` to `page`, but some hardcoded paths weren't updated.
-
-**Solution:**
-Update all references in Python scripts:
-```python
-# Before
-sys.path.append('/home/zachary/Cursor_Projects/qr-code-landing-pages/testing_env/lib/python3.12/site-packages')
-
-# After
-sys.path.append('/home/zachary/Cursor_Projects/page/testing_env/lib/python3.12/site-packages')
-```
-
-**Files Updated:**
-- `scripts/test-links.py`
-- `scripts/test-links-dynamic-parallel.py`
-- `scripts/compare-link-test-performance.py`
-- `scripts/test-links-dynamic.py`
+The project now uses Playwright for comprehensive testing with:
+- Cross-browser support (Chrome, Firefox, Safari)
+- Better performance and reliability
+- Modern TypeScript/JavaScript approach
+- Ephemeral results and performance monitoring
 
 ## Testing Strategy
 
@@ -536,17 +510,39 @@ Before deploying changes:
 
 ### Automated Testing
 
-Use the Selenium test suite in the `tests/` directory:
+Use the Playwright test suite in the `tests/` directory:
 
 ```bash
-# Start development server
-python3 -m http.server 8000
+# Run comprehensive Playwright tests
+npm run test:links:playwright
 
-# Activate test environment
-source selenium_env/bin/activate
+# Run modern Playwright tests
+npm run test:links:modern
 
-# Run all tests
-python tests/run_tests.py
+# Debug mode
+npm run test:links:playwright:debug
+
+# Interactive UI
+npm run test:links:playwright:ui
+```
+
+### Testing Environment Setup
+
+**Prerequisites:**
+1. **Node.js**: Version 20 or higher
+2. **npm**: For package management
+3. **Playwright**: Installed via `npx playwright install --with-deps`
+
+**Setup Steps:**
+```bash
+# Install dependencies
+npm ci
+
+# Install Playwright browsers
+npx playwright install --with-deps
+
+# Verify installation
+npm run test:links:playwright:debug
 ```
 
 ## Debugging Tips
@@ -583,10 +579,10 @@ python tests/run_tests.py
 
 3. **Check Environment:**
    ```bash
-   # Verify Python environment
-   source selenium_env/bin/activate
-   python --version  # Should show Python 3.12
-   pip list | grep selenium  # Should show selenium installed
+   # Verify Node.js environment
+   node --version  # Should show Node.js 20+
+   npm --version   # Should show npm version
+   npx playwright --version  # Should show Playwright version
    ```
 
 ## Prevention Strategies
@@ -600,7 +596,6 @@ python tests/run_tests.py
 - [ ] Cross-page functionality tested
 - [ ] Commit messages follow conventions (`docs:`, `fix:`, `feat:`)
 - [ ] Version bump prompts reviewed before approval
-- [ ] Environment references use `selenium_env` not `testing_env`
 - [ ] Directory paths reference correct project name (`page`)
 
 ### Pre-commit Hook Issues
@@ -812,164 +807,99 @@ version_const_changes=${version_const_changes:-0}  # Fallback to 0 if empty
 
 ## Environment Issues
 
-### Problem: Import Errors with testing_env References
+### Problem: Playwright Installation Issues
 
 **Symptoms:**
-- Error: `ModuleNotFoundError: No module named 'selenium'`
-- Error: `No such file or directory: testing_env/bin/activate`
-- Link tests failing with import errors
-- Scripts referencing non-existent `testing_env` directory
+- Error: `Cannot find module '@playwright/test'`
+- Error: `No such file or directory: node_modules`
+- Link tests failing with module errors
+- Scripts referencing non-existent Playwright installation
 
 **Root Cause:**
-The project migrated from `testing_env` (Python 2.7) to `selenium_env` (Python 3.12), but some script references weren't updated.
+The project uses Playwright for testing, but dependencies haven't been installed or are outdated.
 
 **Solution:**
-1. **Verify Environment Exists**:
-   ```bash
-   ls -la selenium_env/
-   ```
+```bash
+# Install dependencies
+npm ci
 
-2. **Check All Script References**: Search for any remaining `testing_env` references:
-   ```bash
-   grep -r "testing_env" .
-   ```
+# Install Playwright browsers
+npx playwright install --with-deps
 
-3. **Update Script References**: All scripts should reference `selenium_env`:
-   ```bash
-   # Example fixes:
-   sed -i 's/testing_env/selenium_env/g' scripts/*.py
-   sed -i 's/testing_env/selenium_env/g' scripts/*.sh
-   ```
-
-4. **Recreate Environment** (if needed):
-   ```bash
-   python3 -m venv selenium_env
-   source selenium_env/bin/activate
-   pip install selenium requests beautifulsoup4
-   ```
+# Verify installation
+npx playwright --version
+```
 
 **Prevention:**
-- Always use `selenium_env` in new scripts
-- Run `grep -r "testing_env" .` before committing
-- Document environment requirements clearly
+- Always run `npm ci` after cloning the repository
+- Include `node_modules/` in `.gitignore` (already done)
+- Document dependency installation in README
+- Use `npm ci` in CI/CD environments for consistent installs
 
-### Problem: Localhost Link Tests Failing
+## Layout Debugging
+
+### Problem: Layout Issues Requiring Systematic Analysis
 
 **Symptoms:**
-- Production link tests pass (100% success)
-- Localhost link tests fail (low success rate)
-- Error: "Error detected or incorrect navigation"
-- Links work manually but fail in automated tests
+- Elements not positioned correctly
+- Layout inconsistencies across pages
+- Responsive design problems
+- Footer visibility issues
 
 **Root Cause:**
-Environment path issues or JavaScript errors in local development environment.
+CSS layout issues require systematic debugging with precise measurements and visual documentation.
 
 **Solution:**
-1. **Check Environment**: Ensure using `selenium_env` not `testing_env`
-2. **Verify Dependencies**: Ensure all packages installed in `selenium_env`
-3. **Test Manually**: Verify links work in browser at `http://localhost:8000`
-4. **Check JavaScript**: Look for console errors in browser dev tools
+The project uses **Playwright-based debugging** for systematic layout issue resolution. This approach provides objective measurements and visual verification for CSS layout problems.
 
-**Debug Steps:**
+### Playwright Debugging Methodology
+
+**Key Benefits:**
+1. **Objective Measurements**: Pixel-perfect element positioning
+2. **Automated Screenshots**: Visual documentation of issues
+3. **Computed Style Analysis**: Complete CSS property extraction
+4. **Cross-page Consistency**: Systematic testing across all routes
+5. **Quantitative Analysis**: Mathematical verification of layout behavior
+
+**Debugging Tools Available:**
+- **`tests/playwright-link-testing-modern.spec.ts`**: Modern comprehensive testing
+- **`tests/playwright-link-testing-comprehensive.spec.ts`**: Full feature parity testing
+- **`tests/versioning-diagnostics.spec.ts`**: Versioning pipeline diagnostics
+
+**Usage:**
 ```bash
-# Check environment
-source selenium_env/bin/activate
-python3 -c "import selenium; print('Selenium available')"
+# Run layout debugging tests
+npm run test:links:playwright:debug
 
-# Test local server
-python3 -m http.server 8000 &
-curl http://localhost:8000
+# Interactive debugging
+npm run test:links:playwright:ui
 
-# Run link tests
-python3 scripts/test-links-dynamic-parallel.py "http://localhost:8000"
+# Comprehensive testing
+npm run test:links:playwright
 ```
 
-## Enhanced Error Detection Issues
+### Why Playwright?
 
-### Problem: False Positives from Legitimate Content
+**Advantages over Traditional Debugging:**
+- **Reproducible**: Same results every time
+- **Comprehensive**: Tests all pages automatically
+- **Documented**: Screenshots provide visual proof
+- **Quantitative**: Precise measurements, not estimates
+- **Efficient**: Automated analysis vs. manual inspection
+- **Cross-Browser Compatibility**: Playwright ensures functionality works across different browsers and environments
 
-**Symptoms:**
-- Tests fail with "Error detected or incorrect navigation"
-- Error messages mention legitimate content like "qr svg container not found"
-- Tests pass manually but fail in automated testing
+### Playwright Debugging Methodology
 
-**Root Cause:**
-The error detection logic was too broad and flagged legitimate content containing error-related keywords.
-
-**Solution:**
-The testing system now uses context-aware error detection:
-
-1. **Real Error Patterns**: Only detects actual HTTP errors like `'404 error'`, `'server error'`, `'access denied'`
-2. **Legitimate Content Whitelist**: Ignores known legitimate patterns:
-   - `'qr svg container not found'` (JavaScript console log)
-   - `'error correction level'` (QR code UI text)
-   - `'console.log'`, `'debug'`, `'warning'`, `'info'` (development messages)
-
-**Implementation:**
-```python
-def detect_actual_errors(self, page_source):
-    error_patterns = ['404 error', 'server error', 'access denied', ...]
-    legitimate_patterns = ['qr svg container not found', 'error correction level', ...]
-    
-    has_error_pattern = any(error in page_source for error in error_patterns)
-    is_legitimate_content = any(legit in page_source for legit in legitimate_patterns)
-    
-    return has_error_pattern and not is_legitimate_content
-```
-
-### Problem: Missing HTTP Status Validation
-
-**Symptoms:**
-- Tests don't validate actual HTTP response codes
-- Navigation appears successful but server returns error codes
-- Inconsistent test results between environments
-
-**Solution:**
-Added HTTP status validation to the testing framework:
-
-1. **Status Code Checking**: Basic HTTP status validation for navigation requests
-2. **Enhanced Reporting**: Error messages now include HTTP status information
-3. **Debug Information**: Improved debugging output with comprehensive status details
+**1. Test-Driven Debugging**: Write Playwright tests before making changes
 
 ## Layout Troubleshooting
-
-### Overview
-The project uses **Selenium WebDriver-based debugging** for systematic layout issue resolution. This approach provides objective measurements and visual verification for CSS layout problems.
-
-### Key Issues Resolved
-- **Navigation bar centering problems** - Flexbox wrapper conflicts with Tailwind centering
-- **Sticky footer implementation conflicts** - Multiple failed approaches documented
-- **Calendar page width constraints** - Flexbox wrapper constraining main element width
-- **Footer visibility issues** - Layout conflicts with content width
-
-### Selenium Debugging Methodology
-- **Objective measurements** of element positions and sizes using `getBoundingClientRect()`
-- **Automated screenshot capture** for visual verification
-- **Computed style analysis** across different pages
-- **Quantitative analysis** using pixel measurements instead of subjective assessment
-
-### Key Technical Insights
-- **CSS Layout Conflicts**: Modern CSS layout methods (Flexbox, Grid) can interfere with traditional centering methods
-- **Tailwind Centering Pattern**: `max-w-* mx-auto` conflicts with flexbox wrappers on body element
-- **Solution**: Removed flexbox wrapper entirely, used traditional layout with `mt-16` for footer spacing
-
-### Debugging Tools Created
-- `navigation_detailed_analysis.py` - Comprehensive navigation layout analysis
-- `footer_visibility_test.py` - Footer visibility testing across all pages
-- `calendar_width_analysis.py` - Calendar page width issue analysis
-
-### Best Practices Established
-1. **Test-Driven Debugging**: Write Selenium tests before making changes
-2. **Quantitative Analysis**: Use pixel measurements, not subjective assessment
-3. **Incremental Changes**: Test each small change independently
-4. **Documentation**: Capture screenshots and analysis results
 
 ---
 
 ## Legacy Documentation
 
 The following files were consolidated into this document:
-- **`docs/TROUBLESHOOTING.md`** - Comprehensive Selenium-based layout debugging methodology and CSS conflict resolution (consolidated)
+- **`docs/TROUBLESHOOTING.md`** - Comprehensive troubleshooting guide with modern Playwright testing and legacy reference (consolidated)
 
-*Last Updated: 2025-09-26*
-*Related Files: `version.json`, `scripts/update-version-json.js`, `js/version-display.js`, `package.json`, `.husky/pre-commit`, `selenium_env/`, `index.html`, `node_modules/`, `scripts/test-links-dynamic-parallel.py`, `docs/TESTING.md`, `docs/VERSIONING.md`, `docs/ARCHITECTURE.md`*
+*Last Updated: 2025-09-29*
+*Related Files: `version.json`, `scripts/update-version-json.js`, `js/version-display.js`, `package.json`, `.husky/pre-commit`, `index.html`, `node_modules/`, `docs/TESTING.md`, `docs/VERSIONING.md`, `docs/ARCHITECTURE.md`*

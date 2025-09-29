@@ -14,7 +14,7 @@ Single-file site hosted on GitHub Pages with Tailwind (CDN) and small JS modules
 - Guides: `#/guides/filename.html` routes load standalone HTML files into the SPA shell with clean display (no template headers). Guides display with their native headers only. Supports dual-mode operation (SPA integration and standalone access). **Legacy Support**: `#/document/filename.html` routes continue to work with deprecation warnings. Linux guides (`linux-cheatsheet-1.html`, `linux-day-1-setup-tips.html`) use DRY CSS classes with official Cyberknights color palette, consistent dark theme, and reusable styling components. **QR Code Integration**: Educational guides feature embedded base64 QR codes for instant access to related video content, using table-based layouts with green background QR codes and black modules for optimal scanning.
 - Maps: Campus-specific map pages (e.g., `/map-warwick-4080`) with optimized images and meeting location details. See **Campus Maps** section below for detailed implementation.
 - Interactive Elements: DRY implementation for image toggle functionality, CSS-based modal overlays, responsive design with viewport constraints.
-- Testing: Modern Playwright test suite with cross-browser support (Chrome, Firefox, Safari) covering client-side routing, QR code functionality, cross-page navigation, and interactive element behavior. Features ephemeral results, performance monitoring, and fail-fast approach. Tests run with comprehensive timeout handling and graceful error recovery. Legacy Selenium WebDriver tests preserved for reference.
+- Testing: Modern Playwright test suite with cross-browser support (Chrome, Firefox, Safari) covering client-side routing, QR code functionality, cross-page navigation, and interactive element behavior. Features ephemeral results, performance monitoring, and fail-fast approach. Tests run with comprehensive timeout handling and graceful error recovery.
 - Versioning: **CURRENT** Modern 2025-compliant version management using `version.json` as single source of truth, dynamic runtime fetching via `version-display.js`, and `standard-version` for automated releases. Eliminates off-by-one version display issues and provides cache-bustable version updates. Version displayed in footer with commit information tooltip.
 - SEO: Open Graph meta tags for social media sharing and search engine optimization.
 
@@ -37,13 +37,12 @@ Key files
 - `favicon.ico` — site favicon
 - `images/branding/cybersmith.webp` — hero image and social sharing image
 - `images/maps/map-rm4080-optimized.webp` — optimized campus map image
-- `tests/` — automated test suite using Selenium WebDriver
+- `tests/` — automated test suite using Playwright
 - Calendar updating information is now documented in this ARCHITECTURE.md file
 - `docs/UI.md` — comprehensive UI documentation including document loading system
 - `docs/TESTING.md` — comprehensive testing strategy and implementation
 - `docs/VERSIONING.md` — **CURRENT** Tag-based deployment and versioning system documentation
 - `docs/TROUBLESHOOTING.md` — CSS debugging methodology and layout troubleshooting
-- `docs/TESTING.md` — comprehensive testing documentation including Selenium environment setup
 - `docs/COLOR-PALETTE.md` — comprehensive color palette documentation
 - `README.md` — project guide and developer spec
 
@@ -88,7 +87,7 @@ Common keys:
   - README and docs indices
 - Prefer hash routes; avoid `?page=` style links
 - Keep assets as WebP; remove older PNGs
-- **Environment**: Use `selenium_env` not `testing_env` for all scripts
+- **Testing**: Use Playwright for all automated testing
 
 ## Image Assets and Optimization
 
