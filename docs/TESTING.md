@@ -13,6 +13,8 @@ The project uses a comprehensive test suite to validate:
 - **Enhanced Error Detection**: Context-aware error detection that avoids false positives
 - **HTTP Status Validation**: Basic HTTP status code checking for navigation requests
 
+**📝 Development Note**: All commits should follow [Conventional Commits](https://www.conventionalcommits.org/) format (`feat:`, `fix:`, `chore:`, etc.) for proper version management - see [CONTRIBUTING.md](../CONTRIBUTING.md#commit-message-conventions).
+
 ## Test Architecture
 
 ### Test Environment

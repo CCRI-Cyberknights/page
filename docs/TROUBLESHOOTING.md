@@ -614,7 +614,7 @@ npm run test:debug
 - [ ] All routes are properly registered
 - [ ] JavaScript modules load in correct order
 - [ ] Cross-page functionality tested
-- [ ] Commit messages follow conventions (`docs:`, `fix:`, `feat:`)
+- [ ] Commit messages follow conventions (see CONTRIBUTING.md)
 - [ ] Version bump prompts reviewed before approval
 - [ ] Directory paths reference correct project name (`page`)
 
@@ -754,7 +754,7 @@ Is Release Commit: true
 
 **Performance Issue**: Pre-commit hook running unnecessary link tests on every commit.
 
-**Solution**: Modern 2025-compliant version management system eliminates the need for complex change detection. All commits run comprehensive link testing to ensure site integrity.
+**Solution**: Modern version management system eliminates the need for complex change detection. All commits run comprehensive link testing to ensure site integrity.
 
 **Documentation**: See [Versioning](VERSIONING.md#troubleshooting) for complete details on the tag-based deployment system.
 

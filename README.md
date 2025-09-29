@@ -50,7 +50,7 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 4. **Make Changes**:
    - Edit `index.html` for UI changes
    - Update `docs/` for documentation
-   - Follow conventional commits: `feat:`, `fix:`, `docs:`
+   - Follow conventional commits: `feat:`, `fix:`, `docs:` (see [CONTRIBUTING.md](CONTRIBUTING.md#commit-message-conventions))
 
 5. **Release Process**:
    ```bash

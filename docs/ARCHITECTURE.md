@@ -15,7 +15,7 @@ Single-file site hosted on GitHub Pages with Tailwind (CDN) and small JS modules
 - Maps: Campus-specific map pages (e.g., `/map-warwick-4080`) with optimized images and meeting location details. See **Campus Maps** section below for detailed implementation.
 - Interactive Elements: DRY implementation for image toggle functionality, CSS-based modal overlays, responsive design with viewport constraints.
 - Testing: Modern Playwright test suite with cross-browser support (Chrome, Firefox, Safari) covering client-side routing, QR code functionality, cross-page navigation, and interactive element behavior. Features ephemeral results, performance monitoring, and fail-fast approach. Tests run with comprehensive timeout handling and graceful error recovery.
-- Versioning: **CURRENT** Modern 2025-compliant version management using `version.json` as single source of truth, dynamic runtime fetching via `version-display.js`, and `standard-version` for automated releases. Eliminates off-by-one version display issues and provides cache-bustable version updates. Version displayed in footer with commit information tooltip.
+- Versioning: **CURRENT** Modern version management using `version.json` as single source of truth, dynamic runtime fetching via `version-display.js`, and `standard-version` for automated releases. Eliminates off-by-one version display issues and provides cache-bustable version updates. Version displayed in footer with commit information tooltip. **Commit Convention**: Uses [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`, `chore:`, etc.) for automatic version bumping - see [CONTRIBUTING.md](../CONTRIBUTING.md#commit-message-conventions).
 - SEO: Open Graph meta tags for social media sharing and search engine optimization.
 
 Key files
@@ -279,7 +279,7 @@ Examples:
 ## Version Management System
 
 ### Overview
-The project uses a modern, 2025-compliant version management system that eliminates common deployment issues like version lag and off-by-one errors. The system provides a single source of truth for version information and ensures deployed sites always display the correct version.
+The project uses a modern version management system that eliminates common deployment issues like version lag and off-by-one errors. The system provides a single source of truth for version information and ensures deployed sites always display the correct version.
 
 ### Architecture Components
 

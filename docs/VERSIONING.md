@@ -2,7 +2,7 @@
 
 ## Overview
 
-This project uses a modern, 2025-compliant version management system that eliminates common deployment issues like version lag and off-by-one errors. The system provides a single source of truth for version information and ensures deployed sites always display the correct version.
+This project uses a modern version management system that eliminates common deployment issues like version lag and off-by-one errors. The system provides a single source of truth for version information and ensures deployed sites always display the correct version.
 
 ## Architecture
 
@@ -26,6 +26,15 @@ This project uses a modern, 2025-compliant version management system that elimin
 ```
 
 ## How It Works
+
+### Commit-Driven Versioning
+
+This system uses [Conventional Commits](https://www.conventionalcommits.org/) to automatically determine version bump types. See [CONTRIBUTING.md](../CONTRIBUTING.md#commit-message-conventions) for the complete commit message format.
+
+- `feat:` → **minor** version bump (new features)
+- `fix:` → **patch** version bump (bug fixes)  
+- `chore:` → **patch** version bump (maintenance)
+- `docs:` → **patch** version bump (documentation)
 
 ### Release Process
 
