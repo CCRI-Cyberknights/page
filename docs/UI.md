@@ -6,6 +6,130 @@ This document outlines the comprehensive UI/UX improvements implemented to enhan
 
 **Note**: For comprehensive documentation of v1.5.x changes, see [UI.md](UI.md) - Design Evolution section.
 
+## Layout Architecture
+
+The site uses a **wrapper pattern** to prevent flexbox conflicts with Tailwind CSS:
+
+### ✅ Approved Layout Pattern (Wrapper Pattern)
+
+```html
+<body class="min-h-screen bg-[var(--forge-black)] text-[var(--pale-alloy)]">
+  <div class="flex flex-col min-h-screen">
+    <header class="max-w-5xl mx-auto px-4 py-6 border-b border-slate-800/60">
+      <!-- Header content -->
+    </header>
+    <main id="app" class="flex-1">
+      <div class="max-w-5xl mx-auto px-4 pb-8">
+        <!-- Main content -->
+      </div>
+    </main>
+    <footer class="max-w-5xl mx-auto px-4 py-1 text-xs text-slate-400 flex items-center justify-between border-t border-slate-800/60 mt-6 pb-safe">
+      <!-- Footer content -->
+    </footer>
+  </div>
+</body>
+```
+
+### ❌ Prohibited Patterns
+
+**Never use these patterns:**
+
+```html
+<!-- ❌ WRONG: Flexbox on body creates conflicts -->
+<body class="flex flex-col">
+  <main class="flex-grow">
+  <footer class="mt-auto">
+
+<!-- ❌ WRONG: max-w-* mx-auto conflicts with flexbox -->
+<body class="flex flex-col">
+  <header class="max-w-5xl mx-auto">
+```
+
+### Why This Matters
+
+- **Body element** stays a normal block formatting context
+- **Wrapper div** controls sticky footer behavior (`flex flex-col min-h-screen`)
+- **Layout containers** (`max-w-5xl mx-auto`) are nested inside header, main, and footer
+- **No conflict** between flexbox and Tailwind centering utilities
+
+### Layout Features
+
+- **Sticky footer** that stays at the bottom of the viewport
+- **Responsive navigation** that adapts to different screen sizes
+- **Card-based content** organization for better readability
+- **Consistent spacing** using Tailwind's spacing scale
+
+## Layout Architecture (Tailwind Best Practices)
+
+### ✅ Working Layout Pattern
+
+The site uses a **pure Tailwind approach** without complex wrapper patterns:
+
+```html
+<body class="min-h-screen bg-[var(--forge-black)] text-[var(--pale-alloy)]">
+  <header class="max-w-5xl mx-auto px-4 py-6">
+    <div class="flex items-center justify-between">
+      <!-- Navigation content -->
+    </div>
+  </header>
+  <main id="app" class="max-w-5xl mx-auto px-4 pb-8">
+    <!-- Dynamic content -->
+  </main>
+  <footer class="border-t border-slate-800/60 mt-6 pb-safe">
+    <div class="max-w-5xl mx-auto px-4 py-1 text-xs text-slate-400 flex items-center justify-between">
+      <!-- Footer content -->
+    </div>
+  </footer>
+</body>
+```
+
+### ❌ Patterns to Avoid
+
+**Never use these patterns:**
+
+```html
+<!-- ❌ WRONG: Flexbox on body creates conflicts -->
+<body class="flex flex-col">
+  <main class="flex-grow">
+  <footer class="mt-auto">
+
+<!-- ❌ WRONG: Complex wrapper patterns -->
+<body>
+  <div class="flex flex-col min-h-screen">
+    <main class="flex-1">
+```
+
+### Key Principles
+
+1. **Direct Tailwind utilities** - Apply `max-w-5xl mx-auto` directly to elements
+2. **No body flexbox** - Prevents conflicts with Tailwind's centering utilities
+3. **Consistent width constraints** - All major elements use `max-w-5xl mx-auto`
+4. **Simple spacing** - Use `mt-6` instead of complex flexbox patterns
+5. **No wrapper divs** - Keep the DOM structure flat and simple
+
+### Layout Testing
+
+The layout is validated through automated testing:
+
+```typescript
+// Validates proper Tailwind patterns
+test('should use correct layout structure', async ({ page }) => {
+  await page.goto('http://localhost:8000/');
+  
+  // Body should NOT have flexbox
+  const bodyClasses = await page.locator('body').getAttribute('class');
+  expect(bodyClasses).not.toContain('flex flex-col');
+  
+  // Header should have proper constraints
+  const header = page.locator('header').first();
+  const headerClasses = await header.getAttribute('class');
+  expect(headerClasses).toContain('max-w-5xl');
+  expect(headerClasses).toContain('mx-auto');
+});
+```
+
+This approach ensures **conflict-free layouts** that work consistently across all devices and screen sizes using pure Tailwind CSS utilities.
+
 ## Implemented Improvements
 
 ### 1. Consistent Color Palette

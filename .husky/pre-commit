@@ -1,5 +1,5 @@
 #!/bin/bash
-# Husky pre-commit hook for CCRI Cyberknights Landing Pages
+# Husky pre-commit hook for Cyber Club Page
 # Updated for tag-based deployment with standard-version
 
 cd "$(dirname -- "$0")/.."
@@ -15,6 +15,33 @@ if git log -1 --pretty=%B | grep -q "chore(release):"; then
     echo "📦 Standard-version release detected - skipping pre-commit processing"
     exit 0
 fi
+
+# Layout Pattern Validation (NEW)
+echo "🔍 Validating layout patterns..."
+
+# Check for forbidden flexbox patterns on body
+if grep -r "flex flex-col" index.html | grep -q "body"; then
+    echo "❌ ERROR: Found 'flex flex-col' on body element"
+    echo "   This creates conflicts with Tailwind's max-w-* mx-auto patterns"
+    echo "   Use the wrapper pattern instead: <div class='flex flex-col min-h-screen'>"
+    exit 1
+fi
+
+# Check for flex-grow on main
+if grep -r "flex-grow" index.html | grep -q "main"; then
+    echo "❌ ERROR: Found 'flex-grow' on main element"
+    echo "   Use 'flex-1' on main within wrapper div instead"
+    exit 1
+fi
+
+# Check for mt-auto on footer
+if grep -r "mt-auto" index.html | grep -q "footer"; then
+    echo "❌ ERROR: Found 'mt-auto' on footer element"
+    echo "   Use 'mt-6' or similar fixed margin instead"
+    exit 1
+fi
+
+echo "✅ Layout patterns validated successfully"
 
 # Check if any significant files have been modified (HTML, JS, JSON, or docs)
 significant_files=$(git diff --cached --name-only | grep -E "\.(html|js|json)$|^docs/")
