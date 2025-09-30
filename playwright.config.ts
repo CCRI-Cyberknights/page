@@ -2,13 +2,15 @@
 import { defineConfig, devices } from '@playwright/test';
 
 /**
- * Playwright Configuration for Versioning Diagnostics
+ * Playwright Configuration for Comprehensive Testing
  * 
  * This configuration is optimized for:
  * - Versioning pipeline validation
  * - File system and git history checks
  * - Live site deployment verification
  * - Diagnostic reporting
+ * - Cross-browser compatibility testing
+ * - Mobile device emulation (including Pixel 7a)
  */
 export default defineConfig({
   testDir: './tests',
@@ -50,7 +52,7 @@ export default defineConfig({
     outputDir: 'tests/test-results',
   },
 
-  // Configure projects for major browsers
+  // Configure projects for major browsers and mobile devices
   projects: [
     {
       name: 'chromium',
@@ -63,6 +65,25 @@ export default defineConfig({
     {
       name: 'webkit',
       use: { ...devices['Desktop Safari'] },
+    },
+    {
+      name: 'pixel-7a',
+      use: {
+        viewport: { width: 1080, height: 2400 }, // Pixel 7a display (20:9 aspect ratio)
+        deviceScaleFactor: 2.625,                // ~420 dpi
+        isMobile: true,
+        hasTouch: true,
+        userAgent: 'Mozilla/5.0 (Linux; Android 13; Pixel 7a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
+        // US-specific defaults for realistic testing
+        locale: 'en-US',
+        timezoneId: 'America/New_York',
+        geolocation: { latitude: 41.8236, longitude: -71.4222 }, // Providence, RI (CCRI location)
+        permissions: ['geolocation'],
+      },
+    },
+    {
+      name: 'mobile-chrome',
+      use: { ...devices['Pixel 5'] }, // Fallback mobile device
     },
   ],
 

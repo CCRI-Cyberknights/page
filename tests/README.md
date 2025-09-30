@@ -20,6 +20,10 @@ npm run test:debug
 
 # Interactive UI mode
 npm run test:ui
+
+# Test on specific devices
+npx playwright test --project=pixel-7a
+npx playwright test --project=mobile-chrome
 ```
 
 ### QR Code Testing (Python)
@@ -47,6 +51,13 @@ python3 tests/qr-code-testing/qr_test.py "https://example.com" output.png
 - **`npm run test:qr-urls:smoke`** - Fast QR URL validation (PR checks)
 - **`npm run test:qr-urls:full`** - Comprehensive QR URL validation (all routes)
 
+### Device Testing
+- **`--project=pixel-7a`** - Google Pixel 7a emulation (1080×2400, Android 13)
+- **`--project=mobile-chrome`** - Pixel 5 fallback mobile device
+- **`--project=chromium`** - Desktop Chrome browser
+- **`--project=firefox`** - Desktop Firefox browser
+- **`--project=webkit`** - Desktop Safari browser
+
 ### QR Code Testing (Python)
 - **`qr-code-testing/gen_and_embed.py`** - QR code generation and HTML embedding
 - **`qr-code-testing/playwright_validate.py`** - Visual validation using Playwright
@@ -64,6 +75,58 @@ python3 tests/qr-code-testing/qr_test.py "https://example.com" output.png
 - **`test-qr-no-hover-scale.spec.ts`** - Visual integrity tests (no hover scale, pixel-perfect rendering)
 - **`qr-code-url-validation.spec.ts`** - SPA routing QR code URL validation
 - **`qr-mobile-viewport.spec.ts`** - Mobile viewport and responsive design tests
+
+## Device Emulation & Mobile Testing
+
+### Google Pixel 7a Emulation
+
+The Playwright configuration includes a custom **Google Pixel 7a** device profile for accurate mobile testing:
+
+#### **Device Specifications**
+- **Screen Size**: 1080 × 2400 px (20:9 aspect ratio)
+- **Device Scale Factor**: 2.625 (~420 dpi)
+- **User Agent**: Android 13, Chrome 120
+- **Touch Support**: Enabled
+- **Mobile**: True
+
+#### **US-Specific Defaults**
+- **Locale**: en-US
+- **Timezone**: America/New_York
+- **Geolocation**: Providence, RI (CCRI location)
+- **Permissions**: Geolocation enabled
+
+#### **Usage Examples**
+
+```bash
+# Test on Pixel 7a specifically
+npx playwright test --project=pixel-7a
+
+# Test QR code functionality on mobile
+npx playwright test tests/qr-code-url-validation.spec.ts --project=pixel-7a
+
+# Test mobile viewport issues
+npx playwright test tests/qr-mobile-viewport.spec.ts --project=pixel-7a
+
+# Debug mobile layout issues
+npx playwright test --project=pixel-7a --debug
+```
+
+#### **Mobile-Specific Test Scenarios**
+- **QR Code Scanning**: Test QR code visibility and scanning on mobile devices
+- **Touch Interactions**: Verify touch targets are appropriately sized
+- **Viewport Responsiveness**: Ensure layout works on mobile screens
+- **Performance**: Test loading times on mobile networks
+- **Accessibility**: Verify mobile accessibility features
+
+### Available Device Projects
+
+| Project | Device | Viewport | Use Case |
+|---------|--------|----------|----------|
+| `pixel-7a` | Google Pixel 7a | 1080×2400 | Primary mobile testing |
+| `mobile-chrome` | Pixel 5 | 393×851 | Fallback mobile device |
+| `chromium` | Desktop Chrome | 1280×720 | Desktop testing |
+| `firefox` | Desktop Firefox | 1280×720 | Cross-browser testing |
+| `webkit` | Desktop Safari | 1280×720 | Cross-browser testing |
 
 ## QR Code URL Validation System
 
@@ -93,7 +156,7 @@ The QR Code URL Validation System prevents SPA routing issues where footer QR co
 
 ### Usage
 
-```bash
+   ```bash
 # Quick validation (5 seconds)
 npm run test:qr-urls
 
@@ -174,7 +237,7 @@ The QR Code Manager Unit Testing system provides comprehensive testing of the QR
 
 ### Usage
 
-```bash
+   ```bash
 # Run all QR Code Manager tests
 npx playwright test tests/qr-code-manager-unit.spec.ts
 npx playwright test tests/test-qr-no-hover-scale.spec.ts
