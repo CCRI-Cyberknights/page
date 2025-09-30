@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.27](https://github.com/CCRI-Cyberknights/page/compare/v1.7.26...v1.7.27) (2025-09-30)
+
+
+### Features
+
+* add comprehensive QR code testing suite ([3248de1](https://github.com/CCRI-Cyberknights/page/commit/3248de1a833094a6ab9c88d2216ff328cf78972d))
+
 ### [1.7.26](https://github.com/CCRI-Cyberknights/page/compare/v1.7.25...v1.7.26) (2025-09-30)
 
 ### [1.7.25](https://github.com/CCRI-Cyberknights/page/compare/v1.7.24...v1.7.25) (2025-09-29)

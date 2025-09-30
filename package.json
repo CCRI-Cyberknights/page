@@ -1,12 +1,13 @@
 {
   "name": "page",
-  "version": "1.7.26",
+  "version": "1.7.27",
   "description": "A centralized hub for the Cyber Club. This repository hosts a single, multi-page web app to provide information on events, club resources, and technical guides.",
   "private": true,
   "scripts": {
     "dev": "python3 -m http.server 8000",
     "test": "python tests/run_tests.py",
     "test:links": "node scripts/test-links-playwright.js",
+    "test:qr-urls": "node scripts/test-qr-urls.js",
     "test:debug": "npx playwright test tests/playwright-link-testing-comprehensive.spec.ts --debug",
     "test:ui": "npx playwright test tests/playwright-link-testing-comprehensive.spec.ts --ui",
     "version:show": "echo $npm_package_version",
@@ -27,6 +28,7 @@
   "devDependencies": {
     "@playwright/test": "^1.55.1",
     "husky": "^8.0.0",
+    "js-yaml": "^4.1.0",
     "standard-version": "^9.5.0"
   },
   "husky": {
