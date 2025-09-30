@@ -13,8 +13,8 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 | **[Architecture](docs/ARCHITECTURE.md)** | System overview | Developers, Maintainers | Components, file structure, technical decisions |
 | **[Versioning](docs/VERSIONING.md)** | Release management | Maintainers, Contributors | `version.json`, `standard-version`, deployment |
 | **[UI/UX](docs/UI.md)** | Design & interface | Designers, Developers | Color palette, responsive design, user experience |
-| **[Testing](docs/TESTING.md)** | Quality assurance | Developers, Contributors | Playwright, test strategy, CI/CD integration |
-| **[Troubleshooting](docs/TROUBLESHOOTING.md)** | Problem solving | All users | Common issues, debugging, automated diagnostics |
+| **[Testing](docs/TESTING.md)** | Quality assurance | Developers, Contributors | Playwright, test strategy, CI/CD integration, pipeline drift prevention |
+| **[Troubleshooting](docs/TROUBLESHOOTING.md)** | Problem solving | All users | Common issues, debugging, automated diagnostics, CI/CD validation |
 | **[Routing](docs/ROUTING.md)** | Navigation system | Developers | Hash routing, SPA navigation, page loading |
 | **[Resources & Guides](docs/RESOURCES-GUIDES.md)** | Content management | Content creators, Users | Resource cards, guides, modal system |
 | **[Color Palette](docs/COLOR-PALETTE.md)** | Design system | Designers, Developers | Official colors, usage guidelines, CSS variables |
@@ -41,10 +41,13 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 3. **Run Tests**:
    ```bash
    # Comprehensive testing
-   npm run test:links:playwright
+   npm run test:links
    
    # Debug mode
-   npm run test:links:playwright:debug
+   npm run test:debug
+   
+   # CI/CD pipeline validation
+   node tests/ci-validation/validate-workflow-scripts.js
    ```
 
 4. **Make Changes**:
@@ -70,6 +73,7 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 - **Testing Problems**: Check `docs/TESTING.md` troubleshooting
 - **Deployment Issues**: See `docs/VERSIONING.md` deployment section
 - **UI Problems**: Reference `docs/TROUBLESHOOTING.md` layout section
+- **CI/CD Pipeline Issues**: Run `node tests/ci-validation/validate-workflow-scripts.js` to check for workflow script references
 
 ### 📖 **Technical Glossary**
 
@@ -96,6 +100,8 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 | **Conventional Commits** | Commit message standard | `feat:`, `fix:`, `docs:` format |
 | **Semantic Versioning** | Version numbering system | `MAJOR.MINOR.PATCH` format |
 | **Pre-commit Hook** | Git automation | Automated testing before commits |
+| **Pipeline Drift** | CI/CD configuration mismatch | Workflows referencing non-existent scripts |
+| **CI/CD Validation** | Automated workflow checking | Prevents deployment failures from script mismatches |
 
 ## Features
 
@@ -110,6 +116,7 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 - **DRY Documentation**: Linux guides use reusable CSS classes and consistent styling with official Cyberknights color palette.
 - **Automated Testing**: Comprehensive test suite using Playwright for fast, reliable link testing and cross-browser validation.
 - **Automated Versioning**: Tag-based deployment model using standard-version with conventional commits, automatic changelog generation, and GitHub Actions deployment.
+- **CI/CD Pipeline Drift Prevention**: Automated validation system that prevents GitHub Actions workflows from referencing non-existent npm scripts, eliminating deployment failures caused by incomplete refactoring.
 - **Key Landing Pages**:
   - **Home**: Merged club content with engaging "Who are the Cyber Knights?" headline, strategic "Excitement • Opportunity • Belonging" banner for QR code users, enhanced career messaging with "Our Members Get Hired!" section, and logical content organization
   - **Linux**: Generic Linux installation guides with USB Boot Guide and VirtualBox Boot Guide, step-by-step instructions and common boot menu keys

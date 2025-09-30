@@ -41,7 +41,7 @@ jobs:
       run: npx playwright install --with-deps
     
     - name: Run versioning diagnostics
-      run: npm run test:versioning
+      run: npm run test:links
       continue-on-error: true
     
     - name: Upload test results

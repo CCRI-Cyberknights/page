@@ -2,6 +2,106 @@
 
 Modern testing using Playwright to ensure functionality across client-side routing, QR code generation, and cross-page navigation. The project uses Playwright for comprehensive end-to-end testing with better performance, reliability, and cross-browser support.
 
+## CI/CD Pipeline Drift Prevention
+
+### Overview
+
+The project includes a comprehensive **CI/CD Pipeline Drift Prevention** system that prevents GitHub Actions workflows from referencing non-existent npm scripts. This system eliminates deployment failures caused by incomplete refactoring.
+
+### Problem Solved
+
+**Pipeline Drift** occurs when:
+1. You refactor your `package.json` scripts (remove, rename, consolidate)
+2. You update documentation and local usage
+3. **But forget to update GitHub Actions workflows**
+4. CI/CD fails with "Missing script" errors
+
+### Validation Tools
+
+#### 1. Main Validation Tool (`tests/ci-validation/validate-workflow-scripts.js`)
+
+**Purpose**: Validates that all GitHub Actions workflows reference only existing npm scripts.
+
+**Features**:
+- ✅ Parses all `.yml`/`.yaml` workflow files
+- ✅ Extracts `npm run` commands from workflow steps
+- ✅ Cross-references with `package.json` scripts
+- ✅ Reports missing scripts with file locations
+- ✅ Warns about unused scripts
+- ✅ Exit codes for CI/CD integration
+
+**Usage**:
+```bash
+# Run validation
+node tests/ci-validation/validate-workflow-scripts.js
+
+# Exit code 0 = success, 1 = validation failed
+```
+
+#### 2. Pre-commit Hook (`tests/ci-validation/pre-commit-validation.sh`)
+
+**Purpose**: Automatically validates workflows before commits are allowed.
+
+**Features**:
+- ✅ Runs automatically on every commit
+- ✅ Blocks commits if workflows reference invalid scripts
+- ✅ Provides helpful error messages and fix suggestions
+- ✅ Installs required dependencies automatically
+- ✅ Graceful handling of missing directories
+
+**Integration**:
+```bash
+# Add to .husky/pre-commit
+bash tests/ci-validation/pre-commit-validation.sh
+```
+
+### Prevention Strategy
+
+#### 1. **Immediate Prevention**
+- Pre-commit hook blocks commits with invalid workflow references
+- Fast feedback loop prevents broken workflows from reaching main branch
+
+#### 2. **CI/CD Validation**
+- Workflow validation step catches any remaining issues
+- Fails fast with clear error messages
+
+#### 3. **Refactoring Process**
+When refactoring scripts:
+1. ✅ Update `package.json`
+2. ✅ Run `node tests/ci-validation/validate-workflow-scripts.js`
+3. ✅ Fix any workflow references
+4. ✅ Update documentation
+5. ✅ Commit changes
+
+#### 4. **Monitoring**
+- Regular validation runs catch drift early
+- Unused script warnings help clean up dead code
+- Clear error messages make fixes easy
+
+### Integration with Existing Testing
+
+The CI/CD validation system integrates seamlessly with the existing Playwright testing suite:
+
+```bash
+# Run comprehensive tests (includes CI/CD validation)
+npm run test:links
+
+# Debug mode (includes CI/CD validation)
+npm run test:debug
+
+# CI/CD validation only
+node tests/ci-validation/validate-workflow-scripts.js
+```
+
+### Documentation
+
+For complete details on the CI/CD validation system, see:
+- **`tests/ci-validation/README.md`** - Comprehensive documentation and usage guide
+- **`tests/ci-validation/validate-workflow-scripts.js`** - Main validation tool
+- **`tests/ci-validation/pre-commit-validation.sh`** - Pre-commit hook script
+
+---
+
 ## Overview
 
 The project uses a comprehensive test suite to validate:

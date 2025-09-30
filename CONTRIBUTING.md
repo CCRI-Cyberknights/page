@@ -10,6 +10,7 @@ Thanks for helping improve the CCRI Cybersecurity Club website!
    - Navigation works via `#/` hash routes
    - External links open correctly
    - Layout looks good on mobile and desktop
+   - CI/CD workflows reference valid scripts: `node tests/ci-validation/validate-workflow-scripts.js`
 4. Commit with a clear message and open a pull request.
 
 ## Coding guidelines
@@ -43,6 +44,22 @@ This project follows [Conventional Commits](https://www.conventionalcommits.org/
 
 - Add new pages by creating a new `<template id="page-name">` in `index.html` and extending the router object.
 - Add a corresponding nav link if needed using `#/name`.
+- When modifying npm scripts, validate CI/CD workflows: `node tests/ci-validation/validate-workflow-scripts.js`
+
+## CI/CD Pipeline Validation
+
+This project includes automated CI/CD pipeline drift prevention to ensure GitHub Actions workflows reference only existing npm scripts.
+
+**Before committing changes to npm scripts:**
+1. Update `package.json` scripts
+2. Run validation: `node tests/ci-validation/validate-workflow-scripts.js`
+3. Fix any workflow references if validation fails
+4. Commit changes (pre-commit hook validates automatically)
+
+**Documentation:**
+- **`tests/ci-validation/README.md`** - Complete system documentation
+- **`tests/ci-validation/validate-workflow-scripts.js`** - Main validation tool
+- **`tests/ci-validation/pre-commit-validation.sh`** - Pre-commit hook script
 
 ## Reporting issues
 

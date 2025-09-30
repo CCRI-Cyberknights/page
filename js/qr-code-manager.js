@@ -39,12 +39,40 @@ class QRCodeManager {
     this.setupEventListeners();
     this.render(this.url);
     
-    // Listen for hash changes to update URL
-    window.addEventListener('hashchange', () => {
+    // RouterEvents abstraction for future-proofing (supports both hash and history routing)
+    this.setupRouterEvents();
+  }
+
+  /**
+   * RouterEvents abstraction for future-proofing
+   * Supports both hash-based and history-based routing
+   */
+  setupRouterEvents() {
+    const updateQR = () => {
       this.url = window.location.href;
       this.input.value = this.url;
       this.render(this.url);
-    });
+    };
+
+    // Listen for hash changes (current hash-based routing)
+    window.addEventListener('hashchange', updateQR);
+    
+    // Listen for popstate (History API - future-proofing for history-based routing)
+    window.addEventListener('popstate', updateQR);
+    
+    // Optional: Listen for pushState/replaceState (programmatic navigation)
+    const originalPushState = history.pushState;
+    const originalReplaceState = history.replaceState;
+    
+    history.pushState = function(...args) {
+      originalPushState.apply(this, args);
+      updateQR();
+    };
+    
+    history.replaceState = function(...args) {
+      originalReplaceState.apply(this, args);
+      updateQR();
+    };
   }
 
   setupEventListeners() {

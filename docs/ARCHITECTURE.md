@@ -16,6 +16,7 @@ Single-file site hosted on GitHub Pages with Tailwind (CDN) and small JS modules
 - Interactive Elements: DRY implementation for image toggle functionality, CSS-based modal overlays, responsive design with viewport constraints.
 - Testing: Modern Playwright test suite with cross-browser support (Chrome, Firefox, Safari) covering client-side routing, QR code functionality, cross-page navigation, and interactive element behavior. Features ephemeral results, performance monitoring, and fail-fast approach. Tests run with comprehensive timeout handling and graceful error recovery.
 - Versioning: **CURRENT** Modern version management using `version.json` as single source of truth, dynamic runtime fetching via `version-display.js`, and `standard-version` for automated releases. Eliminates off-by-one version display issues and provides cache-bustable version updates. Version displayed in footer with commit information tooltip. **Commit Convention**: Uses [Conventional Commits](https://www.conventionalcommits.org/) (`feat:`, `fix:`, `chore:`, etc.) for automatic version bumping - see [CONTRIBUTING.md](../CONTRIBUTING.md#commit-message-conventions).
+- CI/CD Pipeline Drift Prevention: **NEW** Automated validation system that prevents GitHub Actions workflows from referencing non-existent npm scripts. Eliminates deployment failures caused by incomplete refactoring through pre-commit hooks and comprehensive workflow validation. Features include automated script reference checking, clear error reporting, and integration with existing testing infrastructure.
 - SEO: Open Graph meta tags for social media sharing and search engine optimization.
 
 Key files
@@ -37,6 +38,10 @@ Key files
 - `images/branding/cybersmith.webp` — hero image and social sharing image
 - `images/maps/map-rm4080-optimized.webp` — optimized campus map image
 - `tests/` — automated test suite using Playwright
+- `tests/ci-validation/` — CI/CD pipeline drift prevention system
+- `tests/ci-validation/validate-workflow-scripts.js` — main validation tool for workflow script references
+- `tests/ci-validation/pre-commit-validation.sh` — pre-commit hook for automated workflow validation
+- `tests/ci-validation/README.md` — comprehensive CI/CD validation system documentation
 - Calendar updating information is now documented in this ARCHITECTURE.md file
 - `docs/UI.md` — comprehensive UI documentation including document loading system
 - `docs/TESTING.md` — comprehensive testing strategy and implementation

@@ -43,6 +43,17 @@ fi
 
 echo "✅ Layout patterns validated successfully"
 
+# CI/CD Pipeline Validation (NEW)
+echo "🔍 Validating CI/CD workflow scripts..."
+bash tests/ci-validation/pre-commit-validation.sh
+
+if [ $? -ne 0 ]; then
+    echo "❌ CI/CD workflow validation failed! Please fix workflow script references before committing."
+    exit 1
+fi
+
+echo "✅ CI/CD workflow validation passed"
+
 # Check if any significant files have been modified (HTML, JS, JSON, or docs)
 significant_files=$(git diff --cached --name-only | grep -E "\.(html|js|json)$|^docs/")
 if [ -n "$significant_files" ]; then

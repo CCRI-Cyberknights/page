@@ -29,6 +29,67 @@ npm run test:ui
 - **Provides detailed diagnostic output** for expert analysis
 - **Integrates with CI/CD** for continuous monitoring
 
+## 🔧 **CI/CD Pipeline Drift Prevention**
+
+### Problem: GitHub Actions Workflow References Non-Existent Scripts
+
+**Symptoms:**
+- GitHub Actions workflow fails with "Missing script" errors
+- Error: `npm run test:versioning` - script not found
+- CI/CD pipeline fails after refactoring package.json scripts
+- Deployment blocked due to workflow failures
+
+**Root Cause:**
+**Pipeline Drift** occurs when you refactor `package.json` scripts but forget to update GitHub Actions workflows that reference them.
+
+**Solution Implemented:**
+Automated CI/CD Pipeline Drift Prevention system:
+
+```bash
+# Run CI/CD validation
+node tests/ci-validation/validate-workflow-scripts.js
+
+# Pre-commit hook automatically validates workflows
+bash tests/ci-validation/pre-commit-validation.sh
+```
+
+**Prevention Tools:**
+1. **Main Validation Tool** (`tests/ci-validation/validate-workflow-scripts.js`)
+   - Parses all workflow files
+   - Cross-references with package.json scripts
+   - Reports missing scripts with exact locations
+   - Exit codes for CI/CD integration
+
+2. **Pre-commit Hook** (`tests/ci-validation/pre-commit-validation.sh`)
+   - Automatically validates workflows before commits
+   - Blocks commits with invalid script references
+   - Provides helpful error messages and fix suggestions
+
+**Verification Commands:**
+```bash
+# Check for workflow script issues
+node tests/ci-validation/validate-workflow-scripts.js
+
+# Test pre-commit validation
+bash tests/ci-validation/pre-commit-validation.sh
+
+# Check available scripts
+npm run --silent | grep -E "^\s+[a-z]"
+```
+
+**Prevention Process:**
+When refactoring scripts:
+1. ✅ Update `package.json`
+2. ✅ Run `node tests/ci-validation/validate-workflow-scripts.js`
+3. ✅ Fix any workflow references
+4. ✅ Update documentation
+5. ✅ Commit changes (pre-commit hook validates automatically)
+
+**Documentation:**
+- **`tests/ci-validation/README.md`** - Complete system documentation
+- **`tests/ci-validation/validate-workflow-scripts.js`** - Main validation tool
+- **`tests/ci-validation/pre-commit-validation.sh`** - Pre-commit hook script
+
 ---
 
 ## Version Management Issues

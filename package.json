@@ -8,6 +8,8 @@
     "test": "python tests/run_tests.py",
     "test:links": "node scripts/test-links-playwright.js",
     "test:qr-urls": "node scripts/test-qr-urls.js",
+    "test:qr-urls:smoke": "node scripts/test-qr-urls.js --smoke",
+    "test:qr-urls:full": "node scripts/test-qr-urls.js --full",
     "test:debug": "npx playwright test tests/playwright-link-testing-comprehensive.spec.ts --debug",
     "test:ui": "npx playwright test tests/playwright-link-testing-comprehensive.spec.ts --ui",
     "version:show": "echo $npm_package_version",
