@@ -32,12 +32,19 @@ class QRCodeManager {
 
     if (!this.toggle || !this.panel || !this.canvas) return;
 
-    this.url = window.location.href;
+    this.url = window.location.href; // This already includes the hash fragment
     this.ECL_LEVELS = ['L', 'M', 'Q', 'H'];
     this.eclIndex = 1; // default 'M'
 
     this.setupEventListeners();
     this.render(this.url);
+    
+    // Listen for hash changes to update URL
+    window.addEventListener('hashchange', () => {
+      this.url = window.location.href;
+      this.input.value = this.url;
+      this.render(this.url);
+    });
   }
 
   setupEventListeners() {
