@@ -473,15 +473,15 @@ The version display system provides users with current version information and b
 #### Version Information Structure
 ```json
 {
-  "version": "1.7.7",
-  "commit": "34884c1",
-  "date": "2025-09-27 19:26:40 -0400",
-  "timestamp": "2025-09-27T23:27:11.388Z"
+  "version": "1.7.30",
+  "commit": "1495e88",
+  "date": "2025-09-29 23:21:29 -0400",
+  "timestamp": "2025-09-30T03:30:00.966Z"
 }
 ```
 
 #### Display Elements
-- **Footer Version**: Shows current version number (e.g., `v1.7.7`)
+- **Footer Version**: Shows current version number (e.g., `v1.7.30`)
 - **Version Tooltip**: Displays full version info on hover
 - **Meta Tag**: SEO version information for search engines
 - **Data Attributes**: Custom elements can display version via `data-version` attribute
@@ -540,9 +540,9 @@ class VersionDisplay {
 ### HTML Integration
 ```html
 <!-- Version display elements -->
-<span id="version">v1.7.7</span>
-<meta id="version-meta" name="version" content="1.7.7">
-<div id="version-tooltip" title="Version information">v1.7.7 - Commit: 34884c1 - 2025-09-27</div>
+<span id="version">v1.7.30</span>
+<meta id="version-meta" name="version" content="1.7.30">
+<div id="version-tooltip" title="Version information">v1.7.30 - Commit: 1495e88 - 2025-09-29</div>
 
 <!-- Script inclusion -->
 <script src="./js/version-display.js"></script>
@@ -876,7 +876,7 @@ The website features a unified modal overlay system that allows users to expand 
 
 ##### 4. QR Code Canvas (`footer-qr-canvas`)
 - **Location**: Footer QR code
-- **Thumbnail State**: `bg-white p-1 rounded hover:scale-105`
+- **Thumbnail State**: `bg-white p-1 rounded hover:opacity-80`
 - **Modal State**: `w-[min(85vw,85vh)] h-[min(85vw,85vh)] object-contain` (square container)
 - **Usage**: `onclick="toggleQRCodeSize()"`
 
@@ -951,7 +951,7 @@ The modal system uses different sizing strategies based on content type:
    <img id="new-image-id" 
         src="path/to/image.jpg" 
         alt="Description" 
-        class="w-32 h-32 object-contain rounded hover:scale-105 cursor-pointer transition-transform duration-200 ease-in-out" 
+        class="w-32 h-32 object-contain rounded hover:opacity-80 cursor-pointer transition-opacity duration-200 ease-in-out" 
         onclick="toggleNewImageSize()" 
         tabindex="0" 
         title="Click to expand" />
@@ -1016,6 +1016,73 @@ Practical examples for using the document loading system, including quick start 
 
 - **Campus Maps**: See `docs/ARCHITECTURE.md` - Campus Maps section for building navigation and meeting location details
 
+## QR Code Manager Future Development
+
+### Aspirational Design Vision
+
+The QRCodeManager represents a foundation for building sophisticated UI components with modern JavaScript best practices. The current implementation provides solid functionality, but there's significant potential for enhancement.
+
+#### Current State Analysis
+
+**What Works Well:**
+- Core QR code generation and URL tracking
+- RouterEvents abstraction for future-proof routing
+- Comprehensive Playwright test coverage
+- Fast rendering and responsive UI
+- Color consistency (black/white QR codes)
+
+**Areas for Improvement:**
+- Code organization (monolithic class structure)
+- Error handling and recovery mechanisms
+- State management (no centralized state)
+- API design consistency
+- Extensibility and plugin architecture
+
+#### Future Architecture Vision
+
+The aspirational design envisions a modular component architecture with:
+- **QRCodeEngine**: Pure QR generation logic
+- **QRCodeState**: Centralized state management
+- **QRCodeEvents**: Event emitter for component communication
+- **QRCodeUIController**: UI interaction orchestration
+- **Plugin System**: Extensible functionality
+- **TypeScript Integration**: Type safety and better developer experience
+
+#### Implementation Strategy
+
+**Phase 1**: Foundation (extract core logic, implement state management)
+**Phase 2**: Architecture (modular components, plugin system)
+**Phase 3**: Advanced Features (performance optimization, accessibility)
+**Phase 4**: Developer Experience (testing utilities, documentation)
+
+### QR Code Validation System
+
+#### Problem Solved
+
+The QR code validation system addresses SPA routing issues where footer QR codes encoded incorrect URLs due to timing mismatches between DOM ready and hash routing.
+
+#### Solution Implemented
+
+- **Hashchange Listener**: Updates QR URL when routes change
+- **Comprehensive Testing**: Playwright test suite covering all SPA routes
+- **Performance Optimized**: ~5 second execution time
+- **CI/CD Integration**: Automated validation in deployment pipeline
+
+#### Test Coverage
+
+- All SPA routes have correct QR URLs
+- QR URL updates on route navigation
+- Direct navigation initializes correctly
+- Edge cases: back/forward navigation, deep links, programmatic navigation
+
+#### Architecture Validation
+
+The hashchange listener approach is optimal for hash-based SPAs, providing:
+- Direct coupling to routing events
+- Simple, maintainable implementation
+- Future-proofing for history-based routing
+- Comprehensive edge case coverage
+
 ## Legacy Documentation
 
 The following files were consolidated into this document:
@@ -1027,5 +1094,7 @@ The following files were consolidated into this document:
 - **`docs/CONTENT-ARCHITECTURE-v1.5.1.md`** - Content strategy and messaging changes for v1.5.1 (last updated: commit `61c789c`)
 - **`docs/DOCUMENT-LOADING.md`** - Guide loading system with dual-mode operation and async routing (last updated: commit `61c789c`)
 - **`docs/DOCUMENT-EXAMPLES.md`** - Practical examples and usage patterns for document loading system (last updated: commit `61c789c`)
+- **`QRCODE-MANAGER-ASPIRATIONAL-DESIGN.md`** - Comprehensive vision for QRCodeManager evolution into enterprise-ready component (last updated: commit `fcb3fff`)
+- **`QR-CODE-VALIDATION-EXPERT-CONSULTATION.md`** - Technical analysis and solution for SPA QR code URL validation issues (last updated: commit `cabce4f`)
 
 **Note**: `docs/color-palettes/COLOR-PALETTE.md` was relocated to `docs/COLOR-PALETTE.md` and is referenced above.

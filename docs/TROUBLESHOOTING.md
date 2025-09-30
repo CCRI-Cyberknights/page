@@ -189,7 +189,7 @@ When refactoring scripts:
 ### Problem: Version Display Lag (Off-by-One Issue)
 
 **Symptoms:**
-- Site displays version `v1.7.5` but repository has `v1.7.6`
+- Site displays version `v1.7.29` but repository has `v1.7.30`
 - Version display is consistently one version behind
 - GitHub Pages deployment successful but version doesn't update
 - Release commits don't include updated version files
@@ -206,10 +206,10 @@ Modern version management system with single source of truth:
 ```json
 // version.json - Single source of truth
 {
-  "version": "1.7.7",
-  "commit": "34884c1",
-  "date": "2025-09-27 19:26:40 -0400",
-  "timestamp": "2025-09-27T23:27:11.388Z"
+  "version": "1.7.30",
+  "commit": "1495e88",
+  "date": "2025-09-29 23:21:29 -0400",
+  "timestamp": "2025-09-30T03:30:00.966Z"
 }
 ```
 
@@ -800,7 +800,7 @@ Pre-commit hook runs `standard-version` which creates commits that re-trigger th
 
 3. **Reset version to reasonable number**:
    ```bash
-   npm version 1.7.8 --no-git-tag-version
+   npm version 1.7.30 --no-git-tag-version
    ```
 
 **Prevention:**
@@ -1192,7 +1192,7 @@ Is Release Commit: true
 ================================
 ```
 
-**Analysis**: Version mismatch detected - `version.json` shows `1.7.9` but `package.json` shows `1.7.10`. The release commit is missing `version.json`, indicating `postbump` script failure.
+**Analysis**: Version mismatch detected - `version.json` shows `1.7.29` but `package.json` shows `1.7.30`. The release commit is missing `version.json`, indicating `postbump` script failure.
 
 ### Integration with CI/CD
 

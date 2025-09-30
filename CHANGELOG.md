@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.31](https://github.com/CCRI-Cyberknights/page/compare/v1.7.30...v1.7.31) (2025-09-30)
+
+
+### Bug Fixes
+
+* remove all QR code hover scale effects ([fcb3fff](https://github.com/CCRI-Cyberknights/page/commit/fcb3fff6ad0a04d32e282626465d8999919133ff))
+
 ### [1.7.30](https://github.com/CCRI-Cyberknights/page/compare/v1.7.29...v1.7.30) (2025-09-30)
 
 
