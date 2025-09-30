@@ -43,6 +43,9 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
    # Comprehensive testing
    npm run test:links
    
+   # QR code URL validation
+   npm run test:qr-urls
+   
    # Debug mode
    npm run test:debug
    
@@ -477,6 +480,9 @@ Intelligent versioning system with conventional commits and file change analysis
 - **Git Integration**: Automatic version tags and metadata synchronization
 - **Zero Friction**: "Set it and forget it" version management
 - **Link Testing**: Comprehensive parallel link testing system with production and local URL validation
+- **QR Code Testing**: Python-based QR code generation and validation suite
+- **QR URL Validation**: SPA routing QR code URL accuracy testing
+- **QR Code Manager Unit Tests**: JavaScript class testing with mocked events
 
 **Documentation**: See [Versioning System](docs/VERSIONING.md) for complete details on the tag-based deployment and versioning system.
 

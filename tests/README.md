@@ -43,6 +43,9 @@ python3 tests/qr-code-testing/qr_test.py "https://example.com" output.png
 - **`npm run test:links`** - Main comprehensive test (links + version display)
 - **`npm run test:debug`** - Debug mode with visible browser
 - **`npm run test:ui`** - Interactive UI mode
+- **`npm run test:qr-urls`** - QR code URL validation (production routes)
+- **`npm run test:qr-urls:smoke`** - Fast QR URL validation (PR checks)
+- **`npm run test:qr-urls:full`** - Comprehensive QR URL validation (all routes)
 
 ### QR Code Testing (Python)
 - **`qr-code-testing/gen_and_embed.py`** - QR code generation and HTML embedding
@@ -55,6 +58,144 @@ python3 tests/qr-code-testing/qr_test.py "https://example.com" output.png
 - **`qr-code-testing/test_qr_unit.py`** - Comprehensive unit testing of QR code generation
 - **`qr-code-testing/test_qr_integration.py`** - Simplified integration test for CI/CD
 - **`qr-code-testing/test_qr_code_decoding.py`** - QR code decoding validation
+
+### QR Code Manager Unit Tests (Playwright)
+- **`qr-code-manager-unit.spec.ts`** - Unit tests for QRCodeManager logic with mocked events
+- **`test-qr-no-hover-scale.spec.ts`** - Visual integrity tests (no hover scale, pixel-perfect rendering)
+- **`qr-code-url-validation.spec.ts`** - SPA routing QR code URL validation
+- **`qr-mobile-viewport.spec.ts`** - Mobile viewport and responsive design tests
+
+## QR Code URL Validation System
+
+### Overview
+
+The QR Code URL Validation System prevents SPA routing issues where footer QR codes encode incorrect URLs. This system ensures QR codes always point to the correct current page URL.
+
+### Problem Solved
+
+**Issue**: Footer QR codes in Single Page Application (SPA) were encoding incorrect URLs, directing users to the home page instead of the current route.
+
+**Root Cause**: QRCodeManager initialized on `DOMContentLoaded` but SPA routing processed hash changes after DOM ready, causing timing mismatch.
+
+### Solution Implemented
+
+- **Hashchange Listener**: Updates QR URL when routes change
+- **Comprehensive Testing**: Playwright test suite covering all SPA routes
+- **Performance Optimized**: ~5 second execution time
+- **CI/CD Integration**: Automated validation in deployment pipeline
+
+### Test Coverage
+
+- All SPA routes have correct QR URLs
+- QR URL updates on route navigation
+- Direct navigation initializes correctly
+- Edge cases: back/forward navigation, deep links, programmatic navigation
+
+### Usage
+
+```bash
+# Quick validation (5 seconds)
+npm run test:qr-urls
+
+# Fast PR validation (smoke tests)
+npm run test:qr-urls:smoke
+
+# Comprehensive validation (all routes)
+npm run test:qr-urls:full
+```
+
+### Test Routes
+
+The system validates these SPA routes:
+- `#/home` - Home page
+- `#/guides/linux-cheatsheet-1.html` - Linux Cheatsheet 1
+- `#/guides/linux-cheatsheet-2.html` - Linux Cheatsheet 2
+- `#/guides/linux-cheatsheet-3.html` - Linux Cheatsheet 3
+- `#/resources` - Resources page
+- `#/calendar` - Calendar page
+
+### Architecture Validation
+
+The hashchange listener approach is optimal for hash-based SPAs, providing:
+- Direct coupling to routing events
+- Simple, maintainable implementation
+- Future-proofing for history-based routing
+- Comprehensive edge case coverage
+
+## QR Code Manager Unit Testing
+
+### Overview
+
+The QR Code Manager Unit Testing system provides comprehensive testing of the QRCodeManager JavaScript class using Playwright with mocked events and isolated testing environments.
+
+### Test Categories
+
+#### 1. **Unit Tests** (`qr-code-manager-unit.spec.ts`)
+- **Purpose**: Test QRCodeManager logic with mocked events
+- **Coverage**: Constructor initialization, hashchange events, popstate events, pushState/replaceState wrapping
+- **Approach**: Mock QRCodeManager class with event listeners
+- **Benefits**: Fast execution, isolated testing, logic validation
+
+#### 2. **Visual Integrity Tests** (`test-qr-no-hover-scale.spec.ts`)
+- **Purpose**: Ensure QR codes maintain visual integrity for proper scanning
+- **Coverage**: No hover scale effects, pixel-perfect rendering, no animations
+- **Critical**: QR codes must never have scale effects that could blur the code
+- **Validation**: CSS class checking, computed style analysis
+
+#### 3. **SPA Routing Tests** (`qr-code-url-validation.spec.ts`)
+- **Purpose**: Validate QR code URL accuracy in Single Page Applications
+- **Coverage**: Route navigation, direct deep links, back/forward navigation
+- **Performance**: ~5 second execution time
+- **Integration**: Production URL validation
+
+#### 4. **Mobile Viewport Tests** (`qr-mobile-viewport.spec.ts`)
+- **Purpose**: Ensure QR Code Manager works correctly on mobile devices
+- **Coverage**: Viewport changes, responsive design, mobile interactions
+- **Validation**: Horizontal scrolling prevention, green border maintenance
+
+### Testing Strategy
+
+#### **Dual-Layer Approach**
+1. **Playwright Integration Tests**: Test actual browser behavior (5s runtime)
+2. **Unit Tests**: Mocked events for logic validation (fast execution)
+
+#### **Performance Optimization**
+- **Smoke/Full Test Split**: Fast PR validation vs comprehensive testing
+- **Parallel Execution**: Playwright supports parallel workers
+- **Headless Mode**: GPU disabled for CI performance
+
+#### **Edge Case Coverage**
+- Back/Forward Navigation: Browser button rapid clicking
+- Direct Deep Link Refresh: Page reload on specific routes
+- Programmatic Navigation: Router pushes new hash without user interaction
+- Multiple Rapid Navigation: Fast user navigation sequences
+- History API Integration: pushState/replaceState wrapping
+- URL Normalization: Trailing slashes and query strings
+
+### Usage
+
+```bash
+# Run all QR Code Manager tests
+npx playwright test tests/qr-code-manager-unit.spec.ts
+npx playwright test tests/test-qr-no-hover-scale.spec.ts
+npx playwright test tests/qr-code-url-validation.spec.ts
+npx playwright test tests/qr-mobile-viewport.spec.ts
+
+# Run specific test categories
+npx playwright test tests/qr-code-manager-unit.spec.ts --grep="hashchange"
+npx playwright test tests/test-qr-no-hover-scale.spec.ts --grep="hover scale"
+```
+
+### CI/CD Integration
+
+```yaml
+# GitHub Actions
+- name: QR Code Manager Tests
+  run: |
+    npm run test:qr-urls:smoke
+    npx playwright test tests/qr-code-manager-unit.spec.ts
+    npx playwright test tests/test-qr-no-hover-scale.spec.ts
+```
 
 ## QR Code Testing Suite - Detailed Documentation
 
