@@ -64,8 +64,10 @@ test.describe('Footer QR URL validation', () => {
     await page.waitForTimeout(200);
     
     // Verify initial state
-    let generated = await qrContainer.getAttribute('data-generated-url');
-    expect(generated).toBe(`${baseUrl}/#/home`);
+    let qrManagerUrl = await page.evaluate(() => {
+      return window.qrCodeManager ? window.qrCodeManager.url : null;
+    });
+    expect(qrManagerUrl).toBe(`${baseUrl}/#/home`);
     
     // Simulate hashchange event
     await page.evaluate(() => {
@@ -76,8 +78,10 @@ test.describe('Footer QR URL validation', () => {
     await page.waitForTimeout(120);
     
     // Verify URL updated
-    generated = await qrContainer.getAttribute('data-generated-url');
-    expect(generated).toBe(`${baseUrl}/#/guides/linux-cheatsheet-3.html`);
+    qrManagerUrl = await page.evaluate(() => {
+      return window.qrCodeManager ? window.qrCodeManager.url : null;
+    });
+    expect(qrManagerUrl).toBe(`${baseUrl}/#/guides/linux-cheatsheet-3.html`);
     
     console.log('✅ QR code manager correctly responds to hashchange events');
   });
@@ -97,8 +101,10 @@ test.describe('Footer QR URL validation', () => {
     await page.waitForTimeout(200);
     
     // Verify initial state
-    let generated = await qrContainer.getAttribute('data-generated-url');
-    expect(generated).toBe(`${baseUrl}/#/home`);
+    let qrManagerUrl = await page.evaluate(() => {
+      return window.qrCodeManager ? window.qrCodeManager.url : null;
+    });
+    expect(qrManagerUrl).toBe(`${baseUrl}/#/home`);
     
     // Simulate History API navigation
     await page.evaluate(() => {
@@ -109,8 +115,8 @@ test.describe('Footer QR URL validation', () => {
     await page.waitForTimeout(120);
     
     // Verify URL updated
-    generated = await qrContainer.getAttribute('data-generated-url');
-    expect(generated).toBe(`${baseUrl}/#/resources`);
+    qrManagerUrl = await page.evaluate(() => { return window.qrCodeManager ? window.qrCodeManager.url : null; });
+    expect(qrManagerUrl).toBe(`${baseUrl}/#/resources`);
     
     console.log('✅ QR code manager correctly handles History API navigation');
   });
@@ -130,10 +136,10 @@ test.describe('Footer QR URL validation', () => {
     // Wait for QR code to be rendered
     await page.waitForTimeout(200);
     
-    const generated = await qrContainer.getAttribute('data-generated-url');
+    const qrManagerUrl = await page.evaluate(() => { return window.qrCodeManager ? window.qrCodeManager.url : null; });
     
     // Should normalize trailing slash
-    expect(generated).toBe(`${baseUrl}/#/home`);
+    expect(qrManagerUrl).toBe(`${baseUrl}/#/home`);
     
     console.log('✅ URL normalization handles trailing slashes correctly');
   });
@@ -153,29 +159,29 @@ test.describe('Footer QR URL validation', () => {
     await page.goto(`${baseUrl}#/guides/linux-cheatsheet-3.html`);
     await page.waitForTimeout(200);
     
-    let generated = await qrContainer.getAttribute('data-generated-url');
-    expect(generated).toBe(`${baseUrl}/#/guides/linux-cheatsheet-3.html`);
+    let qrManagerUrl = await page.evaluate(() => { return window.qrCodeManager ? window.qrCodeManager.url : null; });
+    expect(qrManagerUrl).toBe(`${baseUrl}/#/guides/linux-cheatsheet-3.html`);
     
     // Navigate to resources
     await page.goto(`${baseUrl}#/resources`);
     await page.waitForTimeout(200);
     
-    generated = await qrContainer.getAttribute('data-generated-url');
-    expect(generated).toBe(`${baseUrl}/#/resources`);
+    qrManagerUrl = await page.evaluate(() => { return window.qrCodeManager ? window.qrCodeManager.url : null; });
+    expect(qrManagerUrl).toBe(`${baseUrl}/#/resources`);
     
     // Test browser back button
     await page.goBack();
     await page.waitForTimeout(200);
     
-    generated = await qrContainer.getAttribute('data-generated-url');
-    expect(generated).toBe(`${baseUrl}/#/guides/linux-cheatsheet-3.html`);
+    qrManagerUrl = await page.evaluate(() => { return window.qrCodeManager ? window.qrCodeManager.url : null; });
+    expect(qrManagerUrl).toBe(`${baseUrl}/#/guides/linux-cheatsheet-3.html`);
     
     // Test browser forward button
     await page.goForward();
     await page.waitForTimeout(200);
     
-    generated = await qrContainer.getAttribute('data-generated-url');
-    expect(generated).toBe(`${baseUrl}/#/resources`);
+    qrManagerUrl = await page.evaluate(() => { return window.qrCodeManager ? window.qrCodeManager.url : null; });
+    expect(qrManagerUrl).toBe(`${baseUrl}/#/resources`);
     
     console.log('✅ QR code manager correctly handles back/forward navigation');
   });
@@ -195,8 +201,8 @@ test.describe('Footer QR URL validation', () => {
     // Wait for QR code to be rendered
     await page.waitForTimeout(200);
     
-    const generated = await qrContainer.getAttribute('data-generated-url');
-    expect(generated).toBe(`${baseUrl}/#/guides/linux-cheatsheet-3.html`);
+    const qrManagerUrl = await page.evaluate(() => { return window.qrCodeManager ? window.qrCodeManager.url : null; });
+    expect(qrManagerUrl).toBe(`${baseUrl}/#/guides/linux-cheatsheet-3.html`);
     
     console.log('✅ QR code manager correctly handles direct deep link refresh');
   });
@@ -221,8 +227,8 @@ test.describe('Footer QR URL validation', () => {
     });
     await page.waitForTimeout(200);
     
-    let generated = await qrContainer.getAttribute('data-generated-url');
-    expect(generated).toBe(`${baseUrl}/#/guides/linux-cheatsheet-3.html`);
+    let qrManagerUrl = await page.evaluate(() => { return window.qrCodeManager ? window.qrCodeManager.url : null; });
+    expect(qrManagerUrl).toBe(`${baseUrl}/#/guides/linux-cheatsheet-3.html`);
     
     // Test programmatic pushState
     await page.evaluate(() => {
@@ -230,8 +236,8 @@ test.describe('Footer QR URL validation', () => {
     });
     await page.waitForTimeout(200);
     
-    generated = await qrContainer.getAttribute('data-generated-url');
-    expect(generated).toBe(`${baseUrl}/#/resources`);
+    qrManagerUrl = await page.evaluate(() => { return window.qrCodeManager ? window.qrCodeManager.url : null; });
+    expect(qrManagerUrl).toBe(`${baseUrl}/#/resources`);
     
     console.log('✅ QR code manager correctly handles programmatic navigation');
   });
@@ -258,8 +264,8 @@ test.describe('Footer QR URL validation', () => {
     // Wait for final state to stabilize
     await page.waitForTimeout(200);
     
-    const generated = await qrContainer.getAttribute('data-generated-url');
-    expect(generated).toBe(`${baseUrl}/#/calendar`);
+    const qrManagerUrl = await page.evaluate(() => { return window.qrCodeManager ? window.qrCodeManager.url : null; });
+    expect(qrManagerUrl).toBe(`${baseUrl}/#/calendar`);
     
     console.log('✅ QR code manager correctly handles multiple rapid navigation');
   });
