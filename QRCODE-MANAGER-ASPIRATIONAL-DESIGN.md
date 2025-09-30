@@ -6,11 +6,17 @@ Transform the QRCodeManager into a **production-grade, enterprise-ready componen
 
 ## 🏗️ Current State Analysis
 
+### 📋 QR Code Components (Standardized Terminology)
+- **Corner QR Code** (`#footer-qr-svg`): Small 64x64px QR code in footer corner
+- **Popup QR Code** (`#footer-qr-canvas`): Large QR code in full-screen modal
+- **QR Code Manager**: Full-screen modal with controls and customization options
+
 ### ✅ What Works Well
 - **Core Functionality**: QR code generation and URL tracking work correctly
 - **RouterEvents Abstraction**: Future-proof routing event handling
 - **Test Coverage**: Comprehensive Playwright tests validate behavior
 - **Performance**: Fast rendering and responsive UI
+- **Color Consistency**: Both corner and popup QR codes use black (#000000) and white (#ffffff)
 
 ### 🔧 Areas for Improvement
 - **Code Organization**: Monolithic class with mixed concerns

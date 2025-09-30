@@ -137,4 +137,5 @@ test.describe('QR Code Visual Integrity', () => {
 
     console.log('✅ QR code has no animations that could affect scanning');
   });
+
 });
