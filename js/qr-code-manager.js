@@ -194,7 +194,7 @@ class QRCodeManager {
               this.svgContainer.style.cursor = 'pointer';
               this.svgContainer.style.margin = '0 auto';
               this.svgContainer.title = 'Click to open QR Code Manager in full screen';
-              this.svgContainer.className = 'transition-transform duration-200 ease-in-out hover:scale-105';
+              this.svgContainer.className = 'transition-opacity duration-200 ease-in-out hover:opacity-80';
               this.canvas.parentNode.insertBefore(this.svgContainer, this.canvas);
               this.canvas.style.display = 'none';
             } else {
