@@ -2,6 +2,98 @@
 
 This document covers common issues encountered during development and maintenance of the Cyber Club website, including version management problems and their solutions.
 
+## 📋 **Table of Contents**
+
+### **🔧 Automated Diagnostics & Prevention**
+- [🔍 **NEW: Automated Versioning Diagnostics**](#-new-automated-versioning-diagnostics) - Playwright-based automated validation
+- [🔧 **CI/CD Pipeline Drift Prevention**](#-cicd-pipeline-drift-prevention) - Prevent workflow script mismatches
+- [🔍 **GitHub Actions Pipeline Monitoring**](#-github-actions-pipeline-monitoring) - Comprehensive pipeline monitoring guide
+- [🔧 **Playwright Diagnostic System**](#-playwright-diagnostic-system) - Advanced debugging tools
+
+### **📦 Version Management Issues**
+- [Version Management Issues](#version-management-issues)
+  - [Version Display Lag (Off-by-One Issue)](#problem-version-display-lag-off-by-one-issue)
+  - [Release Process Issues](#problem-release-process-issues)
+  - [GitHub Pages Deployment Issues](#problem-github-pages-deployment-issues)
+  - [Version Display Not Working](#problem-version-display-not-working)
+  - [Version Management Best Practices](#version-management-best-practices)
+
+### **🌐 URL & Routing Issues**
+- [URL Structure Issues](#url-structure-issues)
+  - [URLs Changed from `/#/home` to `/index.html#/home`](#problem-urls-changed-from-home-to-indexhtmlhome)
+- [Routing Issues](#routing-issues)
+  - [Linux Resources Page Shows "Loading Document..."](#problem-linux-resources-page-shows-loading-document)
+
+### **⚙️ Configuration & Deployment**
+- [GitHub Pages Configuration](#github-pages-configuration)
+  - [`.nojekyll` File](#nojekyll-file)
+
+### **🐛 Common Development Issues**
+- [Common Development Issues](#common-development-issues)
+  - [Modal Bullet Formatting Missing](#modal-bullet-formatting-missing)
+  - [Modal Interaction Problems](#modal-interaction-problems)
+  - [Bulleted Formatting Inconsistency](#bulleted-formatting-inconsistency)
+  - [JavaScript Module Loading](#javascript-module-loading)
+  - [File Path Issues](#file-path-issues)
+
+### **🧪 Environment & Testing Issues**
+- [Environment and Testing Issues](#environment-and-testing-issues)
+  - [Local vs Production Environment Differences](#local-vs-production-environment-differences)
+  - [Legacy Testing Environment Problems](#legacy-testing-environment-problems)
+- [Testing Strategy](#testing-strategy)
+  - [Manual Testing Checklist](#manual-testing-checklist)
+  - [Automated Testing](#automated-testing)
+  - [Testing Environment Setup](#testing-environment-setup)
+
+### **🔍 Debugging & Tools**
+- [Debugging Tips](#debugging-tips)
+  - [Browser Developer Tools](#browser-developer-tools)
+  - [Server-Side Debugging](#server-side-debugging)
+
+### **🛡️ Prevention & Best Practices**
+- [Prevention Strategies](#prevention-strategies)
+  - [Code Review Checklist](#code-review-checklist)
+  - [Pre-commit Hook Issues](#pre-commit-hook-issues)
+    - [Infinite Loop in Version Bumping](#problem-infinite-loop-in-version-bumping)
+
+### **🔧 Advanced Troubleshooting**
+- [Husky Pre-commit Hook Issues](#husky-pre-commit-hook-issues)
+- [Environment Issues](#environment-issues)
+- [Layout Debugging](#layout-debugging)
+- [Universal Modal System Troubleshooting Case Study](#universal-modal-system-troubleshooting-case-study)
+- [Layout Troubleshooting](#layout-troubleshooting)
+
+### **📚 Reference**
+- [Lessons Learned](#lessons-learned)
+- [Legacy Documentation](#legacy-documentation)
+
+---
+
+## 🔍 **Quick Reference**
+
+**Most Common Issues:**
+1. **Version Display Problems** → [Automated Versioning Diagnostics](#-new-automated-versioning-diagnostics)
+2. **CI/CD Pipeline Failures** → [CI/CD Pipeline Drift Prevention](#-cicd-pipeline-drift-prevention)
+3. **Modal Issues** → [Common Development Issues](#common-development-issues)
+4. **Environment Differences** → [Environment and Testing Issues](#environment-and-testing-issues)
+5. **Layout Problems** → [Layout Debugging](#layout-debugging)
+
+**Quick Commands:**
+```bash
+# Automated diagnostics
+npm run test:links
+npm run test:debug
+
+# CI/CD validation
+node tests/ci-validation/validate-workflow-scripts.js
+
+# Pipeline monitoring
+gh run list --limit 5
+gh run view RUN_ID
+```
+
+---
+
 ## 🔍 **NEW: Automated Versioning Diagnostics**
 
 **Use Playwright to diagnose versioning issues automatically:**
@@ -715,6 +807,310 @@ Pre-commit hook runs `standard-version` which creates commits that re-trigger th
 - Never run `standard-version` without `HUSKY=0` in pre-commit hooks
 - Consider moving version bumping to CI/CD instead of local hooks
 - Always test version bumping in isolation before committing
+
+---
+
+## 🔍 **GitHub Actions Pipeline Monitoring**
+
+### Overview
+
+Monitoring GitHub Actions pipelines is essential for maintaining CI/CD health and quickly identifying issues. This section provides comprehensive guidance on monitoring pipeline execution, interpreting results, and troubleshooting common issues.
+
+### Pipeline Monitoring Commands
+
+#### **1. Check Recent Pipeline Runs**
+
+```bash
+# List recent runs with status
+gh run list --limit 10
+
+# List runs with detailed information
+gh run list --limit 5 --json status,conclusion,displayTitle,createdAt,headBranch | jq '.[] | {title: .displayTitle, status: .status, conclusion: .conclusion, created: .createdAt}'
+```
+
+**Example Output:**
+```
+in_progress		feat: implement CI/CD pipeline drift prevention system	Versioning Pipeline Diagnostics	main	push	18117267297	54s	2025-09-30T02:58:45Z
+completed	success	chore(release): 1.7.27	Versioning Pipeline Diagnostics	main	push	18117095759	3m14s	2025-09-30T02:48:32Z
+```
+
+#### **2. Monitor Specific Pipeline Run**
+
+```bash
+# Get run details
+gh run view RUN_ID
+
+# Monitor job progress
+gh run view --job=JOB_ID
+
+# View live logs (when available)
+gh run view --log --job=JOB_ID
+```
+
+**Example Workflow:**
+```bash
+# 1. Get the latest run ID
+RUN_ID=$(gh run list --limit 1 --json databaseId | jq -r '.[0].databaseId')
+
+# 2. Monitor the run
+gh run view $RUN_ID
+
+# 3. Get job details
+gh run view --job=51555133720
+```
+
+#### **3. Pipeline Status Interpretation**
+
+**Status Values:**
+- `queued` - Pipeline is waiting to start
+- `in_progress` - Pipeline is currently running
+- `completed` - Pipeline has finished
+
+**Conclusion Values:**
+- `success` - All jobs completed successfully
+- `failure` - One or more jobs failed
+- `cancelled` - Pipeline was cancelled
+- `skipped` - Pipeline was skipped
+- `timed_out` - Pipeline exceeded timeout limits
+
+### Common Pipeline Monitoring Scenarios
+
+#### **Scenario 1: Monitoring a New Push**
+
+```bash
+# After pushing changes, monitor the pipeline
+gh run list --limit 1
+
+# Check if it's running
+gh run view RUN_ID
+
+# Monitor job progress
+gh run view --job=JOB_ID
+```
+
+**Expected Flow:**
+1. **Set up job** ✅
+2. **Checkout repository** ✅
+3. **Setup Node.js** ✅
+4. **Install dependencies** ✅
+5. **Install Playwright browsers** 🔄 (can take 2-3 minutes)
+6. **Run versioning diagnostics** 🔄
+7. **Upload test results** 🔄
+8. **Comment on PR with diagnostics** 🔄
+
+#### **Scenario 2: Troubleshooting Failed Pipeline**
+
+```bash
+# Find failed runs
+gh run list --limit 10 | grep "failure\|cancelled\|timed_out"
+
+# Get detailed failure information
+gh run view FAILED_RUN_ID
+
+# View failure logs
+gh run view --log --job=FAILED_JOB_ID
+```
+
+#### **Scenario 3: Monitoring CI/CD Validation**
+
+```bash
+# Check if CI/CD validation is working
+gh run list --limit 5 | grep "feat\|fix\|chore"
+
+# Monitor validation run
+gh run view VALIDATION_RUN_ID
+
+# Check for script validation errors
+gh run view --log --job=JOB_ID | grep -i "missing script\|validation"
+```
+
+### Pipeline Performance Monitoring
+
+#### **1. Execution Time Tracking**
+
+```bash
+# Get run duration information
+gh run list --limit 10 --json createdAt,updatedAt,displayTitle | jq '.[] | {title: .displayTitle, duration: ((.updatedAt // now) - .createdAt)}'
+```
+
+#### **2. Success Rate Monitoring**
+
+```bash
+# Check recent success rate
+gh run list --limit 20 --json conclusion | jq '[.[] | select(.conclusion == "success")] | length'
+
+# Get failure rate
+gh run list --limit 20 --json conclusion | jq '[.[] | select(.conclusion == "failure")] | length'
+```
+
+### Troubleshooting Common Pipeline Issues
+
+#### **Issue 1: Pipeline Stuck on "Install Playwright browsers"**
+
+**Symptoms:**
+- Job shows "Install Playwright browsers" for extended time (>5 minutes)
+- No progress updates
+
+**Solutions:**
+```bash
+# Check if it's actually stuck or just slow
+gh run view --log --job=JOB_ID | tail -20
+
+# If truly stuck, cancel and retry
+gh run cancel RUN_ID
+```
+
+**Prevention:**
+- Playwright browser installation can take 2-3 minutes
+- This is normal behavior, not an error
+
+#### **Issue 2: "Missing script" Errors**
+
+**Symptoms:**
+- Error: `npm run test:versioning` - script not found
+- Pipeline fails during script execution
+
+**Solutions:**
+```bash
+# Run CI/CD validation locally
+node tests/ci-validation/validate-workflow-scripts.js
+
+# Check available scripts
+npm run --silent | grep -E "^\s+[a-z]"
+
+# Fix workflow references
+# Update .github/workflows/*.yml files
+```
+
+**Prevention:**
+- Always run CI/CD validation before pushing
+- Use pre-commit hooks for automatic validation
+
+#### **Issue 3: Pipeline Timeout Issues**
+
+**Symptoms:**
+- Pipeline shows `timed_out` conclusion
+- Jobs running longer than expected
+
+**Solutions:**
+```bash
+# Check job timeout settings
+gh run view --job=JOB_ID
+
+# Review workflow timeout configuration
+cat .github/workflows/*.yml | grep -i timeout
+```
+
+### Advanced Pipeline Monitoring
+
+#### **1. Real-time Monitoring Script**
+
+Create a monitoring script for continuous pipeline watching:
+
+```bash
+#!/bin/bash
+# pipeline-monitor.sh
+
+echo "🔍 Monitoring GitHub Actions Pipeline..."
+
+while true; do
+    # Get latest run
+    RUN_ID=$(gh run list --limit 1 --json databaseId | jq -r '.[0].databaseId')
+    STATUS=$(gh run list --limit 1 --json status | jq -r '.[0].status')
+    
+    echo "$(date): Run $RUN_ID - Status: $STATUS"
+    
+    if [ "$STATUS" = "completed" ]; then
+        CONCLUSION=$(gh run list --limit 1 --json conclusion | jq -r '.[0].conclusion')
+        echo "✅ Pipeline completed with conclusion: $CONCLUSION"
+        break
+    fi
+    
+    sleep 30
+done
+```
+
+#### **2. Pipeline Health Dashboard**
+
+```bash
+# Create a pipeline health summary
+gh run list --limit 10 --json status,conclusion,displayTitle,createdAt | jq '
+{
+  total: length,
+  success: [.[] | select(.conclusion == "success")] | length,
+  failure: [.[] | select(.conclusion == "failure")] | length,
+  in_progress: [.[] | select(.status == "in_progress")] | length,
+  recent_runs: [.[] | {title: .displayTitle, status: .status, conclusion: .conclusion}]
+}'
+```
+
+### Integration with CI/CD Validation System
+
+#### **Monitoring CI/CD Validation Effectiveness**
+
+```bash
+# Check if CI/CD validation prevented issues
+gh run list --limit 20 --json displayTitle,conclusion | jq '.[] | select(.displayTitle | contains("feat") or contains("fix") or contains("chore")) | {title: .displayTitle, conclusion: .conclusion}'
+
+# Look for script-related failures
+gh run list --limit 20 --json displayTitle,conclusion | jq '.[] | select(.displayTitle | contains("script") or contains("workflow")) | {title: .displayTitle, conclusion: .conclusion}'
+```
+
+#### **Pre-commit Hook Monitoring**
+
+```bash
+# Check if pre-commit hooks are working
+git log --oneline -10 | grep -E "(feat|fix|chore):"
+
+# Verify CI/CD validation ran
+gh run list --limit 5 | grep -E "(feat|fix|chore):"
+```
+
+### Best Practices for Pipeline Monitoring
+
+#### **1. Proactive Monitoring**
+- Check pipeline status after every push
+- Monitor for patterns in failures
+- Set up alerts for critical failures
+
+#### **2. Performance Optimization**
+- Track execution times
+- Identify slow jobs
+- Optimize dependencies and setup
+
+#### **3. Documentation**
+- Document common failure patterns
+- Keep troubleshooting guides updated
+- Share monitoring scripts with team
+
+#### **4. Integration with Development Workflow**
+- Run local validation before pushing
+- Use pre-commit hooks effectively
+- Monitor CI/CD validation system health
+
+### Pipeline Monitoring Checklist
+
+**Before Pushing:**
+- [ ] Run local tests: `npm run test:links`
+- [ ] Validate CI/CD workflows: `node tests/ci-validation/validate-workflow-scripts.js`
+- [ ] Check git status: `git status`
+
+**After Pushing:**
+- [ ] Monitor pipeline: `gh run list --limit 1`
+- [ ] Check job progress: `gh run view --job=JOB_ID`
+- [ ] Verify success: `gh run list --limit 1 | grep "completed.*success"`
+
+**When Issues Occur:**
+- [ ] Check failure logs: `gh run view --log --job=FAILED_JOB_ID`
+- [ ] Run local validation: `node tests/ci-validation/validate-workflow-scripts.js`
+- [ ] Fix issues and retry: `git push origin main`
+
+---
+
+**Documentation:**
+- **`tests/ci-validation/README.md`** - Complete CI/CD validation system documentation
+- **`tests/ci-validation/validate-workflow-scripts.js`** - Main validation tool
+- **`tests/ci-validation/pre-commit-validation.sh`** - Pre-commit hook script
 
 ---
 

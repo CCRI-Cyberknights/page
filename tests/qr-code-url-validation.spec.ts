@@ -19,7 +19,7 @@ test.describe('Footer QR URL validation', () => {
 
     // Wait for QR code manager to initialize
     await page.waitForFunction(() => {
-      return window.qrCodeManager && window.qrCodeManager.currentUrl;
+      return window.qrCodeManager && window.qrCodeManager.url;
     }, { timeout: 10000 });
 
     const qrContainer = page.locator('#footer-qr-canvas').locator('..');
@@ -27,9 +27,11 @@ test.describe('Footer QR URL validation', () => {
     // Wait for QR code to be rendered and visible
     await page.waitForTimeout(200);
     
-    // Check data-generated-url attribute for fast validation
-    const generated = await qrContainer.getAttribute('data-generated-url');
-    expect(generated).toBe(TEST_ROUTES[0].expectedUrl);
+    // Check QRCodeManager URL for validation
+    const qrManagerUrl = await page.evaluate(() => {
+      return window.qrCodeManager ? window.qrCodeManager.url : null;
+    });
+    expect(qrManagerUrl).toBe(TEST_ROUTES[0].expectedUrl);
 
     // Now navigate through routes and assert update
     for (const { route, expectedUrl } of TEST_ROUTES) {
@@ -38,10 +40,12 @@ test.describe('Footer QR URL validation', () => {
       // Wait for debounced update (80ms + buffer)
       await page.waitForTimeout(120);
       
-      const attr = await qrContainer.getAttribute('data-generated-url');
-      expect(attr).toBe(expectedUrl);
+      const qrManagerUrl = await page.evaluate(() => {
+        return window.qrCodeManager ? window.qrCodeManager.url : null;
+      });
+      expect(qrManagerUrl).toBe(expectedUrl);
       
-      console.log(`✅ Route ${route}: QR URL correctly set to ${attr}`);
+      console.log(`✅ Route ${route}: QR URL correctly set to ${qrManagerUrl}`);
     }
   });
 
@@ -51,7 +55,7 @@ test.describe('Footer QR URL validation', () => {
     
     // Wait for QR code manager to initialize
     await page.waitForFunction(() => {
-      return window.qrCodeManager && window.qrCodeManager.currentUrl;
+      return window.qrCodeManager && window.qrCodeManager.url;
     }, { timeout: 10000 });
     
     const qrContainer = page.locator('#footer-qr-canvas').locator('..');
@@ -84,7 +88,7 @@ test.describe('Footer QR URL validation', () => {
     
     // Wait for QR code manager to initialize
     await page.waitForFunction(() => {
-      return window.qrCodeManager && window.qrCodeManager.currentUrl;
+      return window.qrCodeManager && window.qrCodeManager.url;
     }, { timeout: 10000 });
     
     const qrContainer = page.locator('#footer-qr-canvas').locator('..');
@@ -118,7 +122,7 @@ test.describe('Footer QR URL validation', () => {
     
     // Wait for QR code manager to initialize
     await page.waitForFunction(() => {
-      return window.qrCodeManager && window.qrCodeManager.currentUrl;
+      return window.qrCodeManager && window.qrCodeManager.url;
     }, { timeout: 10000 });
     
     const qrContainer = page.locator('#footer-qr-canvas').locator('..');

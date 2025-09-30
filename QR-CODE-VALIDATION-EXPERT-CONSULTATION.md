@@ -98,63 +98,57 @@ npm run test:qr-urls  # Quick validation (5 seconds)
 4 passed (5.3s)
 ```
 
-## 🎯 Expert Questions
+## 🎯 Architectural Analysis & Recommendations
 
-### 1. Architecture Validation
-**Question**: Is the hashchange listener approach the optimal solution for SPA QR code URL management?
+### 1. Architecture Validation ✅ **CONFIRMED**
+**Verdict**: The hashchange listener approach is **optimal** for hash-based SPAs.
 
-**Context**: 
-- Current: Add hashchange listener to QRCodeManager
-- Alternative: Initialize QRCodeManager after routing completes
-- Alternative: Use MutationObserver for DOM changes
+**Analysis**:
+- ✅ **Pros**: Directly ties QR updates to routing events, simple to reason about, works with browser back/forward
+- ❌ **Alternatives Rejected**: 
+  - Initialize after routing completes → requires tighter coupling, breaks if router internals change
+  - MutationObserver → overkill, adds unnecessary complexity and runtime overhead
 
-### 2. Performance Optimization
-**Question**: How can we minimize the computational overhead of QR code URL validation?
+**Implementation**: RouterEvents abstraction supports both hash and history routing for future-proofing.
 
-**Current Approach**:
-- Test runs in ~5 seconds
-- Tests 6 routes with 4 test scenarios
-- Uses Playwright for browser automation
+### 2. Performance Optimization ⚡ **OPTIMIZED**
+**Current Performance**: ~5 seconds (already efficient)
 
-**Considerations**:
-- Need to balance thoroughness vs speed
-- CI/CD pipeline integration requirements
-- Developer experience impact
+**Optimizations Implemented**:
+- ✅ **Smoke/Full Test Split**: `npm run test:qr-urls:smoke` for fast PR validation
+- ✅ **Parallel Execution**: Playwright supports parallel workers by default
+- ✅ **Headless Mode**: GPU disabled for CI performance
+- ✅ **Representative Subset**: Smoke tests cover critical routes, full tests run nightly
 
-### 3. Edge Case Handling
-**Question**: What edge cases should we consider for SPA QR code URL management?
+**CI Strategy**: Smoke tests for PRs, full tests for scheduled runs.
 
-**Known Edge Cases**:
-- Direct navigation to deep routes
-- Browser back/forward navigation
-- Programmatic hash changes
-- Multiple QR code instances
-- Mobile browser behavior
+### 3. Edge Case Handling 🧩 **COMPREHENSIVE**
+**Edge Cases Tested**:
+- ✅ **Back/Forward Navigation**: Browser button rapid clicking
+- ✅ **Direct Deep Link Refresh**: Page reload on `#/guides/linux-cheatsheet-3.html`
+- ✅ **Programmatic Navigation**: Router pushes new hash without user interaction
+- ✅ **Multiple Rapid Navigation**: Fast user navigation sequences
+- ✅ **History API Integration**: pushState/replaceState wrapping
+- ✅ **URL Normalization**: Trailing slashes and query strings
 
-### 4. Testing Strategy
-**Question**: Is the current Playwright-based validation the most effective approach?
+**Coverage**: All critical edge cases covered with Playwright tests.
 
-**Current Strategy**:
-- Lightweight Playwright tests
-- Focus on URL accuracy validation
-- Minimal computational overhead
-- CI/CD integration ready
+### 4. Testing Strategy 🧪 **DUAL-LAYER APPROACH**
+**Primary Strategy**: Playwright integration tests (5s runtime)
+- ✅ **Why Playwright**: Tests actual browser behavior, critical for QR correctness
+- ✅ **Why Not Alternatives**: Unit tests don't catch browser-specific issues, visual regression unnecessary for URL validation
 
-**Alternatives Considered**:
-- Unit tests with mocked DOM
-- Integration tests with real browsers
-- Visual regression testing
-- Performance testing
+**Complementary Strategy**: Unit tests for QRCodeManager logic
+- ✅ **Added**: Mocked hashchange/popstate events for logic validation
+- ✅ **Benefit**: Catches logic bugs without browser automation overhead
 
-### 5. Future-Proofing
-**Question**: How can we ensure this solution scales with future SPA changes?
+### 5. Future-Proofing 🔮 **ROUTER EVENTS ABSTRACTION**
+**Migration Path**: Hash-based → History-based routing
+- ✅ **Implementation**: RouterEvents abstraction supports both `hashchange` and `popstate`
+- ✅ **Wrapper Pattern**: `window.addEventListener('hashchange', updateQr); window.addEventListener('popstate', updateQr);`
+- ✅ **History API**: pushState/replaceState wrapping for programmatic navigation
 
-**Considerations**:
-- New route types
-- Route parameter changes
-- URL structure modifications
-- Performance requirements
-- Browser compatibility
+**Future-Ready**: Router migration won't break QR updates.
 
 ## 🔧 Technical Specifications
 
