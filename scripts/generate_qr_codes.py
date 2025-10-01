@@ -3,23 +3,24 @@
 QR Code Generator Script for Educational Guides
 
 This script generates QR codes with custom colors and minimal margins for embedding
-directly into HTML guides as base64 data URLs. Supports multiple cheatsheet types.
+directly into HTML guides as SVG elements. Supports multiple cheatsheet types.
 
 Usage:
     python generate_qr_codes.py                    # Generate for cheatsheet 1 (default)
     python generate_qr_codes.py --cheatsheet 2     # Generate for cheatsheet 2
-    python generate_qr_codes.py --custom           # Generate for custom URLs
+    python generate_qr_codes.py --cheatsheet 4     # Generate for cheatsheet 4
 
 Features:
 - Low Error Correction Level (ECL) for smaller QR codes
 - Custom colors (green background, black modules)
 - Minimal border for tight spacing
-- Base64 output for direct HTML embedding
+- SVG output for direct HTML embedding
 - Configurable box size and border settings
 - Support for multiple cheatsheet types
 """
 
 import qrcode
+import qrcode.image.svg
 import base64
 from io import BytesIO
 import argparse
@@ -28,7 +29,7 @@ import os
 
 def generate_qr_code(data, ecl='L', box_size=8, border=2, fill_color="black", back_color="#10b981"):
     """
-    Generate a QR code and return it as a base64 data URL.
+    Generate a QR code and return it as SVG data.
     
     Args:
         data (str): The data to encode in the QR code
@@ -39,7 +40,7 @@ def generate_qr_code(data, ecl='L', box_size=8, border=2, fill_color="black", ba
         back_color (str): Background color
     
     Returns:
-        str: Base64 data URL ready for HTML embedding
+        str: SVG data ready for HTML embedding
     """
     try:
         qr = qrcode.QRCode(
@@ -51,15 +52,31 @@ def generate_qr_code(data, ecl='L', box_size=8, border=2, fill_color="black", ba
         qr.add_data(data)
         qr.make(fit=True)
         
-        # Create image with specified colors
-        img = qr.make_image(fill_color=fill_color, back_color=back_color)
+        # Create SVG factory with custom colors
+        factory = qrcode.image.svg.SvgPathImage
+        img = qr.make_image(image_factory=factory)
         
-        # Convert to base64
-        buffer = BytesIO()
-        img.save(buffer, format='PNG')
-        img_str = base64.b64encode(buffer.getvalue()).decode()
+        # Get SVG content
+        svg_content = img.to_string().decode('utf-8')
         
-        return f"data:image/png;base64,{img_str}"
+        # Extract the path data from the SVG
+        import re
+        path_match = re.search(r'<path d="([^"]*)"', svg_content)
+        if not path_match:
+            raise ValueError("Could not extract path data from SVG")
+        
+        path_data = path_match.group(1)
+        
+        # Calculate dimensions (box_size * modules + border * 2 * box_size)
+        modules = qr.modules_count
+        total_size = modules * box_size + border * 2 * box_size
+        
+        # Create custom SVG with our styling
+        svg = f'''<svg width="{total_size}" height="{total_size}" viewBox="0 0 {total_size} {total_size}" xmlns="http://www.w3.org/2000/svg" class="border border-emerald-500 rounded" style="background-color: {back_color};">
+  <path d="{path_data}" fill="{fill_color}" fill-opacity="1" fill-rule="nonzero" stroke="none"/>
+</svg>'''
+        
+        return svg
     
     except Exception as e:
         print(f"Error generating QR code: {e}")
@@ -109,6 +126,34 @@ def get_cheatsheet_videos(cheatsheet_num):
                 'full_url': 'https://www.youtube.com/watch?v=2DcDQe8idtU&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=7',
                 'filename': 'video2_qr'
             }
+        ],
+        4: [
+            {
+                'title': 'Text Editors & GUI Programs',
+                'url': 'https://youtu.be/rR_n2ciilrc',
+                'full_url': 'https://www.youtube.com/watch?v=rR_n2ciilrc&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=8',
+                'filename': 'video1_qr'
+            },
+            {
+                'title': 'File Deletion & Terminal Management',
+                'url': 'https://youtu.be/l0d7ks9ZkjU',
+                'full_url': 'https://www.youtube.com/watch?v=l0d7ks9ZkjU&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=9',
+                'filename': 'video2_qr'
+            }
+        ],
+        3: [
+            {
+                'title': 'Files, Deleting, History & Redirects',
+                'url': 'https://youtu.be/twREXouRxns',
+                'full_url': 'https://www.youtube.com/watch?v=twREXouRxns&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=6',
+                'filename': 'video1_qr'
+            },
+            {
+                'title': 'Advanced File Operations & Redirects',
+                'url': 'https://youtu.be/2DcDQe8idtU',
+                'full_url': 'https://www.youtube.com/watch?v=2DcDQe8idtU&list=PLqux0fXsj7x3WYm6ZWuJnGC1rXQZ1018M&index=7',
+                'filename': 'video2_qr'
+            }
         ]
     }
     return cheatsheets.get(cheatsheet_num, [])
@@ -117,8 +162,8 @@ def main():
     """Main function to generate QR codes for educational document videos."""
     
     parser = argparse.ArgumentParser(description='Generate QR codes for educational document videos')
-    parser.add_argument('--cheatsheet', type=int, choices=[1, 2, 3], default=1,
-                       help='Cheatsheet number (1, 2, or 3, default: 1)')
+    parser.add_argument('--cheatsheet', type=int, choices=[1, 2, 3, 4], default=1,
+                       help='Cheatsheet number (1, 2, 3, or 4, default: 1)')
     parser.add_argument('--ecl', default='L', choices=['L', 'M', 'Q', 'H'],
                        help='Error Correction Level (default: L)')
     parser.add_argument('--box-size', type=int, default=8,
@@ -155,7 +200,7 @@ def main():
         print(f"📹 Generating QR code {i}: {video['title']}")
         print(f"   URL: {video['url']}")
         
-        qr_base64 = generate_qr_code(
+        qr_svg = generate_qr_code(
             data=video['url'],
             ecl=args.ecl,
             box_size=args.box_size,
@@ -164,15 +209,15 @@ def main():
             back_color=args.back_color
         )
         
-        if qr_base64:
+        if qr_svg:
             generated_codes.append({
                 'title': video['title'],
                 'url': video['url'],
                 'filename': video['filename'],
-                'base64': qr_base64,
-                'length': len(qr_base64)
+                'svg': qr_svg,
+                'length': len(qr_svg)
             })
-            print(f"   ✅ Generated successfully ({len(qr_base64)} characters)")
+            print(f"   ✅ Generated successfully ({len(qr_svg)} characters)")
         else:
             print(f"   ❌ Failed to generate QR code")
         print()
@@ -182,22 +227,22 @@ def main():
         try:
             with open(args.output, 'w') as f:
                 f.write(f"# QR Codes for Linux Cheatsheet {args.cheatsheet}\n")
-                f.write("# Generated with generate_qr_codes.py\n\n")
+                f.write("# Generated with generate_qr_codes.py (SVG format)\n\n")
                 
                 for code in generated_codes:
                     f.write(f"# {code['title']}\n")
                     f.write(f"# URL: {code['url']}\n")
                     f.write(f"# Length: {code['length']} characters\n")
-                    f.write(f"{code['base64']}\n\n")
+                    f.write(f"{code['svg']}\n\n")
             
             print(f"📁 QR codes saved to: {args.output}")
             print(f"✅ Generated {len(generated_codes)} QR codes successfully!")
             
             # Print usage instructions
             print("\n📋 Usage Instructions:")
-            print("1. Copy the base64 data URLs from the output file")
-            print("2. Paste them into your HTML <img> src attributes")
-            print("3. Example: <img src=\"data:image/png;base64,iVBORw0KGgo...\" />")
+            print("1. Copy the SVG code from the output file")
+            print("2. Paste it directly into your HTML")
+            print("3. Example: <div>SVG_CODE_HERE</div>")
             
         except Exception as e:
             print(f"❌ Error saving output file: {e}")

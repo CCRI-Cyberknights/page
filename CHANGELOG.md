@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.32](https://github.com/CCRI-Cyberknights/page/compare/v1.7.31...v1.7.32) (2025-10-01)
+
+
+### Features
+
+* add Google Pixel 7a device emulation to Playwright configuration ([d9de1eb](https://github.com/CCRI-Cyberknights/page/commit/d9de1ebb1048600efae64b61c43ac610c4dd7598))
+
 ### [1.7.31](https://github.com/CCRI-Cyberknights/page/compare/v1.7.30...v1.7.31) (2025-09-30)
 
 

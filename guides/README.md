@@ -15,7 +15,7 @@ A comprehensive Linux command reference document featuring QR codes for quick ac
 We successfully implemented a **table-based QR code system** that combines:
 - **Video titles and short URLs** in single clickable links
 - **Green background QR codes** with black modules for optimal scanning
-- **Base64 embedded images** for reliability and performance
+- **SVG embedded QR codes** for reliability, scalability, and performance
 - **Clean, borderless table design** with dark theme integration
 
 ### Implementation Details
@@ -32,7 +32,9 @@ We successfully implemented a **table-based QR code system** that combines:
         </a>
       </td>
       <td class="bg-slate-800 flex items-center justify-center py-2">
-        <img src="data:image/png;base64,[QR_CODE_DATA]" alt="QR Code" width="120" height="120" class="border border-emerald-500 rounded">
+        <svg width="120" height="120" viewBox="0 0 232 232" xmlns="http://www.w3.org/2000/svg" class="border border-emerald-500 rounded" style="background-color: #10b981;">
+          <path d="[QR_CODE_PATH_DATA]" fill="black" fill-opacity="1" fill-rule="nonzero" stroke="none"/>
+        </svg>
       </td>
     </tr>
   </tbody>
@@ -47,11 +49,11 @@ We successfully implemented a **table-based QR code system** that combines:
 - **Responsive Design**: Works on all screen sizes
 
 #### **QR Code Generation Process**
-1. **Python Script**: `scripts/generate_qr_codes.py` creates base64 QR codes
+1. **Python Script**: `scripts/generate_qr_codes.py` creates SVG QR codes
 2. **Custom Colors**: Green background (#10b981), black modules
 3. **Minimal Margins**: 2-pixel border for tight spacing
 4. **Low ECL**: Error Correction Level L for smaller codes
-5. **Direct Embedding**: Base64 data URLs in HTML
+5. **Direct Embedding**: SVG elements in HTML for better scalability
 
 ### QR Code Integration Rationale
 
@@ -93,12 +95,14 @@ The document uses a table format similar to a spreadsheet because:
 - **Black Modules**: Provides optimal contrast for scanning
 - **Minimal Margins**: Reduces visual clutter and focuses attention on content
 
-#### **Base64 Embedding**
-QR codes are embedded as base64 data URLs because:
+#### **SVG Embedding**
+QR codes are embedded as SVG elements because:
+- **Scalable**: Vector graphics scale perfectly at any size
 - **Self-Contained**: No external files to manage or break
 - **Fast Loading**: No additional HTTP requests
 - **Reliable**: Works in any browser without JavaScript
 - **Version Control Friendly**: All content in one file
+- **Better Performance**: Smaller file sizes than base64 PNG
 
 ### Educational Benefits
 
@@ -120,7 +124,7 @@ QR codes are embedded as base64 data URLs because:
 - **Error Correction Level**: Low (L) for smaller, cleaner appearance
 - **Box Size**: 8 pixels for optimal balance of size and readability
 - **Border**: 2 modules for minimal white space
-- **Format**: PNG with custom colors for web embedding
+- **Format**: SVG with custom colors for web embedding
 
 #### **URL Strategy**
 - **Short URLs**: Uses `youtu.be` format for cleaner QR codes
@@ -161,7 +165,7 @@ This section documents the complete process for creating new educational guides 
    ]
    ```
 
-4. **Extract Base64 Data**: Copy QR codes from output file for HTML embedding
+4. **Extract SVG Data**: Copy SVG QR codes from output file for HTML embedding
 
 ##### **Phase 2: HTML Document Creation**
 1. **Copy Template**: Use existing cheatsheet as template (e.g., `linux-cheatsheet-1.html`)
@@ -172,7 +176,7 @@ This section documents the complete process for creating new educational guides 
 3. **Implement QR Integration**:
    - Replace video URLs with new ones
    - Update video titles and descriptions
-   - Embed base64 QR codes in table structure
+   - Embed SVG QR codes in table structure
    - Ensure single clickable links combine titles and short URLs
 
 ##### **Phase 3: Content Integration**
@@ -199,6 +203,16 @@ This section documents the complete process for creating new educational guides 
 3. **Write Descriptions**: Create compelling short and detailed summaries
 4. **Test Integration**: Verify SPA routing and resource filtering
 
+**⚠️ CRITICAL STEP**: Always add new cheatsheets to the resources array in `index.html`. This step is **mandatory** for proper SPA integration and resource filtering functionality. Without this step, the cheatsheet will not appear in the Resources page or be accessible through category filters.
+
+**📋 MANDATORY CHECKLIST FOR NEW CHEATSHEETS:**
+1. ✅ Generate QR codes using `scripts/generate_qr_codes.py --cheatsheet X`
+2. ✅ Create HTML file with SVG QR codes embedded
+3. ✅ **MUST ADD TO RESOURCES ARRAY** in `index.html` - this is critical!
+4. ✅ Test SPA routing (`#/guides/linux-cheatsheet-X.html`)
+5. ✅ Test Resources page integration (`#/resources/linux`)
+6. ✅ Verify QR codes scan properly on mobile devices
+
 ##### **Phase 5: Testing & Validation**
 1. **Start Development Server**: `python -m http.server 8000`
 2. **Test Direct Access**: Verify standalone HTML functionality
@@ -210,9 +224,11 @@ This section documents the complete process for creating new educational guides 
 #### **Step-by-Step Process**
 1. **Generate QR Codes**: Use `scripts/generate_qr_codes.py`
 2. **Create Table Structure**: Follow the HTML template above
-3. **Embed Base64 Data**: Copy generated QR codes into img src attributes
+3. **Embed SVG Data**: Copy generated SVG QR codes into HTML
 4. **Apply Styling**: Use Tailwind classes for consistent appearance
 5. **Test Functionality**: Verify links and QR code scanning
+6. **⚠️ MANDATORY: Add to Resources Array**: Update `index.html` with new cheatsheet entry
+7. **Test SPA Integration**: Verify cheatsheet appears in Resources page and category filters
 
 #### **Required Tools**
 - **Python**: For QR code generation
@@ -255,7 +271,7 @@ python scripts/generate_qr_codes.py --cheatsheet 2 --output qr_codes_cheatsheet2
   - Title: `Linux Cheatsheet 2 - Cyber Club`
   - Heading: `Linux Cheatsheet 2 📂`
   - Subtitle: `Creating & Moving Files & Folders`
-- **QR Integration**: Embedded base64 QR codes in table structure
+- **QR Integration**: Embedded SVG QR codes in table structure
 - **Content**: Added provided educational content with proper formatting
 
 ##### **Step 4: Resources Integration**
@@ -283,10 +299,42 @@ python scripts/generate_qr_codes.py --cheatsheet 2 --output qr_codes_cheatsheet2
 
 #### **Key Success Factors**
 1. **Consistent Template**: Using existing cheatsheet as template ensures uniformity
-2. **Proper QR Integration**: Table-based layout with embedded base64 codes
+2. **Proper QR Integration**: Table-based layout with embedded SVG codes
 3. **Complete Resources Integration**: Full SPA and standalone functionality
 4. **Comprehensive Testing**: Multiple access methods and device validation
 5. **Documentation**: Complete workflow documentation for future replication
+
+## QR Code Generation Updates
+
+### SVG Format Migration (2024)
+
+The QR code generation system has been updated to use **SVG format** instead of PNG base64 encoding for improved performance and scalability.
+
+#### **What Changed**
+- **Format**: QR codes now generated as SVG elements instead of base64 PNG images
+- **Script**: `scripts/generate_qr_codes.py` updated to output SVG format
+- **Benefits**: Better scalability, smaller file sizes, cleaner code
+
+#### **Technical Details**
+- **SVG Factory**: Uses `qrcode.image.svg.SvgPathImage` for vector generation
+- **Custom Styling**: Maintains green background (#10b981) and black modules
+- **Direct Embedding**: SVG elements embedded directly in HTML
+- **Path Extraction**: Extracts path data from generated SVG for custom styling
+
+#### **Updated HTML Structure**
+```html
+<svg width="120" height="120" viewBox="0 0 232 232" xmlns="http://www.w3.org/2000/svg" 
+     class="border border-emerald-500 rounded" style="background-color: #10b981;">
+  <path d="[QR_CODE_PATH_DATA]" fill="black" fill-opacity="1" fill-rule="nonzero" stroke="none"/>
+</svg>
+```
+
+#### **Migration Benefits**
+- ✅ **Better Performance**: Smaller file sizes than base64 PNG
+- ✅ **Perfect Scalability**: Vector graphics scale at any resolution
+- ✅ **Cleaner Code**: No long base64 strings cluttering HTML
+- ✅ **Better Maintainability**: Easier to modify styling and colors
+- ✅ **Future-Proof**: SVG is the modern standard for web graphics
 
 ### Future Enhancements
 
