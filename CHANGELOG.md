@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### [1.7.33](https://github.com/CCRI-Cyberknights/page/compare/v1.7.32...v1.7.33) (2025-10-05)
 
+### Bug Fixes
+
+* fix QR code generator to handle empty string input correctly instead of reverting to original URL ([8247616](https://github.com/CCRI-Cyberknights/page/commit/8247616f559d5cc4e11f1f1b651924720755657e))
+
 ### [1.7.32](https://github.com/CCRI-Cyberknights/page/compare/v1.7.31...v1.7.32) (2025-10-01)
 
 
