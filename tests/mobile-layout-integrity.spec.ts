@@ -81,7 +81,7 @@ test.describe('Mobile Layout Integrity', () => {
 
         // Take screenshot for visual verification
         await page.screenshot({ 
-          path: `test-results/mobile-layout-${device}.png`,
+          path: `../test-results/mobile-layout-${device}.png`,
           fullPage: true 
         });
       });
@@ -183,7 +183,7 @@ test.describe('Desktop Layout Integrity', () => {
 
         // Take screenshot for visual verification
         await page.screenshot({ 
-          path: `test-results/desktop-layout-${device}.png`,
+          path: `../test-results/desktop-layout-${device}.png`,
           fullPage: true 
         });
       });
@@ -210,7 +210,7 @@ test.describe('Visual Regression Tests', () => {
 
     // Take screenshot for visual regression testing with tolerance
     await page.screenshot({ 
-      path: 'test-results/mobile-layout-regression.png',
+      path: '../test-results/mobile-layout-regression.png',
       fullPage: true 
     });
 
@@ -242,7 +242,7 @@ test.describe('Visual Regression Tests', () => {
 
     // Take screenshot for visual regression testing with tolerance
     await page.screenshot({ 
-      path: 'test-results/desktop-layout-regression.png',
+      path: '../test-results/desktop-layout-regression.png',
       fullPage: true 
     });
 

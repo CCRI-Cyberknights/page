@@ -81,7 +81,7 @@ class ModernPlaywrightLinkTester {
     const baseUrl = type === 'production' ? CONFIG.baseUrl : CONFIG.localUrl;
     
     try {
-      const command = `npx playwright test ${testFile} --project=chromium --timeout=${CONFIG.playwrightTimeout} --reporter=list`;
+      const command = `npx playwright test ${testFile} --project=chromium --timeout=${CONFIG.playwrightTimeout} --reporter=list --output=test-results`;
       const env = { ...process.env, BASE_URL: baseUrl };
       
       console.log(`   Running: ${command}`);

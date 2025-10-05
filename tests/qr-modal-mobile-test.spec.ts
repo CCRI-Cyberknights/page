@@ -20,7 +20,7 @@ test.describe('QR Modal Mobile Display', () => {
 
     // Take screenshot before clicking
     await page.screenshot({ 
-      path: 'test-results/qr-modal-before-click-pixel7a.png',
+      path: '../test-results/qr-modal-before-click-pixel7a.png',
       fullPage: true 
     });
 
@@ -34,7 +34,7 @@ test.describe('QR Modal Mobile Display', () => {
 
     // Take screenshot after clicking
     await page.screenshot({ 
-      path: 'test-results/qr-modal-after-click-pixel7a.png',
+      path: '../test-results/qr-modal-after-click-pixel7a.png',
       fullPage: true 
     });
 
@@ -73,7 +73,7 @@ test.describe('QR Modal Mobile Display', () => {
 
     // Take final screenshot
     await page.screenshot({ 
-      path: 'test-results/qr-modal-final-pixel7a.png',
+      path: '../test-results/qr-modal-final-pixel7a.png',
       fullPage: true 
     });
   });
@@ -120,7 +120,7 @@ test.describe('QR Modal Mobile Display', () => {
 
     // Take screenshot of modal content
     await page.screenshot({ 
-      path: 'test-results/qr-modal-content-pixel7a.png',
+      path: '../test-results/qr-modal-content-pixel7a.png',
       fullPage: true 
     });
 

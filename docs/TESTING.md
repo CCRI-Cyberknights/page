@@ -115,6 +115,38 @@ The project uses a comprehensive test suite to validate:
 
 **📝 Development Note**: All commits should follow [Conventional Commits](https://www.conventionalcommits.org/) format (`feat:`, `fix:`, `chore:`, etc.) for proper version management - see [CONTRIBUTING.md](../CONTRIBUTING.md#commit-message-conventions).
 
+## Test Results Directory Structure
+
+### Standardized Output Location
+
+The project uses a standardized test results directory structure that follows industry best practices:
+
+**✅ Current Structure:**
+```
+/home/zachary/Cursor_Projects/page/
+├── test-results/                    # Test artifacts and output
+│   ├── .last-run.json              # Playwright metadata
+│   ├── versioning-results.json     # JSON test reports
+│   └── [test-artifacts]/           # Screenshots, videos, traces
+├── tests/                          # Test source code
+│   ├── *.spec.ts                   # Test files
+│   └── playwright-report/          # HTML test reports
+└── [other project files]
+```
+
+**Benefits of Root-Level `./test-results/`:**
+- **Industry Standard**: Aligns with Playwright's default behavior
+- **Clean Separation**: Test source (`./tests/`) vs test output (`./test-results/`)
+- **Easy Access**: Test artifacts immediately visible at project root
+- **CI/CD Friendly**: Most CI systems expect test results at project root
+- **Tool Compatibility**: Better compatibility with external tools and scripts
+
+**Configuration:**
+- **Playwright Config**: `outputDir: 'test-results'` in `playwright.config.ts`
+- **Test Scripts**: Use `--output=test-results` flag
+- **Test Files**: Screenshot paths use `../test-results/` (relative from tests directory)
+- **Git Ignore**: `test-results/` is properly ignored
+
 ## Test Architecture
 
 ### Test Environment

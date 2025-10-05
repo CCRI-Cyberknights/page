@@ -30,7 +30,7 @@ export default defineConfig({
   // Reporter to use
   reporter: [
     ['html', { outputFolder: 'tests/playwright-report' }],
-    ['json', { outputFile: 'tests/test-results/versioning-results.json' }],
+    ['json', { outputFile: 'test-results/versioning-results.json' }],
     ['list']
   ],
   
@@ -48,8 +48,8 @@ export default defineConfig({
     // Record video on failure
     video: 'retain-on-failure',
     
-    // Output directory for test artifacts
-    outputDir: 'tests/test-results',
+  // Output directory for test artifacts
+  outputDir: 'test-results',
   },
 
   // Configure projects for major browsers and mobile devices

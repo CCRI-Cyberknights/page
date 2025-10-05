@@ -110,7 +110,7 @@ test.describe('Mobile Layout Cutoff Prevention', () => {
 
         // Take screenshot for visual verification
         await page.screenshot({ 
-          path: `test-results/mobile-cutoff-prevention-${device}.png`,
+          path: `../test-results/mobile-cutoff-prevention-${device}.png`,
           fullPage: true 
         });
       });

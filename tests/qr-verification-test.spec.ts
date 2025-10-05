@@ -31,7 +31,7 @@ test.describe('Linux Cheatsheet 4 QR Code Verification', () => {
     console.log(`Second QR Code dimensions: ${secondQrBox?.width}x${secondQrBox?.height}`);
 
     // Take a screenshot for visual verification
-    await page.screenshot({ path: 'test-results/qr-codes-verification.png', fullPage: true });
+    await page.screenshot({ path: '../test-results/qr-codes-verification.png', fullPage: true });
     
     console.log('✅ Both QR codes are visible and have proper dimensions');
   });

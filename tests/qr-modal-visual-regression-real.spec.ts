@@ -68,7 +68,7 @@ test.describe('QR Modal Visual Regression - Tests That Understand The Problem', 
 
     // Take screenshot for visual verification
     await page.screenshot({ 
-      path: `test-results/qr-modal-visual-regression-outer-container-400x826.png`,
+      path: `../test-results/qr-modal-visual-regression-outer-container-400x826.png`,
       fullPage: true 
     });
 
@@ -125,7 +125,7 @@ test.describe('QR Modal Visual Regression - Tests That Understand The Problem', 
 
       // Take screenshot for each viewport
       await page.screenshot({ 
-        path: `test-results/qr-modal-visual-regression-${viewport.name}.png`,
+        path: `../test-results/qr-modal-visual-regression-${viewport.name}.png`,
         fullPage: true 
       });
 
@@ -206,7 +206,7 @@ test.describe('QR Modal Visual Regression - Tests That Understand The Problem', 
 
     // Take screenshot for visual comparison
     await page.screenshot({ 
-      path: `test-results/qr-modal-visual-comparison-400x826.png`,
+      path: `../test-results/qr-modal-visual-comparison-400x826.png`,
       fullPage: true 
     });
 

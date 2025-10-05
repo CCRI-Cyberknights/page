@@ -63,7 +63,7 @@ test.describe('DOM Structure Diagnostic', () => {
 
     // Take screenshot for visual inspection
     await page.screenshot({ 
-      path: `test-results/dom-structure-analysis.png`,
+      path: `../test-results/dom-structure-analysis.png`,
       fullPage: true 
     });
 

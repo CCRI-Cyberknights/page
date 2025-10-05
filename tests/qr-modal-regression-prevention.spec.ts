@@ -103,7 +103,7 @@ test.describe('QR Modal Proportions Regression Prevention', () => {
 
         // Take screenshot for visual verification
         await page.screenshot({ 
-          path: `test-results/qr-modal-regression-prevention-${device}.png`,
+          path: `../test-results/qr-modal-regression-prevention-${device}.png`,
           fullPage: true 
         });
 
@@ -267,7 +267,7 @@ test.describe('QR Modal Proportions Regression Prevention', () => {
 
     // Take screenshot for comparison with regression screenshots
     await page.screenshot({ 
-      path: `test-results/qr-modal-regression-fix-400x826.png`,
+      path: `../test-results/qr-modal-regression-fix-400x826.png`,
       fullPage: true 
     });
 

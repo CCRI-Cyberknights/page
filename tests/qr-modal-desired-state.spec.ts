@@ -96,7 +96,7 @@ test.describe('QR Modal Desired State - Tests That Ensure The Right Visual Outco
 
     // Take screenshot for visual verification
     await page.screenshot({ 
-      path: `test-results/qr-modal-desired-state-390x862.png`,
+      path: `../test-results/qr-modal-desired-state-390x862.png`,
       fullPage: true 
     });
 
@@ -217,7 +217,7 @@ test.describe('QR Modal Desired State - Tests That Ensure The Right Visual Outco
 
       // Take screenshot for each viewport
       await page.screenshot({ 
-        path: `test-results/qr-modal-desired-state-${viewport.name}.png`,
+        path: `../test-results/qr-modal-desired-state-${viewport.name}.png`,
         fullPage: true 
       });
 

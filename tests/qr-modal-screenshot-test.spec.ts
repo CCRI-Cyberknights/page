@@ -21,7 +21,7 @@ test.describe('QR Modal Screenshot Test', () => {
 
     // Take screenshot before opening modal
     await page.screenshot({ 
-      path: 'test-results/pixel7a-linux-before-modal.png',
+      path: '../test-results/pixel7a-linux-before-modal.png',
       fullPage: true 
     });
 
@@ -35,7 +35,7 @@ test.describe('QR Modal Screenshot Test', () => {
 
     // Take screenshot of the opened QR modal
     await page.screenshot({ 
-      path: 'test-results/pixel7a-linux-qr-modal.png',
+      path: '../test-results/pixel7a-linux-qr-modal.png',
       fullPage: true 
     });
 
@@ -77,7 +77,7 @@ test.describe('QR Modal Screenshot Test', () => {
 
     // Take screenshot before opening modal
     await page.screenshot({ 
-      path: 'test-results/desktop-linux-before-modal.png',
+      path: '../test-results/desktop-linux-before-modal.png',
       fullPage: true 
     });
 
@@ -91,7 +91,7 @@ test.describe('QR Modal Screenshot Test', () => {
 
     // Take screenshot of the opened QR modal
     await page.screenshot({ 
-      path: 'test-results/desktop-linux-qr-modal.png',
+      path: '../test-results/desktop-linux-qr-modal.png',
       fullPage: true 
     });
 

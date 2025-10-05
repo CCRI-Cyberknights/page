@@ -73,7 +73,7 @@ test.describe('QR Modal Square Proportions', () => {
 
         // Take screenshot for visual verification
         await page.screenshot({ 
-          path: `test-results/qr-modal-proportions-${device}.png`,
+          path: `../test-results/qr-modal-proportions-${device}.png`,
           fullPage: true 
         });
 

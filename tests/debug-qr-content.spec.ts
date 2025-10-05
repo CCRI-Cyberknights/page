@@ -61,7 +61,7 @@ test.describe('QR Code Content Diagnostic', () => {
 
     // Take screenshot for visual inspection
     await page.screenshot({ 
-      path: `test-results/qr-content-analysis.png`,
+      path: `../test-results/qr-content-analysis.png`,
       fullPage: true 
     });
 

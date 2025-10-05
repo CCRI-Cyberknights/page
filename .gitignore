@@ -1,10 +1,9 @@
 # Playwright test results and reports
-tests/test-results/
+test-results/
 tests/playwright-report/
 tests/temp/
 .test-results/
 playwright-report/
-test-results/
 
 # Python cache files
 __pycache__/
