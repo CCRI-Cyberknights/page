@@ -358,7 +358,7 @@ class QRCodeManager {
         qrDisplayArea.style.cssText = `
           flex: 1;
           display: flex;
-          align-items: center;
+          align-items: flex-start;
           justify-content: center;
           width: 100%;
           padding: 0.25rem;
@@ -372,6 +372,17 @@ class QRCodeManager {
           gap: 0.25rem;
           align-items: center;
           flex-shrink: 0;
+        `;
+        
+        // Create URL container that will be positioned between QR code and controls
+        const urlContainer = document.createElement('div');
+        urlContainer.style.cssText = `
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+          align-items: center;
+          flex-shrink: 0;
+          margin: 0.5rem 0;
         `;
         
         // Create a new layout from scratch
@@ -422,26 +433,39 @@ class QRCodeManager {
           background: rgba(55, 65, 81, 0.8);
           border: 1px solid #374151;
           border-radius: 0.5rem;
-          padding: 1rem;
+          padding: 0.75rem;
           color: #B8B8B8;
-          margin-top: 0.5rem;
+          margin-top: 0.25rem;
           display: flex;
-          flex-direction: row;
-          gap: 1rem;
+          flex-direction: column;
+          gap: 0.5rem;
           align-items: center;
-          justify-content: space-between;
           flex-wrap: wrap;
         `;
         
-        // Add responsive styles
+        // Add responsive styles for grid layout
         controlsBox.innerHTML = `
           <style>
-            @media (max-width: 600px) {
-              .qr-controls-box {
-                flex-direction: column !important;
-                gap: 0.75rem !important;
-                align-items: center !important;
-              }
+            .qr-controls-box {
+              display: grid !important;
+              grid-template-columns: 1fr auto !important;
+              grid-template-rows: auto auto !important;
+              gap: 0.5rem 1rem !important;
+              align-items: center !important;
+              justify-items: start !important;
+            }
+            .qr-controls-left {
+              grid-column: 1 !important;
+              display: flex !important;
+              flex-direction: column !important;
+              gap: 0.5rem !important;
+            }
+            .qr-controls-right {
+              grid-column: 2 !important;
+              display: flex !important;
+              flex-direction: column !important;
+              gap: 0.5rem !important;
+              align-items: center !important;
             }
           </style>
         `;
@@ -519,7 +543,7 @@ class QRCodeManager {
             urlLengthBox.appendChild(urlLengthBox.lengthInfo);
           }
           urlLengthBox.className = 'qr-url-length-box';
-          commonContainer.appendChild(urlLengthBox);
+          urlContainer.appendChild(urlLengthBox);
           
           // Ensure input event listener is attached
           if (!currentInput.hasAttribute('data-fullscreen-listener-attached')) {
@@ -537,6 +561,16 @@ class QRCodeManager {
             this.resizeInputToContent(currentInput);
           }
         }
+        
+        // Create left column container for QR Version and Error Correction Level
+        const leftColumn = document.createElement('div');
+        leftColumn.className = 'qr-controls-left';
+        leftColumn.style.cssText = `
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          align-items: center;
+        `;
         
         // Create QR version section
         if (this.info) {
@@ -568,7 +602,7 @@ class QRCodeManager {
           const versionObserver = new MutationObserver(updateVersion);
           versionObserver.observe(this.info, { childList: true, subtree: true, characterData: true });
           
-          controlsBox.appendChild(versionSection);
+          leftColumn.appendChild(versionSection);
         }
         
         // Create error correction section
@@ -639,8 +673,18 @@ class QRCodeManager {
           eclSection.appendChild(eclTitle);
           eclSection.appendChild(eclControls);
           
-          controlsBox.appendChild(eclSection);
+          leftColumn.appendChild(eclSection);
         }
+        
+        // Create right column container for Download section
+        const rightColumn = document.createElement('div');
+        rightColumn.className = 'qr-controls-right';
+        rightColumn.style.cssText = `
+          display: flex;
+          flex-direction: column;
+          gap: 0.5rem;
+          align-items: center;
+        `;
         
         // Create download section
         if (this.download) {
@@ -659,7 +703,8 @@ class QRCodeManager {
           const downloadButtons = document.createElement('div');
           downloadButtons.style.cssText = `
             display: flex;
-            gap: 0.5rem;
+            flex-direction: column;
+            gap: 0.25rem;
             align-items: center;
           `;
           
@@ -718,8 +763,12 @@ class QRCodeManager {
           
           downloadSection.appendChild(downloadTitle);
           downloadSection.appendChild(downloadButtons);
-          controlsBox.appendChild(downloadSection);
+          rightColumn.appendChild(downloadSection);
         }
+        
+        // Add both columns to the main controls box
+        controlsBox.appendChild(leftColumn);
+        controlsBox.appendChild(rightColumn);
         
         // Add controls box to common container
         commonContainer.appendChild(controlsBox);
@@ -727,8 +776,9 @@ class QRCodeManager {
         // Add common container to controls area
         controlsArea.appendChild(commonContainer);
         
-        // Assemble the layout in correct order: QR code first, then controls
+        // Assemble the layout in correct order: QR code, URL container, then controls
         this.glowContainer.appendChild(qrDisplayArea);
+        this.glowContainer.appendChild(urlContainer);
         this.glowContainer.appendChild(controlsArea);
         
         // Add the glow container to the panel
