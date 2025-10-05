@@ -88,6 +88,16 @@ python3 -m http.server 8000 &
 - **`qr-code-url-validation.spec.ts`** - SPA routing QR code URL validation
 - **`qr-mobile-viewport.spec.ts`** - Mobile viewport and responsive design tests
 
+### QR Modal Testing (Playwright)
+- **`qr-modal-desired-state.spec.ts`** - Tests to ensure QR modal opens to desired state (large QR code dominating viewport)
+- **`qr-modal-proportions.spec.ts`** - Tests to ensure QR modal container maintains square-ish proportions
+- **`qr-modal-screenshot-test.spec.ts`** - Visual regression tests for QR modal on different devices
+- **`qr-modal-visual-regression-real.spec.ts`** - Real-world visual regression testing
+- **`qr-modal-mobile-test.spec.ts`** - Mobile-specific QR modal functionality tests
+- **`qr-modal-regression-prevention.spec.ts`** - Tests to prevent QR modal regressions
+- **`debug-dom-structure.spec.ts`** - Diagnostic test to inspect QR modal DOM hierarchy
+- **`debug-qr-content.spec.ts`** - Diagnostic test to inspect QR modal content structure
+
 ## Device Emulation & Mobile Testing
 
 ### Google Pixel 7a Emulation
@@ -153,9 +163,9 @@ The Mobile Layout Integrity Testing system prevents viewport clipping issues and
 
 ### Problem Solved
 
-**Issue**: QR modal content was being clipped on mobile devices due to fixed viewport heights and missing bottom padding.
+**Issue**: QR modal content was being clipped on mobile devices due to fixed viewport heights and missing bottom padding. Additionally, the modal backdrop wasn't properly covering the page content, allowing it to show through.
 
-**Root Cause**: CSS `h-screen` constraints and insufficient responsive design for mobile viewports.
+**Root Cause**: CSS `h-screen` constraints, insufficient responsive design for mobile viewports, and stacking context issues where the modal was constrained by its parent container.
 
 ### Solution Implemented
 
@@ -164,6 +174,8 @@ The Mobile Layout Integrity Testing system prevents viewport clipping issues and
 - **Visual Regression**: Screenshot comparison to catch layout changes
 - **Cross-Device Consistency**: Behavior verification across multiple devices
 - **Mobile Cutoff Prevention**: Dynamic viewport height (dvh) and overflow scrolling
+- **Stacking Context Fix**: Modal moved to document.body level to escape parent container constraints
+- **Backdrop Coverage**: Increased z-index to 9999 and opacity to 1.0 for proper page content hiding
 
 ### Test Coverage
 

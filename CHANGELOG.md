@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file. See [standa
 ### [1.7.35](https://github.com/CCRI-Cyberknights/page/compare/v1.7.34...v1.7.35) (2025-10-05)
 
 
+### Bug Fixes
+
+* fix QR modal backdrop coverage and stacking context issues on mobile devices ([c368a67](https://github.com/CCRI-Cyberknights/page/commit/c368a6748c3facc28ac3a4d2e476773334eb7bbc))
+  * Restore QR code manager to 1.7.33 behavior with improved backdrop coverage
+  * Increase z-index to 9999 and opacity to 1.0 for proper page content hiding
+  * Move modal to document.body level when expanding to escape stacking context issues
+  * Properly restore modal to original parent when closing
+  * Ensures QR modal properly covers viewport and hides page content on mobile devices
+
 ### Features
 
 * implement mobile layout improvements and comprehensive test suite ([91a7bf2](https://github.com/CCRI-Cyberknights/page/commit/91a7bf2eab97ee5292b84c7aa9bd68717a645fb9))

@@ -130,3 +130,4 @@ const containerDimensions = await page.locator('.glow-container-mobile').evaluat
 ---
 
 *This test exemplifies the TDD approach: identifying a visual problem, implementing a solution, and validating the fix across multiple devices and viewport sizes.*
+

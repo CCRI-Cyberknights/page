@@ -130,3 +130,4 @@ test.describe('QR Modal Square Proportions', () => {
     });
   }
 });
+

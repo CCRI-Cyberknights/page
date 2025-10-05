@@ -175,3 +175,4 @@ await expect(page).toMatchSnapshot('mobile-layout.png', {
 ---
 
 *This test exemplifies robust mobile testing with tolerance-based assertions, ensuring reliable test execution while maintaining comprehensive coverage of mobile layout integrity.*
+

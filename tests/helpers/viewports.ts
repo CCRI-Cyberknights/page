@@ -43,3 +43,4 @@ export function getViewport(device: keyof typeof viewports) {
 export function isMobileViewport(viewport: { width: number; height: number }) {
   return viewport.width < 768;
 }
+

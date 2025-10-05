@@ -113,3 +113,4 @@ test.describe('QR Modal Screenshot Test', () => {
     console.log('✅ QR modal successfully opened on desktop at /linux endpoint');
   });
 });
+
