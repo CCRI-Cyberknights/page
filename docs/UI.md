@@ -1016,6 +1016,83 @@ Practical examples for using the document loading system, including quick start 
 
 - **Campus Maps**: See `docs/ARCHITECTURE.md` - Campus Maps section for building navigation and meeting location details
 
+## QR Modal Layout Improvements (v1.7.36)
+
+### Overview
+
+Comprehensive QR modal layout improvements implemented to enhance user experience with better space utilization, consistent layouts across devices, and improved visual hierarchy.
+
+### Layout Restructuring
+
+#### **Top-Aligned QR Code**
+- **Previous**: QR code centered vertically in modal
+- **Current**: QR code positioned at top of modal (`align-items: flex-start`)
+- **Benefit**: Immediate visibility and better space utilization
+
+#### **Structured Layout Flow**
+- **New Structure**: QR code → URL input → Controls
+- **URL Container**: Dedicated container positioned between QR code and controls
+- **Benefit**: Logical information hierarchy and reduced visual gaps
+
+#### **Compact Spacing**
+- **Padding**: Reduced from 1rem to 0.75rem
+- **Margins**: Reduced from 0.5rem to 0.25rem  
+- **Gaps**: Reduced from 0.75rem to 0.5rem
+- **Benefit**: More efficient use of modal space
+
+### Universal Grid Layout System
+
+#### **Cross-Device Consistency**
+- **Previous**: Different layouts for desktop (vertical) vs mobile (grid)
+- **Current**: CSS Grid layout applied to all screen sizes
+- **Implementation**: `grid-template-columns: 1fr auto`, `grid-template-rows: auto auto`
+
+#### **Grid Structure**
+```
+┌─────────────────────────────────────────────┐
+│ QR Version: 2 (25×25)    │ DOWNLOAD:       │
+│ Error Correction Level   │ PNG             │
+│                          │ SVG             │
+└─────────────────────────────────────────────┘
+```
+
+### Download Button Improvements
+
+#### **Vertical Button Layout**
+- **Previous**: PNG and SVG buttons side-by-side
+- **Current**: PNG above SVG (vertical stack)
+- **Spacing**: Reduced gap from 0.5rem to 0.25rem
+- **Benefit**: Better organization and visual hierarchy
+
+### Technical Implementation
+
+#### **Container Architecture**
+- **Left Column**: QR Version and Error Correction Level
+- **Right Column**: Download section with vertical buttons
+- **URL Container**: Dedicated container for input field
+- **CSS Grid**: Modern grid implementation replacing complex flexbox
+
+#### **Code Structure**
+```javascript
+// New layout hierarchy
+this.glowContainer
+├── qrDisplayArea (flex: 1, align-items: flex-start)
+│   └── qrContainer (SVG)
+├── urlContainer (URL input)
+└── controlsArea
+    └── controlsBox (CSS Grid)
+        ├── leftColumn (QR Version, Error Correction)
+        └── rightColumn (Download buttons)
+```
+
+### User Experience Benefits
+
+- **Immediate QR Visibility**: QR code appears at top for instant access
+- **Logical Information Flow**: Natural top-to-bottom reading pattern
+- **Consistent Experience**: Same layout across all devices
+- **Efficient Space Usage**: Reduced gaps and improved density
+- **Better Organization**: Structured grid layout for controls
+
 ## QR Code Manager Future Development
 
 ### Aspirational Design Vision

@@ -2,7 +2,27 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.37](https://github.com/CCRI-Cyberknights/page/compare/v1.7.36...v1.7.37) (2025-10-05)
+
+
+### Features
+
+* implement comprehensive QR modal layout improvements ([fb12007](https://github.com/CCRI-Cyberknights/page/commit/fb12007992e997296f77b36545f0445a7eea2ef3))
+
 ### [1.7.36](https://github.com/CCRI-Cyberknights/page/compare/v1.7.35...v1.7.36) (2025-10-05)
+
+
+### Features
+
+* implement comprehensive QR modal layout improvements ([fb12007](https://github.com/CCRI-Cyberknights/page/commit/fb12007c8d8e4f8e9c8d8e4f8e9c8d8e4f8e9c8d8))
+  * **Layout Restructuring**: Move QR code to top of modal with compact spacing
+  * **Universal Grid Layout**: Apply side-by-side grid layout to all screen sizes (desktop and mobile)
+  * **URL Container Repositioning**: Position URL input directly below QR code for better flow
+  * **Vertical Download Buttons**: Change PNG/SVG buttons from horizontal to vertical stack (PNG above SVG)
+  * **Compact Design**: Reduce padding, margins, and gaps throughout for more efficient space usage
+  * **Consistent Experience**: Same structured layout across desktop and mobile devices
+  * **Code Structure**: Improve modularity with dedicated left/right column containers
+  * **CSS Grid Implementation**: Modern grid layout replacing complex flexbox media queries
 
 ### [1.7.35](https://github.com/CCRI-Cyberknights/page/compare/v1.7.34...v1.7.35) (2025-10-05)
 
