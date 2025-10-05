@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.35](https://github.com/CCRI-Cyberknights/page/compare/v1.7.34...v1.7.35) (2025-10-05)
+
+
+### Features
+
+* implement mobile layout improvements and comprehensive test suite ([91a7bf2](https://github.com/CCRI-Cyberknights/page/commit/91a7bf2eab97ee5292b84c7aa9bd68717a645fb9))
+
 ### [1.7.34](https://github.com/CCRI-Cyberknights/page/compare/v1.7.33...v1.7.34) (2025-10-05)
 
 ### [1.7.33](https://github.com/CCRI-Cyberknights/page/compare/v1.7.32...v1.7.33) (2025-10-05)
