@@ -92,7 +92,7 @@ class QRCodeManager {
     // Input changes
     if (this.input) {
       this.input.value = this.url;
-      this.input.addEventListener('input', () => this.render(this.input.value || this.url));
+      this.input.addEventListener('input', () => this.render(this.input.value));
     }
 
     // ECL controls
@@ -101,7 +101,7 @@ class QRCodeManager {
         if (this.eclIndex < this.ECL_LEVELS.length - 1) {
           this.eclIndex++;
           this.updateEclDisplay();
-          this.render((this.input && this.input.value) || this.url);
+          this.render(this.input ? this.input.value : this.url);
         }
       };
     }
@@ -111,7 +111,7 @@ class QRCodeManager {
         if (this.eclIndex > 0) {
           this.eclIndex--;
           this.updateEclDisplay();
-          this.render((this.input && this.input.value) || this.url);
+          this.render(this.input ? this.input.value : this.url);
         }
       };
     }
@@ -520,7 +520,7 @@ class QRCodeManager {
           // Ensure input event listener is attached
           if (!currentInput.hasAttribute('data-fullscreen-listener-attached')) {
             currentInput.addEventListener('input', () => {
-              const currentText = currentInput.value || this.url;
+              const currentText = currentInput.value;
               this.render(currentText);
               this.renderQRInContainer(currentText);
               
@@ -596,7 +596,7 @@ class QRCodeManager {
             if (this.eclIndex > 0) {
               this.eclIndex--;
               this.updateEclDisplay();
-              const currentText = (this.input && this.input.value) || this.url;
+              const currentText = this.input ? this.input.value : this.url;
               this.render(currentText);
               this.renderQRInContainer(currentText);
             }
@@ -609,7 +609,7 @@ class QRCodeManager {
             if (this.eclIndex < this.ECL_LEVELS.length - 1) {
               this.eclIndex++;
               this.updateEclDisplay();
-              const currentText = (this.input && this.input.value) || this.url;
+              const currentText = this.input ? this.input.value : this.url;
               this.render(currentText);
               this.renderQRInContainer(currentText);
             }
@@ -798,9 +798,7 @@ class QRCodeManager {
       
         // Re-render the QR code with full-screen size
         const renderText = this.input ? this.input.value : this.url;
-        if (renderText) {
-          this.render(renderText);
-        }
+        this.render(renderText);
     }
   }
 
@@ -916,9 +914,7 @@ class QRCodeManager {
       
       // Re-render the QR code with normal size
       const currentText = this.input ? this.input.value : this.url;
-      if (currentText) {
-        this.render(currentText);
-      }
+      this.render(currentText);
     }
   }
 
