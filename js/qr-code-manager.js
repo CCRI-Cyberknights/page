@@ -312,13 +312,16 @@ class QRCodeManager {
             0 0 80px rgba(4, 112, 60, 0.2),
             0 25px 50px -12px rgba(0, 0, 0, 0.5);
           border: 2px solid rgba(4, 112, 60, 0.5);
-          width: 90vw;
-          height: 90vh;
+          width: min(90vw, 90vh, 600px);
+          height: min(90vh, 90vw, 600px);
+          max-width: 90vw;
+          max-height: 90vh;
           overflow: auto;
           display: flex;
           flex-direction: column;
           color: #B8B8B8;
           gap: 0.25rem;
+          margin: auto;
         `;
         
         // Add responsive CSS for mobile viewports
@@ -328,15 +331,41 @@ class QRCodeManager {
           mobileStyle.textContent = `
             @media (max-width: 480px) {
               .qr-fullscreen .glow-container-mobile {
-                width: 100vw !important;
-                height: 100vh !important;
-                margin: 0 !important;
-                padding: 0 !important;
+                width: min(95vw, 95vh) !important;
+                height: min(95vh, 95vw) !important;
+                height: min(95dvh, 95vw) !important; /* Use dynamic viewport height for mobile */
+                margin: auto !important;
+                padding: 0.5rem !important; /* Add small padding to prevent cutoff */
                 box-shadow: none !important;
                 border: none !important;
                 border-radius: 0 !important;
-                max-width: none !important;
-                max-height: none !important;
+                max-width: 95vw !important;
+                max-height: 95vh !important;
+                max-height: 95dvh !important;
+                overflow-y: auto !important; /* Allow scrolling if content exceeds viewport */
+                box-sizing: border-box !important;
+              }
+              
+              /* Ensure content doesn't get cut off at bottom */
+              .qr-fullscreen .glow-container-mobile .qr-display-area {
+                min-height: calc(100vh - 2rem) !important;
+                min-height: calc(100dvh - 2rem) !important;
+                padding-bottom: 1rem !important;
+              }
+              
+              /* Make controls area more compact on mobile */
+              .qr-fullscreen .glow-container-mobile .controls-area {
+                padding: 0.5rem !important;
+                gap: 0.5rem !important;
+              }
+            }
+            
+            /* Fallback for browsers that don't support dvh */
+            @supports not (height: 100dvh) {
+              @media (max-width: 480px) {
+                .qr-fullscreen .glow-container-mobile {
+                  height: calc(100vh - env(safe-area-inset-bottom)) !important;
+                }
               }
             }
           `;
@@ -351,6 +380,7 @@ class QRCodeManager {
         
         // Create a new layout structure for full-screen mode
         const qrDisplayArea = document.createElement('div');
+        qrDisplayArea.className = 'qr-display-area';
         qrDisplayArea.style.cssText = `
           flex: 1;
           display: flex;
@@ -362,6 +392,7 @@ class QRCodeManager {
         `;
         
         const controlsArea = document.createElement('div');
+        controlsArea.className = 'controls-area';
         controlsArea.style.cssText = `
           display: flex;
           flex-direction: column;

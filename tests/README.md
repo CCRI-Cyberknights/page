@@ -51,9 +51,21 @@ python3 tests/qr-code-testing/qr_test.py "https://example.com" output.png
 - **`npm run test:qr-urls:smoke`** - Fast QR URL validation (PR checks)
 - **`npm run test:qr-urls:full`** - Comprehensive QR URL validation (all routes)
 
+### Mobile Layout Testing
+- **`npm run test:mobile`** - Test Pixel 7a mobile layout integrity
+- **`npm run test:mobile:all`** - Test all mobile viewports (Pixel 7a, iPhone 13, small Android)
+- **`npm run test:mobile:cutoff`** - Test mobile cutoff prevention (content not cut off at bottom)
+- **`npm run test:desktop`** - Test desktop layout integrity
+
+**⚠️ PREREQUISITE**: Start dev server first:
+```bash
+python3 -m http.server 8000 &
+```
+
 ### Device Testing
-- **`--project=pixel-7a`** - Google Pixel 7a emulation (1080×2400, Android 13)
+- **`--project=pixel-7a`** - Google Pixel 7a emulation (414×794, Android 13)
 - **`--project=mobile-chrome`** - Pixel 5 fallback mobile device
+- **`--project=desktop-chrome`** - Your actual desktop viewport (1867×963)
 - **`--project=chromium`** - Desktop Chrome browser
 - **`--project=firefox`** - Desktop Firefox browser
 - **`--project=webkit`** - Desktop Safari browser
@@ -83,8 +95,9 @@ python3 tests/qr-code-testing/qr_test.py "https://example.com" output.png
 The Playwright configuration includes a custom **Google Pixel 7a** device profile for accurate mobile testing:
 
 #### **Device Specifications**
-- **Screen Size**: 1080 × 2400 px (20:9 aspect ratio)
-- **Device Scale Factor**: 2.625 (~420 dpi)
+- **CSS Viewport**: 414 × 794 px (actual browser viewport)
+- **Device Scale Factor**: 2.61 (actual DPR from whatismyviewport.com)
+- **Screen Size**: 414 × 920 px (total screen in CSS pixels)
 - **User Agent**: Android 13, Chrome 120
 - **Touch Support**: Enabled
 - **Mobile**: True
@@ -100,6 +113,9 @@ The Playwright configuration includes a custom **Google Pixel 7a** device profil
 ```bash
 # Test on Pixel 7a specifically
 npx playwright test --project=pixel-7a
+
+# Test on your actual desktop viewport
+npx playwright test --project=desktop-chrome
 
 # Test QR code functionality on mobile
 npx playwright test tests/qr-code-url-validation.spec.ts --project=pixel-7a
@@ -122,11 +138,85 @@ npx playwright test --project=pixel-7a --debug
 
 | Project | Device | Viewport | Use Case |
 |---------|--------|----------|----------|
-| `pixel-7a` | Google Pixel 7a | 1080×2400 | Primary mobile testing |
+| `pixel-7a` | Google Pixel 7a | 414×794 | Primary mobile testing |
 | `mobile-chrome` | Pixel 5 | 393×851 | Fallback mobile device |
-| `chromium` | Desktop Chrome | 1280×720 | Desktop testing |
+| `desktop-chrome` | Your Desktop | 1867×963 | Your actual desktop viewport |
+| `chromium` | Desktop Chrome | 1280×720 | Standard desktop testing |
 | `firefox` | Desktop Firefox | 1280×720 | Cross-browser testing |
 | `webkit` | Desktop Safari | 1280×720 | Cross-browser testing |
+
+## Mobile Layout Integrity Testing
+
+### Overview
+
+The Mobile Layout Integrity Testing system prevents viewport clipping issues and ensures all content is visible or scrollable across different devices. This system catches layout bugs before they reach production.
+
+### Problem Solved
+
+**Issue**: QR modal content was being clipped on mobile devices due to fixed viewport heights and missing bottom padding.
+
+**Root Cause**: CSS `h-screen` constraints and insufficient responsive design for mobile viewports.
+
+### Solution Implemented
+
+- **Precise Viewport Definitions**: Exact device viewports from whatismyviewport.com
+- **Comprehensive Testing**: All critical elements tested for visibility and scrollability
+- **Visual Regression**: Screenshot comparison to catch layout changes
+- **Cross-Device Consistency**: Behavior verification across multiple devices
+- **Mobile Cutoff Prevention**: Dynamic viewport height (dvh) and overflow scrolling
+
+### Test Coverage
+
+- **Mobile Viewports**: Pixel 7a (414×794), iPhone 13 (390×844), small Android (360×740)
+- **Desktop Viewports**: Your desktop (1867×963), laptop (1280×720), tablet (768×1024)
+- **Layout Integrity**: All critical elements visible or scrollable
+- **Scroll Behavior**: Page scrolls when content exceeds viewport
+- **Viewport Stability**: Layout remains stable when viewport height changes
+- **Visual Regression**: Screenshot comparison for layout changes
+
+### Usage
+
+```bash
+# Test Pixel 7a mobile layout
+npm run test:mobile
+
+# Test all mobile viewports
+npm run test:mobile:all
+
+# Test desktop layout
+npm run test:desktop
+
+# Test specific device
+npx playwright test tests/mobile-layout-integrity.spec.ts --project=pixel-7a
+```
+
+### Test Categories
+
+#### **Layout Integrity Tests**
+- **Element Visibility**: Critical elements are visible or scrollable
+- **Scroll Behavior**: Page scrolls when content exceeds viewport
+- **Viewport Stability**: Layout remains stable when viewport height changes
+
+#### **Visual Regression Tests**
+- **Screenshot Comparison**: Layout changes are caught automatically
+- **Cross-Device Consistency**: Behavior verification across devices
+
+#### **Critical Elements Tested**
+- QR Code display
+- URL input field
+- Length display
+- Error correction controls
+- Download buttons
+- Close button
+
+### Architecture
+
+The testing system uses:
+- **Precise Viewport Definitions**: Exact device specifications
+- **Element Visibility Checks**: `isVisible()` and `scrollIntoViewIfNeeded()`
+- **Scroll Metrics**: `scrollHeight` vs `clientHeight` comparison
+- **Screenshot Regression**: Visual change detection
+- **Cross-Device Testing**: Multiple viewport validation
 
 ## QR Code URL Validation System
 

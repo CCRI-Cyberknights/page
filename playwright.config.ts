@@ -69,8 +69,8 @@ export default defineConfig({
     {
       name: 'pixel-7a',
       use: {
-        viewport: { width: 1080, height: 2400 }, // Pixel 7a display (20:9 aspect ratio)
-        deviceScaleFactor: 2.625,                // ~420 dpi
+        viewport: { width: 414, height: 794 }, // Pixel 7a CSS viewport (actual browser viewport)
+        deviceScaleFactor: 2.61,               // Actual DPR from whatismyviewport.com
         isMobile: true,
         hasTouch: true,
         userAgent: 'Mozilla/5.0 (Linux; Android 13; Pixel 7a) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36',
@@ -84,6 +84,19 @@ export default defineConfig({
     {
       name: 'mobile-chrome',
       use: { ...devices['Pixel 5'] }, // Fallback mobile device
+    },
+    {
+      name: 'desktop-chrome',
+      use: {
+        viewport: { width: 1867, height: 963 }, // Your actual desktop viewport
+        deviceScaleFactor: 1.00,               // Your actual DPR
+        isMobile: false,
+        hasTouch: false,
+        userAgent: 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        // Desktop defaults
+        locale: 'en-US',
+        timezoneId: 'America/New_York',
+      },
     },
   ],
 
