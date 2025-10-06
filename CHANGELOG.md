@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.7.40](https://github.com/CCRI-Cyberknights/page/compare/v1.7.38...v1.7.40) (2025-10-06)
+
+
+### Bug Fixes
+
+* reduce browser UI height calculation to 30px for better QR code sizing ([044d36f](https://github.com/CCRI-Cyberknights/page/commit/044d36f614215ef4dac8e7f9f436819ba4bd3aaa))
+
+### [1.7.39](https://github.com/CCRI-Cyberknights/page/compare/v1.7.38...v1.7.39) (2025-10-06)
+
+
+### Bug Fixes
+
+* reduce browser UI height calculation to 30px for better QR code sizing ([044d36f](https://github.com/CCRI-Cyberknights/page/commit/044d36f614215ef4dac8e7f9f436819ba4bd3aaa))
+
 ### [1.7.38](https://github.com/CCRI-Cyberknights/page/compare/v1.7.37...v1.7.38) (2025-10-06)
 
 
