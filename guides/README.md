@@ -1,6 +1,6 @@
 # Guides Directory
 
-This directory contains educational guides and cheat sheets for the CCRI Cyberknights club.
+This directory contains educational guides and cheat sheets for the CCRI Cyberknights club. All guides use the unified content management system with JSON metadata for seamless SPA integration and consistent Cyberknights styling with visual differentiation in the resources grid.
 
 ## Linux Cheat Sheet 1
 
@@ -186,16 +186,20 @@ This section documents the complete process for creating new educational guides 
 4. **Create Tables**: Use responsive table structure for command references
 5. **Add Takeaways**: Include key learning points with emphasis styling
 
-##### **Phase 4: Resources Integration**
-1. **Add to Resources Array**: Update `index.html` resources section
-   ```javascript
+##### **Phase 4: Unified Content Management Integration**
+1. **Add to Guides JSON**: Update `guides/guides.json` with standardized metadata
+   ```json
    {
-     name: 'Linux Cheatsheet X',
-     url: '#/guides/linux-cheatsheet-X.html',
-     cat: 'linux',
-     desc: 'Short description for card display',
-     summary: 'Medium description for modal preview',
-     detailedSummary: 'Comprehensive description for detailed modal'
+     "slug": "linux-cheatsheet-X",
+     "title": "Linux Cheatsheet X",
+     "date": "2024-01-01",
+     "category": "linux",
+     "author": "CCRI Cyber Club",
+     "summary": "Short description for card display",
+     "description": "Short description for card display",
+     "detailedSummary": "Comprehensive description for detailed modal",
+     "file": "linux-cheatsheet-X.html",
+     "tags": ["linux", "commands", "filesystem"]
    }
    ```
 
@@ -203,12 +207,12 @@ This section documents the complete process for creating new educational guides 
 3. **Write Descriptions**: Create compelling short and detailed summaries
 4. **Test Integration**: Verify SPA routing and resource filtering
 
-**⚠️ CRITICAL STEP**: Always add new cheatsheets to the resources array in `index.html`. This step is **mandatory** for proper SPA integration and resource filtering functionality. Without this step, the cheatsheet will not appear in the Resources page or be accessible through category filters.
+**⚠️ CRITICAL STEP**: Always add new guides to the `guides/guides.json` file. This step is **mandatory** for proper SPA integration and resource filtering functionality. Without this step, the guide will not appear in the Resources page or be accessible through category filters.
 
-**📋 MANDATORY CHECKLIST FOR NEW CHEATSHEETS:**
+**📋 MANDATORY CHECKLIST FOR NEW GUIDES:**
 1. ✅ Generate QR codes using `scripts/generate_qr_codes.py --cheatsheet X`
 2. ✅ Create HTML file with SVG QR codes embedded
-3. ✅ **MUST ADD TO RESOURCES ARRAY** in `index.html` - this is critical!
+3. ✅ **MUST ADD TO GUIDES.JSON** in `guides/guides.json` - this is critical!
 4. ✅ Test SPA routing (`#/guides/linux-cheatsheet-X.html`)
 5. ✅ Test Resources page integration (`#/resources/linux`)
 6. ✅ Verify QR codes scan properly on mobile devices
@@ -227,8 +231,8 @@ This section documents the complete process for creating new educational guides 
 3. **Embed SVG Data**: Copy generated SVG QR codes into HTML
 4. **Apply Styling**: Use Tailwind classes for consistent appearance
 5. **Test Functionality**: Verify links and QR code scanning
-6. **⚠️ MANDATORY: Add to Resources Array**: Update `index.html` with new cheatsheet entry
-7. **Test SPA Integration**: Verify cheatsheet appears in Resources page and category filters
+6. **⚠️ MANDATORY: Add to Guides JSON**: Update `guides/guides.json` with new guide entry
+7. **Test SPA Integration**: Verify guide appears in Resources page and category filters
 
 #### **Required Tools**
 - **Python**: For QR code generation
@@ -274,15 +278,19 @@ python scripts/generate_qr_codes.py --cheatsheet 2 --output qr_codes_cheatsheet2
 - **QR Integration**: Embedded SVG QR codes in table structure
 - **Content**: Added provided educational content with proper formatting
 
-##### **Step 4: Resources Integration**
-```javascript
+##### **Step 4: Unified Content Management Integration**
+```json
 {
-  name: 'Linux Cheatsheet 2',
-  url: '#/guides/linux-cheatsheet-2.html',
-  cat: 'linux',
-  desc: 'Creating & Moving Files & Folders - Essential file operations guide',
-  summary: 'Linux Cheatsheet 2 focuses on fundamental file and folder operations...',
-  detailedSummary: 'This comprehensive guide teaches the core concepts of file system manipulation...'
+  "slug": "linux-cheatsheet-2",
+  "title": "Linux Cheatsheet 2",
+  "date": "2024-01-01",
+  "category": "linux",
+  "author": "CCRI Cyber Club",
+  "summary": "Creating & Moving Files & Folders - Essential file operations guide",
+  "description": "Creating & Moving Files & Folders - Essential file operations guide",
+  "detailedSummary": "This comprehensive guide teaches the core concepts of file system manipulation...",
+  "file": "linux-cheatsheet-2.html",
+  "tags": ["linux", "commands", "files"]
 }
 ```
 

@@ -82,6 +82,12 @@ python3 -m http.server 8000 &
 - **`qr-code-testing/test_qr_integration.py`** - Simplified integration test for CI/CD
 - **`qr-code-testing/test_qr_code_decoding.py`** - QR code decoding validation
 
+### Blog and Guides Testing (Playwright)
+- **`blog-functionality.spec.ts`** - Comprehensive blog functionality tests (10 tests)
+- **`guides-core.spec.ts`** - Core guides functionality tests (9 tests)
+- **`blog-functionality.spec.ts`** - Blog page loading, modal functionality, navigation, JSON loading, error handling, production environment, responsive design, keyboard navigation, visual differentiation
+- **`guides-core.spec.ts`** - Guide loading from JSON, HTML file loading, production environment, URL structure, error handling, blog filter integration, responsive design, search functionality, visual differentiation
+
 ### QR Code Manager Unit Tests (Playwright)
 - **`qr-code-manager-unit.spec.ts`** - Unit tests for QRCodeManager logic with mocked events
 - **`test-qr-no-hover-scale.spec.ts`** - Visual integrity tests (no hover scale, pixel-perfect rendering)

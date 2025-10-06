@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "linux-day-1-setup-tips",
+    "title": "Getting Started with Linux - Day 1 Setup Tips",
+    "date": "2024-01-01",
+    "category": "linux",
+    "author": "CCRI Cyber Club",
+    "summary": "Essential getting started tips for Linux beginners, focusing on setting up a seamless workflow between Windows and Linux systems.",
+    "description": "Essential getting started tips for Linux beginners, focusing on setting up a seamless workflow between Windows and Linux systems.",
+    "detailedSummary": "Focuses on workflow continuity between Windows and Linux. Covers two specific setup tasks: Firefox Sync and Google Drive. Learn to maintain productivity across operating systems.",
+    "file": "linux-day-1-setup-tips.html",
+    "tags": ["linux", "setup", "beginners", "workflow"]
+  },
+  {
+    "slug": "linux-cheatsheet-1",
+    "title": "Linux Cheatsheet 1",
+    "date": "2024-01-01",
+    "category": "linux",
+    "author": "CCRI Cyber Club",
+    "summary": "Learn some fundamentals of the Linux file system and a few basic commands",
+    "description": "Learn some fundamentals of the Linux file system and a few basic commands",
+    "detailedSummary": "Understanding your working directory (current location in the file system). The root directory (/) - the top of the Linux file system. Your home directory (~ or /home/user) - your personal space. Case sensitivity - Linux treats Desktop and desktop as different. Using the Tab key for auto-completion to prevent typos.",
+    "file": "linux-cheatsheet-1.html",
+    "tags": ["linux", "commands", "filesystem", "basics"]
+  },
+  {
+    "slug": "linux-cheatsheet-2",
+    "title": "Linux Cheatsheet 2",
+    "date": "2024-01-01",
+    "category": "linux",
+    "author": "CCRI Cyber Club",
+    "summary": "Learn how to make new directories and move or copy files",
+    "description": "Learn how to make new directories and move or copy files",
+    "detailedSummary": "Key takeaways include understanding command structure patterns, leveraging tab completion for efficiency, and mastering single-step operations that replace multiple GUI actions. Perfect for transitioning from graphical interfaces to command-line proficiency in environments.",
+    "file": "linux-cheatsheet-2.html",
+    "tags": ["linux", "commands", "directories", "files"]
+  },
+  {
+    "slug": "linux-cheatsheet-3",
+    "title": "Linux Cheatsheet 3",
+    "date": "2024-01-01",
+    "category": "linux",
+    "author": "CCRI Cyber Club",
+    "summary": "Deleting directories, file creation, viewing & redirecting data",
+    "description": "Deleting directories, file creation, viewing & redirecting data",
+    "detailedSummary": "Master essential file operations including directory deletion with rmdir, file creation with touch, viewing file contents with cat, and powerful data redirection techniques. Learn command history navigation, output redirection with > and >> operators, and efficient file copying and moving operations. Perfect for advancing command-line skills beyond basic navigation.",
+    "file": "linux-cheatsheet-3.html",
+    "tags": ["linux", "commands", "file-operations", "redirection"]
+  },
+  {
+    "slug": "linux-cheatsheet-4",
+    "title": "Linux Cheatsheet 4",
+    "date": "2024-01-01",
+    "category": "linux",
+    "author": "CCRI Cyber Club",
+    "summary": "Text Editors, GUI Programs & File Deletion",
+    "description": "Text Editors, GUI Programs & File Deletion",
+    "detailedSummary": "Master terminal-based text editors including Nano (beginner-friendly) and Vi/Vim (powerful but modal). Learn GUI program launching with xdg-open and gedit, understand the terminal hang problem and solutions. Master file deletion with rm command and learn critical safety practices. Perfect for advancing from basic file operations to professional text editing and GUI integration.",
+    "file": "linux-cheatsheet-4.html",
+    "tags": ["linux", "text-editors", "gui", "file-deletion"]
+  }
+]

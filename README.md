@@ -67,7 +67,8 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 
 #### **For Content Creators**
 - **Resources**: Edit the `RESOURCES` array in `index.html`
-- **Guides**: Add HTML files to `guides/` directory
+- **Guides**: Add HTML files to `guides/` directory and update `guides/guides.json`
+- **Blogs**: Add HTML files to `blogs/` directory and update `blogs/blog-posts.json`
 - **Images**: Place in `images/` with WebP format preferred
 - **Colors**: Use official palette from `docs/COLOR-PALETTE.md`
 
@@ -116,7 +117,9 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 - **Branded Color Palette**: Canonical color palette with CSS variables, hybrid forge color scheme with `#04703C` primary green, industrial accents, and strategic color hierarchy.
 - **Sticky Footer Layout**: Consistent footer positioning using flexbox layout to ensure footer always appears at bottom of viewport when content is minimal.
 - **Automated Versioning Diagnostics**: Playwright-based diagnostic system that validates versioning pipeline across all layers (files → commits → deployment) with comprehensive error detection and reporting.
-- **DRY Documentation**: Linux guides use reusable CSS classes and consistent styling with official Cyberknights color palette.
+- **DRY Documentation**: Linux guides and blog posts use reusable CSS classes and consistent styling with official Cyberknights color palette.
+- **Visual Content Differentiation**: Blog posts and guides feature subtle visual differentiation with warm amber accents for blogs and cool blue accents for guides in the resources grid.
+- **Unified Content Management**: Both guides and blogs use identical JSON metadata schemas and loading systems for seamless SPA integration.
 - **Automated Testing**: Comprehensive test suite using Playwright for fast, reliable link testing and cross-browser validation.
 - **Automated Versioning**: Tag-based deployment model using standard-version with conventional commits, automatic changelog generation, and GitHub Actions deployment.
 - **CI/CD Pipeline Drift Prevention**: Automated validation system that prevents GitHub Actions workflows from referencing non-existent npm scripts, eliminating deployment failures caused by incomplete refactoring.
@@ -130,7 +133,7 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
   - **QR Code Integration**: Educational guides feature embedded QR codes for instant access to related video content
   - **Table-Based Layout**: Clean, spreadsheet-like interface with video titles, URLs, and scannable QR codes
   - **Base64 Embedding**: Self-contained QR codes with no external dependencies
-  - **Blog**: Updates and announcements (coming soon)
+  - **Blog**: Updates and announcements with unified content management system, consistent Cyberknights styling, and seamless SPA integration
 
 ## Deployment & Versioning
 
@@ -236,6 +239,7 @@ To link a QR code to a specific page, use hash routes. For example:
 - To link to the Blog: `your-site-url.com/#/blog`
 - To link to the Warwick Room 4080 map: `your-site-url.com/#/map-warwick-4080`
 - To link to a guide: `your-site-url.com/#/guides/path/to/file.html`
+- To link to a blog post: `your-site-url.com/#/blogs/path/to/file.html`
 
 ### Resources Deep Links
 
@@ -248,14 +252,20 @@ To link a QR code to a specific page, use hash routes. For example:
   - STEM Day: `#/resources/stem`
   - Career: `#/resources/career`
   - Linux: `#/resources/linux`
+  - Blog Posts: `#/resources/blog`
 
-### Guide Loading System
+### Unified Content Management System
 
-The site includes a sophisticated guide loading system that allows standalone HTML files to be seamlessly integrated into the Single-Page Application (SPA) while maintaining their ability to function as independent guides.
+The site includes a sophisticated unified content management system that allows both guides and blogs to be seamlessly integrated into the Single-Page Application (SPA) while maintaining their ability to function as independent files.
 
 **Dual-Mode Operation:**
-- **SPA Mode**: Guides loaded within the main application shell (`#/guides/filename.html`)
-- **Standalone Mode**: Guides accessed directly as independent HTML files (`guides/filename.html`)
+- **SPA Mode**: Content loaded within the main application shell (`#/guides/filename.html`, `#/blogs/filename.html`)
+- **Standalone Mode**: Content accessed directly as independent HTML files (`guides/filename.html`, `blogs/filename.html`)
+
+**Unified JSON Metadata:**
+- **Guides**: Metadata stored in `guides/guides.json` with standardized schema
+- **Blogs**: Metadata stored in `blogs/blog-posts.json` with identical schema
+- **DRY Pattern**: Both content types use the same metadata structure and loading system
 
 **Legacy Route Support:**
 - **Backward Compatibility**: Legacy `#/document/filename.html` routes continue to work
@@ -264,21 +274,23 @@ The site includes a sophisticated guide loading system that allows standalone HT
 - **Future Removal**: Legacy routes may be removed in future versions
 
 **Clean Design:**
-- Guides display with only their native headers (no template headers)
+- Content displays with only their native headers (no template headers)
 - Clean URLs without path prefixes for better UX
-- Seamless integration while preserving original guide design
+- Seamless integration while preserving original content design
 
 **Benefits:**
 - Seamless user experience with consistent navigation
 - Fast loading without full page reloads
-- Guides work both within the SPA and as standalone files
+- Content works both within the SPA and as standalone files
 - Easy sharing with direct URLs
 - Maintains clean URL structure
+- Unified management system for both guides and blogs
 
 **Example Usage:**
-- **New Format**: `#/guides/linux-cheatsheet-1.html` (recommended)
+- **Guides**: `#/guides/linux-cheatsheet-1.html` (recommended)
+- **Blogs**: `#/blogs/blog-post-title.html` (recommended)
 - **Legacy Format**: `#/document/linux-cheatsheet-1.html` (deprecated, still works)
-- **Direct Access**: `guides/linux-cheatsheet-1.html`
+- **Direct Access**: `guides/linux-cheatsheet-1.html`, `blogs/blog-post-title.html`
 
 ## Contribution
 
@@ -526,5 +538,11 @@ This ensures consistency, international compatibility, and chronological sorting
 - ✅ QR Code functionality (toggle, generation, download)
 - ✅ Cross-page link functionality
 - ✅ Standalone page navigation
+- ✅ Blog functionality (loading, modal system, direct access, search integration)
+- ✅ Guides functionality (loading, content display, navigation, search integration)
+- ✅ Visual content differentiation (blog vs guide styling)
+- ✅ Unified content management system
+- ✅ Mobile layout integrity and responsive design
+- ✅ QR code URL validation and SPA routing
 
 See `tests/README.md` for detailed test documentation.

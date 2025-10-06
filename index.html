@@ -718,6 +718,7 @@
         <button data-filter="stem" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">STEM Day</button>
         <button data-filter="career" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Career</button>
         <button data-filter="linux" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Linux</button>
+        <button data-filter="blog" class="px-2 py-1 rounded border border-slate-700 hover:border-slate-600">Blog Posts</button>
       </div>
 
       <div class="relative mb-4">
@@ -883,6 +884,28 @@
         return;
       }
 
+      // Handle blog pages (e.g., #/blogs/microsoft-aws-ai-opportunities.html)
+      if (page === 'blogs' && segments.length > 0) {
+        // Use the guides template (same structure as guides)
+        app.innerHTML = routes['guides'];
+
+        // Build file path (e.g. blogs/microsoft-aws-ai-opportunities.html)
+        const filePath = 'blogs/' + segments.join('/');
+
+        try {
+          const res = await fetch(filePath);
+          const text = await res.text();
+          const bodyMatch = text.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+          const content = bodyMatch ? bodyMatch[1] : text;
+
+          document.getElementById('guides-content').innerHTML = content;
+        } catch (err) {
+          document.getElementById('guides-content').innerHTML =
+            `<p class="text-red-400">Failed to load ${filePath}</p>`;
+        }
+        return;
+      }
+
       // Fallback to normal routes
       let html;
       html = routes[fullRoute] || routes[page] || routes.home;
@@ -942,7 +965,14 @@
       }
       updateFooterQr(page);
       if (page === 'resources') {
-        try { renderResourcesPage(segments[0] || 'all'); } catch {}
+        try { await renderResourcesPage(segments[0] || 'all'); } catch {}
+      }
+      if (page === 'blog') {
+        try { renderBlogPage(); } catch {}
+      }
+      // Handle individual blog post routes: #/blog/post-slug
+      if (page === 'blog' && segments.length > 0) {
+        try { renderBlogPost(segments[0]); } catch {}
       }
     }
 
@@ -1258,7 +1288,30 @@
       'linux': '🐧 Foundational resources for cybersecurity learners, including a cheat sheet with essential commands for file navigation, permissions, processes, networking, and more, accessible via an internal document link.'
     };
 
-    function renderResourcesPage(preselectedFilter) {
+    async function renderResourcesPage(preselectedFilter) {
+      // Load guides and blogs dynamically
+      const guides = await loadContent('guides');
+      const blogs = await loadContent('blogs');
+      
+      // Convert guides and blogs to resource format
+      const guideResources = guides.map(guide => ({
+        name: guide.title,
+        url: `#/guides/${guide.file}`,
+        cat: guide.category,
+        desc: guide.description,
+        summary: guide.summary,
+        detailedSummary: guide.detailedSummary
+      }));
+      
+      const blogResources = blogs.map(blog => ({
+        name: blog.title,
+        url: `#/blogs/${blog.file}`,
+        cat: 'blog',
+        desc: blog.description,
+        summary: blog.summary,
+        detailedSummary: blog.detailedSummary
+      }));
+      
       const data = [
         { 
           name: 'quipqiup', 
@@ -1380,46 +1433,6 @@
           detailedSummary: 'A Capture The Flag (CTF) cybersecurity challenge from CCRI CyberKnights, adapted for home use from their STEM Day event.'
         },
         { 
-          name: 'Getting Started with Linux - Day 1 Setup Tips', 
-          url: '#/guides/linux-day-1-setup-tips.html', 
-          cat: 'linux', 
-          desc: 'Essential getting started tips for Linux beginners, focusing on setting up a seamless workflow between Windows and Linux systems.',
-          summary: 'Essential getting started tips for Linux beginners, focusing on setting up a seamless workflow between Windows and Linux systems.',
-          detailedSummary: 'Focuses on workflow continuity between Windows and Linux. Covers two specific setup tasks: Firefox Sync and Google Drive. Learn to maintain productivity across operating systems.'
-        },
-        { 
-          name: 'Linux Cheatsheet 1', 
-          url: '#/guides/linux-cheatsheet-1.html', 
-          cat: 'linux', 
-          desc: 'Learn some fundamentals of the Linux file system and a few basic commands',
-          summary: 'Learn some fundamentals of the Linux file system and a few basic commands',
-          detailedSummary: 'Understanding your working directory (current location in the file system). The root directory (/) - the top of the Linux file system. Your home directory (~ or /home/user) - your personal space. Case sensitivity - Linux treats Desktop and desktop as different. Using the Tab key for auto-completion to prevent typos.'
-        },
-        { 
-          name: 'Linux Cheatsheet 2', 
-          url: '#/guides/linux-cheatsheet-2.html', 
-          cat: 'linux', 
-          desc: 'Learn how to make new directories and move or copy files',
-          summary: 'Learn how to make new directories and move or copy files',
-          detailedSummary: 'Key takeaways include understanding command structure patterns, leveraging tab completion for efficiency, and mastering single-step operations that replace multiple GUI actions. Perfect for transitioning from graphical interfaces to command-line proficiency in environments.'
-        },
-        { 
-          name: 'Linux Cheatsheet 3', 
-          url: '#/guides/linux-cheatsheet-3.html', 
-          cat: 'linux', 
-          desc: 'Deleting directories, file creation, viewing & redirecting data',
-          summary: 'Deleting directories, file creation, viewing & redirecting data',
-          detailedSummary: 'Master essential file operations including directory deletion with rmdir, file creation with touch, viewing file contents with cat, and powerful data redirection techniques. Learn command history navigation, output redirection with > and >> operators, and efficient file copying and moving operations. Perfect for advancing command-line skills beyond basic navigation.'
-        },
-        {
-          name: 'Linux Cheatsheet 4', 
-          url: '#/guides/linux-cheatsheet-4.html', 
-          cat: 'linux', 
-          desc: 'Text Editors, GUI Programs & File Deletion',
-          summary: 'Text Editors, GUI Programs & File Deletion',
-          detailedSummary: 'Master terminal-based text editors including Nano (beginner-friendly) and Vi/Vim (powerful but modal). Learn GUI program launching with xdg-open and gedit, understand the terminal hang problem and solutions. Master file deletion with rm command and learn critical safety practices. Perfect for advancing from basic file operations to professional text editing and GUI integration.'
-        },
-        { 
           name: 'Handshake', 
           url: 'https://ccri.joinhandshake.com/login', 
           cat: 'career', 
@@ -1427,12 +1440,14 @@
           summary: 'Handshake is a college-integrated career platform that allows CCRI students to search for jobs, internships, and events, apply online, explore career paths, and connect with employers through a user-friendly dashboard.',
           detailedSummary: 'Integrated with CCRI for seamless access via school SSO, Handshake enables profile creation, resume uploads (with preferred templates highlighting skills prominently), job/internship searches (including on-campus like Academic Computer Lab), virtual event attendance, and direct employer messaging; it\'s free for students and employers, with data tracking for career centers. For professional development, it supports resume reviews, mock interviews, and networking with nearly 1 million employers, making it vital for CCRI students transitioning to cybersecurity careers by providing real opportunities and advice.'
         },
+        ...guideResources,
+        ...blogResources
       ];
 
       const grid = document.getElementById('resources-grid');
       const search = document.getElementById('resources-search');
       const filterButtons = Array.from(document.querySelectorAll('[data-filter]'));
-      const catNames = { 'ctf-tools': 'CTF & Code Breaking Tools', 'ctf-competitions': 'CTF Competitions', 'ccri': 'CCRI', 'cyberknights': 'Cyberknights', 'stem': 'STEM Day', 'linux': 'Linux', 'career': 'Career' };
+      const catNames = { 'ctf-tools': 'CTF & Code Breaking Tools', 'ctf-competitions': 'CTF Competitions', 'ccri': 'CCRI', 'cyberknights': 'Cyberknights', 'stem': 'STEM Day', 'linux': 'Linux', 'career': 'Career', 'blog': 'Blog Posts' };
       const availableFilters = new Set(filterButtons.map(b => b.dataset.filter));
       const initialFilter = (preselectedFilter && availableFilters.has(preselectedFilter)) ? preselectedFilter : 'cyberknights';
 
@@ -1516,7 +1531,21 @@
           for (const r of items) {
             const catLabel = getCategoryLabel(r.cat);
             const card = document.createElement('div');
-            card.className = 'block p-3 rounded border border-slate-800 bg-slate-900/60 hover:border-emerald-600 transition-colors cursor-pointer';
+            
+            // Apply different styling based on content type
+            let cardClasses = 'block p-3 rounded border border-slate-800 bg-slate-900/60 transition-colors cursor-pointer';
+            if (r.cat === 'blog') {
+              // Blog posts: warm accent (amber/orange)
+              cardClasses += ' hover:border-amber-500';
+            } else if (r.cat === 'linux' || r.cat === 'career') {
+              // Guides: cool accent (blue)
+              cardClasses += ' hover:border-blue-500';
+            } else {
+              // Default: emerald accent
+              cardClasses += ' hover:border-emerald-600';
+            }
+            
+            card.className = cardClasses;
             card.onclick = () => openResourceModal(r);
             
             // Resource name and category
@@ -1977,6 +2006,231 @@
       }
 
     })();
+
+    // Unified content loading system for both guides and blogs
+    let blogPosts = [];
+    let guides = [];
+
+    async function loadContent(type) {
+      try {
+        // Use different file names for different content types
+        const fileName = type === 'blogs' ? 'blog-posts.json' : 'guides.json';
+        const response = await fetch(`./${type}/${fileName}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const content = await response.json();
+        
+        if (type === 'blogs') {
+          blogPosts = content;
+        } else if (type === 'guides') {
+          guides = content;
+        }
+        
+        return content;
+      } catch (error) {
+        console.error(`Failed to load ${type}:`, error);
+        if (type === 'blogs') {
+          blogPosts = [];
+        } else if (type === 'guides') {
+          guides = [];
+        }
+        return [];
+      }
+    }
+
+    // Legacy function for backward compatibility
+    async function loadBlogPosts() {
+      return await loadContent('blogs');
+    }
+
+    async function renderBlogPage() {
+      await loadBlogPosts();
+      
+      if (blogPosts.length === 0) {
+        // Show coming soon if no posts loaded - use the template
+        return;
+      }
+
+      // Sort posts by date (newest first)
+      const sortedPosts = blogPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+      // Find the blog container within the current page
+      const blogContainer = document.querySelector('#app section');
+      if (!blogContainer) return;
+
+      // Replace the coming soon content with actual blog posts
+      const comingSoonCard = blogContainer.querySelector('.p-6.rounded-lg.border.border-slate-800.bg-slate-900\\/40');
+      if (comingSoonCard) {
+        comingSoonCard.outerHTML = sortedPosts.map(post => createBlogCard(post)).join('');
+      }
+    }
+
+    function createBlogCard(post) {
+      return `
+        <article class="p-6 rounded-lg border border-slate-800 bg-slate-900/40 hover:border-emerald-600 transition-colors cursor-pointer" onclick="openBlogPost('${post.slug}')">
+          <div class="flex justify-between items-start mb-3">
+            <h3 class="text-xl font-semibold text-emerald-400">${post.title}</h3>
+            <span class="text-sm text-slate-400">${formatDate(post.date)}</span>
+          </div>
+          
+          <div class="flex items-center gap-2 mb-3">
+            <span class="px-2 py-1 rounded bg-slate-700 text-xs text-slate-300">${post.category}</span>
+            <span class="text-xs text-slate-400">by ${post.author}</span>
+          </div>
+          
+          <p class="text-slate-300 mb-4">${post.summary}</p>
+          
+          <div class="flex justify-between items-center">
+            <div class="flex gap-1">
+              ${post.tags.map(tag => `<span class="px-2 py-1 rounded bg-emerald-900/30 text-xs text-emerald-300">#${tag}</span>`).join('')}
+            </div>
+            <span class="text-sm text-emerald-400">Read more →</span>
+          </div>
+        </article>
+      `;
+    }
+
+    async function renderBlogPost(slug) {
+      const post = blogPosts.find(p => p.slug === slug);
+      if (!post) {
+        // Show error message in the current page
+        const blogContainer = document.querySelector('#app section');
+        if (blogContainer) {
+          blogContainer.innerHTML = '<div class="text-center py-8"><h2 class="text-2xl font-bold text-red-400">Post Not Found</h2><p class="text-slate-300 mt-4">The requested blog post could not be found.</p><a href="#/blog" class="inline-flex items-center text-emerald-400 hover:text-emerald-300 mt-4"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>Back to Blog</a></div>';
+        }
+        return;
+      }
+
+      // Load the HTML file content
+      try {
+        const response = await fetch(`./blogs/${post.file}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const htmlContent = await response.text();
+        
+        // Extract body content from the HTML file
+        const bodyMatch = htmlContent.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+        const content = bodyMatch ? bodyMatch[1] : htmlContent;
+        
+        // Replace the blog page content with the loaded HTML
+        const blogContainer = document.querySelector('#app section');
+        if (!blogContainer) return;
+        
+        blogContainer.innerHTML = content;
+      } catch (error) {
+        console.error('Failed to load blog post:', error);
+        const blogContainer = document.querySelector('#app section');
+        if (blogContainer) {
+          blogContainer.innerHTML = '<div class="text-center py-8"><h2 class="text-2xl font-bold text-red-400">Error Loading Post</h2><p class="text-slate-300 mt-4">Failed to load the blog post content.</p><a href="#/blog" class="inline-flex items-center text-emerald-400 hover:text-emerald-300 mt-4"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>Back to Blog</a></div>';
+        }
+      }
+    }
+
+    // Blog post modal (following your existing modal pattern)
+    window.openBlogPost = async function(slug) {
+      const post = blogPosts.find(p => p.slug === slug);
+      if (!post) return;
+
+      const modal = document.createElement('div');
+      modal.className = 'fixed inset-0 bg-black/90 flex items-center justify-center z-50 p-4';
+      modal.onclick = (e) => {
+        if (e.target === modal) closeBlogModal();
+      };
+
+      // Show loading state
+      modal.innerHTML = `
+        <div class="bg-slate-900 rounded-lg border border-slate-800 max-w-4xl max-h-[90vh] overflow-y-auto">
+          <div class="p-6 border-b border-slate-800">
+            <div class="flex justify-between items-start mb-4">
+              <div>
+                <h2 class="text-2xl font-bold text-emerald-400 mb-2">${post.title}</h2>
+                <div class="flex items-center gap-4 text-sm text-slate-400">
+                  <span>${formatDate(post.date)}</span>
+                  <span>by ${post.author}</span>
+                  <span class="px-2 py-1 rounded bg-slate-700">${post.category}</span>
+                </div>
+              </div>
+              <button onclick="closeBlogModal()" class="text-slate-400 hover:text-white">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+              </button>
+            </div>
+          </div>
+          
+          <div class="p-6">
+            <div class="text-center text-slate-400">Loading content...</div>
+          </div>
+          
+          <div class="p-6 border-t border-slate-800">
+            <div class="flex gap-2 mb-4">
+              ${post.tags.map(tag => `<span class="px-2 py-1 rounded bg-emerald-900/30 text-xs text-emerald-300">#${tag}</span>`).join('')}
+            </div>
+            <button onclick="closeBlogModal()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded transition-colors">
+              Close
+            </button>
+          </div>
+        </div>
+      `;
+
+      document.body.appendChild(modal);
+      document.body.style.overflow = 'hidden';
+
+      // Load the HTML file content
+      try {
+        const response = await fetch(`./${post.file}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const htmlContent = await response.text();
+        
+        // Extract body content from the HTML file
+        const bodyMatch = htmlContent.match(/<body[^>]*>([\s\S]*)<\/body>/i);
+        const content = bodyMatch ? bodyMatch[1] : htmlContent;
+        
+        // Extract just the main content (skip header and footer)
+        const mainMatch = content.match(/<main[^>]*>([\s\S]*)<\/main>/i);
+        const mainContent = mainMatch ? mainMatch[1] : content;
+        
+        // Update modal content
+        const contentDiv = modal.querySelector('.p-6');
+        contentDiv.innerHTML = `<div class="prose prose-invert max-w-none">${mainContent}</div>`;
+        
+      } catch (error) {
+        console.error('Failed to load blog post:', error);
+        const contentDiv = modal.querySelector('.p-6');
+        contentDiv.innerHTML = '<div class="text-center text-red-400">Failed to load blog post content.</div>';
+      }
+
+      // Add keyboard support
+      const handleKeydown = (e) => {
+        if (e.key === 'Escape') {
+          closeBlogModal();
+          document.removeEventListener('keydown', handleKeydown);
+        }
+      };
+      document.addEventListener('keydown', handleKeydown);
+    };
+
+    window.closeBlogModal = function() {
+      const modal = document.querySelector('.fixed.inset-0.bg-black\\/90');
+      if (modal) {
+        modal.remove();
+        document.body.style.overflow = 'auto';
+      }
+    };
+
+    // Utility function following your existing patterns
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      return date.toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric' 
+      });
+    }
 
     // Generate small QR code for footer
     function generateSmallQRCode() {
