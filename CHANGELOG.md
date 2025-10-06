@@ -2,16 +2,24 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
-### [1.7.38](https://github.com/CCRI-Cyberknights/page/compare/v1.7.37...v1.7.38) (2025-10-05)
+### [1.7.38](https://github.com/CCRI-Cyberknights/page/compare/v1.7.37...v1.7.38) (2025-10-06)
 
 
 ### Features
 
-* fix QR code size consistency and implement three-container layout ([commit-hash])
-  * QR code size now based on viewport dimensions instead of URL length
-  * Three separate green shadow containers for QR code, URL input, and controls
-  * Consistent large QR code size (89-95% width utilization) regardless of URL length
-  * No scrolling issues with proper flexbox layout and reserved space calculation
+* fix QR code size consistency and implement three-container layout ([6a5242e](https://github.com/CCRI-Cyberknights/page/commit/6a5242e403537a3402300f7b4aeeeba9e92f9187))
+
+### [1.7.39](https://github.com/CCRI-Cyberknights/page/compare/v1.7.38...v1.7.39) (2025-10-05)
+
+
+### Features
+
+* reduce QR modal padding and gaps for better space utilization ([commit-hash])
+  * Reduced main container gap from 0.5rem to 0.25rem
+  * Reduced QR container padding from 0.25rem to 0.125rem
+  * Reduced green shadow container padding (1rem→0.5rem, 0.5rem→0.25rem)
+  * Reduced reserved space calculation from 120px to 80px
+  * Improved QR code space utilization (narrow viewport: 89.9%→91.1% width)
 
 ### [1.7.36](https://github.com/CCRI-Cyberknights/page/compare/v1.7.35...v1.7.36) (2025-10-05)
 

@@ -314,7 +314,7 @@ class QRCodeManager {
           display: flex;
           flex-direction: column;
           color: #B8B8B8;
-          gap: 0.5rem;
+          gap: 0.25rem;
           align-items: center;
         `;
         
@@ -374,7 +374,7 @@ class QRCodeManager {
           container.style.cssText = `
             background: linear-gradient(135deg, #1C1C1C 0%, #3A3A3A 100%);
             border-radius: 1rem;
-            padding: ${compact ? '0.5rem' : '1rem'};
+            padding: ${compact ? '0.25rem' : '0.5rem'};
             box-shadow: 
               0 0 0 1px rgba(4, 112, 60, 0.3),
               0 0 20px rgba(4, 112, 60, 0.4),
@@ -402,7 +402,7 @@ class QRCodeManager {
           width: 100%;
           flex: 1;
           min-height: 0;
-          padding: 0.25rem;
+          padding: 0.125rem;
         `;
         
         // Create URL container with green shadow
@@ -902,8 +902,8 @@ class QRCodeManager {
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
         
-        // Reserve space for URL and controls (estimate ~120px total)
-        const reservedSpace = 120;
+        // Reserve space for URL and controls (estimate ~80px total with reduced padding)
+        const reservedSpace = 80;
         const maxAvailableSize = Math.min(viewportWidth, viewportHeight - reservedSpace);
         
         // Always use maximum possible size regardless of URL length
