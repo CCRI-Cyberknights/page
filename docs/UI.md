@@ -1016,6 +1016,80 @@ Practical examples for using the document loading system, including quick start 
 
 - **Campus Maps**: See `docs/ARCHITECTURE.md` - Campus Maps section for building navigation and meeting location details
 
+## QR Modal Layout Improvements (v1.7.38)
+
+### Overview
+
+Fixed QR code size consistency issues and implemented three-container layout with separate green shadow boxes for better organization and consistent large QR codes.
+
+### QR Code Size Consistency Fix
+
+#### **Viewport-Based Sizing**
+- **Previous**: QR code size varied based on URL length and container space
+- **Current**: QR code size based on viewport dimensions with reserved space calculation
+- **Result**: Consistent 89-95% width utilization regardless of URL length
+
+#### **Maximum Size Utilization**
+- **Calculation**: `Math.min(viewportWidth, viewportHeight - 120px) - 20px`
+- **Reserved Space**: 120px for URL and controls containers
+- **Minimum Size**: 300px for consistent display across devices
+- **Benefits**: Always maximum possible size while preventing overflow
+
+### Three-Container Layout Implementation
+
+#### **Separate Green Shadow Boxes**
+- **QR Container**: Large container with green shadow for QR code display
+- **URL Container**: Compact container with green shadow for URL input and length
+- **Controls Container**: Compact container with green shadow for QR version, error correction, and download buttons
+
+#### **Layout Structure**
+```
+┌─────────────────────────────────────────────┐
+│ QR Code Container (Green Shadow)           │
+│ ┌─────────────────────────────────────────┐ │
+│ │           Large QR Code                │ │
+│ └─────────────────────────────────────────┘ │
+└─────────────────────────────────────────────┘
+┌─────────────────────────────────────────────┐
+│ URL Container (Green Shadow)                │
+│ ┌─────────────────────────────────────────┐ │
+│ │ URL Input + Length Display             │ │
+│ └─────────────────────────────────────────┘ │
+└─────────────────────────────────────────────┘
+┌─────────────────────────────────────────────┐
+│ Controls Container (Green Shadow)           │
+│ ┌─────────────────────────────────────────┐ │
+│ │ QR Version | Error Correction | Download│ │
+│ └─────────────────────────────────────────┘ │
+└─────────────────────────────────────────────┘
+```
+
+### Technical Implementation
+
+#### **Container Architecture**
+- **Main Container**: Full viewport (100vw × 100vh) with `overflow: hidden`
+- **QR Container**: `flex: 1` and `min-height: 0` for maximum space usage
+- **URL/Controls**: `flex-shrink: 0` and compact padding to prevent overflow
+- **Helper Function**: `createGreenShadowContainer()` with compact option
+
+#### **Size Calculation**
+```javascript
+// Viewport-based QR code sizing
+const viewportWidth = window.innerWidth;
+const viewportHeight = window.innerHeight;
+const reservedSpace = 120; // For URL and controls
+const maxAvailableSize = Math.min(viewportWidth, viewportHeight - reservedSpace);
+const qrSize = Math.max(300, maxAvailableSize - 20);
+```
+
+### User Experience Benefits
+
+- **Consistent QR Size**: Same large size regardless of URL length
+- **Better Organization**: Three distinct sections with clear visual boundaries
+- **No Scrolling**: Layout fits within viewport without overflow
+- **Maximum Utilization**: QR code uses maximum available space
+- **Visual Clarity**: Separate green shadows for better section identification
+
 ## QR Modal Layout Improvements (v1.7.36)
 
 ### Overview

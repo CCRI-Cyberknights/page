@@ -306,23 +306,16 @@ class QRCodeManager {
         this.glowContainer = document.createElement('div');
         this.glowContainer.className = 'bg-amber-50 rounded-2xl p-8 shadow-2xl border-2 border-amber-200';
         this.glowContainer.style.cssText = `
-          background: linear-gradient(135deg, #1C1C1C 0%, #3A3A3A 100%);
-          border-radius: 1rem;
-          padding: 0.5rem;
-          box-shadow: 
-            0 0 0 1px rgba(4, 112, 60, 0.3),
-            0 0 20px rgba(4, 112, 60, 0.4),
-            0 0 40px rgba(4, 112, 60, 0.3),
-            0 0 80px rgba(4, 112, 60, 0.2),
-            0 25px 50px -12px rgba(0, 0, 0, 0.5);
-          border: 2px solid rgba(4, 112, 60, 0.5);
-          width: 90vw;
-          height: 90vh;
-          overflow: auto;
+          background: transparent;
+          border: none;
+          width: 100vw;
+          height: 100vh;
+          overflow: hidden;
           display: flex;
           flex-direction: column;
           color: #B8B8B8;
-          gap: 0.25rem;
+          gap: 0.5rem;
+          align-items: center;
         `;
         
         // Add responsive CSS for mobile viewports
@@ -341,6 +334,28 @@ class QRCodeManager {
                 border-radius: 0 !important;
                 max-width: none !important;
                 max-height: none !important;
+                gap: 0.5rem !important;
+              }
+              .qr-fullscreen .glow-container-mobile > div:first-child {
+                flex: 1 !important;
+                min-height: 0 !important;
+              }
+              .qr-fullscreen .glow-container-mobile > div:first-child > div {
+                width: 100vw !important;
+                height: 100% !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                box-shadow: none !important;
+                border: none !important;
+                border-radius: 0 !important;
+              }
+            }
+            @media (min-width: 481px) {
+              .qr-fullscreen .glow-container-mobile {
+                width: auto !important;
+                max-width: min(500px, 90vw) !important;
+                height: auto !important;
+                max-height: 90vh !important;
               }
             }
           `;
@@ -353,36 +368,64 @@ class QRCodeManager {
         // Store original panel content before moving it
         this.originalPanelContent = Array.from(this.panel.children);
         
-        // Create a new layout structure for full-screen mode
+        // Helper function to create green shadow container
+        const createGreenShadowContainer = (content, compact = false) => {
+          const container = document.createElement('div');
+          container.style.cssText = `
+            background: linear-gradient(135deg, #1C1C1C 0%, #3A3A3A 100%);
+            border-radius: 1rem;
+            padding: ${compact ? '0.5rem' : '1rem'};
+            box-shadow: 
+              0 0 0 1px rgba(4, 112, 60, 0.3),
+              0 0 20px rgba(4, 112, 60, 0.4),
+              0 0 40px rgba(4, 112, 60, 0.3),
+              0 0 80px rgba(4, 112, 60, 0.2),
+              0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(4, 112, 60, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+          `;
+          if (content) {
+            container.appendChild(content);
+          }
+          return container;
+        };
+        
+        // Create QR code container with green shadow
         const qrDisplayArea = document.createElement('div');
         qrDisplayArea.style.cssText = `
-          flex: 1;
           display: flex;
-          align-items: flex-start;
+          align-items: center;
           justify-content: center;
           width: 100%;
-          padding: 0.25rem;
+          flex: 1;
           min-height: 0;
+          padding: 0.25rem;
         `;
         
-        const controlsArea = document.createElement('div');
-        controlsArea.style.cssText = `
-          display: flex;
-          flex-direction: column;
-          gap: 0.25rem;
-          align-items: center;
-          flex-shrink: 0;
-        `;
-        
-        // Create URL container that will be positioned between QR code and controls
+        // Create URL container with green shadow
         const urlContainer = document.createElement('div');
         urlContainer.style.cssText = `
           display: flex;
           flex-direction: column;
           gap: 0.25rem;
           align-items: center;
+          width: 100%;
           flex-shrink: 0;
-          margin: 0.5rem 0;
+          padding: 0.25rem 0;
+        `;
+        
+        // Create controls container with green shadow  
+        const controlsArea = document.createElement('div');
+        controlsArea.style.cssText = `
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 100%;
+          flex-shrink: 0;
+          padding: 0.25rem 0;
         `;
         
         // Create a new layout from scratch
@@ -393,19 +436,7 @@ class QRCodeManager {
         
         // Length info will be moved to QR version box
         
-        // Create QR code display area with white box
-        const qrDisplayWrapper = document.createElement('div');
-        qrDisplayWrapper.style.cssText = `
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          width: 100%;
-          height: 100%;
-          flex: 1;
-          min-height: 0;
-        `;
-        
-        // Create QR code container (no white box)
+        // Create QR code container
         const qrContainer = document.createElement('div');
         qrContainer.style.cssText = `
           display: flex;
@@ -419,23 +450,20 @@ class QRCodeManager {
           margin: 0 auto;
         `;
         
-        qrDisplayWrapper.appendChild(qrContainer);
-        qrDisplayArea.appendChild(qrDisplayWrapper);
+        // Create QR container with green shadow
+        const qrGreenContainer = createGreenShadowContainer(qrContainer);
+        qrDisplayArea.appendChild(qrGreenContainer);
         
         // Generate QR code directly in the container (after it's added to DOM)
         setTimeout(() => {
           this.renderQRInContainer(currentText);
         }, 100);
         
-        // Create single common box for all controls
+        // Create single common box for all controls (no background - will get green shadow)
         const controlsBox = document.createElement('div');
         controlsBox.style.cssText = `
-          background: rgba(55, 65, 81, 0.8);
-          border: 1px solid #374151;
-          border-radius: 0.5rem;
           padding: 0.75rem;
           color: #B8B8B8;
-          margin-top: 0.25rem;
           display: flex;
           flex-direction: column;
           gap: 0.5rem;
@@ -776,10 +804,14 @@ class QRCodeManager {
         // Add common container to controls area
         controlsArea.appendChild(commonContainer);
         
+        // Create green shadow containers for URL and controls (compact)
+        const urlGreenContainer = createGreenShadowContainer(urlContainer, true);
+        const controlsGreenContainer = createGreenShadowContainer(controlsArea, true);
+        
         // Assemble the layout in correct order: QR code, URL container, then controls
         this.glowContainer.appendChild(qrDisplayArea);
-        this.glowContainer.appendChild(urlContainer);
-        this.glowContainer.appendChild(controlsArea);
+        this.glowContainer.appendChild(urlGreenContainer);
+        this.glowContainer.appendChild(controlsGreenContainer);
         
         // Add the glow container to the panel
         this.panel.appendChild(this.glowContainer);
@@ -866,16 +898,22 @@ class QRCodeManager {
           existingQR.remove();
         }
         
-        // Calculate dynamic size based on available space
-        const qrDisplayAreaRect = this.glowContainer.querySelector('[style*="flex: 1"]').getBoundingClientRect();
-        const availableSize = Math.min(qrDisplayAreaRect.width, qrDisplayAreaRect.height); // Use full available space
-        const qrSize = Math.max(100, availableSize - 10); // Minimal margin for QR code margin, lower minimum
+        // Calculate maximum QR code size - always use viewport-based maximum size
+        const viewportWidth = window.innerWidth;
+        const viewportHeight = window.innerHeight;
+        
+        // Reserve space for URL and controls (estimate ~120px total)
+        const reservedSpace = 120;
+        const maxAvailableSize = Math.min(viewportWidth, viewportHeight - reservedSpace);
+        
+        // Always use maximum possible size regardless of URL length
+        const qrSize = Math.max(300, maxAvailableSize - 20);
         
         // Generate new QR code
         QRCode.toString(text, {
           type: 'svg',
           width: qrSize,
-          margin: 1,
+          margin: 0,
           color: {
             dark: '#000000',
             light: '#ffffff'
