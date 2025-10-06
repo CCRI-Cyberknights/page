@@ -1,6 +1,6 @@
 {
   "name": "page",
-  "version": "1.7.40",
+  "version": "1.7.41",
   "description": "A centralized hub for the Cyber Club. This repository hosts a single, multi-page web app to provide information on events, club resources, and technical guides.",
   "private": true,
   "scripts": {

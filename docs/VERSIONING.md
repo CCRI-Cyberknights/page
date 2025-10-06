@@ -168,6 +168,76 @@ node scripts/update-version-json.js
    - Check browser console for JavaScript errors
    - Verify `version-display.js` is loaded in HTML
 
+## GitHub Pages Deployment Behavior
+
+### Smart Change Detection
+
+GitHub Pages uses undocumented "smart change detection" that categorizes files by priority:
+
+#### **File Priority System:**
+
+1. **Primary Files** (Always trigger deployment):
+   - `index.html` - Main entry point
+   - `README.md` - Repository documentation
+   - Core HTML/CSS/JS files
+
+2. **Secondary Files** (Usually trigger deployment):
+   - CSS files (`*.css`)
+   - JavaScript files (`*.js`)
+   - Image assets
+
+3. **Auxiliary Files** (May NOT trigger deployment):
+   - `version.json` - Metadata files
+   - Configuration files
+   - Documentation files
+
+#### **Deployment Triggers:**
+
+```bash
+# ✅ These changes trigger deployment
+git commit -m "feat: update index.html"
+git commit -m "fix: modify main.js"
+git commit -m "style: update styles.css"
+
+# ❌ These changes may NOT trigger deployment
+git commit -m "chore: update version.json"
+git commit -m "docs: update README.md"
+git commit -m "config: update package.json"
+```
+
+#### **Forcing Deployment:**
+
+When auxiliary file changes don't trigger deployment:
+
+```bash
+# Method 1: Touch index.html
+echo "  <!-- Trigger deployment -->" >> index.html
+git add index.html
+git commit -m "chore: trigger GitHub Pages deployment"
+
+# Method 2: Update README.md
+echo "" >> README.md
+git add README.md
+git commit -m "chore: trigger deployment"
+
+# Method 3: Modify package.json
+# Add a comment or update version
+```
+
+#### **Best Practices:**
+
+1. **Always include primary file changes** when updating auxiliary files
+2. **Monitor deployment status** after commits
+3. **Use trivial changes** to force deployment when needed
+4. **Document deployment triggers** for team members
+
+#### **Technical Notes:**
+
+- This behavior is **undocumented by GitHub**
+- Based on community discovery and trial-and-error
+- Affects all GitHub Pages sites using direct static serving
+- Conservative approach prioritizes performance over immediate updates
+
 ## Migration History
 
 ### From Old System (Pre-2025)

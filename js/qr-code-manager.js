@@ -898,18 +898,13 @@ class QRCodeManager {
           existingQR.remove();
         }
         
-        // Calculate maximum QR code size - account for browser UI elements
+        // Calculate maximum QR code size - always use viewport-based maximum size
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
         
-        // Account for browser UI elements (status bar, address bar, navigation bar)
-        // Mobile browsers typically use ~30px for UI elements
-        const browserUIHeight = 30;
-        const usableHeight = viewportHeight - browserUIHeight;
-        
         // Reserve space for URL and controls (estimate ~60px total with minimal padding)
         const reservedSpace = 60;
-        const maxAvailableSize = Math.min(viewportWidth, usableHeight - reservedSpace);
+        const maxAvailableSize = Math.min(viewportWidth, viewportHeight - reservedSpace);
         
         // Always use maximum possible size regardless of URL length
         const qrSize = Math.max(300, maxAvailableSize - 10);

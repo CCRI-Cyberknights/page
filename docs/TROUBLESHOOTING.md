@@ -294,6 +294,59 @@ Simplified deployment using GitHub Pages automatic deployment:
 3. Push commit + tag → GitHub Pages automatically deploys
 4. Site updates → version display fetches version.json
 
+### Problem: GitHub Pages Smart Change Detection
+
+**Symptoms:**
+- Changes to `version.json` don't trigger GitHub Pages deployment
+- Site shows old version despite successful commits
+- Version updates not reflected on production site
+- Need to make "specious" changes to trigger deployments
+
+**Root Cause:**
+GitHub Pages uses undocumented "smart change detection" with file priority system:
+
+1. **Primary Files** (Always trigger rebuild):
+   - `index.html` - Main entry point
+   - `README.md` - Repository documentation
+   - Core HTML/CSS/JS files
+
+2. **Secondary Files** (Usually trigger rebuild):
+   - CSS files (`*.css`)
+   - JavaScript files (`*.js`)
+   - Image assets
+
+3. **Auxiliary Files** (May NOT trigger rebuild):
+   - `version.json` - Metadata files
+   - Configuration files
+   - Documentation files
+
+**Solution:**
+Force GitHub Pages deployment by making trivial changes to primary files:
+
+```bash
+# Add a harmless comment to index.html
+echo "  <!-- Trigger deployment -->" >> index.html
+git add index.html
+git commit -m "chore: trigger GitHub Pages deployment"
+git push origin main
+```
+
+**Alternative Solutions:**
+1. **Touch index.html**: Make any small change to `index.html`
+2. **Update README.md**: Add a space or comment
+3. **Modify package.json**: Update version or add comment
+
+**Prevention:**
+- Always make changes to `index.html` when updating auxiliary files
+- Include primary file changes in version bump commits
+- Monitor GitHub Pages deployment status after commits
+
+**Technical Details:**
+- GitHub Pages uses conservative change detection
+- Auxiliary files like `version.json` have low priority
+- Primary files like `index.html` have high priority
+- This behavior is undocumented by GitHub
+
 ### Problem: Version Display Not Working
 
 **Symptoms:**
