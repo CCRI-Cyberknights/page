@@ -1003,6 +1003,25 @@ function openModal(src, alt, isCanvas = false) {
 ### Design Evolution Overview
 The project underwent significant design improvements in v1.5.x, including navigation redesign with button-style elements, mobile search UX fixes, resource card enhancements with bullet formatting, external link indicators, and interactive image system improvements. Key technical changes included CSS custom properties, JavaScript functionality for modals and toggles, and comprehensive accessibility improvements.
 
+### Clickable Hashtags Feature (v1.8.5)
+
+#### Blog Hashtag Functionality
+- **Automatic Conversion**: Blog post hashtags are automatically converted from static spans to clickable links
+- **Search Integration**: Clicking hashtags triggers resource search with the hashtag term as the query
+- **Visual Feedback**: Hover effects and cursor changes provide clear user interaction cues
+- **URL-Based Routing**: New `#/search?q=term` endpoint for hashtag-triggered searches
+
+#### Cross-Component Support
+- **Individual Blog Posts**: Hashtag functionality works when viewing blog posts directly
+- **Blog Modals**: Hashtag functionality also works in blog post modal overlays
+- **Consistent Behavior**: Same hashtag conversion and search triggering across all blog viewing contexts
+
+#### Technical Features
+- **Dynamic DOM Manipulation**: `makeHashtagsClickable()` function converts span elements to anchor tags
+- **Search Endpoint**: New `renderSearchPage()` function handles search routing and resource integration
+- **URL Encoding**: Proper encoding of hashtag terms for URL compatibility
+- **Event Handling**: Click events properly prevent default behavior and trigger search functionality
+
 ### Homepage Content Improvements (v1.8.4)
 
 #### Enhanced Branding & Authenticity

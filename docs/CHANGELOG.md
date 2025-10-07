@@ -5,6 +5,22 @@ All notable changes to the Cyber Club Landing Pages project are documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.5] - 2025-01-15
+
+### Clickable Hashtags Feature
+- **Blog Hashtag Functionality**: Implemented clickable hashtags in blog posts that automatically convert to search links
+- **Search Endpoint**: Created new `#/search?q=term` endpoint for hashtag-triggered searches
+- **Automatic Conversion**: Blog post hashtags (e.g., `#career`, `#microsoft`) are automatically converted to clickable links
+- **Resource Integration**: Clicking hashtags triggers resource search functionality with the hashtag term
+- **Modal Support**: Hashtag functionality works in both individual blog posts and blog modal views
+- **URL Encoding**: Proper URL encoding for hashtag terms with special characters
+
+### Technical Implementation
+- **Dynamic Conversion**: `makeHashtagsClickable()` function converts span elements to clickable links
+- **Search Routing**: New `renderSearchPage()` function handles search endpoint routing
+- **Cross-Component Support**: Hashtag functionality integrated into both blog post views and modal displays
+- **Hover Effects**: Added visual feedback with hover states for better user experience
+
 ## [1.8.4] - 2025-01-15
 
 ### Homepage Content Improvements

@@ -1023,6 +1023,9 @@
       if (page === 'resources') {
         try { await renderResourcesPage(segments[0]); } catch {}
       }
+      if (page === 'search') {
+        try { await renderSearchPage(); } catch {}
+      }
       if (page === 'blog') {
         try { renderBlogPage(); } catch {}
       }
@@ -2221,6 +2224,29 @@
       </a>`;
     }
 
+    // Render search page with query parameter
+    async function renderSearchPage() {
+      // Get search query from URL hash
+      const hash = window.location.hash;
+      const urlParams = new URLSearchParams(hash.split('?')[1] || '');
+      const query = urlParams.get('q') || '';
+      
+      // Render the resources page directly
+      await renderResourcesPage();
+      
+      // Wait for resources page to load, then trigger search
+      setTimeout(() => {
+        const searchInput = document.getElementById('resources-search');
+        if (searchInput && query) {
+          searchInput.value = query;
+          searchInput.focus();
+          // Trigger the search
+          const event = new Event('input', { bubbles: true });
+          searchInput.dispatchEvent(event);
+        }
+      }, 100);
+    }
+
     async function loadContent(type) {
       try {
         // Use different file names for different content types
@@ -2329,6 +2355,9 @@
         if (!blogContainer) return;
         
         blogContainer.innerHTML = content;
+        
+        // Make hashtags clickable after content is loaded
+        makeHashtagsClickable();
       } catch (error) {
         console.error('Failed to load blog post:', error);
         const blogContainer = document.getElementById('blogs-content');
@@ -2336,6 +2365,63 @@
           blogContainer.innerHTML = `<div class="text-center py-8"><h2 class="text-2xl font-bold text-red-400">Error Loading Post</h2><p class="text-slate-300 mt-4">Failed to load the blog post content.</p></div>`;
         }
       }
+    }
+
+    // Make hashtags clickable in blog posts
+    function makeHashtagsClickable() {
+      const blogContainer = document.getElementById('blogs-content');
+      if (!blogContainer) return;
+      
+      // Find all hashtag spans and make them clickable
+      const hashtags = blogContainer.querySelectorAll('span');
+      
+      hashtags.forEach(hashtag => {
+        if (hashtag.textContent && hashtag.textContent.startsWith('#')) {
+          const tagText = hashtag.textContent.replace('#', '');
+          
+          // Convert span to clickable link
+          const link = document.createElement('a');
+          link.href = `#/search?q=${encodeURIComponent(tagText)}`;
+          link.className = hashtag.className + ' cursor-pointer hover:bg-slate-600 transition-colors';
+          link.textContent = hashtag.textContent;
+          link.onclick = (e) => {
+            e.preventDefault();
+            handleHashtagClick(tagText);
+          };
+          
+          hashtag.parentNode.replaceChild(link, hashtag);
+        }
+      });
+    }
+
+    // Handle hashtag clicks to trigger resource search
+    function handleHashtagClick(tagText) {
+      // Navigate to search endpoint with query parameter
+      window.location.hash = `#/search?q=${encodeURIComponent(tagText)}`;
+    }
+
+    // Make hashtags clickable in blog modal
+    function makeModalHashtagsClickable(modal) {
+      // Find all hashtag spans in the modal and make them clickable
+      const hashtags = modal.querySelectorAll('span');
+      hashtags.forEach(hashtag => {
+        if (hashtag.textContent && hashtag.textContent.startsWith('#')) {
+          const tagText = hashtag.textContent.replace('#', '');
+          
+          // Convert span to clickable link
+          const link = document.createElement('a');
+          link.href = `#/search?q=${encodeURIComponent(tagText)}`;
+          link.className = hashtag.className + ' cursor-pointer hover:bg-slate-600 transition-colors';
+          link.textContent = hashtag.textContent;
+          link.onclick = (e) => {
+            e.preventDefault();
+            closeBlogModal(); // Close modal first
+            handleHashtagClick(tagText);
+          };
+          
+          hashtag.parentNode.replaceChild(link, hashtag);
+        }
+      });
     }
 
     // Blog post modal (following your existing modal pattern)
@@ -2407,6 +2493,9 @@
         // Update modal content
         const contentDiv = modal.querySelector('.p-6');
         contentDiv.innerHTML = `<div class="prose prose-invert max-w-none">${mainContent}</div>`;
+        
+        // Make hashtags clickable in modal
+        makeModalHashtagsClickable(modal);
         
       } catch (error) {
         console.error('Failed to load blog post:', error);
