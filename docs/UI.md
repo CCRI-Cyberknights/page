@@ -1003,6 +1003,24 @@ function openModal(src, alt, isCanvas = false) {
 ### Design Evolution Overview
 The project underwent significant design improvements in v1.5.x, including navigation redesign with button-style elements, mobile search UX fixes, resource card enhancements with bullet formatting, external link indicators, and interactive image system improvements. Key technical changes included CSS custom properties, JavaScript functionality for modals and toggles, and comprehensive accessibility improvements.
 
+### Homepage Content Improvements (v1.8.4)
+
+#### Enhanced Branding & Authenticity
+- **Clear Identity**: Streamlined CCRI Cyber Club branding without redundant official designations
+- **Authentic Messaging**: Removed references to specific companies and events not yet involved
+- **Cleaner Flow**: Eliminated unnecessary taglines and parenthetical clarifications
+
+#### Improved Inclusivity & Approach
+- **Collaborative Focus**: Emphasized "meeting everyone wherever they are and bringing them along"
+- **Social Connections**: Highlighted approach of focusing on social connections and varying meeting formats
+- **Accessibility**: Maintained emphasis on accessibility to students of all skill levels
+- **Less Intimidating**: Continued focus on making technology learning less intimidating
+
+#### Content Accuracy & Authenticity
+- **Removed Specific References**: Eliminated mentions of DOD, Electric Boat, Rite Solutions, and specific events
+- **Authentic Activities**: Focused on actual club activities without referencing unheld events
+- **Streamlined Messaging**: Clean, focused content that reflects actual club mission and approach
+
 ### Blog Section Optimization (v1.8.3)
 
 The project now features an optimized blog system that balances prominence with clean design for improved user experience:

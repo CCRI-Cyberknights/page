@@ -5,6 +5,20 @@ All notable changes to the Cyber Club Landing Pages project are documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.4] - 2025-01-15
+
+### Homepage Content Improvements
+- **Enhanced Branding**: Clear CCRI Cyber Club identity without redundant official designations
+- **Improved Inclusivity**: Emphasized collaborative community accessible to all skill levels
+- **Social Connections Focus**: Highlighted approach of meeting people where they are with varying meeting formats
+- **Authentic Messaging**: Removed references to specific events/companies not yet involved
+- **Streamlined Content**: Eliminated taglines and parenthetical clarifications for cleaner flow
+
+### Content Accuracy
+- **Removed Specific References**: Eliminated mentions of specific companies (DOD, Electric Boat, Rite Solutions) and events
+- **Authentic Activities**: Focused on actual club activities without referencing game nights or tabletop exercises
+- **Cleaner Messaging**: Streamlined text to focus on core mission and approach
+
 ## [1.8.3] - 2025-01-15
 
 ### Added

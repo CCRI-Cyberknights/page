@@ -1,25 +1,25 @@
 import { test, expect } from '@playwright/test';
 
-test.describe('Blog Section Redesign', () => {
-  test('should display blog section on home page', async ({ page }) => {
+test.describe('Blog Navigation Bar', () => {
+  test('should display blog navigation bar on home page', async ({ page }) => {
     await page.goto('http://localhost:8000/');
     await page.waitForTimeout(2000);
 
-    // Check if the blog section is visible
-    await expect(page.locator('text=Updates & Blog')).toBeVisible();
+    // Check if the blog navigation bar is visible (look for the specific span with amber text)
+    await expect(page.locator('span.text-amber-400:has-text("Stay Updated")')).toBeVisible();
     
-    // Check if the "View Blog" button is visible
-    await expect(page.locator('text=View Blog')).toBeVisible();
-    const viewBlogButton = page.locator('text=View Blog');
+    // Check if the "View Latest Posts" button is visible
+    await expect(page.locator('text=View Latest Posts')).toBeVisible();
+    const viewBlogButton = page.locator('text=View Latest Posts');
     await expect(viewBlogButton).toHaveClass(/bg-amber-600/);
   });
 
-  test('should navigate to blog page when clicking View Blog', async ({ page }) => {
+  test('should navigate to blog page when clicking View Latest Posts', async ({ page }) => {
     await page.goto('http://localhost:8000/');
     await page.waitForTimeout(2000);
 
-    // Click on "View Blog" button
-    await page.locator('text=View Blog').click();
+    // Click on "View Latest Posts" button
+    await page.locator('text=View Latest Posts').click();
     
     // Should navigate to blog page
     await page.waitForTimeout(1000);
@@ -29,60 +29,77 @@ test.describe('Blog Section Redesign', () => {
     await expect(page.locator('text=Updates & Blog')).toBeVisible();
   });
 
-  test('should not have blog button in Get Involved section', async ({ page }) => {
+  test('should have blog navigation bar with amber styling', async ({ page }) => {
     await page.goto('http://localhost:8000/');
     await page.waitForTimeout(2000);
 
-    // Check that "Updates & Blog" is NOT in the Get Involved section
-    const getInvolvedSection = page.locator('text=Get involved').locator('..');
-    await expect(getInvolvedSection).toBeVisible();
-    
-    // Should not contain the old blog button
-    await expect(getInvolvedSection.locator('text=Updates & Blog')).not.toBeVisible();
-    
-    // Should still have other buttons
-    await expect(getInvolvedSection.locator('text=Club Calendar')).toBeVisible();
-    await expect(getInvolvedSection.locator('text=Competitions')).toBeVisible();
-  });
-
-  test('should have blog section with amber styling', async ({ page }) => {
-    await page.goto('http://localhost:8000/');
-    await page.waitForTimeout(2000);
-
-    // Blog section should have amber colors
-    const blogTitle = page.locator('text=Updates & Blog');
-    await expect(blogTitle).toBeVisible();
-    
-    // Check that it has amber text color
-    await expect(blogTitle).toHaveClass(/text-amber-400/);
+    // Blog navigation bar should have amber colors
+    const stayUpdated = page.locator('span.text-amber-400:has-text("Stay Updated")');
+    await expect(stayUpdated).toBeVisible();
     
     // Check for icon presence (blog icon specifically)
-    await expect(page.locator('text=Updates & Blog').locator('..').locator('svg')).toBeVisible();
+    await expect(page.locator('text=Stay Updated').locator('..').locator('svg')).toBeVisible();
     
     // Check for amber button styling
-    await expect(page.locator('text=View Blog')).toHaveClass(/bg-amber-600/);
+    await expect(page.locator('text=View Latest Posts')).toHaveClass(/bg-amber-600/);
   });
 
-  test('should be positioned after Get Involved section', async ({ page }) => {
+  test('should be positioned within home page template only', async ({ page }) => {
     await page.goto('http://localhost:8000/');
     await page.waitForTimeout(2000);
 
-    // Get Involved section should be visible
-    await expect(page.locator('text=Get involved')).toBeVisible();
+    // Blog navigation bar should be visible on home page
+    await expect(page.locator('text=View Latest Posts')).toBeVisible();
     
-    // Blog section should be visible
-    await expect(page.locator('text=Updates & Blog')).toBeVisible();
+    // Navigate to a different page to ensure it's not site-wide
+    await page.goto('http://localhost:8000/#/blog');
+    await page.waitForTimeout(2000);
     
-    // Blog section should appear after Get Involved section
-    const getInvolvedSection = page.locator('text=Get involved').locator('../../../..');
-    const blogSection = page.locator('text=Updates & Blog').locator('../../../..');
+    // Blog navigation bar should NOT be visible on other pages (check for the specific button)
+    await expect(page.locator('text=View Latest Posts')).not.toBeVisible();
     
-    // Check that blog section comes after Get Involved in DOM order
-    const getInvolvedBox = await getInvolvedSection.boundingBox();
-    const blogBox = await blogSection.boundingBox();
+    // Navigate back to home to confirm it's still there
+    await page.goto('http://localhost:8000/');
+    await page.waitForTimeout(2000);
+    await expect(page.locator('text=View Latest Posts')).toBeVisible();
+  });
+
+  test('should have three core content boxes instead of fragmented sections', async ({ page }) => {
+    await page.goto('http://localhost:8000/');
+    await page.waitForTimeout(2000);
+
+    // Check for the three core boxes
+    await expect(page.locator('text=A Thriving Technical Community')).toBeVisible();
+    await expect(page.locator('text=🛠️ Hands-On Skills & Training')).toBeVisible();
+    await expect(page.locator('text=🚀 Your Path to Tech: Our Members Get Hired')).toBeVisible();
     
-    if (getInvolvedBox && blogBox) {
-      expect(blogBox.y).toBeGreaterThan(getInvolvedBox.y);
-    }
+    // Should not have the old fragmented section headers
+    await expect(page.locator('text=Our Mission').locator('..').locator('h3')).not.toBeVisible();
+    await expect(page.locator('text=What we do').locator('..').locator('h3')).not.toBeVisible();
+  });
+
+  test('should maintain consolidated content in three boxes', async ({ page }) => {
+    await page.goto('http://localhost:8000/');
+    await page.waitForTimeout(2000);
+
+    // Box 1: Thriving Technical Community
+    const communityBox = page.locator('text=A Thriving Technical Community').locator('..');
+    await expect(communityBox).toBeVisible();
+    await expect(communityBox.locator('text=only computer club on campus')).toBeVisible();
+    await expect(communityBox.locator('text=all skill levels')).toBeVisible();
+    
+    // Box 2: Skills & Training
+    const skillsBox = page.locator('text=🛠️ Hands-On Skills & Training').locator('..');
+    await expect(skillsBox).toBeVisible();
+    await expect(skillsBox.locator('text=practical, hands-on experience')).toBeVisible();
+    await expect(skillsBox.locator('text=National Cyber League')).toBeVisible();
+    await expect(skillsBox.locator('text=Linux Command Line Interface')).toBeVisible();
+    
+    // Box 3: Career & Networking
+    const careerBox = page.locator('text=🚀 Your Path to Tech: Our Members Get Hired').locator('..');
+    await expect(careerBox).toBeVisible();
+    await expect(careerBox.locator('text=successful employment')).toBeVisible();
+    await expect(careerBox.locator('text=Industry Speakers')).toBeVisible();
+    await expect(careerBox.locator('text=Major Networking Events')).toBeVisible();
   });
 });
