@@ -5,6 +5,39 @@ All notable changes to the Cyber Club Landing Pages project are documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.1] - 2025-01-15
+
+### Added
+- **Data-Driven Configuration Pattern**: Comprehensive refactoring to prevent configuration-related bugs
+  - **Single Source of Truth**: Unified `categoryConfig` object replacing separate `catNames` and `categoryTexts`
+  - **Complete Schema**: Each category includes `label`, `description`, `icon`, and `color` properties
+  - **Runtime Validation**: Validates all required properties and prevents duplicate labels
+  - **Factory Pattern**: Helper functions with graceful fallbacks for missing categories
+  - **Type Safety**: JSDoc annotations for development-time validation
+
+### Enhanced
+- **Visual Differentiation System**: Configuration-driven color assignment for content types
+  - **Blog Posts**: Amber hover accents (`hover:border-amber-500`)
+  - **Guides** (Linux/Career): Blue hover accents (`hover:border-blue-500`)
+  - **Default**: Emerald hover accents (`hover:border-emerald-600`)
+- **Comprehensive Test Coverage**: 11 tests covering all functionality and edge cases
+  - **Configuration Validation**: Tests for complete category configurations
+  - **Error Handling**: Tests for invalid categories and missing configurations
+  - **Visual Differentiation**: Tests for proper styling based on content type
+  - **Before/After Validation**: Ensures identical behavior after refactoring
+
+### Fixed
+- **Configuration Bug Prevention**: Original missing description bug cannot happen again
+- **Maintainability**: Single place to add/modify categories with automatic validation
+- **Extensibility**: Easy to add new properties (e.g., `sortOrder`, `isActive`)
+
+### Technical Implementation
+- **Unified Configuration**: `categoryConfig` object with complete schema for all categories
+- **Runtime Validation**: `validateCategoryConfig()` function with comprehensive checks
+- **Helper Functions**: `createCategoryHelpers()` factory pattern for category operations
+- **Visual Integration**: Dynamic color assignment based on category configuration
+- **Test Suite**: `category-configuration.spec.ts` with 11 comprehensive tests
+
 ## [1.7.19] - 2025-09-29
 
 ### Enhanced

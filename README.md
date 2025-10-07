@@ -120,6 +120,7 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 - **DRY Documentation**: Linux guides and blog posts use reusable CSS classes and consistent styling with official Cyberknights color palette.
 - **Visual Content Differentiation**: Blog posts and guides feature subtle visual differentiation with warm amber accents for blogs and cool blue accents for guides in the resources grid.
 - **Unified Content Management**: Both guides and blogs use identical JSON metadata schemas and loading systems for seamless SPA integration.
+- **Data-Driven Configuration Pattern**: Comprehensive category management system with unified configuration object, runtime validation, factory pattern helper functions, and complete test coverage to prevent configuration-related bugs.
 - **Automated Testing**: Comprehensive test suite using Playwright for fast, reliable link testing and cross-browser validation.
 - **Automated Versioning**: Tag-based deployment model using standard-version with conventional commits, automatic changelog generation, and GitHub Actions deployment.
 - **CI/CD Pipeline Drift Prevention**: Automated validation system that prevents GitHub Actions workflows from referencing non-existent npm scripts, eliminating deployment failures caused by incomplete refactoring.

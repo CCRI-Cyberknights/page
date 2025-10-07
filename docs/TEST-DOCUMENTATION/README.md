@@ -23,6 +23,9 @@ This directory contains comprehensive documentation for all test files in the pr
 - [Playwright Link Testing Comprehensive](playwright-link-testing-comprehensive.md) - End-to-end link validation
 - [Playwright Link Testing Modern](playwright-link-testing-modern.md) - Modern link testing approach
 
+### **Configuration & Data-Driven Testing**
+- [Category Configuration](category-configuration.md) - Data-driven configuration pattern validation
+
 ### **Layout Testing**
 - [Layout Architecture](layout-architecture.md) - Overall layout structure validation
 

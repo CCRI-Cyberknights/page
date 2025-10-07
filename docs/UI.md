@@ -1003,6 +1003,45 @@ function openModal(src, alt, isCanvas = false) {
 ### Design Evolution Overview
 The project underwent significant design improvements in v1.5.x, including navigation redesign with button-style elements, mobile search UX fixes, resource card enhancements with bullet formatting, external link indicators, and interactive image system improvements. Key technical changes included CSS custom properties, JavaScript functionality for modals and toggles, and comprehensive accessibility improvements.
 
+### Data-Driven Configuration Pattern (v1.8.1)
+
+The project now implements a robust data-driven configuration pattern that prevents configuration-related bugs and improves maintainability:
+
+#### **Single Source of Truth Configuration**
+- **Unified Configuration**: Replaced separate `catNames` and `categoryTexts` objects with unified `categoryConfig`
+- **Complete Schema**: Each category includes `label`, `description`, `icon`, and `color` properties
+- **Type Safety**: JSDoc annotations provide development-time validation
+
+#### **Runtime Validation System**
+- **Configuration Validation**: Validates all required properties exist for each category
+- **Duplicate Prevention**: Prevents duplicate labels and incomplete configurations
+- **Fail-Fast Behavior**: Clear error messages with immediate failure on invalid configuration
+
+#### **Factory Pattern for Helper Functions**
+- **`getCategoryLabel(category)`** - Gets display name with fallback
+- **`getCategoryDescription(category)`** - Gets detailed description with fallback
+- **`getCategoryIcon(category)`** - Gets emoji icon with fallback
+- **`getCategoryColor(category)`** - Gets color for visual differentiation
+
+#### **Visual Differentiation Integration**
+- **Blog Posts**: Amber hover accents (`hover:border-amber-500`)
+- **Guides** (Linux/Career): Blue hover accents (`hover:border-blue-500`)
+- **Default**: Emerald hover accents (`hover:border-emerald-600`)
+- **Configuration-Driven**: Color assignment based on category configuration
+
+#### **Comprehensive Test Coverage**
+- **11 Tests**: Covering all functionality and edge cases
+- **Before/After Validation**: Ensures identical behavior after refactoring
+- **Error Handling**: Tests for invalid categories and missing configurations
+- **Configuration Completeness**: Validates all categories have complete configurations
+
+#### **Benefits**
+- **Bug Prevention**: Original missing description bug cannot happen again
+- **Maintainability**: Single place to add/modify categories
+- **Extensibility**: Easy to add new properties (e.g., `sortOrder`, `isActive`)
+- **Type Safety**: Development-time validation with JSDoc
+- **Runtime Validation**: Immediate feedback on configuration errors
+
 ### Content Architecture Strategy
 Strategic content reorganization focused on QR code landing scenarios, including banner placement ("Excitement • Opportunity • Belonging"), career-focused messaging reorganization, and text hierarchy standardization. The changes improved user experience for both QR code users and regular visitors through better content structure and messaging clarity.
 

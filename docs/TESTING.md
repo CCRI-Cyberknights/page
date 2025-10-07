@@ -248,6 +248,37 @@ tests/
 - Verify QR Code generation and info display
 - Validate navigation links work correctly
 
+### 5. Category Configuration Testing (`category-configuration.spec.ts`)
+
+**Purpose**: Comprehensive validation of the data-driven configuration pattern that prevents configuration-related bugs.
+
+**Coverage**:
+- Category configuration validation and completeness
+- Visual differentiation testing (blog vs guide styling)
+- Error handling for invalid categories
+- Runtime validation system testing
+- Configuration completeness validation
+
+**Key Test Cases**:
+- All category filter buttons present and clickable
+- Category descriptions display correctly for each filter
+- Category labels display correctly in resource cards
+- Visual differentiation works for different content types
+- Default resources page shows cyberknights filter
+- Category filter buttons update URL hash
+- Deep linking to specific categories works
+- All categories have complete configuration
+- Invalid category filter gracefully handles missing configuration
+- Missing category configuration shows fallback behavior
+- New category addition requires complete configuration
+
+**Benefits**:
+- **Bug Prevention**: Prevents missing description bugs like the original issue
+- **Configuration Validation**: Ensures all categories have complete configurations
+- **Visual Consistency**: Validates proper visual differentiation between content types
+- **Error Handling**: Tests graceful handling of invalid configurations
+- **Runtime Validation**: Validates the runtime validation system works correctly
+
 ## Testing Approach
 - Hash-based routing (`#/page` navigation)
 - Dynamic content rendering
