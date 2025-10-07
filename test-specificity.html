@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CSS Specificity Test</title>
+  <style>
+    :root {
+      --ember-spark: #C27329;
+    }
+    
+    .emphasis-text {
+      color: var(--ember-spark);
+    }
+  </style>
+</head>
+<body>
+  <p style="color: #e2e8f0;">
+    Test text with <strong class="emphasis-text">orange emphasis</strong> should be orange.
+  </p>
+  
+  <script>
+    // Test computed styles
+    const emphasisElement = document.querySelector('.emphasis-text');
+    const computedStyle = getComputedStyle(emphasisElement);
+    console.log('Computed color:', computedStyle.color);
+    console.log('Expected: rgb(194, 115, 41)');
+    console.log('Match:', computedStyle.color === 'rgb(194, 115, 41)');
+  </script>
+</body>
+</html>
