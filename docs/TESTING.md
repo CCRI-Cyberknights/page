@@ -269,11 +269,31 @@ tests/
 - Deep linking to specific categories works
 - All categories have complete configuration
 - Invalid category filter gracefully handles missing configuration
-- Missing category configuration shows fallback behavior
-- New category addition requires complete configuration
+
+### 6. DRY Navigation Pattern Testing (`dry-navigation.spec.ts`)
+
+**Purpose**: Comprehensive testing of the unified "Back to [Section]" navigation system and template integration.
+
+**Coverage**:
+- Template-based navigation consistency
+- Factory helper function validation
+- Configurable styling options testing
+- Error state navigation testing
+- Cross-content type navigation validation
+
+**Key Test Cases**:
+- Blog template navigation with "Back to Blog" links
+- Guide template navigation with "Back to Linux Learner's Guide" links
+- Calendar template navigation with "Back to Calendar" links
+- Resources template navigation with neon-surge styling
+- Error state navigation consistency
+- Additional links in complex navigation patterns
 
 **Benefits**:
-- **Bug Prevention**: Prevents missing description bugs like the original issue
+- Ensures consistent navigation across all content types
+- Validates template-provided navigation functionality
+- Tests configurable styling options and graceful fallbacks
+- Prevents navigation inconsistencies and broken links
 - **Configuration Validation**: Ensures all categories have complete configurations
 - **Visual Consistency**: Validates proper visual differentiation between content types
 - **Error Handling**: Tests graceful handling of invalid configurations

@@ -118,8 +118,10 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 - **Sticky Footer Layout**: Consistent footer positioning using flexbox layout to ensure footer always appears at bottom of viewport when content is minimal.
 - **Automated Versioning Diagnostics**: Playwright-based diagnostic system that validates versioning pipeline across all layers (files → commits → deployment) with comprehensive error detection and reporting.
 - **DRY Documentation**: Linux guides and blog posts use reusable CSS classes and consistent styling with official Cyberknights color palette.
+- **DRY Navigation Pattern**: Unified "Back to [Section]" navigation system with consistent styling, factory pattern helper functions, and comprehensive test coverage ensuring maintainable navigation across all content types.
 - **Visual Content Differentiation**: Blog posts and guides feature subtle visual differentiation with warm amber accents for blogs and cool blue accents for guides in the resources grid.
 - **Unified Content Management**: Both guides and blogs use identical JSON metadata schemas and loading systems for seamless SPA integration.
+- **Template-Based Architecture**: Consistent template system for both guides (`page-guides`) and blogs (`page-blogs`) providing unified navigation, loading states, and content structure.
 - **Data-Driven Configuration Pattern**: Comprehensive category management system with unified configuration object, runtime validation, factory pattern helper functions, and complete test coverage to prevent configuration-related bugs.
 - **Automated Testing**: Comprehensive test suite using Playwright for fast, reliable link testing and cross-browser validation.
 - **Automated Versioning**: Tag-based deployment model using standard-version with conventional commits, automatic changelog generation, and GitHub Actions deployment.

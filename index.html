@@ -649,7 +649,7 @@
         </div>
       </div>
 
-      <div class="mt-8">
+      <div class="mt-8" id="linux-navigation">
         <a href="#/home" class="neon-surge-link transition-opacity">Back to Club Home</a>
         <span class="mx-2">•</span>
         <a href="#/resources/linux" class="neon-surge-link transition-opacity">Linux Learner's Guide</a>
@@ -731,7 +731,7 @@
       <div id="resources-grid" class="grid sm:grid-cols-2 gap-3"></div>
 
 
-      <div class="mt-6">
+      <div class="mt-6" id="resources-navigation">
         <a href="#/home" class="neon-surge-link transition-opacity">Back to Club Home</a>
       </div>
     </section>
@@ -749,10 +749,28 @@
         </div>
       </div>
 
-      <div class="mt-8">
+      <div class="mt-8" id="guides-navigation">
         <a href="#/resources/linux" class="text-emerald-400 hover:text-emerald-300">← Back to Linux Learner's Guide</a>
         <span class="mx-2">•</span>
         <a href="#/linux" class="text-emerald-400 hover:text-emerald-300">Linux Boot Guide</a>
+      </div>
+    </section>
+  </template>
+
+  <template id="page-blogs">
+    <section class="space-y-6">
+      
+      <div id="blogs-content" class="space-y-6">
+        <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
+          <div class="text-center">
+            <div class="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-emerald-500"></div>
+            <p class="text-slate-400 mt-2">Loading blog post...</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-8" id="blogs-navigation">
+        <a href="#/blog" class="text-emerald-400 hover:text-emerald-300">← Back to Blog</a>
       </div>
     </section>
   </template>
@@ -793,7 +811,7 @@
         </div>
       </div>
 
-      <div class="mt-6">
+      <div class="mt-6" id="calendar-navigation">
         <a href="#/calendar" class="text-emerald-400 hover:text-emerald-300">← Back to Calendar</a>
       </div>
     </section>
@@ -886,8 +904,8 @@
 
       // Handle blog pages (e.g., #/blogs/microsoft-aws-ai-opportunities.html)
       if (page === 'blogs' && segments.length > 0) {
-        // Use the guides template (same structure as guides)
-        app.innerHTML = routes['guides'];
+        // Use the blogs template
+        app.innerHTML = routes['blogs'];
 
         // Build file path (e.g. blogs/microsoft-aws-ai-opportunities.html)
         const filePath = 'blogs/' + segments.join('/');
@@ -898,9 +916,9 @@
           const bodyMatch = text.match(/<body[^>]*>([\s\S]*)<\/body>/i);
           const content = bodyMatch ? bodyMatch[1] : text;
 
-          document.getElementById('guides-content').innerHTML = content;
+          document.getElementById('blogs-content').innerHTML = content;
         } catch (err) {
-          document.getElementById('guides-content').innerHTML =
+          document.getElementById('blogs-content').innerHTML =
             `<p class="text-red-400">Failed to load ${filePath}</p>`;
         }
         return;
@@ -965,14 +983,20 @@
       }
       updateFooterQr(page);
       if (page === 'resources') {
-        try { await renderResourcesPage(segments[0] || 'all'); } catch {}
+        try { await renderResourcesPage(segments[0]); } catch {}
       }
       if (page === 'blog') {
         try { renderBlogPage(); } catch {}
       }
       // Handle individual blog post routes: #/blog/post-slug
       if (page === 'blog' && segments.length > 0) {
-        try { renderBlogPost(segments[0]); } catch {}
+        try { 
+          // Use the blogs template
+          app.innerHTML = routes['blogs'];
+          // Load blog posts data without rendering the blog page
+          await loadBlogPosts();
+          renderBlogPost(segments[0]); 
+        } catch {}
       }
     }
 
@@ -1278,16 +1302,6 @@
     const BASE_URL = 'https://ccri-cyberknights.github.io/page/';
 
     // Category-specific intro texts (global scope)
-    const categoryTexts = {
-      'ctf-tools': '🔧 Versatile online tools for cryptanalysis and data manipulation in Capture the Flag (CTF) challenges. These include quipqiup for automatic cipher solving, Boxentriq for identifying and decoding ciphers, and CyberChef as a comprehensive "Swiss Army knife" for encoding, decoding, and analyzing data.',
-      'ccri': '🏫 Institutional support for cybersecurity education. Key links cover cybersecurity and safety resources, additional educational materials, standardized credit awards for prior learning, and detailed pathway guides outlining degrees, certificates, career outlooks, and student services.',
-      'career': '🎯 Professional development in tech and cybersecurity fields. Includes Security Certification Roadmap for progressing from beginner to expert certifications, tools for exploring job roles in areas like cybersecurity and networking, and college-integrated platforms for job searching, resume building, and professional opportunities.',
-      'cyberknights': '⚔️ Internal resources supporting club activities and community. Features GitHub repository for projects and code, Discord server for discussions, and official student club page for information and involvement.',
-      'ctf-competitions': '🏆 National-level cybersecurity competitions for skill-building. These include the National Cyber League (NCL) for hands-on challenges and the National Centers of Academic Excellence (NCAE) CyberGames for collegiate defense and offense exercises.',
-      'stem': '🔬 Resources for STEM-related events, including the 2025 Cyber Game repository on GitHub, designed for interactive cybersecurity activities and take-home challenges.',
-      'linux': '🐧 Foundational resources for cybersecurity learners, including a cheat sheet with essential commands for file navigation, permissions, processes, networking, and more, accessible via an internal document link.',
-      'blog': '📝 Updates, announcements, and insights from the CCRI Cyberknights club. Features career opportunities, meeting recaps, member achievements, and educational content to keep the community informed and engaged.'
-    };
 
     async function renderResourcesPage(preselectedFilter) {
       // Load guides and blogs dynamically
@@ -1448,7 +1462,107 @@
       const grid = document.getElementById('resources-grid');
       const search = document.getElementById('resources-search');
       const filterButtons = Array.from(document.querySelectorAll('[data-filter]'));
-      const catNames = { 'ctf-tools': 'CTF & Code Breaking Tools', 'ctf-competitions': 'CTF Competitions', 'ccri': 'CCRI', 'cyberknights': 'Cyberknights', 'stem': 'STEM Day', 'linux': 'Linux', 'career': 'Career', 'blog': 'Blog Posts' };
+      /**
+     * @typedef {Object} CategoryConfig
+     * @property {string} label - Display name for the category
+     * @property {string} description - Detailed description shown in resources
+     * @property {string} icon - Emoji icon for the category
+     * @property {string} color - CSS color class for visual differentiation
+     */
+
+    /**
+     * @type {Record<string, CategoryConfig>}
+     */
+    const categoryConfig = {
+      'ctf-tools': {
+        label: 'CTF & Code Breaking Tools',
+        description: '🔧 Versatile online tools for cryptanalysis and data manipulation in Capture the Flag (CTF) challenges. These include quipqiup for automatic cipher solving, Boxentriq for identifying and decoding ciphers, and CyberChef as a comprehensive "Swiss Army knife" for encoding, decoding, and analyzing data.',
+        icon: '🔧',
+        color: 'emerald'
+      },
+      'ctf-competitions': {
+        label: 'CTF Competitions',
+        description: '🏆 National-level cybersecurity competitions for skill-building. These include the National Cyber League (NCL) for hands-on challenges and the National Centers of Academic Excellence (NCAE) CyberGames for collegiate defense and offense exercises.',
+        icon: '🏆',
+        color: 'emerald'
+      },
+      'ccri': {
+        label: 'CCRI',
+        description: '🏫 Institutional support for cybersecurity education. Key links cover cybersecurity and safety resources, additional educational materials, standardized credit awards for prior learning, and detailed pathway guides outlining degrees, certificates, career outlooks, and student services.',
+        icon: '🏫',
+        color: 'emerald'
+      },
+      'cyberknights': {
+        label: 'Cyberknights',
+        description: '⚔️ Internal resources supporting club activities and community. Features GitHub repository for projects and code, Discord server for discussions, and official student club page for information and involvement.',
+        icon: '⚔️',
+        color: 'emerald'
+      },
+      'stem': {
+        label: 'STEM Day',
+        description: '🔬 Resources for STEM-related events, including the 2025 Cyber Game repository on GitHub, designed for interactive cybersecurity activities and take-home challenges.',
+        icon: '🔬',
+        color: 'emerald'
+      },
+      'linux': {
+        label: 'Linux',
+        description: '🐧 Foundational resources for cybersecurity learners, including a cheat sheet with essential commands for file navigation, permissions, processes, networking, and more, accessible via an internal document link.',
+        icon: '🐧',
+        color: 'blue'
+      },
+      'career': {
+        label: 'Career',
+        description: '🎯 Professional development in tech and cybersecurity fields. Includes Security Certification Roadmap for progressing from beginner to expert certifications, tools for exploring job roles in areas like cybersecurity and networking, and college-integrated platforms for job searching, resume building, and professional opportunities.',
+        icon: '🎯',
+        color: 'blue'
+      },
+      'blog': {
+        label: 'Blog Posts',
+        description: '📝 Updates, announcements, and insights from the CCRI Cyberknights club. Features career opportunities, meeting recaps, member achievements, and educational content to keep the community informed and engaged.',
+        icon: '📝',
+        color: 'amber'
+      }
+    };
+
+    // Runtime validation for category configuration
+    function validateCategoryConfig() {
+      const requiredProps = ['label', 'description', 'icon', 'color'];
+      
+      for (const [category, config] of Object.entries(categoryConfig)) {
+        for (const prop of requiredProps) {
+          if (!config[prop]) {
+            console.error(`Missing ${prop} for category: ${category}`);
+            throw new Error(`Category configuration incomplete: ${category}`);
+          }
+        }
+      }
+      
+      // Check for duplicate labels
+      const labels = Object.values(categoryConfig).map(c => c.label);
+      const uniqueLabels = new Set(labels);
+      if (labels.length !== uniqueLabels.size) {
+        console.error('Duplicate category labels found:', labels);
+        throw new Error('Duplicate category labels detected');
+      }
+      
+      console.log('✅ Category configuration validation passed');
+    }
+
+    // Validate configuration on initialization
+    validateCategoryConfig();
+
+    // Factory pattern for category helpers
+    function createCategoryHelpers(config) {
+      return {
+        getCategoryLabel: (category) => config[category]?.label || category,
+        getCategoryDescription: (category) => config[category]?.description || 'No description available',
+        getCategoryIcon: (category) => config[category]?.icon || '📄',
+        getCategoryColor: (category) => config[category]?.color || 'emerald'
+      };
+    }
+
+    const categoryHelpers = createCategoryHelpers(categoryConfig);
+
       const availableFilters = new Set(filterButtons.map(b => b.dataset.filter));
       const initialFilter = (preselectedFilter && availableFilters.has(preselectedFilter)) ? preselectedFilter : 'cyberknights';
 
@@ -1475,9 +1589,9 @@
         return 'Visit Site';
       }
 
-      // Function to get category label
+      // Function to get category label (now uses new configuration)
       function getCategoryLabel(category) {
-        return catNames[category] || category;
+        return categoryHelpers.getCategoryLabel(category);
       }
 
       // Constants are now defined in global scope
@@ -1533,13 +1647,13 @@
             const catLabel = getCategoryLabel(r.cat);
             const card = document.createElement('div');
             
-            // Apply different styling based on content type
+            // Apply different styling based on content type using configuration
             let cardClasses = 'block p-3 rounded border border-slate-800 bg-slate-900/60 transition-colors cursor-pointer';
-            if (r.cat === 'blog') {
-              // Blog posts: warm accent (amber/orange)
+            const categoryColor = categoryHelpers.getCategoryColor(r.cat);
+            
+            if (categoryColor === 'amber') {
               cardClasses += ' hover:border-amber-500';
-            } else if (r.cat === 'linux' || r.cat === 'career') {
-              // Guides: cool accent (blue)
+            } else if (categoryColor === 'blue') {
               cardClasses += ' hover:border-blue-500';
             } else {
               // Default: emerald accent
@@ -1729,10 +1843,10 @@
           // Wait for re-render, then apply smooth transition
           setTimeout(() => {
             const introText = document.getElementById('intro-text');
-            if (introText && categoryTexts[filter]) {
+            if (introText && categoryHelpers.getCategoryDescription(filter)) {
               // Apply smooth CSS transition
               introText.classList.add('text-change');
-              introText.textContent = categoryTexts[filter];
+              introText.textContent = categoryHelpers.getCategoryDescription(filter);
               setTimeout(() => introText.classList.remove('text-change'), 800);
             }
           }, 100); // Small delay to allow re-render
@@ -1766,10 +1880,14 @@
       applyFilters();
       
       // Update intro text for preselected filter
-      if (preselectedFilter && categoryTexts[preselectedFilter]) {
+      // Use initialFilter if preselectedFilter is undefined
+      const filterToUse = preselectedFilter || initialFilter;
+      
+      if (filterToUse && categoryHelpers.getCategoryDescription(filterToUse)) {
         const introText = document.getElementById('intro-text');
         if (introText) {
-          introText.textContent = categoryTexts[preselectedFilter];
+          const description = categoryHelpers.getCategoryDescription(filterToUse);
+          introText.textContent = description;
         }
       }
     }
@@ -2012,6 +2130,59 @@
     let blogPosts = [];
     let guides = [];
 
+    // DRY Navigation Helper Functions
+    /**
+     * Creates consistent "Back to" navigation links
+     * @param {Object} config - Navigation configuration
+     * @param {string} config.target - Target route (e.g., 'blog', 'resources/linux', 'calendar')
+     * @param {string} config.label - Display label (e.g., 'Blog', 'Linux Learner\'s Guide', 'Calendar')
+     * @param {string} config.style - CSS class for styling ('emerald', 'neon-surge', 'simple')
+     * @param {boolean} config.withArrow - Whether to include left arrow (default: true)
+     * @param {string} config.additionalLinks - Additional links to include (optional)
+     * @returns {string} HTML string for navigation
+     */
+    function createBackNavigation(config) {
+      const { target, label, style = 'emerald', withArrow = true, additionalLinks = '' } = config;
+      
+      let cssClass;
+      switch (style) {
+        case 'emerald':
+          cssClass = 'text-emerald-400 hover:text-emerald-300';
+          break;
+        case 'neon-surge':
+          cssClass = 'neon-surge-link transition-opacity';
+          break;
+        case 'simple':
+          cssClass = 'text-emerald-400 hover:text-emerald-300';
+          break;
+        default:
+          cssClass = 'text-emerald-400 hover:text-emerald-300';
+      }
+      
+      const arrow = withArrow ? '← ' : '';
+      const backLink = `<a href="#/${target}" class="${cssClass}">${arrow}Back to ${label}</a>`;
+      
+      if (additionalLinks) {
+        return `<div class="mt-6">${backLink}${additionalLinks}</div>`;
+      }
+      
+      return `<div class="mt-6">${backLink}</div>`;
+    }
+
+    /**
+     * Creates error state navigation with consistent styling
+     * @param {string} target - Target route
+     * @param {string} label - Display label
+     * @returns {string} HTML string for error navigation
+     */
+    function createErrorNavigation(target, label) {
+      return `<a href="#/${target}" class="inline-flex items-center text-emerald-400 hover:text-emerald-300 mt-4">
+        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+        </svg>Back to ${label}
+      </a>`;
+    }
+
     async function loadContent(type) {
       try {
         // Use different file names for different content types
@@ -2095,10 +2266,10 @@
     async function renderBlogPost(slug) {
       const post = blogPosts.find(p => p.slug === slug);
       if (!post) {
-        // Show error message in the current page
-        const blogContainer = document.querySelector('#app section');
+        // Show error message in the blogs content area
+        const blogContainer = document.getElementById('blogs-content');
         if (blogContainer) {
-          blogContainer.innerHTML = '<div class="text-center py-8"><h2 class="text-2xl font-bold text-red-400">Post Not Found</h2><p class="text-slate-300 mt-4">The requested blog post could not be found.</p><a href="#/blog" class="inline-flex items-center text-emerald-400 hover:text-emerald-300 mt-4"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>Back to Blog</a></div>';
+          blogContainer.innerHTML = `<div class="text-center py-8"><h2 class="text-2xl font-bold text-red-400">Post Not Found</h2><p class="text-slate-300 mt-4">The requested blog post could not be found.</p></div>`;
         }
         return;
       }
@@ -2115,16 +2286,16 @@
         const bodyMatch = htmlContent.match(/<body[^>]*>([\s\S]*)<\/body>/i);
         const content = bodyMatch ? bodyMatch[1] : htmlContent;
         
-        // Replace the blog page content with the loaded HTML
-        const blogContainer = document.querySelector('#app section');
+        // Replace the blog content area with the loaded HTML
+        const blogContainer = document.getElementById('blogs-content');
         if (!blogContainer) return;
         
         blogContainer.innerHTML = content;
       } catch (error) {
         console.error('Failed to load blog post:', error);
-        const blogContainer = document.querySelector('#app section');
+        const blogContainer = document.getElementById('blogs-content');
         if (blogContainer) {
-          blogContainer.innerHTML = '<div class="text-center py-8"><h2 class="text-2xl font-bold text-red-400">Error Loading Post</h2><p class="text-slate-300 mt-4">Failed to load the blog post content.</p><a href="#/blog" class="inline-flex items-center text-emerald-400 hover:text-emerald-300 mt-4"><svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>Back to Blog</a></div>';
+          blogContainer.innerHTML = `<div class="text-center py-8"><h2 class="text-2xl font-bold text-red-400">Error Loading Post</h2><p class="text-slate-300 mt-4">Failed to load the blog post content.</p></div>`;
         }
       }
     }
@@ -2304,6 +2475,7 @@
         calendar: document.getElementById('page-calendar').innerHTML,
         resources: document.getElementById('page-resources') ? document.getElementById('page-resources').innerHTML : '<section class="space-y-6"><h2 class="text-3xl sm:text-4xl font-bold">Resources</h2><p class="text-slate-300">Coming soon.</p></section>',
         blog: document.getElementById('page-blog').innerHTML,
+        blogs: document.getElementById('page-blogs').innerHTML,
         'map-warwick-4080': document.getElementById('page-map-warwick-4080').innerHTML,
         'guides': document.getElementById('page-guides').innerHTML,
         'document': document.getElementById('page-guides').innerHTML  // Legacy route support

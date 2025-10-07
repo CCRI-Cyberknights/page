@@ -26,6 +26,9 @@ This directory contains comprehensive documentation for all test files in the pr
 ### **Configuration & Data-Driven Testing**
 - [Category Configuration](category-configuration.md) - Data-driven configuration pattern validation
 
+### **Navigation & Template Integration Testing**
+- [DRY Navigation Pattern](dry-navigation.md) - Unified "Back to [Section]" navigation system validation
+
 ### **Layout Testing**
 - [Layout Architecture](layout-architecture.md) - Overall layout structure validation
 

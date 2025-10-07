@@ -5,6 +5,46 @@ All notable changes to the Cyber Club Landing Pages project are documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.2] - 2025-01-15
+
+### Added
+- **Blog Template System**: Consistent template-based architecture for blog posts
+  - **`page-blogs` Template**: Dedicated template for blog content with loading states and navigation
+  - **Template Integration**: `#blogs-content` area for content injection and `#blogs-navigation` for consistent navigation
+  - **Routes Object**: Added `blogs: document.getElementById('page-blogs').innerHTML` to routing system
+  - **Template Consistency**: Blogs now use same template pattern as guides for unified architecture
+
+- **DRY Navigation Pattern**: Unified "Back to [Section]" navigation system
+  - **Factory Helper Functions**: `createBackNavigation(config)` and `createErrorNavigation(target, label)`
+  - **Configurable Styling**: Emerald, neon-surge, and simple styling options with graceful fallbacks
+  - **Template-Provided Navigation**: Navigation centralized in templates, not individual HTML files
+  - **Comprehensive Test Coverage**: 7 tests covering all navigation patterns and styling variants
+
+### Enhanced
+- **Template-Based Architecture**: Both guides and blogs now use consistent template system
+  - **Guides**: `page-guides` template with `#guides-content` and `#guides-navigation` areas
+  - **Blogs**: `page-blogs` template with `#blogs-content` and `#blogs-navigation` areas
+  - **Loading States**: Consistent loading spinners and error handling across templates
+  - **Navigation Consistency**: Template-provided navigation eliminates duplicate links
+
+- **Blog Routing Logic**: Updated both blog routing paths to use template system
+  - **`#/blogs/filename.html`**: Now uses `page-blogs` template instead of `page-guides`
+  - **`#/blog/slug`**: Now uses `page-blogs` template for consistent navigation
+  - **Content Injection**: Blog content properly injected into `#blogs-content` area
+  - **Error Handling**: Error states use template-provided navigation consistently
+
+### Fixed
+- **Navigation Duplication**: Removed duplicate "Back to Blog" links from individual blog HTML files
+- **Template Consistency**: Blogs and guides now use identical template architecture
+- **Maintainability**: Navigation centralized in templates, not scattered across HTML files
+- **Test Coverage**: All 10 blog functionality tests passing with template system
+
+### Technical Implementation
+- **Template Structure**: `page-blogs` template with dedicated content and navigation areas
+- **Routing Updates**: Both blog routing paths use `routes['blogs']` template
+- **Helper Functions**: DRY navigation pattern with configurable styling and error handling
+- **Test Suite**: `dry-navigation.spec.ts` with 7 comprehensive tests covering all navigation patterns
+
 ## [1.8.1] - 2025-01-15
 
 ### Added

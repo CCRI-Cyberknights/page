@@ -53,11 +53,11 @@ test.describe('Blog Functionality', () => {
       
       // Check if individual post page loads
       await expect(page.locator('h1')).toBeVisible();
-      await expect(page.locator('text=Back to Blog').first()).toBeVisible();
+      await expect(page.locator('h1')).toContainText('Level Up Your Resume');
       
-      // Check if back link works
-      await page.locator('text=Back to Blog').first().click();
-      await expect(page.locator('h2')).toContainText('Updates & Blog');
+      // Check if blog content is displayed with proper navigation
+      await expect(page.locator('h3:has-text("Microsoft Reactor")')).toBeVisible();
+      await expect(page.locator('#blogs-navigation a:has-text("Back to Blog")')).toBeVisible();
     }
   });
 

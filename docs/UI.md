@@ -1003,6 +1003,36 @@ function openModal(src, alt, isCanvas = false) {
 ### Design Evolution Overview
 The project underwent significant design improvements in v1.5.x, including navigation redesign with button-style elements, mobile search UX fixes, resource card enhancements with bullet formatting, external link indicators, and interactive image system improvements. Key technical changes included CSS custom properties, JavaScript functionality for modals and toggles, and comprehensive accessibility improvements.
 
+### Blog Template System (v1.8.2)
+
+The project now implements a consistent template-based architecture for both guides and blogs, providing unified navigation and loading states:
+
+#### **Template-Based Architecture**
+- **Consistent Template Pattern**: Both guides and blogs now use identical template architecture
+- **`page-blogs` Template**: Dedicated template for blog content with loading states and navigation
+- **`page-guides` Template**: Existing template for guide content with consistent navigation
+- **Template Integration**: Content injection into dedicated areas (`#blogs-content`, `#guides-content`)
+- **Navigation Areas**: Template-provided navigation in dedicated areas (`#blogs-navigation`, `#guides-navigation`)
+
+#### **DRY Navigation Pattern**
+- **Unified Navigation System**: Consistent "Back to [Section]" navigation across all content types
+- **Factory Helper Functions**: `createBackNavigation(config)` and `createErrorNavigation(target, label)`
+- **Configurable Styling**: Emerald, neon-surge, and simple styling options with graceful fallbacks
+- **Template-Provided Navigation**: Navigation centralized in templates, not individual HTML files
+- **Comprehensive Test Coverage**: 7 tests covering all navigation patterns and styling variants
+
+#### **Blog Routing Enhancement**
+- **Dual Routing Support**: Both `#/blog/slug` and `#/blogs/filename.html` use template system
+- **Template Consistency**: Blogs now use same template pattern as guides for unified architecture
+- **Loading States**: Consistent loading spinners and error handling across templates
+- **Error Handling**: Template-provided navigation in error states maintains consistency
+
+#### **Visual Consistency**
+- **Template Structure**: Identical template structure for guides and blogs
+- **Navigation Styling**: Consistent emerald styling for most navigation links
+- **Special Styling**: Neon-surge styling for home navigation links
+- **Error States**: Consistent error navigation with SVG icons and graceful fallbacks
+
 ### Data-Driven Configuration Pattern (v1.8.1)
 
 The project now implements a robust data-driven configuration pattern that prevents configuration-related bugs and improves maintainability:
