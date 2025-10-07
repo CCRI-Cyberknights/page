@@ -1421,6 +1421,129 @@ npm run test:ui
 
 **1. Test-Driven Debugging**: Write Playwright tests before making changes
 
+## CSS Specificity Troubleshooting
+
+### Problem: CSS Styles Not Applying Due to Specificity Conflicts
+
+**Symptoms:**
+- Custom CSS classes not overriding Tailwind utilities
+- Text colors appearing different than expected
+- JavaScript-generated styles requiring `!important` declarations
+- Inconsistent styling across components
+
+**Root Cause:**
+CSS specificity conflicts between Tailwind CSS utilities and custom CSS classes. The codebase currently has 99 `!important` declarations due to competing specificity systems.
+
+### Specificity Conflict Examples
+
+#### Example 1: Text Color Override Failure
+```html
+<!-- Expected: Orange text -->
+<p class="text-slate-300 mb-4">
+  Text in <strong class="emphasis-text">orange</strong> appears gray
+</p>
+```
+
+```css
+/* Tailwind generates: */
+.text-slate-300 { color: rgb(203 213 225); }
+
+/* Our custom class: */
+.emphasis-text { color: var(--ember-spark); } /* #C27329 orange */
+```
+
+**Problem**: Tailwind's `.text-slate-300` has higher specificity than `.emphasis-text`
+
+#### Example 2: JavaScript Modal Styles
+```javascript
+// Current approach (problematic):
+const modalStyles = `
+  position: fixed !important;
+  top: 0 !important;
+  z-index: 9999 !important;
+`;
+```
+
+**Problem**: JavaScript can't predict Tailwind class conflicts, requiring `!important`
+
+### Debugging CSS Specificity Issues
+
+#### 1. Browser Developer Tools Analysis
+```javascript
+// Check computed styles
+const element = document.querySelector('.emphasis-text');
+const computedStyle = getComputedStyle(element);
+console.log('Color:', computedStyle.color);
+console.log('Specificity:', computedStyle.cssText);
+```
+
+#### 2. Specificity Calculator
+Use online tools like [specificity.keegan.st](https://specificity.keegan.st/) to calculate CSS specificity:
+- `.text-slate-300` = 0,0,1,0 (10 points)
+- `.emphasis-text` = 0,0,1,0 (10 points)
+- Later declaration wins
+
+#### 3. CSS Cascade Analysis
+```css
+/* Check import order */
+@import 'tailwind.css';     /* Loads first */
+@import 'custom.css';       /* Loads second - should win */
+```
+
+### Solutions
+
+#### Immediate Fix: More Specific Selectors
+```css
+/* Instead of: */
+.emphasis-text { color: var(--ember-spark); }
+
+/* Use: */
+.text-slate-300 .emphasis-text { color: var(--ember-spark); }
+```
+
+#### Long-term Fix: Tailwind Config Integration
+```js
+// tailwind.config.js
+theme: {
+  extend: {
+    colors: {
+      ember: 'var(--ember-spark)',    // #C27329
+      neon: 'var(--neon-surge)',      // #43CC50
+    },
+  },
+}
+```
+
+```html
+<!-- Use Tailwind utilities -->
+<strong class="text-ember">cybersecurity</strong>
+```
+
+#### Layer Management
+```css
+@layer components {
+  .emphasis-text { color: var(--ember-spark); }
+}
+```
+
+### Prevention Strategies
+
+1. **Use Tailwind utilities** instead of custom classes where possible
+2. **Implement proper layer management** with `@layer` directives
+3. **Control CSS import order** to ensure predictable cascade
+4. **Avoid `!important`** except for JavaScript-generated styles
+5. **Test specificity** with browser dev tools before deployment
+
+### Testing CSS Specificity
+
+```javascript
+// Automated specificity testing
+const testElement = document.createElement('div');
+testElement.className = 'text-slate-300 text-ember';
+const computedStyle = getComputedStyle(testElement);
+assert(computedStyle.color === 'rgb(194, 115, 41)'); // ember color
+```
+
 ## Universal Modal System Troubleshooting Case Study
 
 ### Problem: Over-Engineered Modal System Causing Multiple Issues

@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.7](https://github.com/CCRI-Cyberknights/page/compare/v1.8.6...v1.8.7) (2025-10-07)
+
+
+### Bug Fixes
+
+* remove !important from blog post and fix CSS specificity ([0239a57](https://github.com/CCRI-Cyberknights/page/commit/0239a57ae6568c55e527f1377ec2a2e0f54984e2))
+
 ### [1.8.6](https://github.com/CCRI-Cyberknights/page/compare/v1.8.5...v1.8.6) (2025-10-07)
 
 ### [1.8.5](https://github.com/CCRI-Cyberknights/page/compare/v1.8.4...v1.8.5) (2025-10-07)

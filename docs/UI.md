@@ -292,6 +292,120 @@ function updateNavigationActiveState(currentPage) {
 5. **CSS Specificity**: Uses `!important` to override Tailwind classes
 6. **Automatic Management**: No manual intervention required
 
+## CSS Architecture & Specificity Management
+
+### Current State: Specificity Anti-Pattern
+
+**Issue Identified**: The codebase currently uses 99 `!important` declarations due to specificity conflicts between Tailwind CSS utilities and custom CSS classes.
+
+**Root Cause**: Competing specificity systems without proper architectural boundaries:
+- Tailwind utilities (`.text-slate-300`) have higher specificity than custom classes (`.emphasis-text`)
+- JavaScript-generated styles require `!important` to override existing Tailwind classes
+- No consistent layer management or import order control
+
+### Specificity Conflict Examples
+
+#### Example 1: Text Color Override
+```html
+<!-- Parent has Tailwind utility -->
+<p class="text-slate-300 mb-4">
+  Text in <strong class="emphasis-text">orange</strong> should be orange
+</p>
+```
+
+```css
+/* Tailwind generates: */
+.text-slate-300 { color: rgb(203 213 225); }
+
+/* Our custom class: */
+.emphasis-text { color: var(--ember-spark); } /* #C27329 orange */
+```
+
+**Result**: Tailwind wins due to higher specificity. Orange text appears gray.
+
+#### Example 2: JavaScript-Generated Modal Styles
+```javascript
+// QR Code Modal (67 !important declarations)
+const modalStyles = `
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  z-index: 9999 !important;
+  background: rgba(15, 23, 42, 1.0) !important;
+`;
+```
+
+**Problem**: JavaScript can't predict which Tailwind classes might conflict, so every style needs `!important`.
+
+### Recommended Solution: Tailwind Config Integration
+
+#### 1. Integrate Brand Colors into Tailwind Config
+```js
+// tailwind.config.js
+theme: {
+  extend: {
+    colors: {
+      neon: 'var(--neon-surge)',      // #43CC50
+      ember: 'var(--ember-spark)',    // #C27329
+      arc: 'var(--arc-weld-blue)',    // #2DB2C4
+      forge: 'var(--forge-black)',     // #001011
+      steel: 'var(--steel-glow)',     // #5B6E6E
+      alloy: 'var(--pale-alloy)',      // #B8B8B8
+    },
+  },
+}
+```
+
+#### 2. Use Tailwind Utilities Instead of Custom Classes
+```html
+<!-- Instead of: -->
+<strong class="emphasis-text">cybersecurity</strong>
+
+<!-- Use: -->
+<strong class="text-ember">cybersecurity</strong>
+```
+
+#### 3. Implement Proper Layer Management
+```css
+@layer components {
+  .section-container {
+    @apply p-6 rounded-lg border border-slate-800 bg-slate-900/40;
+  }
+  
+  .section-title {
+    @apply text-xl font-bold mb-4 text-neon;
+  }
+}
+```
+
+#### 4. Modal System Redesign
+```css
+/* modal.css - Imported after Tailwind */
+.modal-backdrop {
+  @apply fixed inset-0 z-50 bg-slate-900/90 flex items-center justify-center;
+}
+
+.modal-content {
+  @apply bg-slate-800 p-6 rounded-lg max-w-md mx-4;
+}
+```
+
+```javascript
+// JavaScript - No more !important
+const modal = document.createElement('div');
+modal.classList.add('modal-backdrop');
+```
+
+### Implementation Plan
+
+**Phase 1**: Create `tailwind.config.js` with brand color integration  
+**Phase 2**: Refactor navigation and text emphasis patterns  
+**Phase 3**: Redesign modal system architecture  
+**Phase 4**: Complete migration to Tailwind-first approach  
+**Phase 5**: Remove all `!important` declarations  
+
+**Goal**: Reduce `!important` declarations from 99 to 0 while maintaining all functionality.
+
 ### Navigation Simplification
 ```html
 <!-- Before: Complex hamburger menu -->

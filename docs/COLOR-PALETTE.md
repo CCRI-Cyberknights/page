@@ -179,6 +179,107 @@ The color palette is implemented using CSS custom properties for easy maintenanc
 - Maintain consistency across all club materials
 - Document any palette changes with rationale
 
+## Tailwind CSS Integration
+
+### Current Issue: CSS Specificity Conflicts
+
+The codebase currently uses 99 `!important` declarations due to specificity conflicts between Tailwind utilities and custom CSS classes. This creates maintenance issues and unpredictable styling behavior.
+
+### Recommended Solution: Tailwind Config Integration
+
+#### 1. Create Tailwind Configuration
+```js
+// tailwind.config.js
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        // Primary Colors
+        'primary-green': 'var(--primary-green)',     // #04703C
+        'primary-green-light': 'var(--primary-green-light)', // #0A8B4F
+        
+        // Accent Colors
+        'neon': 'var(--neon-surge)',                 // #43CC50
+        'ember': 'var(--ember-spark)',               // #C27329
+        'arc': 'var(--arc-weld-blue)',               // #2DB2C4
+        'molten': 'var(--molten-glow)',              // #FFCC33
+        
+        // Neutral Colors
+        'forge': 'var(--forge-black)',                // #001011
+        'iron': 'var(--iron-ash)',                   // #1C1C1C
+        'steel': 'var(--steel-glow)',                // #5B6E6E
+        'silver': 'var(--silver-edge)',              // #8A8A8A
+        'alloy': 'var(--pale-alloy)',                // #B8B8B8
+      },
+    },
+  },
+}
+```
+
+#### 2. Use Tailwind Utilities Instead of Custom Classes
+```html
+<!-- Instead of: -->
+<strong class="emphasis-text">cybersecurity</strong>
+
+<!-- Use: -->
+<strong class="text-ember">cybersecurity</strong>
+```
+
+#### 3. Layer Management for Custom Components
+```css
+@layer components {
+  .section-container {
+    @apply p-6 rounded-lg border border-slate-800 bg-slate-900/40;
+  }
+  
+  .section-title {
+    @apply text-xl font-bold mb-4 text-neon;
+  }
+  
+  .highlight-box {
+    @apply p-4 rounded-lg border border-slate-800 bg-slate-900/40 mt-6;
+  }
+}
+```
+
+### Benefits of Tailwind Integration
+
+1. **Eliminates Specificity Conflicts**: No more `!important` declarations needed
+2. **Consistent Brand Colors**: All colors accessible via Tailwind utilities
+3. **Better Developer Experience**: IntelliSense support for brand colors
+4. **Maintainable**: Single source of truth for color definitions
+5. **Performance**: Smaller CSS bundle with unused styles purged
+
+### Migration Strategy
+
+**Phase 1**: Create `tailwind.config.js` with brand color integration  
+**Phase 2**: Replace custom classes with Tailwind utilities  
+**Phase 3**: Implement `@layer components` for reusable components  
+**Phase 4**: Remove all `!important` declarations  
+**Phase 5**: Update documentation and examples  
+
+### Color Utility Examples
+
+```html
+<!-- Text Colors -->
+<p class="text-neon">Neon green text</p>
+<p class="text-ember">Orange accent text</p>
+<p class="text-arc">Blue accent text</p>
+
+<!-- Background Colors -->
+<div class="bg-primary-green">Primary green background</div>
+<div class="bg-forge">Dark forge background</div>
+
+<!-- Border Colors -->
+<div class="border-neon">Neon green border</div>
+<div class="border-ember">Orange border</div>
+
+<!-- Hover States -->
+<button class="bg-primary-green hover:bg-primary-green-light">
+  Hoverable button
+</button>
+```
+
 ## References
 
 - [WCAG 2.1 Color Contrast Guidelines](https://www.w3.org/WAI/WCAG21/Understanding/contrast-minimum.html)
