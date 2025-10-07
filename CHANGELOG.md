@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.8](https://github.com/CCRI-Cyberknights/page/compare/v1.8.7...v1.8.8) (2025-10-07)
+
+
+### Bug Fixes
+
+* add emphasis-text class to main CSS for SPA consistency ([352da27](https://github.com/CCRI-Cyberknights/page/commit/352da27f135c6940fd9315f098c8ae574cc0d0fc))
+
 ### [1.8.7](https://github.com/CCRI-Cyberknights/page/compare/v1.8.6...v1.8.7) (2025-10-07)
 
 

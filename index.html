@@ -210,18 +210,19 @@
     }
     
     /* Mobile search UX improvements */
+    /* Higher specificity for mobile-specific positioning */
     @media (max-width: 768px) {
-      #search-results-container {
-        position: fixed !important;
-        top: auto !important;
-        bottom: 0 !important;
-        left: 0 !important;
-        right: 0 !important;
-        max-height: 50vh !important;
-        border-radius: 0 !important;
-        border-left: none !important;
-        border-right: none !important;
-        border-bottom: none !important;
+      body #search-results-container {
+        position: fixed;
+        top: auto;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        max-height: 50vh;
+        border-radius: 0;
+        border-left: none;
+        border-right: none;
+        border-bottom: none;
       }
       
       /* Ensure search input doesn't get covered by virtual keyboard */
@@ -274,24 +275,26 @@
     /* All image toggle states now handled by modal overlay pattern */
     
     /* Mobile footer fix - ensure footer is never clipped by mobile browser UI */
+    /* Use pb-safe class from Tailwind with higher specificity */
     @media (max-width: 768px) {
-      footer {
-        padding-bottom: 20px !important;
-        margin-bottom: 10px !important;
+      footer.border-t {
+        padding-bottom: 20px;
+        margin-bottom: 10px;
       }
     }
 
     /* Navigation active state styling - visible emerald accent */
-    nav a[data-route].active {
-      background-color: rgba(16, 185, 129, 0.3) !important;
-      border-color: rgb(16, 185, 129) !important;
-      color: rgb(209, 250, 229) !important;
+    /* Higher specificity than Tailwind utilities without !important */
+    nav a[data-route].active.active {
+      background-color: rgba(16, 185, 129, 0.3);
+      border-color: rgb(16, 185, 129);
+      color: rgb(209, 250, 229);
     }
     
-    nav a[data-route].active:hover {
-      background-color: rgba(16, 185, 129, 0.4) !important;
-      border-color: rgb(52, 211, 153) !important;
-      color: rgb(255, 255, 255) !important;
+    nav a[data-route].active.active:hover {
+      background-color: rgba(16, 185, 129, 0.4);
+      border-color: rgb(52, 211, 153);
+      color: rgb(255, 255, 255);
     }
 
   </style>
