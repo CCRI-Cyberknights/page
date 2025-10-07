@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.1](https://github.com/CCRI-Cyberknights/page/compare/v1.8.0...v1.8.1) (2025-10-07)
+
+
+### Features
+
+* implement unified content management system with visual differentiation ([f187ff8](https://github.com/CCRI-Cyberknights/page/commit/f187ff8c76cdfa699d806b280ccad4df4a8548c1))
+
 ## [1.8.0](https://github.com/CCRI-Cyberknights/page/compare/v1.7.41...v1.8.0) (2025-10-06)
 
 ### [1.7.41](https://github.com/CCRI-Cyberknights/page/compare/v1.7.40...v1.7.41) (2025-10-06)
