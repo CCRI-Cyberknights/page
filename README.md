@@ -498,6 +498,7 @@ Intelligent versioning system with conventional commits and file change analysis
 - **Zero Friction**: "Set it and forget it" version management
 - **Link Testing**: Comprehensive parallel link testing system with production and local URL validation
 - **QR Code Testing**: Python-based QR code generation and validation suite
+- **Timeout Protection**: Use `timeout 30s npx playwright test` to prevent hanging tests
 - **QR URL Validation**: SPA routing QR code URL accuracy testing
 - **QR Code Manager Unit Tests**: JavaScript class testing with mocked events
 

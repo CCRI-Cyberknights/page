@@ -19,6 +19,35 @@ npm run test:links
 npm run test:debug
 
 # Interactive UI mode
+```
+
+### Timeout Technique (Recommended)
+Use the `timeout` command to prevent tests from hanging indefinitely:
+
+```bash
+# Run tests with 30-second timeout (recommended)
+timeout 30s npx playwright test
+
+# Run specific test with timeout
+timeout 30s npx playwright test tests/blog-hashtag-functionality.spec.ts --project=chromium
+
+# Run single test with grep filter and timeout
+timeout 30s npx playwright test -g "should make hashtags clickable in blog posts" --project=chromium
+
+# Available NPM scripts with timeout
+npm run test:timeout          # All tests with 30s timeout
+npm run test:timeout:single   # Single test with grep filter
+npm run test:hashtags         # Hashtag tests with timeout
+```
+
+### Timeout Guidelines
+- **30 seconds**: Standard timeout for most integration tests (recommended)
+- **10 seconds**: Quick unit tests or simple functionality
+- **60 seconds**: Complex browser automation tests
+- **120 seconds**: Comprehensive test suites with multiple browsers
+
+```bash
+# Interactive UI mode
 npm run test:ui
 
 # Test on specific devices
