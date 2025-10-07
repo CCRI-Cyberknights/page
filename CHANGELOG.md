@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.5](https://github.com/CCRI-Cyberknights/page/compare/v1.8.4...v1.8.5) (2025-10-07)
+
+
+### Bug Fixes
+
+* update CCRI student club URL to correct path ([88a32e1](https://github.com/CCRI-Cyberknights/page/commit/88a32e159a012fbd16a1aad4198d7607b129fd89))
+
 ### [1.8.4](https://github.com/CCRI-Cyberknights/page/compare/v1.8.3...v1.8.4) (2025-10-07)
 
 
