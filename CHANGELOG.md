@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.4](https://github.com/CCRI-Cyberknights/page/compare/v1.8.3...v1.8.4) (2025-10-07)
+
+
+### Bug Fixes
+
+* resolve critical search functionality bug and enhance search capabilities ([0e42107](https://github.com/CCRI-Cyberknights/page/commit/0e421079bb33dbe6c4ae33511e329089120d5f65))
+
 ### [1.8.3](https://github.com/CCRI-Cyberknights/page/compare/v1.8.2...v1.8.3) (2025-10-07)
 
 
