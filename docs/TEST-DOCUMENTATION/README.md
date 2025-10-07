@@ -31,6 +31,7 @@ This directory contains comprehensive documentation for all test files in the pr
 
 ### **Blog Feature & UI Testing**
 - [Blog Section Optimization](blog-prominence.md) - Blog feature optimization for balanced design and improved user experience validation
+- [Blog Hashtag Functionality](blog-hashtag-functionality.md) - Clickable hashtag functionality testing for blog posts
 
 ### **Layout Testing**
 - [Layout Architecture](layout-architecture.md) - Overall layout structure validation

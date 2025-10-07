@@ -136,8 +136,8 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
   - **QR Code Integration**: Educational guides feature embedded QR codes for instant access to related video content
   - **Table-Based Layout**: Clean, spreadsheet-like interface with video titles, URLs, and scannable QR codes
   - **Base64 Embedding**: Self-contained QR codes with no external dependencies
-  - **Blog**: Clean "Updates & Blog" section with amber styling, positioned after main content sections, and unified content management system with seamless SPA integration
-  - **Clickable Hashtags**: Blog post hashtags automatically convert to clickable links that trigger resource search functionality
+  - **Blog**: Clean "Updates & Blog" section with amber styling, positioned after main content sections, direct navigation matching guides system (`#/blogs/filename.html`), and unified content management system with seamless SPA integration
+  - **Clickable Hashtags**: Blog post hashtags automatically convert to clickable links that trigger resource search functionality with unified behavior across all URL formats
   - **Homepage Content**: Authentic, inclusive messaging emphasizing collaboration, accessibility, and practical career pathways with streamlined three-box structure
 
 ## Deployment & Versioning

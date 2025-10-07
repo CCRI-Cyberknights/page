@@ -1013,14 +1013,49 @@ The project underwent significant design improvements in v1.5.x, including navig
 
 #### Cross-Component Support
 - **Individual Blog Posts**: Hashtag functionality works when viewing blog posts directly
-- **Blog Modals**: Hashtag functionality also works in blog post modal overlays
-- **Consistent Behavior**: Same hashtag conversion and search triggering across all blog viewing contexts
+- **Direct Navigation**: Blog posts use direct navigation matching guides system (`#/blogs/filename.html`)
+- **Consistent Behavior**: Same hashtag conversion and search triggering across all blog access methods
 
 #### Technical Features
 - **Dynamic DOM Manipulation**: `makeHashtagsClickable()` function converts span elements to anchor tags
 - **Search Endpoint**: New `renderSearchPage()` function handles search routing and resource integration
 - **URL Encoding**: Proper encoding of hashtag terms for URL compatibility
 - **Event Handling**: Click events properly prevent default behavior and trigger search functionality
+
+### Timeout Protection & Development Tools (v1.8.5)
+
+#### Testing Reliability
+- **Timeout Technique**: Comprehensive timeout protection for Playwright tests using `timeout 30s` command
+- **NPM Scripts**: Timeout-enabled test scripts for reliable development workflow
+- **Cursor Rules**: Updated development guidelines with timeout best practices
+- **Documentation**: Complete timeout protection documentation with usage examples
+
+#### Development Workflow
+- **Standard Timeout**: 30 seconds for integration tests (recommended)
+- **Quick Tests**: 10 seconds for simple functionality
+- **Complex Tests**: 60 seconds for browser automation
+- **Comprehensive Suites**: 120 seconds for multi-browser testing
+
+### Code Quality Improvements (v1.8.5)
+
+#### Unified Blog Loading Pattern
+- **Anti-Pattern Elimination**: Removed dual code paths for blog loading (`#/blog/slug` vs `#/blogs/filename.html`)
+- **DRY Implementation**: Both URL formats now use single `renderBlogPost()` function
+- **Consistent Behavior**: All blog features work identically regardless of URL format
+- **Maintainability**: Single source of truth for blog loading logic
+
+#### Blog System Simplification
+- **Modal System Removal**: Completely removed blog modal system (~100 lines of code)
+- **Direct Navigation**: Blog posts now use direct navigation matching guides system (`#/blogs/filename.html`)
+- **Consistent UX**: Blog navigation now identical to guides navigation pattern
+- **Code Cleanup**: Removed `openBlogPost()`, `closeBlogModal()`, and `makeModalHashtagsClickable()` functions
+
+#### Benefits
+- **Code Consistency**: No more duplicated blog loading logic
+- **Feature Completeness**: Hashtags and all features work on both URL formats
+- **Error Handling**: Unified error handling approach across all blog access methods
+- **Future-Proof**: New blog features automatically work on all URL formats
+- **Simplified Architecture**: Blog system now matches guides system exactly for unified user experience
 
 ### Homepage Content Improvements (v1.8.4)
 

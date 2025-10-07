@@ -15,10 +15,29 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Modal Support**: Hashtag functionality works in both individual blog posts and blog modal views
 - **URL Encoding**: Proper URL encoding for hashtag terms with special characters
 
+### Timeout Protection & Development Tools
+- **Timeout Technique**: Added comprehensive timeout protection for Playwright tests using `timeout 30s` command
+- **NPM Scripts**: Created timeout-enabled test scripts (`test:timeout`, `test:timeout:single`, `test:hashtags`)
+- **Cursor Rules**: Updated `.cursor-rules` with timeout guidelines and usage examples
+- **Documentation**: Added timeout protection section to testing documentation with usage guidelines
+
+### Code Quality Improvements
+- **Unified Blog Loading Pattern**: Refactored blog routing to eliminate anti-pattern of dual code paths
+- **DRY Principle**: Both `#/blog/slug` and `#/blogs/filename.html` URLs now use single `renderBlogPost()` function
+- **Consistency**: All blog features (hashtags, navigation, styling) work identically across both URL formats
+- **Maintainability**: Single source of truth for blog loading logic eliminates code duplication
+
+### Blog System Simplification
+- **Modal System Removal**: Completely removed blog modal system (~100 lines of code)
+- **Direct Navigation**: Blog posts now use direct navigation matching guides system (`#/blogs/filename.html`)
+- **Consistent UX**: Blog navigation now identical to guides navigation pattern
+- **Code Cleanup**: Removed `openBlogPost()`, `closeBlogModal()`, and `makeModalHashtagsClickable()` functions
+- **Simplified Architecture**: Blog system now matches guides system exactly for unified user experience
+
 ### Technical Implementation
 - **Dynamic Conversion**: `makeHashtagsClickable()` function converts span elements to clickable links
 - **Search Routing**: New `renderSearchPage()` function handles search endpoint routing
-- **Cross-Component Support**: Hashtag functionality integrated into both blog post views and modal displays
+- **Direct Navigation**: Blog posts use `window.location.hash = '#/blogs/${post.file}'` for consistent routing
 - **Hover Effects**: Added visual feedback with hover states for better user experience
 
 ## [1.8.4] - 2025-01-15

@@ -270,7 +270,32 @@ tests/
 - All categories have complete configuration
 - Invalid category filter gracefully handles missing configuration
 
-### 6. DRY Navigation Pattern Testing (`dry-navigation.spec.ts`)
+### 6. Blog Hashtag Functionality Testing
+
+### Purpose
+Comprehensive testing of clickable hashtag functionality in blog posts, ensuring hashtags are automatically converted to clickable links that trigger resource search.
+
+### Coverage
+- **Hashtag Conversion**: Tests that hashtag spans are converted to clickable links
+- **Click Behavior**: Validates hashtag clicks navigate to search endpoint
+- **Search Integration**: Ensures hashtag clicks trigger resource search with correct query
+- **Modal Support**: Tests hashtag functionality in blog modal views
+- **Cross-Component**: Validates consistent behavior across different viewing contexts
+
+### Key Test Cases
+1. **Hashtag Conversion**: Verifies hashtags are converted from spans to clickable links
+2. **Search Navigation**: Tests hashtag clicks navigate to search endpoint
+3. **Search Triggering**: Validates search is triggered with hashtag term
+4. **Modal Functionality**: Tests hashtag clicks in blog modals
+5. **Cross-Component Support**: Ensures consistent behavior in all contexts
+
+### Benefits
+- **Interactive Content**: Transforms static hashtags into dynamic navigation tools
+- **Resource Discovery**: Bridges blog content with relevant club resources
+- **User Experience**: Provides intuitive navigation from content to related information
+- **Consistency**: Ensures hashtag functionality works across all viewing modes
+
+## 7. DRY Navigation Pattern Testing (`dry-navigation.spec.ts`)
 
 **Purpose**: Comprehensive testing of the unified "Back to [Section]" navigation system and template integration.
 
@@ -513,6 +538,29 @@ jobs:
 **4. Cross-Browser Testing**: Add Firefox and Safari support
 
 ## Troubleshooting
+
+### Timeout Protection
+
+**Critical**: Always use timeout protection to prevent hanging tests:
+
+```bash
+# Standard timeout for development testing
+timeout 30s npx playwright test
+
+# Specific test with timeout
+timeout 30s npx playwright test tests/blog-hashtag-functionality.spec.ts --project=chromium
+
+# NPM scripts with timeout (preferred)
+npm run test:timeout          # All tests with 30s timeout
+npm run test:timeout:single   # Single test with grep filter
+npm run test:hashtags         # Hashtag tests with timeout
+```
+
+**Timeout Guidelines:**
+- **30 seconds**: Standard timeout for integration tests (recommended)
+- **10 seconds**: Quick unit tests or simple functionality
+- **60 seconds**: Complex browser automation tests
+- **120 seconds**: Comprehensive test suites with multiple browsers
 
 ### Common Issues
 

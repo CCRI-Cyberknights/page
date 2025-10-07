@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.3](https://github.com/CCRI-Cyberknights/page/compare/v1.8.2...v1.8.3) (2025-10-07)
+
+
+### Features
+
+* implement clickable hashtags for blog posts with search integration ([ae63302](https://github.com/CCRI-Cyberknights/page/commit/ae6330212f4cef3a858857c2abb43fc6e009741a))
+* optimize blog section for balanced design and improved UX ([dbcd4e8](https://github.com/CCRI-Cyberknights/page/commit/dbcd4e821441d7bab5814f5d8e5d7ee9c0f72483))
+* refine homepage content for authenticity and clarity ([d2c7410](https://github.com/CCRI-Cyberknights/page/commit/d2c74101b790aa388156dc4c737fcb8c7e8d2fc0))
+
 ### [1.8.2](https://github.com/CCRI-Cyberknights/page/compare/v1.8.1...v1.8.2) (2025-10-07)
 
 ### [1.8.1](https://github.com/CCRI-Cyberknights/page/compare/v1.8.0...v1.8.1) (2025-10-07)
