@@ -1352,6 +1352,9 @@
     // Category-specific intro texts (global scope)
 
     async function renderResourcesPage(preselectedFilter) {
+      // Set the resources page template
+      app.innerHTML = routes['resources'];
+      
       // Load guides and blogs dynamically
       const guides = await loadContent('guides');
       const blogs = await loadContent('blogs');
@@ -1823,7 +1826,11 @@
         if (q) {
           items = items.filter(r => {
             const catLabel = getCategoryLabel(r.cat).toLowerCase();
-            return r.name.toLowerCase().includes(q) || r.url.toLowerCase().includes(q) || catLabel.includes(q);
+            return r.name.toLowerCase().includes(q) || 
+                   r.url.toLowerCase().includes(q) || 
+                   catLabel.includes(q) ||
+                   (r.desc && r.desc.toLowerCase().includes(q)) ||
+                   (r.summary && r.summary.toLowerCase().includes(q));
           });
           showSearchResults(items, q);
         } else {
@@ -2244,6 +2251,7 @@
       // Wait for resources page to load and search functionality to be ready
       setTimeout(() => {
         const searchInput = document.getElementById('resources-search');
+        
         if (searchInput && query) {
           searchInput.value = query;
           searchInput.focus();

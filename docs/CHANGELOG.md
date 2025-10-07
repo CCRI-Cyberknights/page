@@ -7,12 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [1.8.5] - 2025-01-15
 
+### Search Functionality Fix
+- **Critical Bug Fix**: Fixed broken search functionality where `#/search?q=term` URLs weren't working
+- **Root Cause**: `renderResourcesPage()` function was loading data but not rendering the HTML template
+- **Minimal Fix**: Added single line `app.innerHTML = routes['resources'];` to properly render resources page
+- **Enhanced Search**: Updated search logic to include resource descriptions and summaries, not just names/URLs
+- **Clean Solution**: Removed all debugging code and fallbacks for production-ready implementation
+
 ### Clickable Hashtags Feature
 - **Blog Hashtag Functionality**: Implemented clickable hashtags in blog posts that automatically convert to search links
 - **Search Endpoint**: Created new `#/search?q=term` endpoint for hashtag-triggered searches
 - **Automatic Conversion**: Blog post hashtags (e.g., `#career`, `#microsoft`) are automatically converted to clickable links
 - **Resource Integration**: Clicking hashtags triggers resource search functionality with the hashtag term
-- **Modal Support**: Hashtag functionality works in both individual blog posts and blog modal views
+- **Direct Navigation**: Hashtag functionality works with direct blog post navigation (`#/blogs/filename.html`)
 - **URL Encoding**: Proper URL encoding for hashtag terms with special characters
 
 ### Timeout Protection & Development Tools

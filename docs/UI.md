@@ -1003,6 +1003,20 @@ function openModal(src, alt, isCanvas = false) {
 ### Design Evolution Overview
 The project underwent significant design improvements in v1.5.x, including navigation redesign with button-style elements, mobile search UX fixes, resource card enhancements with bullet formatting, external link indicators, and interactive image system improvements. Key technical changes included CSS custom properties, JavaScript functionality for modals and toggles, and comprehensive accessibility improvements.
 
+### Search Functionality Fix (v1.8.5)
+
+#### Critical Bug Resolution
+- **Root Cause**: `renderResourcesPage()` function was loading data but not rendering the HTML template
+- **Minimal Fix**: Added single line `app.innerHTML = routes['resources'];` to properly render resources page
+- **Clean Solution**: Removed all debugging code and fallbacks for production-ready implementation
+- **Enhanced Search**: Updated search logic to include resource descriptions and summaries, not just names/URLs
+
+#### Search System Improvements
+- **Comprehensive Search**: Search now includes resource names, URLs, category labels, descriptions, and summaries
+- **Template Rendering**: Proper template rendering ensures search functionality works correctly
+- **URL Endpoint**: `#/search?q=term` endpoint renders resources page with pre-populated search query
+- **Performance**: Clean, efficient implementation without debugging overhead
+
 ### Clickable Hashtags Feature (v1.8.5)
 
 #### Blog Hashtag Functionality
