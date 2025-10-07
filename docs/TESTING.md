@@ -294,10 +294,31 @@ tests/
 - Validates template-provided navigation functionality
 - Tests configurable styling options and graceful fallbacks
 - Prevents navigation inconsistencies and broken links
-- **Configuration Validation**: Ensures all categories have complete configurations
-- **Visual Consistency**: Validates proper visual differentiation between content types
-- **Error Handling**: Tests graceful handling of invalid configurations
-- **Runtime Validation**: Validates the runtime validation system works correctly
+
+### 7. Blog Section Testing (`blog-prominence.spec.ts`)
+
+**Purpose**: Comprehensive testing of the optimized blog section design that balances prominence with clean user experience.
+
+**Coverage**:
+- Blog section display and strategic positioning
+- Amber styling and visual consistency
+- Streamlined navigation functionality
+- Balanced design validation
+- Get Involved section cleanup
+
+**Key Test Cases**:
+- Blog section displays with amber gradient styling and strategic positioning
+- "View Blog" button navigates correctly to blog page
+- Blog section positioned after main content sections for balanced hierarchy
+- Amber styling maintains visual consistency with brand colors
+- Blog button removed from Get Involved section
+- Balanced design maintains visual hierarchy without overwhelming the page
+
+**Benefits**:
+- Validates blog feature optimization for balanced design
+- Tests streamlined navigation and static implementation reliability
+- Ensures proper visual hierarchy and amber styling consistency
+- Confirms removal of duplicate blog navigation elements
 
 ## Testing Approach
 - Hash-based routing (`#/page` navigation)

@@ -29,6 +29,9 @@ This directory contains comprehensive documentation for all test files in the pr
 ### **Navigation & Template Integration Testing**
 - [DRY Navigation Pattern](dry-navigation.md) - Unified "Back to [Section]" navigation system validation
 
+### **Blog Feature & UI Testing**
+- [Blog Section Optimization](blog-prominence.md) - Blog feature optimization for balanced design and improved user experience validation
+
 ### **Layout Testing**
 - [Layout Architecture](layout-architecture.md) - Overall layout structure validation
 

@@ -87,10 +87,12 @@ python3 -m http.server 8000 &
 - **`guides-core.spec.ts`** - Core guides functionality tests (9 tests)
 - **`category-configuration.spec.ts`** - Data-driven configuration pattern validation tests (11 tests)
 - **`dry-navigation.spec.ts`** - DRY navigation pattern validation tests (7 tests)
+- **`blog-prominence.spec.ts`** - Blog section optimization validation tests (5 tests)
 - **`blog-functionality.spec.ts`** - Blog page loading, modal functionality, navigation, JSON loading, error handling, production environment, responsive design, keyboard navigation, visual differentiation
 - **`guides-core.spec.ts`** - Guide loading from JSON, HTML file loading, production environment, URL structure, error handling, blog filter integration, responsive design, search functionality, visual differentiation
 - **`category-configuration.spec.ts`** - Category configuration validation, visual differentiation testing, error handling, configuration completeness validation, runtime validation testing
 - **`dry-navigation.spec.ts`** - Consistent "Back to [Section]" navigation testing, template integration validation, styling options testing, error state navigation testing
+- **`blog-prominence.spec.ts`** - Blog section display with amber styling, streamlined navigation, strategic positioning, balanced design validation, Get Involved section cleanup
 
 ### QR Code Manager Unit Tests (Playwright)
 - **`qr-code-manager-unit.spec.ts`** - Unit tests for QRCodeManager logic with mocked events

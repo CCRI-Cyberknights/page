@@ -5,6 +5,33 @@ All notable changes to the Cyber Club Landing Pages project are documented in th
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.8.3] - 2025-01-15
+
+### Added
+- **Blog Section Optimization**: Scaled back blog prominence for balanced design and improved user experience
+  - **Balanced Home Page Integration**: Clean "Updates & Blog" section with amber styling positioned after main content sections
+  - **Simplified Implementation**: Removed dynamic loading and "Latest Post" indicators for reliability and performance
+  - **Strategic Placement**: Positioned after "What We Do & Get Involved" section for balanced visual hierarchy
+  - **Clean UX Design**: Streamlined "View Blog" button with consistent hover effects and amber gradient styling
+
+### Enhanced
+- **Blog Feature Refinement**: Optimized from prominent section to balanced, accessible design
+  - **Amber Styling Maintained**: Clean gradient background with border-amber-500/60 styling for visual appeal
+  - **Compact Button Design**: Smaller bg-amber-600 button with hover effects and smooth transitions
+  - **Static Content**: Reliable static implementation without dynamic loading complexity
+  - **Visual Consistency**: Styling matches "Our Members Get Hired!" section for brand consistency
+
+### Fixed
+- **Blog Discoverability**: Blog feature now has primary feature visibility instead of being buried in secondary section
+- **User Experience**: Enhanced engagement with dynamic preview and prominent placement
+- **Navigation Flow**: Streamlined access to blog content with multiple entry points
+
+### Technical Implementation
+- **updateBlogPreview() Function**: Dynamic blog content loading and preview display
+- **Interactive Elements**: Event listeners for clickable navigation and hover effects
+- **Error Handling**: Graceful fallback to "Coming Soon" when no posts available
+- **Test Coverage**: Comprehensive test suite (6 tests) for blog prominence functionality
+
 ## [1.8.2] - 2025-01-15
 
 ### Added

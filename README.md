@@ -136,7 +136,7 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
   - **QR Code Integration**: Educational guides feature embedded QR codes for instant access to related video content
   - **Table-Based Layout**: Clean, spreadsheet-like interface with video titles, URLs, and scannable QR codes
   - **Base64 Embedding**: Self-contained QR codes with no external dependencies
-  - **Blog**: Updates and announcements with unified content management system, consistent Cyberknights styling, and seamless SPA integration
+  - **Blog**: Clean "Updates & Blog" section with amber styling, positioned after main content sections, and unified content management system with seamless SPA integration
 
 ## Deployment & Versioning
 
