@@ -399,12 +399,13 @@ element.className = tw.button('ember', 'lg');
 - ✅ **CSS Variables**: Replaced with Tailwind utility classes
 
 ### In Progress
-- 🚧 **`index.html`**: Main SPA still uses CSS variables + `!important`
-- 🚧 **Test Failures**: 11 tests failing after blog refactoring (to be addressed)
+- 🔄 **`index.html`**: Phase 1 complete (JIT config), Phases 2-5 pending (~25-30 hours)
+  - ✅ Phase 1: JIT configuration with complete color palette
+  - 🚧 Phase 2-5: @layer organization, navigation, modals, mobile styles
 
 ### Next Steps
-1. Fix test failures for baseline functionality
-2. Migrate `index.html` to idiomatic Tailwind
+1. ✅ DONE: All tests passing (71/71 with visual regression)
+2. Complete index.html Phases 2-5 (see TAILWIND-MIGRATION-GUIDE.md)
 3. Create JavaScript class generators for SPA
 4. Eliminate all `!important` declarations
 
