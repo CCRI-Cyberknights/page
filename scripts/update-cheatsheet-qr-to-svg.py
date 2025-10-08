@@ -70,9 +70,9 @@ def update_cheatsheet_html(cheatsheet_num, qr_codes):
     # with:
     #   <svg ... > ... </svg>
     
-    # Find all IMG tag matches first
-    pattern = r'<img src="data:image/png;base64,[^"]*" alt="[^"]*" width="120" height="120" class="border border-emerald-500 rounded">'
-    matches = list(re.finditer(pattern, content))
+    # Find all SVG elements with wrong dimensions (232x232)
+    pattern = r'<svg width="232" height="232"[^>]*>.*?</svg>'
+    matches = list(re.finditer(pattern, content, re.DOTALL))
     
     # Replace in reverse order to preserve indices
     for i in range(len(qr_codes) - 1, -1, -1):
@@ -83,7 +83,7 @@ def update_cheatsheet_html(cheatsheet_num, qr_codes):
             match = matches[i]
             content = content[:match.start()] + qr['svg'] + content[match.end():]
         else:
-            print(f"   ⚠️  Warning: Could not find IMG tag for QR code {i+1}")
+            print(f"   ⚠️  Warning: Could not find SVG tag for QR code {i+1}")
     
     # Also update the CSS to remove canvas-specific styles
     # Replace the .qr-code-container canvas rule with one for svg
@@ -101,9 +101,9 @@ def update_cheatsheet_html(cheatsheet_num, qr_codes):
 def main():
     """Main function."""
     cheatsheets = [
-        (1, 'out/cheatsheet1_qr_svg.txt'),
-        (2, 'out/cheatsheet2_qr_svg.txt'),
-        (3, 'out/cheatsheet3_qr_svg.txt'),
+        (1, 'out/cheatsheet1_qr_svg_fixed.txt'),
+        (2, 'out/cheatsheet2_qr_svg_fixed.txt'),
+        (3, 'out/cheatsheet3_qr_svg_fixed.txt'),
     ]
     
     for cheatsheet_num, svg_file in cheatsheets:
