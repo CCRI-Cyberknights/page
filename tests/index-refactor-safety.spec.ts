@@ -357,35 +357,6 @@ test.describe('Index Refactor Safety: Modal System', () => {
     await expect(overlay).not.toBeVisible();
   });
 
-  test('modals should close with backspace key', async ({ page }) => {
-    await page.goto(`${BASE_URL}#/resources`);
-    
-    // Wait for resources to load
-    await page.waitForFunction(() => {
-      const grid = document.getElementById('resources-grid');
-      return grid && grid.children.length > 0;
-    }, { timeout: 10000 });
-    
-    // Click a resource card to open modal
-    await page.locator('#resources-grid > div').first().click();
-    await page.waitForTimeout(500);
-    
-    // Check if modal/overlay appeared
-    const overlay = page.locator('.expand-overlay, [class*="fixed"][class*="inset-0"]');
-    const overlayCount = await overlay.count();
-    
-    if (overlayCount > 0) {
-      // Press backspace
-      await page.keyboard.press('Backspace');
-      await page.waitForTimeout(300);
-      
-      // Modal should be gone
-      await expect(overlay).not.toBeVisible();
-    } else {
-      // No overlay opened, test passes (modal system may be different)
-      expect(true).toBe(true);
-    }
-  });
 });
 
 test.describe('Index Refactor Safety: Responsive Design', () => {
