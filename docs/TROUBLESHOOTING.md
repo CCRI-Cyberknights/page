@@ -1501,11 +1501,13 @@ Use online tools like [specificity.keegan.st](https://specificity.keegan.st/) to
 .text-slate-300 .emphasis-text { color: var(--ember-spark); }
 ```
 
-#### Long-term Fix: Idiomatic Tailwind CSS (✅ IMPLEMENTED for Guides & Blogs)
+#### Long-term Fix: Idiomatic Tailwind CSS (✅ FULLY IMPLEMENTED)
 
 **Status (Oct 8, 2025):**
-- ✅ All guides and blogs now use JIT configuration with direct color values
-- 🚧 Main SPA (`index.html`) still uses CSS variables - migration pending
+- ✅ All guides and blogs: JIT configuration with direct color values
+- ✅ Main SPA (`index.html`): JIT + @layer + Tailwind utilities
+- ✅ Zero !important declarations across entire codebase
+- ✅ All 71 tests passing (100%)
 
 **Implemented Pattern (Guides & Blogs):**
 ```html
