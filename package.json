@@ -1,6 +1,6 @@
 {
   "name": "page",
-  "version": "1.8.16",
+  "version": "1.8.17",
   "description": "A centralized hub for the Cyber Club. This repository hosts a single, multi-page web app to provide information on events, club resources, and technical guides.",
   "private": true,
   "scripts": {
@@ -18,7 +18,9 @@
     "test:timeout:single": "timeout 30s npx playwright test -g",
     "test:hashtags": "timeout 30s npx playwright test tests/blog-hashtag-functionality.spec.ts --project=chromium",
     "test:baseline": "timeout 90s npx playwright test tests/baseline-functionality.spec.ts --project=chromium",
-    "test:index-safety": "timeout 120s npx playwright test tests/index-refactor-safety.spec.ts --project=chromium",
+    "test:index-safety": "timeout 20s npx playwright test tests/index-refactor-safety.spec.ts --project=chromium",
+    "test:visual-baseline": "timeout 30s npx playwright test tests/index-visual-regression.spec.ts --project=chromium --update-snapshots",
+    "test:visual-regression": "timeout 30s npx playwright test tests/index-visual-regression.spec.ts --project=chromium",
     "version:show": "echo $npm_package_version",
     "version:auto": "HUSKY=0 standard-version --release-as patch",
     "version:diagnose": "npm run test:links",
