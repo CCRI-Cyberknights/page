@@ -51,34 +51,38 @@ This script is essential for the QR code generation workflow:
 
 ### `generate_qr_codes.py`
 
-A comprehensive Python script for generating QR codes with custom styling and colors, specifically designed for embedding directly into HTML guides. This script was developed to support the QR code integration in educational guides like the Linux cheat sheet.
+A comprehensive Python script for generating SVG QR codes with custom styling and colors, specifically designed for embedding directly into HTML guides. This script was developed to support the QR code integration in educational guides like the Linux cheat sheet.
 
 #### What We Achieved
 
-We successfully created a **production-ready QR code generation system** that:
-- **Generates base64 QR codes** with custom colors and minimal margins
+We successfully created a **production-ready SVG QR code generation system** that:
+- **Generates SVG QR codes** with proper viewBox scaling and styling
 - **Supports command-line configuration** for all visual parameters
 - **Produces HTML-ready output** with proper formatting and comments
 - **Handles multiple video URLs** automatically
 - **Provides detailed usage instructions** and error handling
+- **Maintains consistent design standards** across all cheatsheets
 
 #### Features
 
-- **Multiple Cheatsheet Support**: Generate QR codes for different Linux cheatsheets (1 or 2)
-- **Custom Colors**: Generate QR codes with green backgrounds and black modules to match the site's color scheme
+- **Multiple Cheatsheet Support**: Generate QR codes for different Linux cheatsheets (1, 2, 3, or 4)
+- **SVG Format**: Generates scalable SVG QR codes instead of PNG images
+- **Proper ViewBox Scaling**: Uses `viewBox="0 0 23.2 23.2"` for consistent rendering
+- **Custom Colors**: Generate QR codes with emerald backgrounds (#10b981) and black modules (#000000)
 - **Minimal Margins**: Configurable border settings for tight, clean appearance
-- **Base64 Output**: Generates data URLs ready for direct HTML embedding
+- **HTML-Ready Output**: Generates complete SVG elements ready for direct HTML embedding
 - **Low ECL**: Uses Low Error Correction Level for smaller, more compact QR codes
 - **Configurable**: Command-line options for all visual parameters
 - **Batch Processing**: Handles multiple URLs in a single run
 - **Error Handling**: Comprehensive error checking and user feedback
+- **Design Standards**: Maintains consistent appearance across all cheatsheets
 
 #### How It Works
 
 1. **QR Code Creation**: Uses the `qrcode` Python library to generate QR codes
-2. **Color Customization**: Applies custom fill and background colors using PIL (Python Imaging Library)
-3. **Base64 Encoding**: Converts the PNG image to base64 format for web embedding
-4. **Data URL Generation**: Creates complete `data:image/png;base64,...` URLs
+2. **SVG Generation**: Converts QR code modules to SVG path data
+3. **ViewBox Scaling**: Applies proper scaling (total_size / 10) for consistent rendering
+4. **SVG Assembly**: Creates complete SVG elements with proper styling
 5. **File Output**: Saves formatted results with comments and metadata
 
 #### Usage
@@ -90,31 +94,34 @@ python generate_qr_codes.py
 # Generate QR codes for Linux Cheatsheet 2
 python generate_qr_codes.py --cheatsheet 2
 
-# Custom settings with specific cheatsheet
-python generate_qr_codes.py --cheatsheet 2 --ecl L --box-size 8 --border 2 --fill-color black --back-color "#10b981"
+# Generate QR codes for Linux Cheatsheet 3
+python generate_qr_codes.py --cheatsheet 3
+
+# Generate QR codes for Linux Cheatsheet 4
+python generate_qr_codes.py --cheatsheet 4
 
 # Save to custom output file
 python generate_qr_codes.py --cheatsheet 2 --output qr_codes_cheatsheet2.txt
 
-# Different error correction level
-python generate_qr_codes.py --cheatsheet 1 --ecl M --box-size 10 --border 4
+# Different error correction level (not recommended - stick with L)
+python generate_qr_codes.py --cheatsheet 1 --ecl M --box-size 8 --border 2
 ```
 
 #### Command Line Options
 
-- `--cheatsheet`: Cheatsheet number (1 or 2) - default: 1
-- `--ecl`: Error Correction Level ('L', 'M', 'Q', 'H') - default: 'L'
+- `--cheatsheet`: Cheatsheet number (1, 2, 3, or 4) - default: 1
+- `--ecl`: Error Correction Level ('L', 'M', 'Q', 'H') - default: 'L' (recommended)
 - `--box-size`: Size of each QR module in pixels - default: 8
 - `--border`: Border size in modules - default: 2
-- `--fill-color`: Color of QR code modules - default: 'black'
+- `--fill-color`: Color of QR code modules - default: '#000000' (black)
 - `--back-color`: Background color - default: '#10b981' (emerald green)
-- `--output`: Output file for base64 QR codes - default: 'qr_codes_output.txt'
+- `--output`: Output file for SVG QR codes - default: 'qr_codes_output.txt'
 
 #### Output Format
 
 The script generates a text file containing:
 - Comments with video titles and URLs
-- Base64 data URLs ready for HTML embedding
+- Complete SVG elements ready for HTML embedding
 - Character count for each QR code
 - Usage instructions for HTML integration
 
@@ -155,14 +162,25 @@ pip install qrcode[pil]
 
 #### Integration with HTML
 
-The generated base64 data URLs can be directly embedded in HTML:
+The generated SVG elements can be directly embedded in HTML:
 
 ```html
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOgAAADoCAIAAABqyz8vAAAEF0lEQVR4nO3dQW5TMRRA0RaxgOyKZSGWxa6yBAaMv4SRLfvW54xLmpArD57c9z9fv399QM233W8A/odwSRIuScIlSbgkCZck4ZIkXJKES5JwSRIuScIlSbgkCZck4ZL0ffQfvH/8/CgYvWc863Ot/r27Ptdqo5/LiUuScEkSLknCJUm4JAmXJOFyxxz3ya79DKfNX1e/n6fXfw2+//r35cQlSbgkCZck4ZIkXJKES5JwuXuOe9qc9au+z9Xekf8HJy5JwiVJuCQJlyThkiRckoRL0vI57mlG77OOzjUrewzqnLgkCZck4ZIkXJKES5JwSRIuSdfNcWeZNfcdfX3+cuKSJFyShEuScEkSLknCJUm4JC2f4542j6zPX2ftx618X0+cuCQJlyThkiRckoRLknBJEi53z3Er+wR27VVY/dyyr/p9PXHikiRckoRLknBJEi5JwiVJuNwxx63c13wya55amYO+4t/XEycuScIlSbgkCZck4ZIkXJKES9Ln6JxvdH45a464eu/BrM+1er572j3d16Y5sROXJOGSJFyShEuScEkSLknC5Y457pPV+wEq+wcq+3ffm+4Tz3r/TlyShEuScEkSLknCJUm4JAmXO/YqzNoXO+qr3n/dtZd3196JWe/TiUuScEkSLknCJUm4JAmXJOGStHw/7up7tJX7uKftqX1tujc86/WduCQJlyThkiRckoRLknBJEi5Jy/fjcubc9LVpruw+LlcTLknCJUm4JAmXJOGSJFzuuI+76+/xT/u9p72f96TXr+wzduKSJFyShEuScEkSLknCJUm43H0fd9f8b9bcd5fTnqM2atf34sQlSbgkCZck4ZIkXJKES5Jwufs+7qjV919n/d7V91nrc9n3pnvPTlyShEuScEkSLknCJUm4JAmXpOVz3NP2Cay+f7z6uWir57vvyH1oJy5JwiVJuCQJlyThkiRckoTLHXsV6nY992vW7z1tr8UuTlyShEuScEkSLknCJUm4JAmXO+7j7vp7/1G75rKneR82l531fpy4JAmXJOGSJFyShEuScEkSLnfvVThtLjjrdWZ9rtV7dp+cdo92FicuScIlSbgkCZck4ZIkXJKES9K2/bijds1TVz8X7cnqn5/FflwYIFyShEuScEkSLknCJUm4JC2f41bseq7YLq/D5uL2KnAF4ZIkXJKES5JwSRIuScIlyRz30H0Fleef7ZqLO3FJEi5JwiVJuCQJlyThkiRckpbPcU/bz7rruV+z5rL1vRazOHFJEi5JwiVJuCQJlyThkiRc7p7jftX9A6vnxLN+vn7fd5QTlyThkiRckoRLknBJEi5JwiXp87R7lvAvnLgkCZck4ZIkXJKES5JwSRIuScIlSbgkCZck4ZIkXJKES5JwSRIuH0V/AD9lY5vuT1JzAAAAAElFTkSuQmCC" 
-     alt="QR Code for Linux Commands and File Structure" 
-     width="120" height="120" 
-     class="border border-emerald-500 rounded">
+<svg width="120" height="120" viewBox="0 0 23.2 23.2" xmlns="http://www.w3.org/2000/svg" class="border border-emerald-500 rounded" style="background-color: #10b981;">
+  <path d="[QR_CODE_PATH_DATA]" fill="#000000" fill-opacity="1" fill-rule="nonzero" stroke="none"/>
+  <title>QR Code</title>
+</svg>
 ```
+
+#### Design Standards
+
+**⚠️ IMPORTANT**: All QR codes must follow the established design standards. See [QR Code Standards](../docs/QR-CODE-STANDARDS.md) for complete specifications.
+
+**Key Requirements**:
+- **Format**: SVG (NOT PNG)
+- **ViewBox**: `"0 0 23.2 23.2"` (scaled by factor of 10)
+- **Fill Color**: `"#000000"` (hex format, NOT "black")
+- **Display Size**: `120x120` pixels
+- **Background**: `#10b981` (emerald green)
 
 #### Adding New Cheatsheets
 
@@ -206,6 +224,54 @@ To replicate this QR code system for other guides:
 5. **Version Control Friendly**: All content in one HTML file
 6. **Scalable**: Easy to generate QR codes for new content
 7. **Maintainable**: Clear separation of generation and embedding
+
+## QR Code Standards Validator
+
+### `validate_qr_standards.py`
+
+A comprehensive Python script that validates all QR codes in the project follow the established design standards. This script ensures consistency across all guides and prevents design drift.
+
+#### Features
+
+- **Standards Validation**: Checks SVG format, viewBox, colors, and dimensions
+- **Batch Processing**: Validates all guide files automatically
+- **Auto-Fix Capability**: Automatically fixes common issues
+- **Detailed Reporting**: Provides specific error and warning messages
+- **Integration Ready**: Can be integrated into CI/CD pipelines
+
+#### Usage
+
+```bash
+# Validate all QR codes in guides directory
+python3 scripts/validate_qr_standards.py
+
+# Validate specific file
+python3 scripts/validate_qr_standards.py --file guides/linux-cheatsheet-1.html
+
+# Auto-fix common issues
+python3 scripts/validate_qr_standards.py --fix
+
+# Verbose output
+python3 scripts/validate_qr_standards.py --verbose
+```
+
+#### Standards Checked
+
+- **Format**: SVG (not PNG/IMG)
+- **Display Size**: `width="120" height="120"`
+- **ViewBox**: `viewBox="0 0 23.2 23.2"` (scaled by factor of 10)
+- **Fill Color**: `fill="#000000"` (hex format, not "black")
+- **Background**: `style="background-color: #10b981;"`
+- **Border Class**: `class="border border-emerald-500 rounded"`
+- **XML Namespace**: `xmlns="http://www.w3.org/2000/svg"`
+
+#### Integration with Workflow
+
+This validator should be run:
+- **Before commits**: Ensure new QR codes meet standards
+- **In CI/CD**: Automated validation in deployment pipeline
+- **During development**: Regular checks during guide creation
+- **After updates**: Verify changes maintain standards
 
 ## Link Testing Scripts
 
