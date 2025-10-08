@@ -1,6 +1,6 @@
 # Guides Directory
 
-This directory contains educational guides and cheat sheets for the CCRI Cyberknights club. All guides use the unified content management system with JSON metadata for seamless SPA integration and consistent Cyberknights styling with visual differentiation in the resources grid.
+This directory contains educational guides and cheat sheets for the CCRI Cyberknights club. All guides use the unified content management system with JSON metadata for seamless SPA integration and **idiomatic Tailwind CSS** (JIT configuration + @layer directives) for consistent Cyberknights styling with visual differentiation in the resources grid.
 
 ## Linux Cheat Sheet 1
 

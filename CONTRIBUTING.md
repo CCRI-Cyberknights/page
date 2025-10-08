@@ -15,10 +15,14 @@ Thanks for helping improve the CCRI Cybersecurity Club website!
 
 ## Coding guidelines
 
-- Use Tailwind CSS utility classes (CDN) for styling.
-- Keep content accessible and concise; prefer simple language.
-- Avoid adding a build step; keep GitHub Pages simple.
-- Optimize images (PNG/JPG/WebP) and keep filenames lowercase with hyphens.
+- **Tailwind CSS**: Use utility classes with JIT configuration (see `docs/TAILWIND-IDIOMS.md`)
+  - Guides/Blogs: JIT config + @layer directives (required pattern)
+  - index.html: JIT config + @layer organization
+  - Use custom colors: `text-ember-spark`, `bg-neon-surge`, etc.
+- **Content**: Keep accessible and concise; prefer simple language
+- **Build**: No build step required; uses Tailwind CDN
+- **Images**: Optimize as WebP; lowercase filenames with hyphens
+- **Testing**: Run `npm run test:baseline` before submitting PRs
 
 ## Commit message conventions
 
@@ -68,6 +72,7 @@ Open an issue with a clear title, steps to reproduce (if applicable), and a scre
 ## Links
 
 - Club signup form: https://forms.cloud.microsoft/r/U26WUVJGgp
-- Architecture: ./docs/ARCHITECTURE.md
-- QR Codes: ./docs/QR-CODES.md
-- Calendar (maintainers): ./docs/CALENDAR-UPDATING.md
+- Architecture: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md)
+- QR Code Standards: [docs/QR-CODE-STANDARDS.md](docs/QR-CODE-STANDARDS.md)
+- Tailwind Idioms: [docs/TAILWIND-IDIOMS.md](docs/TAILWIND-IDIOMS.md)
+- Calendar Integration: See ARCHITECTURE.md - Calendar Integration section

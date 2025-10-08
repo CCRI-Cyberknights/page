@@ -1,6 +1,6 @@
 # Blogs Directory
 
-This directory contains blog posts and articles for the CCRI Cyberknights club, following the unified content management system with JSON metadata for seamless SPA integration and consistent Cyberknights styling with visual differentiation in the resources grid.
+This directory contains blog posts and articles for the CCRI Cyberknights club, following the unified content management system with JSON metadata for seamless SPA integration and **idiomatic Tailwind CSS** (JIT configuration + @layer directives) for consistent Cyberknights styling with visual differentiation in the resources grid.
 
 ## Blog Post Structure
 
@@ -12,10 +12,12 @@ This directory contains blog posts and articles for the CCRI Cyberknights club, 
 ### Content Structure
 Each blog post should follow this structure:
 - **Standalone HTML**: Complete HTML document that works independently
-- **Cyberknights Styling**: Uses official Cyberknights color palette (`--neon-surge`, `--ember-spark`, `--arc-weld-blue`) and DRY CSS classes (`.section-container`, `.section-title`, `.emphasis-text`)
-- **Unified Design**: Consistent visual hierarchy matching Linux guides for seamless brand consistency
+- **Idiomatic Tailwind CSS**: JIT configuration with custom colors + @layer directives
+- **Custom Colors**: Uses Tailwind utility classes (`text-neon-surge`, `bg-ember-spark`, `text-arc-weld-blue`)
+- **Component Classes**: Uses @layer components for reusable patterns (`.section-container`, `.section-title`, `.emphasis-text`)
+- **Unified Design**: Consistent visual hierarchy matching guides for seamless brand consistency
 - **Metadata**: Title, date, author, category, and tags
-- **Responsive Design**: Mobile-friendly layout
+- **Responsive Design**: Mobile-friendly layout with Tailwind utilities
 
 ## Integration with Main Application
 
@@ -81,7 +83,7 @@ Each blog post must include:
 
 ## Technical Implementation
 
-### HTML Template Structure
+### HTML Template Structure (Idiomatic Tailwind)
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -90,46 +92,49 @@ Each blog post must include:
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Blog Post Title - CCRI Cyberknights</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      // JIT Configuration with Cyberknights Forge Color Palette
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              'neon-surge': '#43CC50',
+              'steel-glow': '#5B6E6E',
+              'pale-alloy': '#B8B8B8',
+              'primary-green': '#04703C',
+              'ember-spark': '#C27329',
+              'arc-weld-blue': '#2DB2C4',
+            }
+          }
+        }
+      }
+    </script>
     <script src="../js/qrcode.min.js"></script>
     <script src="../js/qr-code-manager.js"></script>
-    <style>
-        :root { color-scheme: dark; }
-        body { background: #0f172a; color: #e2e8f0; }
-        
-        /* Official Cyberknights Color Palette */
-        :root {
-          --neon-surge: #43CC50;
-          --steel-glow: #5B6E6E;
-          --pale-alloy: #B8B8B8;
-          --primary-green: #04703C;
-          --ember-spark: #C27329;
-          --arc-weld-blue: #2DB2C4;
+    <style type="text/tailwindcss">
+        @layer base {
+          :root { color-scheme: dark; }
+          body { background: #0f172a; color: #e2e8f0; }
         }
         
-        /* DRY Reusable Classes */
-        .section-container {
-          @apply p-6 rounded-lg border border-slate-800 bg-slate-900/40;
-        }
-        
-        .section-title {
-          @apply text-xl font-bold mb-4;
-          color: var(--neon-surge);
-        }
-        
-        .subsection-title {
-          @apply text-lg font-semibold mb-2;
-          color: var(--neon-surge);
-        }
-        
-        .emphasis-text {
-          color: var(--ember-spark);
+        @layer components {
+          /* DRY Reusable Component Classes */
+          .section-container { @apply p-6 rounded-lg border border-slate-800 bg-slate-900/40; }
+          .section-title { @apply text-xl font-bold mb-4 text-neon-surge; }
+          .subsection-title { @apply text-lg font-semibold mb-2 text-neon-surge; }
+          .emphasis-text { @apply font-semibold text-ember-spark; }
         }
     </style>
 </head>
 <body class="bg-slate-900 text-slate-200 min-h-screen">
     <div class="max-w-4xl mx-auto p-6 space-y-8">
         <!-- Header with centered title -->
+        <h1 class="text-neon-surge">Blog Title</h1>
         <!-- Section containers with content -->
+        <div class="section-container">
+          <h2 class="section-title">Section Title</h2>
+          <p class="text-slate-200">Content with <span class="emphasis-text">emphasis</span>.</p>
+        </div>
         <!-- Tags section -->
     </div>
 </body>
@@ -137,11 +142,12 @@ Each blog post must include:
 ```
 
 ### Styling Guidelines
-- **Color Scheme**: Use official Cyberknights color palette (`--neon-surge`, `--ember-spark`, `--arc-weld-blue`)
-- **Typography**: Use DRY CSS classes (`.section-title`, `.subsection-title`, `.emphasis-text`)
+- **Color Scheme**: Use Tailwind utility classes (`text-neon-surge`, `bg-ember-spark`, `text-arc-weld-blue`)
+- **Typography**: Use @layer components for reusable patterns (`.section-title`, `.subsection-title`, `.emphasis-text`)
 - **Layout**: Use `.section-container` for consistent card-based layout
-- **Responsive**: Ensure mobile-friendly design
+- **Responsive**: Tailwind responsive utilities (e.g., `md:flex`, `lg:w-1/2`)
 - **Accessibility**: Include proper heading hierarchy and alt text
+- **JIT Configuration**: Always include JIT config script after Tailwind CDN script
 
 ### Navigation Integration
 - **Back Links**: Include "Back to Blog" links for SPA navigation
