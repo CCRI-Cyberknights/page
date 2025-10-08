@@ -25,6 +25,7 @@ The following files contain detailed summaries and are preserved via Git history
 - **`docs/WEEKLY-SUMMARY-2025-10-08.md`** - Complete sprint summary with metrics, timeline breakdown, and future roadmap (last updated: commit `1768d5b`)
 - **`docs/DOCUMENTATION-REVIEW-2025-10-08.md`** - Comprehensive 21-file documentation review with accuracy verification (last updated: commit `cad8f91`)
 - **`REFACTOR-PLAN.md`** - 5-phase Tailwind idiomatic refactoring plan with comprehensive documentation, testing strategy, and implementation details (last updated: commit `dd357d6`)
+- **`docs/TAILWIND-MIGRATION-GUIDE.md`** - Detailed 5-phase index.html Tailwind migration guide with estimated timelines, testing strategy, rollback plan, and completion summary (last updated: commit `03b710a`)
 
 ---
 
