@@ -5,59 +5,68 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Linux Cheatsheet 2 - Cyber Club</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root { color-scheme: dark; }
-    body { background: #0f172a; color: #e2e8f0; }
-    
-    /* Cyberknights Color Palette */
-    :root {
-      --neon-surge: #43CC50;
-      --ember-spark: #C27329;
-      --steel-gray: #64748b;
-      --deep-slate: #1e293b;
+  <script>
+    // Idiomatic Tailwind JIT Configuration
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'neon-surge': '#43CC50',
+            'steel-glow': '#5B6E6E',
+            'pale-alloy': '#B8B8B8',
+            'primary-green': '#04703C',
+            'ember-spark': '#C27329',
+            'arc-weld-blue': '#2DB2C4',
+          }
+        }
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer components {
+      .section-container {
+        @apply bg-slate-800 rounded-lg p-6 mb-6;
+      }
+      
+      .section-title {
+        @apply text-xl font-bold mb-4 text-neon-surge;
+      }
+      
+      .subsection-title {
+        @apply text-lg font-semibold mb-3 text-ember-spark;
+      }
+      
+      .command-code {
+        @apply bg-slate-900 text-emerald-400 font-mono px-3 py-1 rounded text-sm;
+      }
+      
+      .code-block {
+        @apply bg-slate-900 text-slate-300 font-mono p-4 rounded-lg overflow-x-auto;
+      }
+      
+      .emphasis-text {
+        @apply font-semibold text-neon-surge;
+      }
+      
+      .table-row {
+        @apply border-b border-slate-800;
+      }
+      
+      .qr-code-container {
+        @apply flex-shrink-0;
+      }
+      
+      
     }
     
-    .section-container {
-      @apply bg-slate-800 rounded-lg p-6 mb-6;
-    }
-    
-    .section-title {
-      @apply text-xl font-bold mb-4;
-      color: var(--neon-surge);
-    }
-    
-    .subsection-title {
-      @apply text-lg font-semibold mb-3;
-      color: var(--ember-spark);
-    }
-    
-    .command-code {
-      @apply bg-slate-900 text-emerald-400 font-mono px-3 py-1 rounded text-sm;
-    }
-    
-    .code-block {
-      @apply bg-slate-900 text-slate-300 font-mono p-4 rounded-lg overflow-x-auto;
-    }
-    
-    .emphasis-text {
-      @apply font-semibold;
-      color: var(--neon-surge);
-    }
-    
-    .table-row {
-      @apply border-b border-slate-800;
-    }
-    
-    .qr-code-container {
-      @apply flex-shrink-0;
-    }
-    
-    .qr-code-container canvas {
-      @apply transition-transform duration-200;
-    }
-    
-    .qr-code-container canvas:hover {
-      @apply scale-105;
+    @layer base {
+      :root {
+        @apply dark;
+      }
+      
+      body {
+        @apply bg-slate-900 text-slate-200;
+      }
     }
   </style>
 </head>
@@ -65,14 +74,14 @@
   <div class="max-w-4xl mx-auto p-6 space-y-8">
     <!-- Header -->
     <div class="text-center mb-8">
-      <h1 class="text-4xl font-bold mb-4" style="color: var(--neon-surge);">Linux Cheatsheet 2 📂</h1>
-      <p class="text-lg" style="color: #cbd5e1;">Creating & Moving Files & Folders</p>
+      <h1 class="text-4xl font-bold mb-4" class="text-neon-surge">Linux Cheatsheet 2 📂</h1>
+      <p class="text-lg" class="text-slate-300">Creating & Moving Files & Folders</p>
     </div>
 
     <!-- Video References -->
     <div class="section-container">
       <h2 class="section-title">📺 Reference Videos</h2>
-      <p class="mb-4" style="color: #cbd5e1;">This cheat sheet summarizes key concepts and commands from the following videos:</p>
+      <p class="mb-4" class="text-slate-300">This cheat sheet summarizes key concepts and commands from the following videos:</p>
       <table class="w-full border-collapse bg-slate-800">
         <tbody>
           <!-- Video 1 -->
@@ -88,7 +97,7 @@
               </div>
             </td>
             <td class="bg-slate-800 flex items-center justify-center py-2">
-              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOgAAADoCAIAAABqyz8vAAAEG0lEQVR4nO3dy20cMRQAQa2hADYrh2U4LGc1ITgBzWFsEmSLVXft7KfBwwNFvt5/fn9AzY/VbwD+hXBJEi5JwiVJuCQJlyThkiRckoRLknBJEi5JwiVJuCQJlyThkvT59A+un78+Cu72Gd+9/9n7kp8+d9T7vOK/1x0rLknCJUm4JAmXJOGSJFyShMsZc9w7q85nWDWnfPrcp9/P7PnuO/57WXFJEi5JwiVJuCQJlyThkiRczp7jzp7b7bZf9umcdfZzT/u9rLgkCZck4ZIkXJKES5JwSRIuSdPnuHWVOev7sPvqrLgkCZck4ZIkXJKES5JwSRIuScfNcUfto70z+1zb0+a1d6y4JAmXJOGSJFyShEuScEkSLknT57i7zR1nn6c76vOuuqftvdnvdceKS5JwSRIuScIlSbgkCZck4XL2HHfVfWOjrDrvdpUr/ntZcUkSLknCJUm4JAmXJOGSJFySXrvNF3ezai5bmQevYsUlSbgkCZck4ZIkXJKES5JwOWM/7tN9nKPOhX1qt3ln/b60a7PzKKy4JAmXJOGSJFyShEuScEkSLmfvx519v9du89rZ+2VXfQ/XoOfO/n6suCQJlyThkiRckoRLknBJEi5J0+85GzXPGzUvrJ8Lu9tc9lp0/oMVlyThkiRckoRLknBJEi5JwuXscxVGzU13m9eO2k9c+VzXoPdjPy58QbgkCZck4ZIkXJKES5JwOeNchdnnJ6x6ndnq5zBczseF/ydckoRLknBJEi5JwiVJuJw9x/2u59fuNn996v1N5+tWXJKES5JwSRIuScIlSbgkCZez7zmbbbf58W7nJ7zj+2ufsuKSJFyShEuScEkSLknCJUm4JL3q887dnltxTT63+OnrPGXFJUm4JAmXJOGSJFyShEuScEladq7CbveljbLbfWar2I8LXxAuScIlSbgkCZck4ZIkXJIy5yqMsmoOXdk3fEX2JVtxSRIuScIlSbgkCZck4ZIkXJI+n/5BZZ/o3dzx6Xx01Odd9b1dkbnsU1ZckoRLknBJEi5JwiVJuCQJlzPmuHdWzQWfzkdXzVNXzY/fk/fpPuV8XI4mXJKES5JwSRIuScIlSbicPcetzP9Gvf6o+fGo516RfdKjWHFJEi5JwiVJuCQJlyThkiRckqbPcXcz+16x3c7N/a7zbCsuScIlSbgkCZck4ZIkXJKES9Jxc9zZRs1ZR91zdm02V3auAkcTLknCJUm4JAmXJOGSJFySps9xd7tPa9X5BrPnu7vtP57NikuScEkSLknCJUm4JAmXJOGS9Jr9f/SrrJqbrtp3e2f2vthV5zlYcUkSLknCJUm4JAmXJOGSJFzOmOPCDqy4JAmXJOGSJFyShEuScEkSLknCJUm4JAmXJOGSJFyShEuScEkSLh9FfwEb5oZFPS9DHQAAAABJRU5ErkJggg==" alt="QR Code for Creating & Moving Files & Folders" width="120" height="120" class="border border-emerald-500 rounded">
+              <svg width="232" height="232" viewBox="0 0 232 232" xmlns="http://www.w3.org/2000/svg" class="border border-emerald-500 rounded" style="background-color: #10b981;"><path d="M1.6,1.6H2.4V2.4H1.6zM2.4,1.6H3.2V2.4H2.4zM3.2,1.6H4V2.4H3.2zM4,1.6H4.8V2.4H4zM4.8,1.6H5.6V2.4H4.8zM5.6,1.6H6.4V2.4H5.6zM6.4,1.6H7.2V2.4H6.4zM8,1.6H8.8V2.4H8zM12,1.6H12.8V2.4H12zM13.6,1.6H14.4V2.4H13.6zM16,1.6H16.8V2.4H16zM16.8,1.6H17.6V2.4H16.8zM17.6,1.6H18.4V2.4H17.6zM18.4,1.6H19.2V2.4H18.4zM19.2,1.6H20V2.4H19.2zM20,1.6H20.8V2.4H20zM20.8,1.6H21.6V2.4H20.8zM1.6,2.4H2.4V3.2H1.6zM6.4,2.4H7.2V3.2H6.4zM8,2.4H8.8V3.2H8zM10.4,2.4H11.2V3.2H10.4zM11.2,2.4H12V3.2H11.2zM14.4,2.4H15.2V3.2H14.4zM16,2.4H16.8V3.2H16zM20.8,2.4H21.6V3.2H20.8zM1.6,3.2H2.4V4H1.6zM3.2,3.2H4V4H3.2zM4,3.2H4.8V4H4zM4.8,3.2H5.6V4H4.8zM6.4,3.2H7.2V4H6.4zM8,3.2H8.8V4H8zM8.8,3.2H9.6V4H8.8zM11.2,3.2H12V4H11.2zM12.8,3.2H13.6V4H12.8zM16,3.2H16.8V4H16zM17.6,3.2H18.4V4H17.6zM18.4,3.2H19.2V4H18.4zM19.2,3.2H20V4H19.2zM20.8,3.2H21.6V4H20.8zM1.6,4H2.4V4.8H1.6zM3.2,4H4V4.8H3.2zM4,4H4.8V4.8H4zM4.8,4H5.6V4.8H4.8zM6.4,4H7.2V4.8H6.4zM8,4H8.8V4.8H8zM8.8,4H9.6V4.8H8.8zM9.6,4H10.4V4.8H9.6zM12.8,4H13.6V4.8H12.8zM14.4,4H15.2V4.8H14.4zM16,4H16.8V4.8H16zM17.6,4H18.4V4.8H17.6zM18.4,4H19.2V4.8H18.4zM19.2,4H20V4.8H19.2zM20.8,4H21.6V4.8H20.8zM1.6,4.8H2.4V5.6H1.6zM3.2,4.8H4V5.6H3.2zM4,4.8H4.8V5.6H4zM4.8,4.8H5.6V5.6H4.8zM6.4,4.8H7.2V5.6H6.4zM8.8,4.8H9.6V5.6H8.8zM9.6,4.8H10.4V5.6H9.6zM11.2,4.8H12V5.6H11.2zM12.8,4.8H13.6V5.6H12.8zM13.6,4.8H14.4V5.6H13.6zM16,4.8H16.8V5.6H16zM17.6,4.8H18.4V5.6H17.6zM18.4,4.8H19.2V5.6H18.4zM19.2,4.8H20V5.6H19.2zM20.8,4.8H21.6V5.6H20.8zM1.6,5.6H2.4V6.4H1.6zM6.4,5.6H7.2V6.4H6.4zM8,5.6H8.8V6.4H8zM8.8,5.6H9.6V6.4H8.8zM9.6,5.6H10.4V6.4H9.6zM12.8,5.6H13.6V6.4H12.8zM14.4,5.6H15.2V6.4H14.4zM16,5.6H16.8V6.4H16zM20.8,5.6H21.6V6.4H20.8zM1.6,6.4H2.4V7.2H1.6zM2.4,6.4H3.2V7.2H2.4zM3.2,6.4H4V7.2H3.2zM4,6.4H4.8V7.2H4zM4.8,6.4H5.6V7.2H4.8zM5.6,6.4H6.4V7.2H5.6zM6.4,6.4H7.2V7.2H6.4zM8,6.4H8.8V7.2H8zM9.6,6.4H10.4V7.2H9.6zM11.2,6.4H12V7.2H11.2zM12.8,6.4H13.6V7.2H12.8zM14.4,6.4H15.2V7.2H14.4zM16,6.4H16.8V7.2H16zM16.8,6.4H17.6V7.2H16.8zM17.6,6.4H18.4V7.2H17.6zM18.4,6.4H19.2V7.2H18.4zM19.2,6.4H20V7.2H19.2zM20,6.4H20.8V7.2H20zM20.8,6.4H21.6V7.2H20.8zM9.6,7.2H10.4V8H9.6zM13.6,7.2H14.4V8H13.6zM1.6,8H2.4V8.8H1.6zM2.4,8H3.2V8.8H2.4zM4.8,8H5.6V8.8H4.8zM5.6,8H6.4V8.8H5.6zM6.4,8H7.2V8.8H6.4zM9.6,8H10.4V8.8H9.6zM12,8H12.8V8.8H12zM16.8,8H17.6V8.8H16.8zM18.4,8H19.2V8.8H18.4zM19.2,8H20V8.8H19.2zM20,8H20.8V8.8H20zM20.8,8H21.6V8.8H20.8zM2.4,8.8H3.2V9.6H2.4zM4.8,8.8H5.6V9.6H4.8zM5.6,8.8H6.4V9.6H5.6zM10.4,8.8H11.2V9.6H10.4zM13.6,8.8H14.4V9.6H13.6zM14.4,8.8H15.2V9.6H14.4zM17.6,8.8H18.4V9.6H17.6zM18.4,8.8H19.2V9.6H18.4zM20,8.8H20.8V9.6H20zM2.4,9.6H3.2V10.4H2.4zM3.2,9.6H4V10.4H3.2zM4.8,9.6H5.6V10.4H4.8zM6.4,9.6H7.2V10.4H6.4zM8,9.6H8.8V10.4H8zM8.8,9.6H9.6V10.4H8.8zM9.6,9.6H10.4V10.4H9.6zM10.4,9.6H11.2V10.4H10.4zM13.6,9.6H14.4V10.4H13.6zM14.4,9.6H15.2V10.4H14.4zM16,9.6H16.8V10.4H16zM16.8,9.6H17.6V10.4H16.8zM18.4,9.6H19.2V10.4H18.4zM19.2,9.6H20V10.4H19.2zM1.6,10.4H2.4V11.2H1.6zM3.2,10.4H4V11.2H3.2zM5.6,10.4H6.4V11.2H5.6zM7.2,10.4H8V11.2H7.2zM8,10.4H8.8V11.2H8zM8.8,10.4H9.6V11.2H8.8zM11.2,10.4H12V11.2H11.2zM12.8,10.4H13.6V11.2H12.8zM14.4,10.4H15.2V11.2H14.4zM16,10.4H16.8V11.2H16zM17.6,10.4H18.4V11.2H17.6zM19.2,10.4H20V11.2H19.2zM20,10.4H20.8V11.2H20zM1.6,11.2H2.4V12H1.6zM4,11.2H4.8V12H4zM6.4,11.2H7.2V12H6.4zM12,11.2H12.8V12H12zM15.2,11.2H16V12H15.2zM16,11.2H16.8V12H16zM18.4,11.2H19.2V12H18.4zM19.2,11.2H20V12H19.2zM20,11.2H20.8V12H20zM20.8,11.2H21.6V12H20.8zM1.6,12H2.4V12.8H1.6zM2.4,12H3.2V12.8H2.4zM7.2,12H8V12.8H7.2zM9.6,12H10.4V12.8H9.6zM12.8,12H13.6V12.8H12.8zM13.6,12H14.4V12.8H13.6zM14.4,12H15.2V12.8H14.4zM15.2,12H16V12.8H15.2zM17.6,12H18.4V12.8H17.6zM20,12H20.8V12.8H20zM5.6,12.8H6.4V13.6H5.6zM6.4,12.8H7.2V13.6H6.4zM10.4,12.8H11.2V13.6H10.4zM12,12.8H12.8V13.6H12zM13.6,12.8H14.4V13.6H13.6zM14.4,12.8H15.2V13.6H14.4zM16.8,12.8H17.6V13.6H16.8zM17.6,12.8H18.4V13.6H17.6zM18.4,12.8H19.2V13.6H18.4zM19.2,12.8H20V13.6H19.2zM3.2,13.6H4V14.4H3.2zM4.8,13.6H5.6V14.4H4.8zM7.2,13.6H8V14.4H7.2zM8.8,13.6H9.6V14.4H8.8zM16.8,13.6H17.6V14.4H16.8zM17.6,13.6H18.4V14.4H17.6zM19.2,13.6H20V14.4H19.2zM20,13.6H20.8V14.4H20zM1.6,14.4H2.4V15.2H1.6zM2.4,14.4H3.2V15.2H2.4zM4,14.4H4.8V15.2H4zM5.6,14.4H6.4V15.2H5.6zM6.4,14.4H7.2V15.2H6.4zM8,14.4H8.8V15.2H8zM8.8,14.4H9.6V15.2H8.8zM9.6,14.4H10.4V15.2H9.6zM10.4,14.4H11.2V15.2H10.4zM12,14.4H12.8V15.2H12zM13.6,14.4H14.4V15.2H13.6zM14.4,14.4H15.2V15.2H14.4zM15.2,14.4H16V15.2H15.2zM16,14.4H16.8V15.2H16zM16.8,14.4H17.6V15.2H16.8zM17.6,14.4H18.4V15.2H17.6zM18.4,14.4H19.2V15.2H18.4zM19.2,14.4H20V15.2H19.2zM8,15.2H8.8V16H8zM8.8,15.2H9.6V16H8.8zM10.4,15.2H11.2V16H10.4zM12.8,15.2H13.6V16H12.8zM14.4,15.2H15.2V16H14.4zM17.6,15.2H18.4V16H17.6zM1.6,16H2.4V16.8H1.6zM2.4,16H3.2V16.8H2.4zM3.2,16H4V16.8H3.2zM4,16H4.8V16.8H4zM4.8,16H5.6V16.8H4.8zM5.6,16H6.4V16.8H5.6zM6.4,16H7.2V16.8H6.4zM8.8,16H9.6V16.8H8.8zM9.6,16H10.4V16.8H9.6zM10.4,16H11.2V16.8H10.4zM12,16H12.8V16.8H12zM12.8,16H13.6V16.8H12.8zM14.4,16H15.2V16.8H14.4zM16,16H16.8V16.8H16zM17.6,16H18.4V16.8H17.6zM1.6,16.8H2.4V17.6H1.6zM6.4,16.8H7.2V17.6H6.4zM8,16.8H8.8V17.6H8zM8.8,16.8H9.6V17.6H8.8zM9.6,16.8H10.4V17.6H9.6zM10.4,16.8H11.2V17.6H10.4zM12.8,16.8H13.6V17.6H12.8zM13.6,16.8H14.4V17.6H13.6zM14.4,16.8H15.2V17.6H14.4zM17.6,16.8H18.4V17.6H17.6zM18.4,16.8H19.2V17.6H18.4zM19.2,16.8H20V17.6H19.2zM20,16.8H20.8V17.6H20zM1.6,17.6H2.4V18.4H1.6zM3.2,17.6H4V18.4H3.2zM4,17.6H4.8V18.4H4zM4.8,17.6H5.6V18.4H4.8zM6.4,17.6H7.2V18.4H6.4zM8,17.6H8.8V18.4H8zM10.4,17.6H11.2V18.4H10.4zM12,17.6H12.8V18.4H12zM14.4,17.6H15.2V18.4H14.4zM15.2,17.6H16V18.4H15.2zM16,17.6H16.8V18.4H16zM16.8,17.6H17.6V18.4H16.8zM17.6,17.6H18.4V18.4H17.6zM18.4,17.6H19.2V18.4H18.4zM19.2,17.6H20V18.4H19.2zM20,17.6H20.8V18.4H20zM1.6,18.4H2.4V19.2H1.6zM3.2,18.4H4V19.2H3.2zM4,18.4H4.8V19.2H4zM4.8,18.4H5.6V19.2H4.8zM6.4,18.4H7.2V19.2H6.4zM8.8,18.4H9.6V19.2H8.8zM9.6,18.4H10.4V19.2H9.6zM10.4,18.4H11.2V19.2H10.4zM11.2,18.4H12V19.2H11.2zM13.6,18.4H14.4V19.2H13.6zM15.2,18.4H16V19.2H15.2zM16,18.4H16.8V19.2H16zM16.8,18.4H17.6V19.2H16.8zM19.2,18.4H20V19.2H19.2zM20,18.4H20.8V19.2H20zM20.8,18.4H21.6V19.2H20.8zM1.6,19.2H2.4V20H1.6zM3.2,19.2H4V20H3.2zM4,19.2H4.8V20H4zM4.8,19.2H5.6V20H4.8zM6.4,19.2H7.2V20H6.4zM8.8,19.2H9.6V20H8.8zM9.6,19.2H10.4V20H9.6zM10.4,19.2H11.2V20H10.4zM12,19.2H12.8V20H12zM12.8,19.2H13.6V20H12.8zM14.4,19.2H15.2V20H14.4zM16,19.2H16.8V20H16zM18.4,19.2H19.2V20H18.4zM20,19.2H20.8V20H20zM1.6,20H2.4V20.8H1.6zM6.4,20H7.2V20.8H6.4zM8,20H8.8V20.8H8zM10.4,20H11.2V20.8H10.4zM11.2,20H12V20.8H11.2zM12.8,20H13.6V20.8H12.8zM16.8,20H17.6V20.8H16.8zM17.6,20H18.4V20.8H17.6zM18.4,20H19.2V20.8H18.4zM19.2,20H20V20.8H19.2zM20,20H20.8V20.8H20zM1.6,20.8H2.4V21.6H1.6zM2.4,20.8H3.2V21.6H2.4zM3.2,20.8H4V21.6H3.2zM4,20.8H4.8V21.6H4zM4.8,20.8H5.6V21.6H4.8zM5.6,20.8H6.4V21.6H5.6zM6.4,20.8H7.2V21.6H6.4zM8,20.8H8.8V21.6H8zM8.8,20.8H9.6V21.6H8.8zM11.2,20.8H12V21.6H11.2zM12,20.8H12.8V21.6H12zM13.6,20.8H14.4V21.6H13.6zM16,20.8H16.8V21.6H16zM19.2,20.8H20V21.6H19.2zM20,20.8H20.8V21.6H20zM20.8,20.8H21.6V21.6H20.8z" fill="black" fill-opacity="1" fill-rule="nonzero" stroke="none"/></svg>
             </td>
           </tr>
           <!-- Empty row for spacing -->
@@ -109,7 +118,7 @@
               </div>
             </td>
             <td class="bg-slate-800 flex items-center justify-center py-2">
-              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOgAAADoCAIAAABqyz8vAAAEH0lEQVR4nO3d0W0UMRRA0QSlgOmKshBl0dWUQAMMwmgs+8rnfG+Sze6VP56ePJ/Xr58fUPNt9RuA/yFckoRLknBJEi5JwiVJuCQJlyThkiRckoRLknBJEi5JwiVJuCR9jf7A/f3HR8HTnvHT+5+9lzz7c7sG/9/djH7+TlyShEuScEkSLknCJUm4JAmXM+a4T1bdz7BqTjn6d9/6fN76f6/49+XEJUm4JAmXJOGSJFyShEuScDl7jlufO47u6b61//rW3z3t+3LikiRckoRLknBJEi5JwiVJuCRNn+PWVeas12HPq3PikiRckoRLknBJEi5JwiVJuCQdN8edfY/sW/ctmNf+nROXJOGSJFyShEuScEkSLknCJWn6HHe3ueOq5409GZ3Xzp7vXpt9X0+cuCQJlyThkiRckoRLknBJEi5nz3FXPW/sLavuu13ljn9fTlyShEuScEkSLknCJUm4JAmXpM/d5ou7mf3cr7fuYTiNE5ck4ZIkXJKES5JwSRIuScLljH3c2XPH2XPTt4zOZXfb071fus/hLaOfgxOXJOGSJFyShEuScEkSLknC5Yx93Nnzv7fmmrvtuZ72ud2T59ZOXJKES5JwSRIuScIlSbgkCZekr/p+526/Z9X+8aq57Ko9YycuScIlSbgkCZck4ZIkXJKEy9n7uKvMfv+73Uf71rz8mvz6J/ZxOZpwSRIuScIlSbgkCZck4ZI0fY5bmRPPvl9itjv+vbgflyMIlyThkiRckoRLknBJEi5n36tQv8egPgfdbT7tflz4A+GSJFyShEuScEkSLknC5Yx93Pp8d9Ve6W77rPdm72eUE5ck4ZIkXJKES5JwSRIuScIlabs57m7PUXuy6j7ayvPPntjH5WjCJUm4JAmXJOGSJFyShMsZ9yrMnv89vX63Oehsuz1P7t7s+XBOXJKES5JwSRIuScIlSbgkCZekzD5uZa939rx59tz6jszFnbgkCZck4ZIkXJKES5JwSRIuSdP3cVcZ3esd/T27zXfrc9lRTlyShEuScEkSLknCJUm4JAmXM+a4T1bNBUfnqbvdDzD7ft9r8jx4lPtxOZpwSRIuScIlSbgkCZck4XL2HLcy/xu1277s0+vvyJ70W5y4JAmXJOGSJFyShEuScEkSLknT57i7eet+g9nz6d3ez+x96NG/68QlSbgkCZck4ZIkXJKES5JwSTpujvtkt/no7PnuNfn5arP3mJ24JAmXJOGSJFyShEuScEkSLknT57i7PU9rdL44e747atVz2p6s+hycuCQJlyThkiRckoRLknBJEi5nz3FPu5919nx61R7tKPcqwADhkiRckoRLknBJEi5JwiXpc7d9WfgXTlyShEuScEkSLknCJUm4JAmXJOGSJFyShEuScEkSLknCJUm4JAmXj6Lf8epuSyNk2YcAAAAASUVORK5CYII=" alt="QR Code for Advanced File Operations" width="120" height="120" class="border border-emerald-500 rounded">
+              <svg width="232" height="232" viewBox="0 0 232 232" xmlns="http://www.w3.org/2000/svg" class="border border-emerald-500 rounded" style="background-color: #10b981;"><path d="M1.6,1.6H2.4V2.4H1.6zM2.4,1.6H3.2V2.4H2.4zM3.2,1.6H4V2.4H3.2zM4,1.6H4.8V2.4H4zM4.8,1.6H5.6V2.4H4.8zM5.6,1.6H6.4V2.4H5.6zM6.4,1.6H7.2V2.4H6.4zM8,1.6H8.8V2.4H8zM12,1.6H12.8V2.4H12zM12.8,1.6H13.6V2.4H12.8zM13.6,1.6H14.4V2.4H13.6zM14.4,1.6H15.2V2.4H14.4zM16,1.6H16.8V2.4H16zM16.8,1.6H17.6V2.4H16.8zM17.6,1.6H18.4V2.4H17.6zM18.4,1.6H19.2V2.4H18.4zM19.2,1.6H20V2.4H19.2zM20,1.6H20.8V2.4H20zM20.8,1.6H21.6V2.4H20.8zM1.6,2.4H2.4V3.2H1.6zM6.4,2.4H7.2V3.2H6.4zM8,2.4H8.8V3.2H8zM10.4,2.4H11.2V3.2H10.4zM11.2,2.4H12V3.2H11.2zM14.4,2.4H15.2V3.2H14.4zM16,2.4H16.8V3.2H16zM20.8,2.4H21.6V3.2H20.8zM1.6,3.2H2.4V4H1.6zM3.2,3.2H4V4H3.2zM4,3.2H4.8V4H4zM4.8,3.2H5.6V4H4.8zM6.4,3.2H7.2V4H6.4zM8,3.2H8.8V4H8zM8.8,3.2H9.6V4H8.8zM11.2,3.2H12V4H11.2zM12.8,3.2H13.6V4H12.8zM16,3.2H16.8V4H16zM17.6,3.2H18.4V4H17.6zM18.4,3.2H19.2V4H18.4zM19.2,3.2H20V4H19.2zM20.8,3.2H21.6V4H20.8zM1.6,4H2.4V4.8H1.6zM3.2,4H4V4.8H3.2zM4,4H4.8V4.8H4zM4.8,4H5.6V4.8H4.8zM6.4,4H7.2V4.8H6.4zM8,4H8.8V4.8H8zM8.8,4H9.6V4.8H8.8zM9.6,4H10.4V4.8H9.6zM12.8,4H13.6V4.8H12.8zM14.4,4H15.2V4.8H14.4zM16,4H16.8V4.8H16zM17.6,4H18.4V4.8H17.6zM18.4,4H19.2V4.8H18.4zM19.2,4H20V4.8H19.2zM20.8,4H21.6V4.8H20.8zM1.6,4.8H2.4V5.6H1.6zM3.2,4.8H4V5.6H3.2zM4,4.8H4.8V5.6H4zM4.8,4.8H5.6V5.6H4.8zM6.4,4.8H7.2V5.6H6.4zM8.8,4.8H9.6V5.6H8.8zM9.6,4.8H10.4V5.6H9.6zM11.2,4.8H12V5.6H11.2zM12,4.8H12.8V5.6H12zM13.6,4.8H14.4V5.6H13.6zM16,4.8H16.8V5.6H16zM17.6,4.8H18.4V5.6H17.6zM18.4,4.8H19.2V5.6H18.4zM19.2,4.8H20V5.6H19.2zM20.8,4.8H21.6V5.6H20.8zM1.6,5.6H2.4V6.4H1.6zM6.4,5.6H7.2V6.4H6.4zM8,5.6H8.8V6.4H8zM8.8,5.6H9.6V6.4H8.8zM9.6,5.6H10.4V6.4H9.6zM12.8,5.6H13.6V6.4H12.8zM14.4,5.6H15.2V6.4H14.4zM16,5.6H16.8V6.4H16zM20.8,5.6H21.6V6.4H20.8zM1.6,6.4H2.4V7.2H1.6zM2.4,6.4H3.2V7.2H2.4zM3.2,6.4H4V7.2H3.2zM4,6.4H4.8V7.2H4zM4.8,6.4H5.6V7.2H4.8zM5.6,6.4H6.4V7.2H5.6zM6.4,6.4H7.2V7.2H6.4zM8,6.4H8.8V7.2H8zM9.6,6.4H10.4V7.2H9.6zM11.2,6.4H12V7.2H11.2zM12.8,6.4H13.6V7.2H12.8zM14.4,6.4H15.2V7.2H14.4zM16,6.4H16.8V7.2H16zM16.8,6.4H17.6V7.2H16.8zM17.6,6.4H18.4V7.2H17.6zM18.4,6.4H19.2V7.2H18.4zM19.2,6.4H20V7.2H19.2zM20,6.4H20.8V7.2H20zM20.8,6.4H21.6V7.2H20.8zM9.6,7.2H10.4V8H9.6zM10.4,7.2H11.2V8H10.4zM11.2,7.2H12V8H11.2zM12.8,7.2H13.6V8H12.8zM13.6,7.2H14.4V8H13.6zM1.6,8H2.4V8.8H1.6zM2.4,8H3.2V8.8H2.4zM4.8,8H5.6V8.8H4.8zM5.6,8H6.4V8.8H5.6zM6.4,8H7.2V8.8H6.4zM9.6,8H10.4V8.8H9.6zM11.2,8H12V8.8H11.2zM12,8H12.8V8.8H12zM16.8,8H17.6V8.8H16.8zM18.4,8H19.2V8.8H18.4zM19.2,8H20V8.8H19.2zM20,8H20.8V8.8H20zM20.8,8H21.6V8.8H20.8zM1.6,8.8H2.4V9.6H1.6zM3.2,8.8H4V9.6H3.2zM4,8.8H4.8V9.6H4zM7.2,8.8H8V9.6H7.2zM8,8.8H8.8V9.6H8zM12,8.8H12.8V9.6H12zM13.6,8.8H14.4V9.6H13.6zM14.4,8.8H15.2V9.6H14.4zM17.6,8.8H18.4V9.6H17.6zM18.4,8.8H19.2V9.6H18.4zM20,8.8H20.8V9.6H20zM1.6,9.6H2.4V10.4H1.6zM2.4,9.6H3.2V10.4H2.4zM4,9.6H4.8V10.4H4zM6.4,9.6H7.2V10.4H6.4zM7.2,9.6H8V10.4H7.2zM8,9.6H8.8V10.4H8zM8.8,9.6H9.6V10.4H8.8zM9.6,9.6H10.4V10.4H9.6zM10.4,9.6H11.2V10.4H10.4zM12,9.6H12.8V10.4H12zM12.8,9.6H13.6V10.4H12.8zM13.6,9.6H14.4V10.4H13.6zM14.4,9.6H15.2V10.4H14.4zM16,9.6H16.8V10.4H16zM16.8,9.6H17.6V10.4H16.8zM18.4,9.6H19.2V10.4H18.4zM19.2,9.6H20V10.4H19.2zM1.6,10.4H2.4V11.2H1.6zM2.4,10.4H3.2V11.2H2.4zM3.2,10.4H4V11.2H3.2zM4,10.4H4.8V11.2H4zM4.8,10.4H5.6V11.2H4.8zM5.6,10.4H6.4V11.2H5.6zM8,10.4H8.8V11.2H8zM8.8,10.4H9.6V11.2H8.8zM14.4,10.4H15.2V11.2H14.4zM16,10.4H16.8V11.2H16zM17.6,10.4H18.4V11.2H17.6zM19.2,10.4H20V11.2H19.2zM20,10.4H20.8V11.2H20zM1.6,11.2H2.4V12H1.6zM2.4,11.2H3.2V12H2.4zM4.8,11.2H5.6V12H4.8zM5.6,11.2H6.4V12H5.6zM6.4,11.2H7.2V12H6.4zM7.2,11.2H8V12H7.2zM8,11.2H8.8V12H8zM10.4,11.2H11.2V12H10.4zM15.2,11.2H16V12H15.2zM16,11.2H16.8V12H16zM18.4,11.2H19.2V12H18.4zM19.2,11.2H20V12H19.2zM20,11.2H20.8V12H20zM20.8,11.2H21.6V12H20.8zM1.6,12H2.4V12.8H1.6zM2.4,12H3.2V12.8H2.4zM4,12H4.8V12.8H4zM4.8,12H5.6V12.8H4.8zM5.6,12H6.4V12.8H5.6zM8,12H8.8V12.8H8zM8.8,12H9.6V12.8H8.8zM9.6,12H10.4V12.8H9.6zM12,12H12.8V12.8H12zM12.8,12H13.6V12.8H12.8zM13.6,12H14.4V12.8H13.6zM14.4,12H15.2V12.8H14.4zM15.2,12H16V12.8H15.2zM17.6,12H18.4V12.8H17.6zM20,12H20.8V12.8H20zM4.8,12.8H5.6V13.6H4.8zM5.6,12.8H6.4V13.6H5.6zM6.4,12.8H7.2V13.6H6.4zM8,12.8H8.8V13.6H8zM8.8,12.8H9.6V13.6H8.8zM9.6,12.8H10.4V13.6H9.6zM10.4,12.8H11.2V13.6H10.4zM12,12.8H12.8V13.6H12zM12.8,12.8H13.6V13.6H12.8zM13.6,12.8H14.4V13.6H13.6zM14.4,12.8H15.2V13.6H14.4zM16.8,12.8H17.6V13.6H16.8zM17.6,12.8H18.4V13.6H17.6zM18.4,12.8H19.2V13.6H18.4zM19.2,12.8H20V13.6H19.2zM5.6,13.6H6.4V14.4H5.6zM7.2,13.6H8V14.4H7.2zM8,13.6H8.8V14.4H8zM8.8,13.6H9.6V14.4H8.8zM9.6,13.6H10.4V14.4H9.6zM11.2,13.6H12V14.4H11.2zM12.8,13.6H13.6V14.4H12.8zM16.8,13.6H17.6V14.4H16.8zM17.6,13.6H18.4V14.4H17.6zM19.2,13.6H20V14.4H19.2zM20,13.6H20.8V14.4H20zM1.6,14.4H2.4V15.2H1.6zM2.4,14.4H3.2V15.2H2.4zM4,14.4H4.8V15.2H4zM6.4,14.4H7.2V15.2H6.4zM11.2,14.4H12V15.2H11.2zM12.8,14.4H13.6V15.2H12.8zM13.6,14.4H14.4V15.2H13.6zM14.4,14.4H15.2V15.2H14.4zM15.2,14.4H16V15.2H15.2zM16,14.4H16.8V15.2H16zM16.8,14.4H17.6V15.2H16.8zM17.6,14.4H18.4V15.2H17.6zM18.4,14.4H19.2V15.2H18.4zM19.2,14.4H20V15.2H19.2zM8,15.2H8.8V16H8zM9.6,15.2H10.4V16H9.6zM10.4,15.2H11.2V16H10.4zM12,15.2H12.8V16H12zM14.4,15.2H15.2V16H14.4zM17.6,15.2H18.4V16H17.6zM1.6,16H2.4V16.8H1.6zM2.4,16H3.2V16.8H2.4zM3.2,16H4V16.8H3.2zM4,16H4.8V16.8H4zM4.8,16H5.6V16.8H4.8zM5.6,16H6.4V16.8H5.6zM6.4,16H7.2V16.8H6.4zM10.4,16H11.2V16.8H10.4zM12.8,16H13.6V16.8H12.8zM14.4,16H15.2V16.8H14.4zM16,16H16.8V16.8H16zM17.6,16H18.4V16.8H17.6zM1.6,16.8H2.4V17.6H1.6zM6.4,16.8H7.2V17.6H6.4zM8,16.8H8.8V17.6H8zM8.8,16.8H9.6V17.6H8.8zM10.4,16.8H11.2V17.6H10.4zM13.6,16.8H14.4V17.6H13.6zM14.4,16.8H15.2V17.6H14.4zM17.6,16.8H18.4V17.6H17.6zM18.4,16.8H19.2V17.6H18.4zM19.2,16.8H20V17.6H19.2zM20,16.8H20.8V17.6H20zM1.6,17.6H2.4V18.4H1.6zM3.2,17.6H4V18.4H3.2zM4,17.6H4.8V18.4H4zM4.8,17.6H5.6V18.4H4.8zM6.4,17.6H7.2V18.4H6.4zM8,17.6H8.8V18.4H8zM8.8,17.6H9.6V18.4H8.8zM9.6,17.6H10.4V18.4H9.6zM12.8,17.6H13.6V18.4H12.8zM14.4,17.6H15.2V18.4H14.4zM15.2,17.6H16V18.4H15.2zM16,17.6H16.8V18.4H16zM16.8,17.6H17.6V18.4H16.8zM17.6,17.6H18.4V18.4H17.6zM18.4,17.6H19.2V18.4H18.4zM19.2,17.6H20V18.4H19.2zM20,17.6H20.8V18.4H20zM1.6,18.4H2.4V19.2H1.6zM3.2,18.4H4V19.2H3.2zM4,18.4H4.8V19.2H4zM4.8,18.4H5.6V19.2H4.8zM6.4,18.4H7.2V19.2H6.4zM8.8,18.4H9.6V19.2H8.8zM10.4,18.4H11.2V19.2H10.4zM11.2,18.4H12V19.2H11.2zM12,18.4H12.8V19.2H12zM13.6,18.4H14.4V19.2H13.6zM15.2,18.4H16V19.2H15.2zM16,18.4H16.8V19.2H16zM16.8,18.4H17.6V19.2H16.8zM19.2,18.4H20V19.2H19.2zM20,18.4H20.8V19.2H20zM20.8,18.4H21.6V19.2H20.8zM1.6,19.2H2.4V20H1.6zM3.2,19.2H4V20H3.2zM4,19.2H4.8V20H4zM4.8,19.2H5.6V20H4.8zM6.4,19.2H7.2V20H6.4zM9.6,19.2H10.4V20H9.6zM10.4,19.2H11.2V20H10.4zM11.2,19.2H12V20H11.2zM14.4,19.2H15.2V20H14.4zM16,19.2H16.8V20H16zM18.4,19.2H19.2V20H18.4zM20,19.2H20.8V20H20zM1.6,20H2.4V20.8H1.6zM6.4,20H7.2V20.8H6.4zM8,20H8.8V20.8H8zM10.4,20H11.2V20.8H10.4zM11.2,20H12V20.8H11.2zM16.8,20H17.6V20.8H16.8zM17.6,20H18.4V20.8H17.6zM18.4,20H19.2V20.8H18.4zM19.2,20H20V20.8H19.2zM20,20H20.8V20.8H20zM1.6,20.8H2.4V21.6H1.6zM2.4,20.8H3.2V21.6H2.4zM3.2,20.8H4V21.6H3.2zM4,20.8H4.8V21.6H4zM4.8,20.8H5.6V21.6H4.8zM5.6,20.8H6.4V21.6H5.6zM6.4,20.8H7.2V21.6H6.4zM8,20.8H8.8V21.6H8zM13.6,20.8H14.4V21.6H13.6zM16,20.8H16.8V21.6H16zM19.2,20.8H20V21.6H19.2zM20,20.8H20.8V21.6H20zM20.8,20.8H21.6V21.6H20.8z" fill="black" fill-opacity="1" fill-rule="nonzero" stroke="none"/></svg>
             </td>
           </tr>
         </tbody>
@@ -119,14 +128,14 @@
     <!-- Main Content -->
     <div class="section-container">
       <h2 class="section-title">📋 Cheat Sheet Content</h2>
-      <p class="mb-6" style="color: #cbd5e1;">Here is a cheat sheet summarizing the key commands and concepts from the videos.</p>
+      <p class="mb-6" class="text-slate-300">Here is a cheat sheet summarizing the key commands and concepts from the videos.</p>
 
       <div class="subsection-title">Creating & Moving Files & Folders 📂</div>
       
-      <h3 class="text-lg font-semibold mb-3" style="color: var(--neon-surge);">Understanding File Paths: Absolute vs. Relative</h3>
-      <p class="mb-4" style="color: #cbd5e1;">This is a core concept for command line work. A file path tells a command where to find or create something on the computer.</p>
+      <h3 class="text-lg font-semibold mb-3" class="text-neon-surge">Understanding File Paths: Absolute vs. Relative</h3>
+      <p class="mb-4" class="text-slate-300">This is a core concept for command line work. A file path tells a command where to find or create something on the computer.</p>
       
-      <ul class="mb-6 space-y-3" style="color: #cbd5e1;">
+      <ul class="mb-6 space-y-3" class="text-slate-300">
         <li>
           <span class="emphasis-text">Absolute Paths:</span> Start at the root directory (<span class="command-code">/</span>) and provide the full, specific location of a file or folder. They work from <strong>anywhere</strong> on the computer.
           <br><span class="text-sm text-slate-400">Example: <span class="command-code">/home/sandbox/desktop/new_folder</span></span>
@@ -137,7 +146,7 @@
         </li>
       </ul>
 
-      <h3 class="text-lg font-semibold mb-3" style="color: var(--neon-surge);">Essential Commands ⌨️</h3>
+      <h3 class="text-lg font-semibold mb-3" class="text-neon-surge">Essential Commands ⌨️</h3>
       
       <div class="overflow-x-auto mb-6">
         <table class="w-full border-collapse">
@@ -184,8 +193,8 @@
         </table>
       </div>
 
-      <h3 class="text-lg font-semibold mb-3" style="color: var(--neon-surge);">Key Takeaways 💡</h3>
-      <ul class="space-y-2" style="color: #cbd5e1;">
+      <h3 class="text-lg font-semibold mb-3" class="text-neon-surge">Key Takeaways 💡</h3>
+      <ul class="space-y-2" class="text-slate-300">
         <li><span class="emphasis-text">Single-Step Actions:</span> Unlike the graphical interface, many commands like <span class="command-code">mv</span> and <span class="command-code">cp</span> accomplish a full task in a single step.</li>
         <li><span class="emphasis-text">Command Structure:</span> Many commands follow a common pattern: <span class="command-code">[command] [options] [arguments]</span>.</li>
         <li><span class="emphasis-text">Tab is Your Friend:</span> Use the <strong>Tab key</strong> to auto-complete commands and file paths, saving you from having to type everything out and helping you avoid typos.</li>

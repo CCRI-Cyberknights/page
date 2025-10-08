@@ -4,75 +4,83 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Linux Cheatsheet 4 - Cyber Club</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root { color-scheme: dark; }
-    body { background: #0f172a; color: #e2e8f0; }
-    
-    /* Official Cyberknights Color Palette */
-    :root {
-      --neon-surge: #43CC50;
-      --steel-glow: #5B6E6E;
-      --pale-alloy: #B8B8B8;
-      --primary-green: #04703C;
-      --ember-spark: #C27329;
-      --arc-weld-blue: #2DB2C4;
+    <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Idiomatic Tailwind JIT Configuration
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'neon-surge': '#43CC50',
+            'steel-glow': '#5B6E6E',
+            'pale-alloy': '#B8B8B8',
+            'primary-green': '#04703C',
+            'ember-spark': '#C27329',
+            'arc-weld-blue': '#2DB2C4',
+          }
+        }
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer components {
+      .section-container {
+        @apply p-6 rounded-lg border border-slate-800 bg-slate-900/40;
+      }
+      
+      .section-title {
+        @apply text-xl font-bold mb-4 text-neon-surge;
+      }
+      
+      .subsection-title {
+        @apply text-lg font-semibold mb-2 text-neon-surge;
+      }
+      
+      .command-code {
+        @apply bg-slate-800 px-1 rounded text-sm font-mono text-slate-200;
+      }
+      
+      .code-block {
+        @apply bg-slate-800 p-2 rounded text-xs font-mono text-slate-200 overflow-x-auto;
+      }
+      
+      .emphasis-text {
+        @apply font-semibold text-ember-spark;
+      }
+      
+      .table-header {
+        @apply text-left p-3 font-semibold text-neon-surge;
+      }
+      
+      .table-cell {
+        @apply p-3;
+      }
+      
+      .command-cell {
+        @apply font-mono font-semibold text-emerald-400;
+      }
+      
+      .table-row {
+        @apply border-b border-slate-800;
+      }
+      
+      .qr-code-container {
+        @apply flex-shrink-0;
+      }
+      
+      .qr-code-container canvas {
+        @apply transition-transform duration-200 hover:scale-105;
+      }
     }
     
-    /* DRY Reusable Classes */
-    .section-container {
-      @apply p-6 rounded-lg border border-slate-800 bg-slate-900/40;
-    }
-    
-    .section-title {
-      @apply text-xl font-bold mb-4;
-      color: var(--neon-surge);
-    }
-    
-    .subsection-title {
-      @apply text-lg font-semibold mb-2;
-      color: var(--neon-surge);
-    }
-    
-    .command-code {
-      @apply bg-slate-800 px-1 rounded text-sm font-mono text-slate-200;
-    }
-    
-    .code-block {
-      @apply bg-slate-800 p-2 rounded text-xs font-mono text-slate-200 overflow-x-auto;
-    }
-    
-    .emphasis-text {
-      color: var(--ember-spark);
-    }
-    
-    .table-header {
-      @apply text-left p-3 font-semibold;
-      color: var(--neon-surge);
-    }
-    
-    .table-cell {
-      @apply p-3;
-    }
-    
-    .command-cell {
-      @apply font-mono font-semibold text-emerald-400;
-    }
-    
-    .table-row {
-      @apply border-b border-slate-800;
-    }
-    
-    .qr-code-container {
-      @apply flex-shrink-0;
-    }
-    
-    .qr-code-container canvas {
-      @apply transition-transform duration-200;
-    }
-    
-    .qr-code-container canvas:hover {
-      @apply scale-105;
+    @layer base {
+      :root {
+        @apply dark;
+      }
+      
+      body {
+        @apply bg-slate-900 text-slate-200;
+      }
     }
   </style>
 </head>
@@ -80,14 +88,14 @@
   <div class="max-w-4xl mx-auto p-6 space-y-8">
     <!-- Header -->
     <div class="text-center mb-8">
-      <h1 class="text-4xl font-bold mb-4" style="color: var(--neon-surge);">Linux Cheatsheet 4 ✍️</h1>
-      <p class="text-lg" style="color: #cbd5e1;">Text Editors, GUI Programs & File Deletion</p>
+      <h1 class="text-4xl font-bold mb-4" class="text-neon-surge">Linux Cheatsheet 4 ✍️</h1>
+      <p class="text-lg" class="text-slate-300">Text Editors, GUI Programs & File Deletion</p>
     </div>
 
     <!-- Video References -->
     <div class="section-container">
       <h2 class="section-title">📺 Reference Videos</h2>
-      <p class="mb-4" style="color: #cbd5e1;">This cheat sheet summarizes key concepts and commands from the following videos:</p>
+      <p class="mb-4" class="text-slate-300">This cheat sheet summarizes key concepts and commands from the following videos:</p>
       <table class="w-full border-collapse bg-slate-800">
         <tbody>
           <!-- Video 1 -->
@@ -142,7 +150,7 @@
       <h2 class="section-title">✍️ Text Editors: Nano and Vi/Vim</h2>
       
       <div class="space-y-4">
-        <p style="color: #cbd5e1;">This section focuses on two popular terminal-based text editors, <strong class="emphasis-text">Nano</strong> and <strong class="emphasis-text">Vi/Vim</strong>, and the command for deleting files.</p>
+        <p class="text-slate-300">This section focuses on two popular terminal-based text editors, <strong class="emphasis-text">Nano</strong> and <strong class="emphasis-text">Vi/Vim</strong>, and the command for deleting files.</p>
         
         <div class="overflow-x-auto">
           <table class="w-full border-collapse">
@@ -256,13 +264,13 @@
       <div class="space-y-4">
         <div>
           <h3 class="subsection-title">Understanding the Problem</h3>
-          <p style="color: #cbd5e1;">When you launch a specific <strong class="emphasis-text">GUI program</strong> (like <code class="command-code">gedit</code> or a browser) directly, the terminal running it often becomes <strong class="emphasis-text">busy</strong> and unresponsive (it "hangs").</p>
+          <p class="text-slate-300">When you launch a specific <strong class="emphasis-text">GUI program</strong> (like <code class="command-code">gedit</code> or a browser) directly, the terminal running it often becomes <strong class="emphasis-text">busy</strong> and unresponsive (it "hangs").</p>
         </div>
 
         <div>
           <h3 class="subsection-title">Solutions</h3>
-          <p class="mb-3" style="color: #cbd5e1;">To prevent this, you can:</p>
-          <ul class="space-y-2" style="color: #cbd5e1;">
+          <p class="mb-3" class="text-slate-300">To prevent this, you can:</p>
+          <ul class="space-y-2" class="text-slate-300">
             <li class="flex items-start">
               <span class="text-slate-400 mr-2">1.</span>
               <div>
@@ -285,7 +293,7 @@
     <div class="section-container">
       <h2 class="section-title">🔑 Key Takeaways</h2>
       
-      <ul class="space-y-2" style="color: #cbd5e1;">
+      <ul class="space-y-2" class="text-slate-300">
         <li><strong class="emphasis-text">Nano</strong> is simpler for beginners - start typing immediately.</li>
         <li><strong class="emphasis-text">Vi/Vim</strong> is more powerful but requires learning modes (Insert vs Command).</li>
         <li><code class="command-code">xdg-open</code> is the <strong class="emphasis-text">standard and often better way</strong> to handle GUI applications on Linux.</li>

@@ -4,75 +4,81 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Linux Cheatsheet 3 - Cyber Club</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root { color-scheme: dark; }
-    body { background: #0f172a; color: #e2e8f0; }
-    
-    /* Official Cyberknights Color Palette */
-    :root {
-      --neon-surge: #43CC50;
-      --steel-glow: #5B6E6E;
-      --pale-alloy: #B8B8B8;
-      --primary-green: #04703C;
-      --ember-spark: #C27329;
-      --arc-weld-blue: #2DB2C4;
+    <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Idiomatic Tailwind JIT Configuration
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'neon-surge': '#43CC50',
+            'steel-glow': '#5B6E6E',
+            'pale-alloy': '#B8B8B8',
+            'primary-green': '#04703C',
+            'ember-spark': '#C27329',
+            'arc-weld-blue': '#2DB2C4',
+          }
+        }
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    @layer components {
+      .section-container {
+        @apply p-6 rounded-lg border border-slate-800 bg-slate-900/40;
+      }
+      
+      .section-title {
+        @apply text-xl font-bold mb-4 text-neon-surge;
+      }
+      
+      .subsection-title {
+        @apply text-lg font-semibold mb-2 text-neon-surge;
+      }
+      
+      .command-code {
+        @apply bg-slate-800 px-1 rounded text-sm font-mono text-slate-200;
+      }
+      
+      .code-block {
+        @apply bg-slate-800 p-2 rounded text-xs font-mono text-slate-200 overflow-x-auto;
+      }
+      
+      .emphasis-text {
+        @apply font-semibold text-ember-spark;
+      }
+      
+      .table-header {
+        @apply text-left p-3 font-semibold text-neon-surge;
+      }
+      
+      .table-cell {
+        @apply p-3;
+      }
+      
+      .command-cell {
+        @apply font-mono font-semibold text-emerald-400;
+      }
+      
+      .table-row {
+        @apply border-b border-slate-800;
+      }
+      
+      .qr-code-container {
+        @apply flex-shrink-0;
+      }
+      
+      
     }
     
-    /* DRY Reusable Classes */
-    .section-container {
-      @apply p-6 rounded-lg border border-slate-800 bg-slate-900/40;
-    }
-    
-    .section-title {
-      @apply text-xl font-bold mb-4;
-      color: var(--neon-surge);
-    }
-    
-    .subsection-title {
-      @apply text-lg font-semibold mb-2;
-      color: var(--neon-surge);
-    }
-    
-    .command-code {
-      @apply bg-slate-800 px-1 rounded text-sm font-mono text-slate-200;
-    }
-    
-    .code-block {
-      @apply bg-slate-800 p-2 rounded text-xs font-mono text-slate-200 overflow-x-auto;
-    }
-    
-    .emphasis-text {
-      color: var(--ember-spark);
-    }
-    
-    .table-header {
-      @apply text-left p-3 font-semibold;
-      color: var(--neon-surge);
-    }
-    
-    .table-cell {
-      @apply p-3;
-    }
-    
-    .command-cell {
-      @apply font-mono font-semibold text-emerald-400;
-    }
-    
-    .table-row {
-      @apply border-b border-slate-800;
-    }
-    
-    .qr-code-container {
-      @apply flex-shrink-0;
-    }
-    
-    .qr-code-container canvas {
-      @apply transition-transform duration-200;
-    }
-    
-    .qr-code-container canvas:hover {
-      @apply scale-105;
+    @layer base {
+      :root {
+        @apply dark;
+      }
+      
+      body {
+        @apply bg-slate-900 text-slate-200;
+      }
     }
   </style>
 </head>
@@ -80,14 +86,14 @@
   <div class="max-w-4xl mx-auto p-6 space-y-8">
     <!-- Header -->
     <div class="text-center mb-8">
-      <h1 class="text-4xl font-bold mb-4" style="color: var(--neon-surge);">Linux Cheatsheet 3 📑</h1>
-      <p class="text-lg" style="color: #cbd5e1;">Deleting Directories, File Creation, Viewing & Redirecting Data</p>
+      <h1 class="text-4xl font-bold mb-4" class="text-neon-surge">Linux Cheatsheet 3 📑</h1>
+      <p class="text-lg" class="text-slate-300">Deleting Directories, File Creation, Viewing & Redirecting Data</p>
     </div>
 
     <!-- Video References -->
     <div class="section-container">
       <h2 class="section-title">📺 Reference Videos</h2>
-      <p class="mb-4" style="color: #cbd5e1;">This cheat sheet summarizes key concepts and commands from the following videos:</p>
+      <p class="mb-4" class="text-slate-300">This cheat sheet summarizes key concepts and commands from the following videos:</p>
       <table class="w-full border-collapse bg-slate-800">
         <tbody>
           <!-- Video 1 -->
@@ -103,7 +109,7 @@
               </div>
             </td>
             <td class="bg-slate-800 flex items-center justify-center py-2">
-              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOgAAADoCAIAAABqyz8vAAAEKElEQVR4nO3dwY1cNxBAQa/hAJyVwhIclrNyCD7ozAOFJsi3U3WW/gx2HnhoNPi//v73nz+g5s/bXwB+h3BJEi5JwiVJuCQJlyThkiRckoRLknBJEi5JwiVJuCQJlyThkvTX7n/478fPE99j3GrP+PT33/3c0/vQ9d9rxYlLknBJEi5JwiVJuCQJlyThkrQ9x125dT/D1Jxy9/vvfu7UfHdqHlz/vZy4JAmXJOGSJFyShEuScEkSLkljc9yVW3PW3efszkdPz31XKvu7p7+nE5ck4ZIkXJKES5JwSRIuScIl6fgct2JqLjs1v7x1D0OFE5ck4ZIkXJKES5JwSRIuScIl6ePmuLfmryuvzY8rnLgkCZck4ZIkXJKES5JwSRIuScfnuJX54un7bnc/99bfrfJ7OXFJEi5JwiVJuCQJlyThkiRcksbmuFP3qt4yNZe99fxd9d/LiUuScEkSLknCJUm4JAmXJOGStD3Hrexr7trdi31tj3blte8zxYlLknBJEi5JwiVJuCQJlyThkrQ9xz29nzr1ua/NL6fmxLvPn/La7+XEJUm4JAmXJOGSJFyShEuScEl67n7c0/O/0/Pd0/PalannV/aPnbgkCZck4ZIkXJKES5JwSRIuSV9Tc7hb+7JT88Vb+6y39ptXbs2V7ePyEYRLknBJEi5JwiVJuCQJl6TtOe7pfdOp+d9r893633n3Oac5cUkSLknCJUm4JAmXJOGSJFySxvZxV+r3DJx+/mvz79Ps4/LRhEuScEkSLknCJUm4JAmXpLH7cSvv2Zp6zmt7q1PvRXvtfoYVJy5JwiVJuCQJlyThkiRckoRL0vYct36P7K391NOf+9r9Eqd/RycuScIlSbgkCZck4ZIkXJKES9LxexVWKu9Fq++tVt6vtsuJS5JwSRIuScIlSbgkCZck4ZI09p6zXbc+d6Wyj3v677By616LFScuScIlSbgkCZck4ZIkXJKES9K1fdxbbr13bddr+8GvPd+JS5JwSRIuScIlSbgkCZck4ZL03P24U1ZzQXPrX+p/BycuScIlSbgkCZck4ZIkXJKES9L2HHelcs/u7lzz1l7slO/6fZy4JAmXJOGSJFyShEuScEkSLkljc9yV196nVZnLTs2nvysnLknCJUm4JAmXJOGSJFyShEvS8TnudzV1n+7unPj0HPr0/Ng+Lh9NuCQJlyThkiRckoRLknBJ+rg57ul5Z2Vv+PR9FKt/7z1nfDThkiRckoRLknBJEi5JwiXp+Bz3tftZV6b2SqfmnbtuzZWn/v0uJy5JwiVJuCQJlyThkiRckoRL0tfpPc5bbs1ZT88vb903/NoesxOXJOGSJFyShEuScEkSLknCJWl7jgsvcOKSJFyShEuScEkSLknCJUm4JAmXJOGSJFyShEuScEkSLknCJUm4JP0PRcF4m+5HlMoAAAAASUVORK5CYII=" alt="QR Code for Files, Deleting, History & Redirects" width="120" height="120" class="border border-emerald-500 rounded">
+              <svg width="232" height="232" viewBox="0 0 232 232" xmlns="http://www.w3.org/2000/svg" class="border border-emerald-500 rounded" style="background-color: #10b981;"><path d="M1.6,1.6H2.4V2.4H1.6zM2.4,1.6H3.2V2.4H2.4zM3.2,1.6H4V2.4H3.2zM4,1.6H4.8V2.4H4zM4.8,1.6H5.6V2.4H4.8zM5.6,1.6H6.4V2.4H5.6zM6.4,1.6H7.2V2.4H6.4zM8,1.6H8.8V2.4H8zM8.8,1.6H9.6V2.4H8.8zM9.6,1.6H10.4V2.4H9.6zM10.4,1.6H11.2V2.4H10.4zM12,1.6H12.8V2.4H12zM16,1.6H16.8V2.4H16zM16.8,1.6H17.6V2.4H16.8zM17.6,1.6H18.4V2.4H17.6zM18.4,1.6H19.2V2.4H18.4zM19.2,1.6H20V2.4H19.2zM20,1.6H20.8V2.4H20zM20.8,1.6H21.6V2.4H20.8zM1.6,2.4H2.4V3.2H1.6zM6.4,2.4H7.2V3.2H6.4zM8,2.4H8.8V3.2H8zM10.4,2.4H11.2V3.2H10.4zM12.8,2.4H13.6V3.2H12.8zM14.4,2.4H15.2V3.2H14.4zM16,2.4H16.8V3.2H16zM20.8,2.4H21.6V3.2H20.8zM1.6,3.2H2.4V4H1.6zM3.2,3.2H4V4H3.2zM4,3.2H4.8V4H4zM4.8,3.2H5.6V4H4.8zM6.4,3.2H7.2V4H6.4zM8.8,3.2H9.6V4H8.8zM12,3.2H12.8V4H12zM12.8,3.2H13.6V4H12.8zM16,3.2H16.8V4H16zM17.6,3.2H18.4V4H17.6zM18.4,3.2H19.2V4H18.4zM19.2,3.2H20V4H19.2zM20.8,3.2H21.6V4H20.8zM1.6,4H2.4V4.8H1.6zM3.2,4H4V4.8H3.2zM4,4H4.8V4.8H4zM4.8,4H5.6V4.8H4.8zM6.4,4H7.2V4.8H6.4zM10.4,4H11.2V4.8H10.4zM12,4H12.8V4.8H12zM12.8,4H13.6V4.8H12.8zM13.6,4H14.4V4.8H13.6zM16,4H16.8V4.8H16zM17.6,4H18.4V4.8H17.6zM18.4,4H19.2V4.8H18.4zM19.2,4H20V4.8H19.2zM20.8,4H21.6V4.8H20.8zM1.6,4.8H2.4V5.6H1.6zM3.2,4.8H4V5.6H3.2zM4,4.8H4.8V5.6H4zM4.8,4.8H5.6V5.6H4.8zM6.4,4.8H7.2V5.6H6.4zM8,4.8H8.8V5.6H8zM10.4,4.8H11.2V5.6H10.4zM11.2,4.8H12V5.6H11.2zM12,4.8H12.8V5.6H12zM14.4,4.8H15.2V5.6H14.4zM16,4.8H16.8V5.6H16zM17.6,4.8H18.4V5.6H17.6zM18.4,4.8H19.2V5.6H18.4zM19.2,4.8H20V5.6H19.2zM20.8,4.8H21.6V5.6H20.8zM1.6,5.6H2.4V6.4H1.6zM6.4,5.6H7.2V6.4H6.4zM8,5.6H8.8V6.4H8zM8.8,5.6H9.6V6.4H8.8zM9.6,5.6H10.4V6.4H9.6zM11.2,5.6H12V6.4H11.2zM12,5.6H12.8V6.4H12zM12.8,5.6H13.6V6.4H12.8zM14.4,5.6H15.2V6.4H14.4zM16,5.6H16.8V6.4H16zM20.8,5.6H21.6V6.4H20.8zM1.6,6.4H2.4V7.2H1.6zM2.4,6.4H3.2V7.2H2.4zM3.2,6.4H4V7.2H3.2zM4,6.4H4.8V7.2H4zM4.8,6.4H5.6V7.2H4.8zM5.6,6.4H6.4V7.2H5.6zM6.4,6.4H7.2V7.2H6.4zM8,6.4H8.8V7.2H8zM9.6,6.4H10.4V7.2H9.6zM11.2,6.4H12V7.2H11.2zM12.8,6.4H13.6V7.2H12.8zM14.4,6.4H15.2V7.2H14.4zM16,6.4H16.8V7.2H16zM16.8,6.4H17.6V7.2H16.8zM17.6,6.4H18.4V7.2H17.6zM18.4,6.4H19.2V7.2H18.4zM19.2,6.4H20V7.2H19.2zM20,6.4H20.8V7.2H20zM20.8,6.4H21.6V7.2H20.8zM8,7.2H8.8V8H8zM8.8,7.2H9.6V8H8.8zM10.4,7.2H11.2V8H10.4zM12.8,7.2H13.6V8H12.8zM14.4,7.2H15.2V8H14.4zM1.6,8H2.4V8.8H1.6zM2.4,8H3.2V8.8H2.4zM3.2,8H4V8.8H3.2zM5.6,8H6.4V8.8H5.6zM6.4,8H7.2V8.8H6.4zM8,8H8.8V8.8H8zM8.8,8H9.6V8.8H8.8zM10.4,8H11.2V8.8H10.4zM12,8H12.8V8.8H12zM13.6,8H14.4V8.8H13.6zM14.4,8H15.2V8.8H14.4zM15.2,8H16V8.8H15.2zM16,8H16.8V8.8H16zM16.8,8H17.6V8.8H16.8zM17.6,8H18.4V8.8H17.6zM20,8H20.8V8.8H20zM20.8,8H21.6V8.8H20.8zM1.6,8.8H2.4V9.6H1.6zM2.4,8.8H3.2V9.6H2.4zM4.8,8.8H5.6V9.6H4.8zM5.6,8.8H6.4V9.6H5.6zM10.4,8.8H11.2V9.6H10.4zM11.2,8.8H12V9.6H11.2zM12.8,8.8H13.6V9.6H12.8zM13.6,8.8H14.4V9.6H13.6zM14.4,8.8H15.2V9.6H14.4zM16,8.8H16.8V9.6H16zM16.8,8.8H17.6V9.6H16.8zM18.4,8.8H19.2V9.6H18.4zM20,8.8H20.8V9.6H20zM20.8,8.8H21.6V9.6H20.8zM2.4,9.6H3.2V10.4H2.4zM3.2,9.6H4V10.4H3.2zM6.4,9.6H7.2V10.4H6.4zM8.8,9.6H9.6V10.4H8.8zM9.6,9.6H10.4V10.4H9.6zM10.4,9.6H11.2V10.4H10.4zM11.2,9.6H12V10.4H11.2zM12.8,9.6H13.6V10.4H12.8zM13.6,9.6H14.4V10.4H13.6zM14.4,9.6H15.2V10.4H14.4zM17.6,9.6H18.4V10.4H17.6zM18.4,9.6H19.2V10.4H18.4zM19.2,9.6H20V10.4H19.2zM20.8,9.6H21.6V10.4H20.8zM1.6,10.4H2.4V11.2H1.6zM3.2,10.4H4V11.2H3.2zM4,10.4H4.8V11.2H4zM5.6,10.4H6.4V11.2H5.6zM7.2,10.4H8V11.2H7.2zM9.6,10.4H10.4V11.2H9.6zM10.4,10.4H11.2V11.2H10.4zM11.2,10.4H12V11.2H11.2zM13.6,10.4H14.4V11.2H13.6zM15.2,10.4H16V11.2H15.2zM16,10.4H16.8V11.2H16zM17.6,10.4H18.4V11.2H17.6zM18.4,10.4H19.2V11.2H18.4zM3.2,11.2H4V12H3.2zM4.8,11.2H5.6V12H4.8zM5.6,11.2H6.4V12H5.6zM6.4,11.2H7.2V12H6.4zM8,11.2H8.8V12H8zM8.8,11.2H9.6V12H8.8zM9.6,11.2H10.4V12H9.6zM11.2,11.2H12V12H11.2zM12,11.2H12.8V12H12zM13.6,11.2H14.4V12H13.6zM14.4,11.2H15.2V12H14.4zM16,11.2H16.8V12H16zM20.8,11.2H21.6V12H20.8zM2.4,12H3.2V12.8H2.4zM3.2,12H4V12.8H3.2zM4.8,12H5.6V12.8H4.8zM7.2,12H8V12.8H7.2zM9.6,12H10.4V12.8H9.6zM10.4,12H11.2V12.8H10.4zM11.2,12H12V12.8H11.2zM13.6,12H14.4V12.8H13.6zM14.4,12H15.2V12.8H14.4zM15.2,12H16V12.8H15.2zM16,12H16.8V12.8H16zM16.8,12H17.6V12.8H16.8zM20,12H20.8V12.8H20zM20.8,12H21.6V12.8H20.8zM1.6,12.8H2.4V13.6H1.6zM2.4,12.8H3.2V13.6H2.4zM3.2,12.8H4V13.6H3.2zM5.6,12.8H6.4V13.6H5.6zM6.4,12.8H7.2V13.6H6.4zM7.2,12.8H8V13.6H7.2zM8,12.8H8.8V13.6H8zM9.6,12.8H10.4V13.6H9.6zM10.4,12.8H11.2V13.6H10.4zM11.2,12.8H12V13.6H11.2zM12,12.8H12.8V13.6H12zM13.6,12.8H14.4V13.6H13.6zM14.4,12.8H15.2V13.6H14.4zM16,12.8H16.8V13.6H16zM18.4,12.8H19.2V13.6H18.4zM19.2,12.8H20V13.6H19.2zM20.8,12.8H21.6V13.6H20.8zM4,13.6H4.8V14.4H4zM4.8,13.6H5.6V14.4H4.8zM8,13.6H8.8V14.4H8zM9.6,13.6H10.4V14.4H9.6zM12.8,13.6H13.6V14.4H12.8zM13.6,13.6H14.4V14.4H13.6zM14.4,13.6H15.2V14.4H14.4zM15.2,13.6H16V14.4H15.2zM16.8,13.6H17.6V14.4H16.8zM17.6,13.6H18.4V14.4H17.6zM18.4,13.6H19.2V14.4H18.4zM1.6,14.4H2.4V15.2H1.6zM2.4,14.4H3.2V15.2H2.4zM3.2,14.4H4V15.2H3.2zM5.6,14.4H6.4V15.2H5.6zM6.4,14.4H7.2V15.2H6.4zM7.2,14.4H8V15.2H7.2zM8,14.4H8.8V15.2H8zM12,14.4H12.8V15.2H12zM14.4,14.4H15.2V15.2H14.4zM15.2,14.4H16V15.2H15.2zM16,14.4H16.8V15.2H16zM16.8,14.4H17.6V15.2H16.8zM17.6,14.4H18.4V15.2H17.6zM20,14.4H20.8V15.2H20zM8,15.2H8.8V16H8zM9.6,15.2H10.4V16H9.6zM10.4,15.2H11.2V16H10.4zM11.2,15.2H12V16H11.2zM12,15.2H12.8V16H12zM12.8,15.2H13.6V16H12.8zM14.4,15.2H15.2V16H14.4zM17.6,15.2H18.4V16H17.6zM20.8,15.2H21.6V16H20.8zM1.6,16H2.4V16.8H1.6zM2.4,16H3.2V16.8H2.4zM3.2,16H4V16.8H3.2zM4,16H4.8V16.8H4zM4.8,16H5.6V16.8H4.8zM5.6,16H6.4V16.8H5.6zM6.4,16H7.2V16.8H6.4zM9.6,16H10.4V16.8H9.6zM10.4,16H11.2V16.8H10.4zM11.2,16H12V16.8H11.2zM12,16H12.8V16.8H12zM12.8,16H13.6V16.8H12.8zM14.4,16H15.2V16.8H14.4zM16,16H16.8V16.8H16zM17.6,16H18.4V16.8H17.6zM20.8,16H21.6V16.8H20.8zM1.6,16.8H2.4V17.6H1.6zM6.4,16.8H7.2V17.6H6.4zM8,16.8H8.8V17.6H8zM10.4,16.8H11.2V17.6H10.4zM14.4,16.8H15.2V17.6H14.4zM17.6,16.8H18.4V17.6H17.6zM1.6,17.6H2.4V18.4H1.6zM3.2,17.6H4V18.4H3.2zM4,17.6H4.8V18.4H4zM4.8,17.6H5.6V18.4H4.8zM6.4,17.6H7.2V18.4H6.4zM8.8,17.6H9.6V18.4H8.8zM10.4,17.6H11.2V18.4H10.4zM13.6,17.6H14.4V18.4H13.6zM14.4,17.6H15.2V18.4H14.4zM15.2,17.6H16V18.4H15.2zM16,17.6H16.8V18.4H16zM16.8,17.6H17.6V18.4H16.8zM17.6,17.6H18.4V18.4H17.6zM1.6,18.4H2.4V19.2H1.6zM3.2,18.4H4V19.2H3.2zM4,18.4H4.8V19.2H4zM4.8,18.4H5.6V19.2H4.8zM6.4,18.4H7.2V19.2H6.4zM8.8,18.4H9.6V19.2H8.8zM11.2,18.4H12V19.2H11.2zM12,18.4H12.8V19.2H12zM13.6,18.4H14.4V19.2H13.6zM15.2,18.4H16V19.2H15.2zM17.6,18.4H18.4V19.2H17.6zM19.2,18.4H20V19.2H19.2zM20,18.4H20.8V19.2H20zM1.6,19.2H2.4V20H1.6zM3.2,19.2H4V20H3.2zM4,19.2H4.8V20H4zM4.8,19.2H5.6V20H4.8zM6.4,19.2H7.2V20H6.4zM8,19.2H8.8V20H8zM10.4,19.2H11.2V20H10.4zM14.4,19.2H15.2V20H14.4zM16.8,19.2H17.6V20H16.8zM17.6,19.2H18.4V20H17.6zM18.4,19.2H19.2V20H18.4zM20,19.2H20.8V20H20zM20.8,19.2H21.6V20H20.8zM1.6,20H2.4V20.8H1.6zM6.4,20H7.2V20.8H6.4zM8,20H8.8V20.8H8zM8.8,20H9.6V20.8H8.8zM9.6,20H10.4V20.8H9.6zM11.2,20H12V20.8H11.2zM12.8,20H13.6V20.8H12.8zM13.6,20H14.4V20.8H13.6zM14.4,20H15.2V20.8H14.4zM15.2,20H16V20.8H15.2zM16.8,20H17.6V20.8H16.8zM17.6,20H18.4V20.8H17.6zM1.6,20.8H2.4V21.6H1.6zM2.4,20.8H3.2V21.6H2.4zM3.2,20.8H4V21.6H3.2zM4,20.8H4.8V21.6H4zM4.8,20.8H5.6V21.6H4.8zM5.6,20.8H6.4V21.6H5.6zM6.4,20.8H7.2V21.6H6.4zM8,20.8H8.8V21.6H8zM9.6,20.8H10.4V21.6H9.6zM10.4,20.8H11.2V21.6H10.4zM14.4,20.8H15.2V21.6H14.4zM15.2,20.8H16V21.6H15.2zM16,20.8H16.8V21.6H16zM18.4,20.8H19.2V21.6H18.4zM20.8,20.8H21.6V21.6H20.8z" fill="black" fill-opacity="1" fill-rule="nonzero" stroke="none"/></svg>
             </td>
           </tr>
           <!-- Empty row for spacing -->
@@ -124,7 +130,7 @@
               </div>
             </td>
             <td class="bg-slate-800 flex items-center justify-center py-2">
-              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOgAAADoCAIAAABqyz8vAAAENUlEQVR4nO3dwa3dNhBA0fwgBbirlBW4LHeVErJwtgRCgwPy5p2ztiVZ74KLAU19ffvx/Teo+f32A8CvEC5JwiVJuCQJlyThkiRckoRLknBJEi5JwiVJuCQJlyThkiRckv7Y/Qt///nXxHMct7vP+NS/a3Xf1fVPPefufV+z+x6suCQJlyThkiRckoRLknBJEi5J23PclVvnM0zPX3fv+3+dm55y6v1YcUkSLknCJUm4JAmXJOGSJFySjs1xV27NWXdVnnNa5T1YcUkSLknCJUm4JAmXJOGSJFySxue4r5k+l2D6/AR+suKSJFyShEuScEkSLknCJUm4JH3cHPeU6fNo6/t6p1lxSRIuScIlSbgkCZck4ZIkXJLG57ivzSNfm7+e2h986j2/9nutWHFJEi5JwiVJuCQJlyThkiRcko7NcSvnAFTOVZhW+b1WrLgkCZck4ZIkXJKES5JwSRIuSV+vzRdvqc9fX3vOaVZckoRLknBJEi5JwiVJuCQJl6Tt/bi7+zhPzRcr5x7sXmfX9Lz21u+7y4pLknBJEi5JwiVJuCQJlyThkvTcd85OzRFvXefW9Xeduu+tua8VlyThkiRckoRLknBJEi5JwiVpe447vb92d945PY+c3nf72rm8p76vtvt77T6nFZck4ZIkXJKES5JwSRIuScIlafxchZVT88KV6Xnq6s/fOm9hV33/sRWXJOGSJFyShEuScEkSLknCJem5cxVWpued0/tfb+1nnZ5D32LFJUm4JAmXJOGSJFyShEuScEkan+Pe+n/9r7n1fbJb73P6+lZckoRLknBJEi5JwiVJuCQJl6Rjc9zXzs1dOfWc0/tuT9331D7j3efZvb7zcfkIwiVJuCQJlyThkiRckoRL0vh+3OnzEG6dS7D7PBWvvc8VKy5JwiVJuCQJlyThkiRckoRL0nPn4976/tYpp/abTr+Hlcqc24pLknBJEi5JwiVJuCQJlyThkrQ9xz01j5y+78qpOetr5/VOv5/p++6y4pIkXJKES5JwSRIuScIlSbgkbc9xp/eDnnLrHNyVW+/ttXmz83H5aMIlSbgkCZck4ZIkXJKES9Jz3znbdWs+eus7Z7vq5/WuWHFJEi5JwiVJuCQJlyThkiRckjLfObt1PsOp55/ev/vaft8V5+Py0YRLknBJEi5JwiVJuCQJl6TnvnNWd2tOvOvWuRPOVeCjCZck4ZIkXJKES5JwSRIuSea4/zq1r/TUnPK1765Nv59dVlyShEuScEkSLknCJUm4JAmXpPE57mvns946B2DXrfMcVl77Ha24JAmXJOGSJFyShEuScEkSLknH5ri3zgd4za3zCk5df2V6v+8uKy5JwiVJuCQJlyThkiRckoRL0tdr+yzhv7DikiRckoRLknBJEi5JwiVJuCQJlyThkiRckoRLknBJEi5JwiVJuCT9A4KUYQ0GmOqhAAAAAElFTkSuQmCC" alt="QR Code for Advanced File Operations & Redirects" width="120" height="120" class="border border-emerald-500 rounded">
+              <svg width="232" height="232" viewBox="0 0 232 232" xmlns="http://www.w3.org/2000/svg" class="border border-emerald-500 rounded" style="background-color: #10b981;"><path d="M1.6,1.6H2.4V2.4H1.6zM2.4,1.6H3.2V2.4H2.4zM3.2,1.6H4V2.4H3.2zM4,1.6H4.8V2.4H4zM4.8,1.6H5.6V2.4H4.8zM5.6,1.6H6.4V2.4H5.6zM6.4,1.6H7.2V2.4H6.4zM8.8,1.6H9.6V2.4H8.8zM9.6,1.6H10.4V2.4H9.6zM10.4,1.6H11.2V2.4H10.4zM12,1.6H12.8V2.4H12zM14.4,1.6H15.2V2.4H14.4zM16,1.6H16.8V2.4H16zM16.8,1.6H17.6V2.4H16.8zM17.6,1.6H18.4V2.4H17.6zM18.4,1.6H19.2V2.4H18.4zM19.2,1.6H20V2.4H19.2zM20,1.6H20.8V2.4H20zM20.8,1.6H21.6V2.4H20.8zM1.6,2.4H2.4V3.2H1.6zM6.4,2.4H7.2V3.2H6.4zM10.4,2.4H11.2V3.2H10.4zM11.2,2.4H12V3.2H11.2zM12,2.4H12.8V3.2H12zM14.4,2.4H15.2V3.2H14.4zM16,2.4H16.8V3.2H16zM20.8,2.4H21.6V3.2H20.8zM1.6,3.2H2.4V4H1.6zM3.2,3.2H4V4H3.2zM4,3.2H4.8V4H4zM4.8,3.2H5.6V4H4.8zM6.4,3.2H7.2V4H6.4zM8.8,3.2H9.6V4H8.8zM9.6,3.2H10.4V4H9.6zM10.4,3.2H11.2V4H10.4zM14.4,3.2H15.2V4H14.4zM16,3.2H16.8V4H16zM17.6,3.2H18.4V4H17.6zM18.4,3.2H19.2V4H18.4zM19.2,3.2H20V4H19.2zM20.8,3.2H21.6V4H20.8zM1.6,4H2.4V4.8H1.6zM3.2,4H4V4.8H3.2zM4,4H4.8V4.8H4zM4.8,4H5.6V4.8H4.8zM6.4,4H7.2V4.8H6.4zM8,4H8.8V4.8H8zM9.6,4H10.4V4.8H9.6zM10.4,4H11.2V4.8H10.4zM11.2,4H12V4.8H11.2zM13.6,4H14.4V4.8H13.6zM14.4,4H15.2V4.8H14.4zM16,4H16.8V4.8H16zM17.6,4H18.4V4.8H17.6zM18.4,4H19.2V4.8H18.4zM19.2,4H20V4.8H19.2zM20.8,4H21.6V4.8H20.8zM1.6,4.8H2.4V5.6H1.6zM3.2,4.8H4V5.6H3.2zM4,4.8H4.8V5.6H4zM4.8,4.8H5.6V5.6H4.8zM6.4,4.8H7.2V5.6H6.4zM8,4.8H8.8V5.6H8zM9.6,4.8H10.4V5.6H9.6zM11.2,4.8H12V5.6H11.2zM16,4.8H16.8V5.6H16zM17.6,4.8H18.4V5.6H17.6zM18.4,4.8H19.2V5.6H18.4zM19.2,4.8H20V5.6H19.2zM20.8,4.8H21.6V5.6H20.8zM1.6,5.6H2.4V6.4H1.6zM6.4,5.6H7.2V6.4H6.4zM8.8,5.6H9.6V6.4H8.8zM9.6,5.6H10.4V6.4H9.6zM12.8,5.6H13.6V6.4H12.8zM14.4,5.6H15.2V6.4H14.4zM16,5.6H16.8V6.4H16zM20.8,5.6H21.6V6.4H20.8zM1.6,6.4H2.4V7.2H1.6zM2.4,6.4H3.2V7.2H2.4zM3.2,6.4H4V7.2H3.2zM4,6.4H4.8V7.2H4zM4.8,6.4H5.6V7.2H4.8zM5.6,6.4H6.4V7.2H5.6zM6.4,6.4H7.2V7.2H6.4zM8,6.4H8.8V7.2H8zM9.6,6.4H10.4V7.2H9.6zM11.2,6.4H12V7.2H11.2zM12.8,6.4H13.6V7.2H12.8zM14.4,6.4H15.2V7.2H14.4zM16,6.4H16.8V7.2H16zM16.8,6.4H17.6V7.2H16.8zM17.6,6.4H18.4V7.2H17.6zM18.4,6.4H19.2V7.2H18.4zM19.2,6.4H20V7.2H19.2zM20,6.4H20.8V7.2H20zM20.8,6.4H21.6V7.2H20.8zM8.8,7.2H9.6V8H8.8zM14.4,7.2H15.2V8H14.4zM1.6,8H2.4V8.8H1.6zM2.4,8H3.2V8.8H2.4zM5.6,8H6.4V8.8H5.6zM6.4,8H7.2V8.8H6.4zM7.2,8H8V8.8H7.2zM8.8,8H9.6V8.8H8.8zM9.6,8H10.4V8.8H9.6zM12,8H12.8V8.8H12zM12.8,8H13.6V8.8H12.8zM13.6,8H14.4V8.8H13.6zM17.6,8H18.4V8.8H17.6zM18.4,8H19.2V8.8H18.4zM1.6,8.8H2.4V9.6H1.6zM2.4,8.8H3.2V9.6H2.4zM4.8,8.8H5.6V9.6H4.8zM5.6,8.8H6.4V9.6H5.6zM7.2,8.8H8V9.6H7.2zM9.6,8.8H10.4V9.6H9.6zM12.8,8.8H13.6V9.6H12.8zM13.6,8.8H14.4V9.6H13.6zM16.8,8.8H17.6V9.6H16.8zM17.6,8.8H18.4V9.6H17.6zM18.4,8.8H19.2V9.6H18.4zM19.2,8.8H20V9.6H19.2zM20,8.8H20.8V9.6H20zM4,9.6H4.8V10.4H4zM5.6,9.6H6.4V10.4H5.6zM6.4,9.6H7.2V10.4H6.4zM7.2,9.6H8V10.4H7.2zM8.8,9.6H9.6V10.4H8.8zM11.2,9.6H12V10.4H11.2zM12,9.6H12.8V10.4H12zM13.6,9.6H14.4V10.4H13.6zM15.2,9.6H16V10.4H15.2zM16.8,9.6H17.6V10.4H16.8zM18.4,9.6H19.2V10.4H18.4zM20,9.6H20.8V10.4H20zM20.8,9.6H21.6V10.4H20.8zM1.6,10.4H2.4V11.2H1.6zM2.4,10.4H3.2V11.2H2.4zM3.2,10.4H4V11.2H3.2zM4.8,10.4H5.6V11.2H4.8zM7.2,10.4H8V11.2H7.2zM9.6,10.4H10.4V11.2H9.6zM12.8,10.4H13.6V11.2H12.8zM13.6,10.4H14.4V11.2H13.6zM15.2,10.4H16V11.2H15.2zM17.6,10.4H18.4V11.2H17.6zM18.4,10.4H19.2V11.2H18.4zM20.8,10.4H21.6V11.2H20.8zM1.6,11.2H2.4V12H1.6zM2.4,11.2H3.2V12H2.4zM3.2,11.2H4V12H3.2zM4.8,11.2H5.6V12H4.8zM5.6,11.2H6.4V12H5.6zM6.4,11.2H7.2V12H6.4zM7.2,11.2H8V12H7.2zM8.8,11.2H9.6V12H8.8zM9.6,11.2H10.4V12H9.6zM10.4,11.2H11.2V12H10.4zM12,11.2H12.8V12H12zM13.6,11.2H14.4V12H13.6zM14.4,11.2H15.2V12H14.4zM16,11.2H16.8V12H16zM20.8,11.2H21.6V12H20.8zM1.6,12H2.4V12.8H1.6zM2.4,12H3.2V12.8H2.4zM5.6,12H6.4V12.8H5.6zM8.8,12H9.6V12.8H8.8zM9.6,12H10.4V12.8H9.6zM10.4,12H11.2V12.8H10.4zM13.6,12H14.4V12.8H13.6zM14.4,12H15.2V12.8H14.4zM15.2,12H16V12.8H15.2zM16.8,12H17.6V12.8H16.8zM20,12H20.8V12.8H20zM1.6,12.8H2.4V13.6H1.6zM4.8,12.8H5.6V13.6H4.8zM6.4,12.8H7.2V13.6H6.4zM7.2,12.8H8V13.6H7.2zM8.8,12.8H9.6V13.6H8.8zM9.6,12.8H10.4V13.6H9.6zM11.2,12.8H12V13.6H11.2zM12.8,12.8H13.6V13.6H12.8zM13.6,12.8H14.4V13.6H13.6zM15.2,12.8H16V13.6H15.2zM16,12.8H16.8V13.6H16zM16.8,12.8H17.6V13.6H16.8zM17.6,12.8H18.4V13.6H17.6zM18.4,12.8H19.2V13.6H18.4zM20,12.8H20.8V13.6H20zM20.8,12.8H21.6V13.6H20.8zM1.6,13.6H2.4V14.4H1.6zM3.2,13.6H4V14.4H3.2zM4,13.6H4.8V14.4H4zM4.8,13.6H5.6V14.4H4.8zM7.2,13.6H8V14.4H7.2zM8,13.6H8.8V14.4H8zM9.6,13.6H10.4V14.4H9.6zM12.8,13.6H13.6V14.4H12.8zM13.6,13.6H14.4V14.4H13.6zM15.2,13.6H16V14.4H15.2zM16,13.6H16.8V14.4H16zM16.8,13.6H17.6V14.4H16.8zM18.4,13.6H19.2V14.4H18.4zM19.2,13.6H20V14.4H19.2zM20.8,13.6H21.6V14.4H20.8zM1.6,14.4H2.4V15.2H1.6zM3.2,14.4H4V15.2H3.2zM4,14.4H4.8V15.2H4zM5.6,14.4H6.4V15.2H5.6zM6.4,14.4H7.2V15.2H6.4zM7.2,14.4H8V15.2H7.2zM9.6,14.4H10.4V15.2H9.6zM11.2,14.4H12V15.2H11.2zM12.8,14.4H13.6V15.2H12.8zM14.4,14.4H15.2V15.2H14.4zM15.2,14.4H16V15.2H15.2zM16,14.4H16.8V15.2H16zM16.8,14.4H17.6V15.2H16.8zM17.6,14.4H18.4V15.2H17.6zM19.2,14.4H20V15.2H19.2zM8,15.2H8.8V16H8zM9.6,15.2H10.4V16H9.6zM10.4,15.2H11.2V16H10.4zM12.8,15.2H13.6V16H12.8zM14.4,15.2H15.2V16H14.4zM17.6,15.2H18.4V16H17.6zM1.6,16H2.4V16.8H1.6zM2.4,16H3.2V16.8H2.4zM3.2,16H4V16.8H3.2zM4,16H4.8V16.8H4zM4.8,16H5.6V16.8H4.8zM5.6,16H6.4V16.8H5.6zM6.4,16H7.2V16.8H6.4zM8,16H8.8V16.8H8zM10.4,16H11.2V16.8H10.4zM12,16H12.8V16.8H12zM12.8,16H13.6V16.8H12.8zM14.4,16H15.2V16.8H14.4zM16,16H16.8V16.8H16zM17.6,16H18.4V16.8H17.6zM20.8,16H21.6V16.8H20.8zM1.6,16.8H2.4V17.6H1.6zM6.4,16.8H7.2V17.6H6.4zM8,16.8H8.8V17.6H8zM11.2,16.8H12V17.6H11.2zM12.8,16.8H13.6V17.6H12.8zM14.4,16.8H15.2V17.6H14.4zM17.6,16.8H18.4V17.6H17.6zM20.8,16.8H21.6V17.6H20.8zM1.6,17.6H2.4V18.4H1.6zM3.2,17.6H4V18.4H3.2zM4,17.6H4.8V18.4H4zM4.8,17.6H5.6V18.4H4.8zM6.4,17.6H7.2V18.4H6.4zM9.6,17.6H10.4V18.4H9.6zM10.4,17.6H11.2V18.4H10.4zM11.2,17.6H12V18.4H11.2zM12,17.6H12.8V18.4H12zM12.8,17.6H13.6V18.4H12.8zM13.6,17.6H14.4V18.4H13.6zM14.4,17.6H15.2V18.4H14.4zM15.2,17.6H16V18.4H15.2zM16,17.6H16.8V18.4H16zM16.8,17.6H17.6V18.4H16.8zM17.6,17.6H18.4V18.4H17.6zM19.2,17.6H20V18.4H19.2zM20,17.6H20.8V18.4H20zM1.6,18.4H2.4V19.2H1.6zM3.2,18.4H4V19.2H3.2zM4,18.4H4.8V19.2H4zM4.8,18.4H5.6V19.2H4.8zM6.4,18.4H7.2V19.2H6.4zM9.6,18.4H10.4V19.2H9.6zM10.4,18.4H11.2V19.2H10.4zM12.8,18.4H13.6V19.2H12.8zM13.6,18.4H14.4V19.2H13.6zM14.4,18.4H15.2V19.2H14.4zM15.2,18.4H16V19.2H15.2zM16,18.4H16.8V19.2H16zM20,18.4H20.8V19.2H20zM20.8,18.4H21.6V19.2H20.8zM1.6,19.2H2.4V20H1.6zM3.2,19.2H4V20H3.2zM4,19.2H4.8V20H4zM4.8,19.2H5.6V20H4.8zM6.4,19.2H7.2V20H6.4zM8.8,19.2H9.6V20H8.8zM9.6,19.2H10.4V20H9.6zM11.2,19.2H12V20H11.2zM12.8,19.2H13.6V20H12.8zM15.2,19.2H16V20H15.2zM18.4,19.2H19.2V20H18.4zM19.2,19.2H20V20H19.2zM20.8,19.2H21.6V20H20.8zM1.6,20H2.4V20.8H1.6zM6.4,20H7.2V20.8H6.4zM8,20H8.8V20.8H8zM8.8,20H9.6V20.8H8.8zM11.2,20H12V20.8H11.2zM12.8,20H13.6V20.8H12.8zM13.6,20H14.4V20.8H13.6zM14.4,20H15.2V20.8H14.4zM15.2,20H16V20.8H15.2zM16,20H16.8V20.8H16zM16.8,20H17.6V20.8H16.8zM17.6,20H18.4V20.8H17.6zM20.8,20H21.6V20.8H20.8zM1.6,20.8H2.4V21.6H1.6zM2.4,20.8H3.2V21.6H2.4zM3.2,20.8H4V21.6H3.2zM4,20.8H4.8V21.6H4zM4.8,20.8H5.6V21.6H4.8zM5.6,20.8H6.4V21.6H5.6zM6.4,20.8H7.2V21.6H6.4zM8,20.8H8.8V21.6H8zM8.8,20.8H9.6V21.6H8.8zM12.8,20.8H13.6V21.6H12.8zM14.4,20.8H15.2V21.6H14.4zM15.2,20.8H16V21.6H15.2zM16,20.8H16.8V21.6H16zM18.4,20.8H19.2V21.6H18.4zM20.8,20.8H21.6V21.6H20.8z" fill="black" fill-opacity="1" fill-rule="nonzero" stroke="none"/></svg>
             </td>
           </tr>
         </tbody>
@@ -239,8 +245,8 @@
       <div class="space-y-4">
         <div>
           <h3 class="subsection-title">Understanding Redirection</h3>
-          <p style="color: #cbd5e1;">Redirection operators allow you to control where command output goes:</p>
-          <ul class="space-y-2 mt-3" style="color: #cbd5e1;">
+          <p class="text-slate-300">Redirection operators allow you to control where command output goes:</p>
+          <ul class="space-y-2 mt-3" class="text-slate-300">
             <li><code class="command-code">></code> <strong class="emphasis-text">Overwrites</strong> a file (replaces all content)</li>
             <li><code class="command-code">>></code> <strong class="emphasis-text">Appends</strong> to a file (adds to existing content)</li>
             <li>If the target file doesn't exist, both operators will <strong class="emphasis-text">create it</strong></li>
@@ -278,8 +284,8 @@
       <div class="space-y-4">
         <div>
           <h3 class="subsection-title">Arrow Key Navigation</h3>
-          <p style="color: #cbd5e1;">Use arrow keys to navigate through your command history:</p>
-          <ul class="space-y-2 mt-3" style="color: #cbd5e1;">
+          <p class="text-slate-300">Use arrow keys to navigate through your command history:</p>
+          <ul class="space-y-2 mt-3" class="text-slate-300">
             <li><code class="command-code">↑</code> <strong class="emphasis-text">Scrolls back</strong> through previous commands</li>
             <li><code class="command-code">↓</code> <strong class="emphasis-text">Scrolls forward</strong> through command history</li>
             <li>Press <strong class="emphasis-text">Enter</strong> to execute the selected command</li>
@@ -288,7 +294,7 @@
 
         <div>
           <h3 class="subsection-title">History Number Execution</h3>
-          <p style="color: #cbd5e1;">You can also execute commands by their history number:</p>
+          <p class="text-slate-300">You can also execute commands by their history number:</p>
           <div class="space-y-2 mt-3">
             <div>
               <pre class="code-block"><code>history</code></pre>
@@ -307,7 +313,7 @@
     <div class="section-container">
       <h2 class="section-title">🔑 Key Takeaways</h2>
       
-      <ul class="space-y-2" style="color: #cbd5e1;">
+      <ul class="space-y-2" class="text-slate-300">
         <li><code class="command-code">rmdir</code> deletes <strong class="emphasis-text">empty directories</strong>.</li>
         <li>Use <strong class="emphasis-text">history</strong> and <code class="command-code">!number</code> to recall past commands quickly.</li>
         <li><strong class="emphasis-text">touch</strong> makes empty files; <strong class="emphasis-text">cat</strong> shows file contents.</li>
