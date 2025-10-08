@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.11](https://github.com/CCRI-Cyberknights/page/compare/v1.8.10...v1.8.11) (2025-10-08)
+
+
+### Bug Fixes
+
+* Correct SVG QR code dimensions from 232x232 to 120x120 ([8d14022](https://github.com/CCRI-Cyberknights/page/commit/8d140227b08d504581eac4a424c084562c61df30))
+
 ### [1.8.10](https://github.com/CCRI-Cyberknights/page/compare/v1.8.9...v1.8.10) (2025-10-08)
 
 ### [1.8.9](https://github.com/CCRI-Cyberknights/page/compare/v1.8.8...v1.8.9) (2025-10-07)

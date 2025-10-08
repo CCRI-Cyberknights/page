@@ -72,9 +72,12 @@ def generate_qr_code(data, ecl='L', box_size=8, border=2, fill_color="black", ba
         total_size = modules * box_size + border * 2 * box_size
         
         # Create custom SVG with our styling
-        # Display size: 120x120px, but internal coordinates: total_size x total_size
-        svg = f'''<svg width="120" height="120" viewBox="0 0 {total_size} {total_size}" xmlns="http://www.w3.org/2000/svg" class="border border-emerald-500 rounded" style="background-color: {back_color};">
-  <path d="{path_data}" fill="{fill_color}" fill-opacity="1" fill-rule="nonzero" stroke="none"/>
+        # Display size: 120x120px, but internal coordinates scaled down by 10
+        # This matches the pattern used in cheatsheet 4
+        scaled_size = total_size / 10
+        svg = f'''<svg width="120" height="120" viewBox="0 0 {scaled_size} {scaled_size}" xmlns="http://www.w3.org/2000/svg" class="border border-emerald-500 rounded" style="background-color: {back_color};">
+  <path d="{path_data}" fill="#000000" fill-opacity="1" fill-rule="nonzero" stroke="none"/>
+  <title>QR Code</title>
 </svg>'''
         
         return svg

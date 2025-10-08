@@ -70,8 +70,8 @@ def update_cheatsheet_html(cheatsheet_num, qr_codes):
     # with:
     #   <svg ... > ... </svg>
     
-    # Find all SVG elements with wrong dimensions (232x232)
-    pattern = r'<svg width="232" height="232"[^>]*>.*?</svg>'
+    # Find all SVG elements with wrong viewBox (232x232)
+    pattern = r'<svg width="120" height="120" viewBox="0 0 232 232"[^>]*>.*?</svg>'
     matches = list(re.finditer(pattern, content, re.DOTALL))
     
     # Replace in reverse order to preserve indices
@@ -101,9 +101,9 @@ def update_cheatsheet_html(cheatsheet_num, qr_codes):
 def main():
     """Main function."""
     cheatsheets = [
-        (1, 'out/cheatsheet1_qr_svg_fixed.txt'),
-        (2, 'out/cheatsheet2_qr_svg_fixed.txt'),
-        (3, 'out/cheatsheet3_qr_svg_fixed.txt'),
+        (1, 'out/cheatsheet1_qr_svg_final.txt'),
+        (2, 'out/cheatsheet2_qr_svg_final.txt'),
+        (3, 'out/cheatsheet3_qr_svg_final.txt'),
     ]
     
     for cheatsheet_num, svg_file in cheatsheets:
