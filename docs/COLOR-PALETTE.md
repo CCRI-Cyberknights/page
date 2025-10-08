@@ -181,51 +181,80 @@ The color palette is implemented using CSS custom properties for easy maintenanc
 
 ## Tailwind CSS Integration
 
-### Current Issue: CSS Specificity Conflicts
+### Migration Status (Oct 8, 2025)
 
-The codebase currently uses 99 `!important` declarations due to specificity conflicts between Tailwind utilities and custom CSS classes. This creates maintenance issues and unpredictable styling behavior.
+**✅ COMPLETED for Guides & Blogs:**
+- All 5 guide files now use JIT configuration with `@layer` directives
+- All 2 blog files now use JIT configuration with `@layer` directives
+- 30+ inline `style="color:"` attributes eliminated
+- CSS variables replaced with Tailwind utility classes (`text-ember-spark`, `text-neon-surge`, etc.)
 
-### Recommended Solution: Tailwind Config Integration
+**🚧 IN PROGRESS for Main SPA:**
+- `index.html` still uses CSS variables with `!important` declarations
+- Target: Migrate to same idiomatic Tailwind approach
 
-#### 1. Create Tailwind Configuration
+### Recommended Solution: JIT Configuration (Implemented in Guides & Blogs)
+
+#### 1. JIT Configuration (CDN Approach - RECOMMENDED)
+
+For standalone HTML files (guides, blogs), use Tailwind CDN with JIT configuration:
+
+```html
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  // Idiomatic Tailwind JIT Configuration
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          'neon-surge': '#43CC50',
+          'steel-glow': '#5B6E6E',
+          'pale-alloy': '#B8B8B8',
+          'primary-green': '#04703C',
+          'ember-spark': '#C27329',
+          'arc-weld-blue': '#2DB2C4',
+        }
+      }
+    }
+  }
+</script>
+```
+
+#### 2. Build-Time Configuration (Alternative for SPAs)
+
+For build-time compilation (e.g., `index.html` with build step):
+
 ```js
 // tailwind.config.js
 module.exports = {
   theme: {
     extend: {
       colors: {
-        // Primary Colors
-        'primary-green': 'var(--primary-green)',     // #04703C
-        'primary-green-light': 'var(--primary-green-light)', // #0A8B4F
-        
-        // Accent Colors
-        'neon': 'var(--neon-surge)',                 // #43CC50
-        'ember': 'var(--ember-spark)',               // #C27329
-        'arc': 'var(--arc-weld-blue)',               // #2DB2C4
-        'molten': 'var(--molten-glow)',              // #FFCC33
-        
-        // Neutral Colors
-        'forge': 'var(--forge-black)',                // #001011
-        'iron': 'var(--iron-ash)',                   // #1C1C1C
-        'steel': 'var(--steel-glow)',                // #5B6E6E
-        'silver': 'var(--silver-edge)',              // #8A8A8A
-        'alloy': 'var(--pale-alloy)',                // #B8B8B8
+        'primary-green': '#04703C',
+        'neon-surge': '#43CC50',
+        'ember-spark': '#C27329',
+        'arc-weld-blue': '#2DB2C4',
+        // ... all colors defined directly without CSS variables
       },
     },
   },
 }
 ```
 
-#### 2. Use Tailwind Utilities Instead of Custom Classes
-```html
-<!-- Instead of: -->
-<strong class="emphasis-text">cybersecurity</strong>
+**Note:** Direct hex values are preferred over `var(--css-variable)` for idiomatic Tailwind.
 
-<!-- Use: -->
-<strong class="text-ember">cybersecurity</strong>
+#### 3. Use Tailwind Utilities Instead of Custom Classes
+```html
+<!-- ❌ OLD (CSS variables with inline styles): -->
+<p style="color: #cbd5e1;">Text content</p>
+<strong style="color: var(--ember-spark);">Important</strong>
+
+<!-- ✅ NEW (Tailwind utility classes): -->
+<p class="text-slate-300">Text content</p>
+<strong class="text-ember-spark">Important</strong>
 ```
 
-#### 3. Layer Management for Custom Components
+#### 4. Layer Management for Custom Components
 ```css
 @layer components {
   .section-container {
