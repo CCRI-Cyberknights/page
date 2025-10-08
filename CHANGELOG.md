@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.14](https://github.com/CCRI-Cyberknights/page/compare/v1.8.13...v1.8.14) (2025-10-08)
+
 ### [1.8.13](https://github.com/CCRI-Cyberknights/page/compare/v1.8.12...v1.8.13) (2025-10-08)
 
 

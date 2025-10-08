@@ -65,6 +65,24 @@
   </style>
 </head>
 <body class="bg-slate-900 text-slate-200 min-h-screen">
+  <script>
+    // Dynamic year calculation algorithm
+    // Sweet spot for used business laptops is typically 4 years old
+    const SWEET_SPOT_AGE_YEARS = 4;
+    const currentYear = new Date().getFullYear();
+    const sweetSpotYear = currentYear - SWEET_SPOT_AGE_YEARS;
+    
+    // Update all elements with dynamic years once DOM is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      // Update all occurrences of [CURRENT_YEAR] and [SWEET_SPOT_YEAR]
+      document.querySelectorAll('[data-year="current"]').forEach(el => {
+        el.textContent = currentYear;
+      });
+      document.querySelectorAll('[data-year="sweet-spot"]').forEach(el => {
+        el.textContent = sweetSpotYear;
+      });
+    });
+  </script>
   <div class="max-w-4xl mx-auto p-6 space-y-8">
 
     <!-- Header -->
@@ -136,7 +154,7 @@
 
       <ol class="list-decimal list-inside space-y-3 text-slate-200">
         <li>
-          <strong class="emphasis-text">Research the CPU:</strong> Ask a chat engine: <em class="text-slate-400">"What were the most popular CPUs in high-end business laptops in 2021?"</em> <span class="text-sm text-slate-400">(Use four years prior to current year.)</span>
+          <strong class="emphasis-text">Research the CPU:</strong> Ask a chat engine: <em class="text-slate-400">"What were the most popular CPUs in high-end business laptops in <span data-year="sweet-spot">2021</span>?"</em> <span class="text-sm text-slate-400">(Use four years prior to current year.)</span>
         </li>
         <li>
           <strong class="emphasis-text">Pick a target CPU:</strong> Example: <code class="code-block">Intel Core i7-1185G7</code>
@@ -206,7 +224,7 @@
       <ul class="list-disc list-inside space-y-2 text-slate-200">
         <li><strong class="emphasis-text">Enterprise refresh cycles</strong> flood eBay with inventory</li>
         <li><strong class="emphasis-text">Depreciation has already peaked</strong> — maximum discount, minimal further value loss</li>
-        <li><strong class="emphasis-text">Hardware remains fast and reliable</strong> — high-end 2021 specs still outperform 2025 budget models</li>
+        <li><strong class="emphasis-text">Hardware remains fast and reliable</strong> — high-end <span data-year="sweet-spot">2021</span> specs still outperform <span data-year="current">2025</span> budget models</li>
         <li><strong class="emphasis-text">Build quality ensures years of remaining lifespan</strong> — engineered for 5-7 year corporate deployment cycles</li>
       </ul>
 
