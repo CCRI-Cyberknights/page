@@ -39,8 +39,12 @@
   <script src="./js/qrcode.min.js"></script>
   <script src="./js/qr-code-manager.js"></script>
   <script src="./js/version-display.js"></script>
-  <style>
-    :root { color-scheme: dark; }
+  <style type="text/tailwindcss">
+    @layer base {
+      :root {
+        color-scheme: dark;
+      }
+    }
     
     /* Expandable Element System - Clean and DRY */
     .expand-overlay {
@@ -283,43 +287,42 @@
       --image-expanded-radius: 1rem;
     }
 
-    /* Neon Surge Links - Official Color Palette */
-    .neon-surge-link {
-      color: var(--neon-surge);
-    }
-    
-    .neon-surge-link:hover {
-      opacity: 0.8;
-    }
-
-    /* Emphasis text styling for blog posts */
-    .emphasis-text {
-      color: var(--ember-spark);
-    }
-
-    /* All image toggle states now handled by modal overlay pattern */
-    
-    /* Mobile footer fix - ensure footer is never clipped by mobile browser UI */
-    /* Use pb-safe class from Tailwind with higher specificity */
-    @media (max-width: 768px) {
-      footer.border-t {
-        padding-bottom: 20px;
-        margin-bottom: 10px;
+    @layer components {
+      /* Neon Surge Links - Official Color Palette */
+      .neon-surge-link {
+        color: var(--neon-surge);
       }
-    }
+      
+      .neon-surge-link:hover {
+        opacity: 0.8;
+      }
 
-    /* Navigation active state styling - visible emerald accent */
-    /* Higher specificity than Tailwind utilities without !important */
-    nav a[data-route].active.active {
-      background-color: rgba(16, 185, 129, 0.3);
-      border-color: rgb(16, 185, 129);
-      color: rgb(209, 250, 229);
-    }
-    
-    nav a[data-route].active.active:hover {
-      background-color: rgba(16, 185, 129, 0.4);
-      border-color: rgb(52, 211, 153);
-      color: rgb(255, 255, 255);
+      /* Emphasis text styling for blog posts */
+      .emphasis-text {
+        color: var(--ember-spark);
+      }
+      
+      /* Mobile footer fix - ensure footer is never clipped by mobile browser UI */
+      @media (max-width: 768px) {
+        footer.border-t {
+          padding-bottom: 20px;
+          margin-bottom: 10px;
+        }
+      }
+
+      /* Navigation active state styling - visible emerald accent */
+      /* Higher specificity than Tailwind utilities without !important */
+      nav a[data-route].active.active {
+        background-color: rgba(16, 185, 129, 0.3);
+        border-color: rgb(16, 185, 129);
+        color: rgb(209, 250, 229);
+      }
+      
+      nav a[data-route].active.active:hover {
+        background-color: rgba(16, 185, 129, 0.4);
+        border-color: rgb(52, 211, 153);
+        color: rgb(255, 255, 255);
+      }
     }
 
   </style>
