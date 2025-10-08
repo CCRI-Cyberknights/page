@@ -77,11 +77,14 @@ test.describe('Baseline: Resources Page', () => {
     // Should have filter buttons
     await expect(page.locator('button[data-filter="cyberknights"]')).toBeVisible();
     
-    // Wait for resources to load and render
-    await page.waitForTimeout(1000);
+    // Wait for resources grid to have children (cards loaded)
+    await page.waitForFunction(() => {
+      const grid = document.getElementById('resources-grid');
+      return grid && grid.children.length > 0;
+    }, { timeout: 10000 });
     
-    // Should have resource cards
-    const cards = page.locator('[data-resource-card]').or(page.locator('div[onclick*="openResourceModal"]'));
+    // Should have resource cards (children of resources-grid)
+    const cards = page.locator('#resources-grid > div');
     await expect(cards.first()).toBeVisible();
   });
 
@@ -89,11 +92,14 @@ test.describe('Baseline: Resources Page', () => {
     await page.goto(`${BASE_URL}#/resources`);
     await page.waitForSelector('#resources-grid', { state: 'visible' });
     
-    // Wait for resources to load
-    await page.waitForTimeout(1000);
+    // Wait for resources grid to have children (cards loaded)
+    await page.waitForFunction(() => {
+      const grid = document.getElementById('resources-grid');
+      return grid && grid.children.length > 0;
+    }, { timeout: 10000 });
     
-    // Get initial card count
-    const allCards = page.locator('[data-resource-card]').or(page.locator('div[onclick*="openResourceModal"]'));
+    // Get initial card count (children of resources-grid)
+    const allCards = page.locator('#resources-grid > div');
     const initialCount = await allCards.count();
     expect(initialCount).toBeGreaterThan(0);
     
@@ -109,15 +115,22 @@ test.describe('Baseline: Resources Page', () => {
   test('should search resources', async ({ page }) => {
     await page.goto(`${BASE_URL}#/resources`);
     await page.waitForSelector('#resources-grid', { state: 'visible' });
-    await page.waitForTimeout(1000); // Wait for resources to load
+    
+    // Wait for resources grid to have children (cards loaded)
+    await page.waitForFunction(() => {
+      const grid = document.getElementById('resources-grid');
+      return grid && grid.children.length > 0;
+    }, { timeout: 10000 });
     
     const searchInput = page.locator('input[placeholder*="Search"]');
     await searchInput.fill('hack');
-    await page.waitForTimeout(500); // Wait for search to process
     
-    // Should show results containing "hack"
-    const cards = page.locator('[data-resource-card]').or(page.locator('div[onclick*="openResourceModal"]'));
-    await expect(cards.first()).toBeVisible();
+    // Wait for search results dropdown to appear
+    await page.waitForSelector('#search-results-container:not(.hidden)', { state: 'visible', timeout: 5000 });
+    
+    // Should show search results
+    const searchResults = page.locator('#search-results > div');
+    await expect(searchResults.first()).toBeVisible();
   });
 });
 
