@@ -923,16 +923,80 @@ The site generates QR codes dynamically in the footer for each page. There is no
 - Export path renders to a temporary canvas and triggers an `<a download>` click
 - Auto-initializes on the main site; standalone pages can explicitly instantiate with custom options
 
-#### Educational Guide QR Integration ⭐ NEW
+#### Educational Guide QR Integration ⭐
 
-For educational guides like the Linux cheat sheet, we've implemented a **static QR code system** that embeds base64-encoded QR codes directly into HTML guides. This approach provides:
+For educational guides (especially Linux cheatsheets), we've implemented a **static SVG QR code system** with strict design standards to ensure consistency across all guides.
 
-- **Reliability**: No JavaScript dependencies, works in any browser
-- **Performance**: No external requests, instant loading
-- **Customization**: Green background QR codes with black modules
-- **Self-Contained**: All content in a single HTML file
+##### Design Standards (Required)
 
-See `document/README.md` for implementation details and `scripts/README.md` for QR code generation.
+**Format & Display:**
+- ✅ **Format**: SVG (Scalable Vector Graphics) - NOT PNG
+- ✅ **Display Size**: `width="120" height="120"` pixels
+- ✅ **ViewBox**: `viewBox="0 0 23.2 23.2"` (scaled by factor of 10)
+- ✅ **Background**: `style="background-color: #10b981;"` (emerald green)
+- ✅ **Border**: `class="border border-emerald-500 rounded"`
+
+**Colors (Exact Values Required):**
+- ✅ **QR Pattern**: `fill="#000000"` (black hex format, NOT "black")
+- ✅ **Background**: `#10b981` (emerald green)
+- ✅ **Border**: `border-emerald-500` (Tailwind CSS class)
+
+**Canonical Structure:**
+```html
+<svg width="120" height="120" viewBox="0 0 23.2 23.2" xmlns="http://www.w3.org/2000/svg" 
+     class="border border-emerald-500 rounded" style="background-color: #10b981;">
+  <path d="[QR_CODE_PATH_DATA]" fill="#000000" fill-opacity="1" fill-rule="nonzero" stroke="none"/>
+  <title>QR Code</title>
+</svg>
+```
+
+##### Technical Specifications
+
+- **Error Correction Level**: L (Low) - for smaller, more compact codes
+- **Box Size**: 8 pixels per module
+- **Border**: 2 modules
+- **Modules**: 25×25 (version 1 QR code)
+- **ViewBox Calculation**: `total_size / 10 = 232 / 10 = 23.2`
+
+##### Reference Implementation
+
+**Cheatsheet 4** (`guides/linux-cheatsheet-4.html`) serves as the **canonical reference** for all QR code implementations. All other cheatsheets and guides must match this format exactly.
+
+##### Common Anti-Patterns to Avoid
+
+❌ **Wrong ViewBox**: `viewBox="0 0 232 232"` → ✅ Use `viewBox="0 0 23.2 23.2"`  
+❌ **Wrong Fill**: `fill="black"` → ✅ Use `fill="#000000"`  
+❌ **Wrong Size**: `width="232"` → ✅ Use `width="120" height="120"`  
+❌ **PNG Format**: `<img src="data:image/png;base64,...">` → ✅ Use `<svg>...</svg>`
+
+##### Implementation Tools
+
+**Scripts** (see `scripts/README.md` for detailed usage):
+1. **`generate_qr_codes.py`** - Generate new SVG QR codes with proper standards
+2. **`update-cheatsheet-qr-to-svg.py`** - Convert existing PNG to SVG format
+3. **`youtube_url_shortener.py`** - Shorten YouTube URLs for cleaner QR codes
+
+**Workflow for New Guides:**
+```bash
+# 1. Shorten YouTube URLs (if needed)
+python scripts/youtube_url_shortener.py "https://www.youtube.com/watch?v=VIDEO_ID"
+
+# 2. Generate SVG QR codes
+python scripts/generate_qr_codes.py --cheatsheet N
+
+# 3. Embed SVG output directly into guide HTML
+```
+
+##### Benefits of This Approach
+
+- ✅ **Reliability**: No JavaScript dependencies, works in any browser
+- ✅ **Performance**: No external requests, instant loading
+- ✅ **Scalability**: Vector graphics scale perfectly at any resolution
+- ✅ **Self-Contained**: All content in a single HTML file
+- ✅ **Consistency**: Strict standards ensure uniform appearance
+- ✅ **Version Control**: SVG text is diff-friendly
+
+**Complete documentation**: See Legacy Documentation section for `docs/QR-CODE-STANDARDS.md` (commit `e20c4e1`)
 
 #### How Dynamic QR Generation Works
 
