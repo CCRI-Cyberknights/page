@@ -700,5 +700,6 @@ The following files were consolidated into this document:
 - **`docs/SELENIUM-ENVIRONMENT-SETUP.md`** - Selenium WebDriver setup and innovative debugging methodology (last updated: commit `61c789c`)
 - **`docs/SELENIUM-CUTOVER-PLAN.md`** - Immediate cutover strategy from Selenium to Playwright with single-execution approach (last updated: commit `c8508c2`)
 - **`docs/SELENIUM-REFERENCES-ANALYSIS.md`** - Comprehensive analysis of 24 files containing Selenium references across the project (last updated: commit `242547d`)
+- **`docs/TDD-FRAMEWORK.md`** - Test-Driven Development framework philosophy and implementation guidelines for Playwright testing (last updated: commit `94cbf15`)
 
 This testing strategy ensures the Cyber Club website maintains high quality and reliability across all features and user interactions.

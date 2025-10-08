@@ -1603,5 +1603,6 @@ The following files were consolidated into this document:
 - **`docs/DOCUMENT-EXAMPLES.md`** - Practical examples and usage patterns for document loading system (last updated: commit `61c789c`)
 - **`QRCODE-MANAGER-ASPIRATIONAL-DESIGN.md`** - Comprehensive vision for QRCodeManager evolution into enterprise-ready component (last updated: commit `fcb3fff`)
 - **`QR-CODE-VALIDATION-EXPERT-CONSULTATION.md`** - Technical analysis and solution for SPA QR code URL validation issues (last updated: commit `cabce4f`)
+- **`docs/QR-CODE-STANDARDS.md`** - Comprehensive QR code design standards, SVG implementation guidelines, validation tools, and migration documentation (last updated: commit `e20c4e1`)
 
 **Note**: `docs/color-palettes/COLOR-PALETTE.md` was relocated to `docs/COLOR-PALETTE.md` and is referenced above.
