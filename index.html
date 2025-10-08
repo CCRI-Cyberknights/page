@@ -327,7 +327,7 @@
 
   </style>
 </head>
-<body class="min-h-screen bg-[var(--forge-black)] text-[var(--pale-alloy)]">
+<body class="min-h-screen bg-forge-black text-pale-alloy">
 
   <header class="max-w-5xl mx-auto px-4 py-6">
     <div class="flex items-center justify-between">
@@ -363,7 +363,7 @@
         </div>
       </div>
       <div class="relative">
-        <button id="footer-qr-toggle" class="hover:opacity-80 transition-all duration-200 focus:ring-2 focus:ring-slate-500 focus:outline-none inline-flex items-center justify-center" style="color: var(--pale-alloy); height: 64px; width: 64px;">
+        <button id="footer-qr-toggle" class="hover:opacity-80 transition-all duration-200 focus:ring-2 focus:ring-slate-500 focus:outline-none inline-flex items-center justify-center text-pale-alloy" style="height: 64px; width: 64px;">
           <div id="footer-qr-svg" class="rounded border border-white/20" style="width: 64px; height: 64px;"></div>
         </button>
         <div id="footer-qr-panel" class="hidden absolute bottom-full right-0 mb-1 p-4 rounded-lg border border-slate-600 bg-slate-800 shadow-lg w-[300px] sm:w-[300px] max-w-[90vw] z-10">
@@ -409,7 +409,7 @@
 
   <template id="page-home">
     <!-- Excitement Opportunity Belonging Banner -->
-    <div class="w-full text-white text-sm tracking-wide mb-6" style="background-color: var(--primary-green);">
+    <div class="w-full text-white text-sm tracking-wide mb-6 bg-primary-green">
       <div class="max-w-5xl mx-auto px-4 py-3 flex flex-wrap items-center justify-center gap-4 text-center">
         <span class="font-semibold">Excitement</span>
         <span>•</span>
@@ -420,16 +420,16 @@
     </div>
     
     <!-- Hero Section -->
-    <section class="mb-12 p-6 rounded-lg border" style="border-color: var(--primary-green); background: linear-gradient(to right, rgba(4, 112, 60, 0.1), rgba(67, 204, 80, 0.1));">
+    <section class="mb-12 p-6 rounded-lg border border-primary-green" style="background: linear-gradient(to right, rgba(4, 112, 60, 0.1), rgba(67, 204, 80, 0.1));">
       <div class="text-center space-y-4">
-        <h1 class="text-2xl sm:text-3xl font-bold" style="color: var(--primary-green);">
+        <h1 class="text-2xl sm:text-3xl font-bold text-primary-green">
           We've Moved to a Bigger Venue!
         </h1>
         <p class="text-slate-300 max-w-2xl mx-auto">
           Thanks to overwhelming interest, we've outgrown our old room. Join us in our new home, the Auditorium (Room 4080).
         </p>
         <div class="pt-2">
-          <a href="#/map-warwick-4080" class="inline-flex items-center px-6 py-3 rounded-lg font-semibold transition-colors" style="background-color: var(--ember-spark); color: var(--forge-black);" onmouseover="this.style.backgroundColor='var(--molten-glow)'" onmouseout="this.style.backgroundColor='var(--ember-spark)'">
+          <a href="#/map-warwick-4080" class="inline-flex items-center px-6 py-3 rounded-lg font-semibold transition-colors bg-ember-spark text-forge-black hover:bg-molten-glow">
             Find Our New Location
             <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
@@ -513,7 +513,7 @@
 
       <!-- Box 3: Your Path to Tech: Our Members Get Hired -->
       <div class="p-6 rounded-lg border-2 border-emerald-500/60 bg-gradient-to-r from-emerald-900/20 to-emerald-800/20 shadow-lg" style="background: linear-gradient(135deg, rgba(4, 112, 60, 0.15), rgba(16, 185, 129, 0.1));">
-        <h3 class="text-xl font-bold mb-4" style="color: var(--neon-surge);">🚀 Your Path to Tech: Our Members Get Hired</h3>
+        <h3 class="text-xl font-bold mb-4 text-neon-surge">🚀 Your Path to Tech: Our Members Get Hired</h3>
         <p class="text-slate-300 mb-4">
           Our central mission is ensuring <strong>successful employment</strong>. We facilitate professional success by combining academic credentials, industry certifications, relevant experience, and networking opportunities.
         </p>
@@ -626,7 +626,7 @@
 
       <!-- Navigation Index -->
       <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40 mb-8">
-        <h3 class="text-lg font-semibold mb-4" style="color: var(--neon-surge);">Quick Navigation</h3>
+        <h3 class="text-lg font-semibold mb-4 text-neon-surge">Quick Navigation</h3>
         <div class="flex flex-wrap gap-4">
           <button onclick="scrollToSection('usb-boot-guide')" class="inline-flex items-center px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium transition-colors">
             <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -652,12 +652,12 @@
       <!-- USB Boot Guide Section -->
       <div id="usb-boot-guide" class="space-y-6">
         <div class="text-center">
-          <h3 class="text-2xl font-bold mb-2" style="color: var(--neon-surge);">USB Boot Guide</h3>
+          <h3 class="text-2xl font-bold mb-2 text-neon-surge">USB Boot Guide</h3>
           <p class="text-slate-300">Boot directly from a USB drive to try any Linux distribution without installing.</p>
       </div>
 
       <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
-          <h4 class="text-lg font-semibold mb-4" style="color: var(--neon-surge);">Step-by-Step Instructions</h4>
+          <h4 class="text-lg font-semibold mb-4 text-neon-surge">Step-by-Step Instructions</h4>
         <ol class="list-decimal list-inside space-y-3 text-slate-200">
           <li>Shut down your computer completely.</li>
           <li>Insert the prepared USB drive into an available USB port.</li>
@@ -688,7 +688,7 @@
       <!-- VirtualBox Boot Guide Section -->
       <div id="virtualbox-boot-guide" class="space-y-6 mt-12">
         <div class="text-center">
-          <h3 class="text-2xl font-bold mb-2" style="color: var(--arc-weld-blue);">VirtualBox Boot Guide</h3>
+          <h3 class="text-2xl font-bold mb-2 text-arc-weld-blue">VirtualBox Boot Guide</h3>
           <p class="text-slate-300">Run any Linux distribution safely in a virtual machine using VirtualBox.</p>
         </div>
 
@@ -701,7 +701,7 @@
         </div>
 
         <div class="p-6 rounded-lg border border-slate-800 bg-slate-900/40">
-          <h4 class="text-lg font-semibold mb-4" style="color: var(--arc-weld-blue);">Step-by-Step Instructions</h4>
+          <h4 class="text-lg font-semibold mb-4 text-arc-weld-blue">Step-by-Step Instructions</h4>
           <ol class="list-decimal list-inside space-y-3 text-slate-200">
             <li>Download a Linux ISO image file to your computer.</li>
             <li>In VirtualBox, create a new machine by selecting <strong>Machine>New</strong> from file menu.</li>
@@ -714,7 +714,7 @@
             <li>Set the virtual hard disk to <strong>50 gigabytes</strong> (an upper limit - does not actually take up the full amount).</li>
             <li>Click <strong>next</strong> and compare the summary to the one below before you click <strong>finish</strong>.</li>
           </ol>
-          <p class="mt-3 text-sm" style="color: var(--steel-glow);">Note: You may adjust settings later to optimize performance on your hardware. (The initial choice of 1 core is intentional, as some CPUs exhibit instability when more cores are configured).</p>
+          <p class="mt-3 text-sm text-steel-glow">Note: You may adjust settings later to optimize performance on your hardware. (The initial choice of 1 core is intentional, as some CPUs exhibit instability when more cores are configured).</p>
         </div>
         
         <div class="mt-6 p-4 rounded-lg border border-slate-800 bg-slate-900/40">
@@ -780,7 +780,7 @@
 
   <template id="page-resources">
     <section class="space-y-6">
-      <div class="p-4 rounded-lg border border-emerald-500/40 bg-emerald-900/10 text-sm mb-6" style="color: var(--neon-surge);">
+      <div class="p-4 rounded-lg border border-emerald-500/40 bg-emerald-900/10 text-sm mb-6 text-neon-surge">
         <p id="intro-text">Essential tools and competitions for learning cybersecurity—whether you're just starting with CTF basics or sharpening your skills in advanced challenges.</p>
       </div>
 
