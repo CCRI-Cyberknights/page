@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.15](https://github.com/CCRI-Cyberknights/page/compare/v1.8.14...v1.8.15) (2025-10-08)
+
+
+### Bug Fixes
+
+* complete baseline test fixes - all 17 tests passing ([0f773ff](https://github.com/CCRI-Cyberknights/page/commit/0f773ff594047197f216eda05106ea76afaf7b01))
+* update baseline tests to match actual SPA behavior ([eb81f16](https://github.com/CCRI-Cyberknights/page/commit/eb81f16556b656480d16cc5ac3f80531d2573b48))
+
 ### [1.8.14](https://github.com/CCRI-Cyberknights/page/compare/v1.8.13...v1.8.14) (2025-10-08)
 
 ### [1.8.13](https://github.com/CCRI-Cyberknights/page/compare/v1.8.12...v1.8.13) (2025-10-08)

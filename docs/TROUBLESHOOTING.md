@@ -1501,30 +1501,41 @@ Use online tools like [specificity.keegan.st](https://specificity.keegan.st/) to
 .text-slate-300 .emphasis-text { color: var(--ember-spark); }
 ```
 
-#### Long-term Fix: Tailwind Config Integration
-```js
-// tailwind.config.js
-theme: {
-  extend: {
-    colors: {
-      ember: 'var(--ember-spark)',    // #C27329
-      neon: 'var(--neon-surge)',      // #43CC50
-    },
-  },
-}
+#### Long-term Fix: Idiomatic Tailwind CSS (✅ IMPLEMENTED for Guides & Blogs)
+
+**Status (Oct 8, 2025):**
+- ✅ All guides and blogs now use JIT configuration with direct color values
+- 🚧 Main SPA (`index.html`) still uses CSS variables - migration pending
+
+**Implemented Pattern (Guides & Blogs):**
+```html
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          'ember-spark': '#C27329',    // Direct hex values
+          'neon-surge': '#43CC50',
+        }
+      }
+    }
+  }
+</script>
+<style type="text/tailwindcss">
+  @layer components {
+    .emphasis-text { @apply font-semibold text-ember-spark; }
+  }
+</style>
 ```
 
 ```html
 <!-- Use Tailwind utilities -->
-<strong class="text-ember">cybersecurity</strong>
+<strong class="text-ember-spark">cybersecurity</strong>
+<p class="text-slate-300">Regular text</p>
 ```
 
-#### Layer Management
-```css
-@layer components {
-  .emphasis-text { color: var(--ember-spark); }
-}
-```
+**See:** [TAILWIND-IDIOMS.md](TAILWIND-IDIOMS.md) and [TAILWIND-MIGRATION-GUIDE.md](TAILWIND-MIGRATION-GUIDE.md) for complete details.
 
 ### Prevention Strategies
 
