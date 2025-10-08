@@ -706,20 +706,12 @@
             <li>Download a Linux ISO image file to your computer.</li>
             <li>In VirtualBox, create a new machine by selecting <strong>Machine>New</strong> from file menu.</li>
             <li>Name the machine (e.g., "Linux VM") and select the <strong>.iso</strong> image file.</li>
-            <li>A group of 4 buttons appears at bottom right of the window. You can toggle between Guided Mode and Expert Mode.
-              <br>&nbsp;&nbsp;&nbsp;&nbsp;• <strong>IMPORTANT:</strong> Ensure that you're in <strong>Guided Mode</strong>
-              <br>&nbsp;&nbsp;&nbsp;&nbsp;• ("Expert Mode" appears on the button when in Guided Mode)</li>
-            <li>Check the box to <strong>"Skip unattended installation"</strong> and click <strong>"Next"</strong>.</li>
-            <li>Assign <strong>4096 MB</strong> of memory and <strong>one CPU core</strong> to the virtual machine.*</li>
-            <li>Set the virtual hard disk to <strong>50 gigabytes</strong> (an upper limit - does not actually take up the full amount).</li>
-            <li>Click <strong>next</strong> and compare the summary to the one below before you click <strong>finish</strong>.</li>
+            <li>Check the box to <strong>"Skip unattended installation"</strong>.</li>
+            <li>In the <strong>HARDWARE</strong> section, set "Base Memory" to <strong>4096 MB</strong> of memory and "Processors" to <strong>1</strong></li>
+            <li>In the <strong>HARD DISK</strong> section, give the disk <strong>50 gigabytes</strong> (an upper limit - does not actually take up the full amount).</li>
+            <li>Click <strong>Finish</strong>.</li>
           </ol>
           <p class="mt-3 text-sm text-steel-glow">Note: You may adjust settings later to optimize performance on your hardware. (The initial choice of 1 core is intentional, as some CPUs exhibit instability when more cores are configured).</p>
-        </div>
-        
-        <div class="mt-6 p-4 rounded-lg border border-slate-800 bg-slate-900/40">
-          <h4 class="text-sm font-semibold mb-3 text-slate-300">Expected Summary Screen:</h4>
-          <img id="vbox-summary-image" src="images/screenshots/VBoxSummary-optimized.webp" alt="VirtualBox Summary Screen showing expected configuration" class="w-full mx-auto rounded border border-slate-700 object-contain cursor-pointer transition-transform duration-200 ease-in-out hover:scale-105" onclick="expandElement(this)" tabindex="0" title="Click to expand" />
         </div>
       </div>
 
