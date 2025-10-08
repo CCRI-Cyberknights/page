@@ -23,7 +23,7 @@ test.describe('Baseline: Core Navigation', () => {
   test('should load home page successfully', async ({ page }) => {
     await page.goto(BASE_URL);
     await expect(page.locator('h1')).toBeVisible();
-    await expect(page).toHaveTitle(/Cyberknights/i);
+    await expect(page).toHaveTitle(/Cyber Club/i);
   });
 
   test('should navigate to all main routes', async ({ page }) => {
@@ -31,24 +31,21 @@ test.describe('Baseline: Core Navigation', () => {
     
     // Test Resources route
     await page.click('a[data-route="resources"]');
-    await expect(page).toHaveURL(/#resources/);
-    await expect(page.locator('#resources-content')).toBeVisible();
+    await expect(page).toHaveURL(/#\/resources/);
+    await page.waitForSelector('#resources-grid', { state: 'visible', timeout: 5000 });
+    await expect(page.locator('#resources-grid')).toBeVisible();
     
-    // Test Guides route
-    await page.click('a[data-route="guides"]');
-    await expect(page).toHaveURL(/#guides/);
+    // Test Linux route
+    await page.click('a[data-route="linux"]');
+    await expect(page).toHaveURL(/#\/linux/);
     
-    // Test Blogs route
-    await page.click('a[data-route="blogs"]');
-    await expect(page).toHaveURL(/#blogs/);
-    
-    // Test Events route
-    await page.click('a[data-route="events"]');
-    await expect(page).toHaveURL(/#events/);
+    // Test Calendar route
+    await page.click('a[data-route="calendar"]');
+    await expect(page).toHaveURL(/#\/calendar/);
     
     // Test Home route
     await page.click('a[data-route="home"]');
-    await expect(page).toHaveURL(/\/#$|\/$/);
+    await expect(page).toHaveURL(/#\/home/);
   });
 
   test('should update active navigation state', async ({ page }) => {
@@ -59,69 +56,74 @@ test.describe('Baseline: Core Navigation', () => {
     const resourcesLink = page.locator('a[data-route="resources"]');
     await expect(resourcesLink).toHaveClass(/active/);
     
-    // Click blogs
-    await page.click('a[data-route="blogs"]');
-    const blogsLink = page.locator('a[data-route="blogs"]');
-    await expect(blogsLink).toHaveClass(/active/);
+    // Click linux
+    await page.click('a[data-route="linux"]');
+    const linuxLink = page.locator('a[data-route="linux"]');
+    await expect(linuxLink).toHaveClass(/active/);
     await expect(resourcesLink).not.toHaveClass(/active/);
   });
 });
 
 test.describe('Baseline: Resources Page', () => {
   test('should render resources page with content', async ({ page }) => {
-    await page.goto(`${BASE_URL}#resources`);
+    await page.goto(`${BASE_URL}#/resources`);
     
     // Wait for content to load
-    await page.waitForSelector('#resources-content', { state: 'visible' });
+    await page.waitForSelector('#resources-grid', { state: 'visible' });
     
     // Should have search input
     await expect(page.locator('input[placeholder*="Search"]')).toBeVisible();
     
     // Should have filter buttons
-    await expect(page.locator('text=All Resources')).toBeVisible();
+    await expect(page.locator('button[data-filter="cyberknights"]')).toBeVisible();
+    
+    // Wait for resources to load and render
+    await page.waitForTimeout(1000);
     
     // Should have resource cards
-    const cards = page.locator('[data-resource-card]').or(page.locator('.resource-card'));
+    const cards = page.locator('[data-resource-card]').or(page.locator('div[onclick*="openResourceModal"]'));
     await expect(cards.first()).toBeVisible();
   });
 
   test('should filter resources by category', async ({ page }) => {
-    await page.goto(`${BASE_URL}#resources`);
-    await page.waitForSelector('#resources-content', { state: 'visible' });
+    await page.goto(`${BASE_URL}#/resources`);
+    await page.waitForSelector('#resources-grid', { state: 'visible' });
+    
+    // Wait for resources to load
+    await page.waitForTimeout(1000);
     
     // Get initial card count
-    const allCards = page.locator('[data-resource-card]').or(page.locator('.resource-card'));
+    const allCards = page.locator('[data-resource-card]').or(page.locator('div[onclick*="openResourceModal"]'));
     const initialCount = await allCards.count();
     expect(initialCount).toBeGreaterThan(0);
     
-    // Click a category filter (if it exists)
-    const learningFilter = page.locator('button:has-text("Learning")');
-    if (await learningFilter.count() > 0) {
-      await learningFilter.click();
-      await page.waitForTimeout(500); // Wait for filter animation
-      
-      // Cards should still be visible (but possibly filtered)
-      await expect(allCards.first()).toBeVisible();
-    }
+    // Click a category filter
+    const ccriFilter = page.locator('button[data-filter="ccri"]');
+    await ccriFilter.click();
+    await page.waitForTimeout(500); // Wait for filter animation
+    
+    // Cards should still be visible (but possibly filtered)
+    await expect(allCards.first()).toBeVisible();
   });
 
   test('should search resources', async ({ page }) => {
-    await page.goto(`${BASE_URL}#resources`);
-    await page.waitForSelector('#resources-content', { state: 'visible' });
+    await page.goto(`${BASE_URL}#/resources`);
+    await page.waitForSelector('#resources-grid', { state: 'visible' });
+    await page.waitForTimeout(1000); // Wait for resources to load
     
     const searchInput = page.locator('input[placeholder*="Search"]');
     await searchInput.fill('hack');
     await page.waitForTimeout(500); // Wait for search to process
     
     // Should show results containing "hack"
-    const cards = page.locator('[data-resource-card]').or(page.locator('.resource-card'));
+    const cards = page.locator('[data-resource-card]').or(page.locator('div[onclick*="openResourceModal"]'));
     await expect(cards.first()).toBeVisible();
   });
 });
 
 test.describe('Baseline: Blog Functionality', () => {
   test('should render blogs page', async ({ page }) => {
-    await page.goto(`${BASE_URL}#blogs`);
+    await page.goto(`${BASE_URL}#/blogs`);
     
     // Wait for blogs content
     await page.waitForSelector('#blogs-content', { state: 'visible', timeout: 10000 });
@@ -132,18 +134,18 @@ test.describe('Baseline: Blog Functionality', () => {
   });
 
   test('should load individual blog post', async ({ page }) => {
-    await page.goto(`${BASE_URL}#blogs`);
+    await page.goto(`${BASE_URL}#/blogs`);
     await page.waitForSelector('#blogs-content', { state: 'visible', timeout: 10000 });
     
     // Find first blog post link
-    const blogLink = page.locator('a[href*="#blogs/"]').first();
+    const blogLink = page.locator('a[href*="#/blogs/"]').first();
     
     if (await blogLink.count() > 0) {
       await blogLink.click();
       await page.waitForTimeout(1000);
       
       // Should navigate to blog post
-      await expect(page).toHaveURL(/#blogs\/.+/);
+      await expect(page).toHaveURL(/#\/blogs\/.+/);
     }
   });
 });
@@ -183,8 +185,8 @@ test.describe('Baseline: Version Display', () => {
 
 test.describe('Baseline: Expandable Elements', () => {
   test('should expand clickable elements', async ({ page }) => {
-    await page.goto(`${BASE_URL}#resources`);
-    await page.waitForSelector('#resources-content', { state: 'visible' });
+    await page.goto(`${BASE_URL}#/resources`);
+    await page.waitForSelector('#resources-grid', { state: 'visible' });
     
     // Find expandable elements (images, cards with data-expand attribute)
     const expandable = page.locator('[data-expand]').or(page.locator('img[data-expand]')).first();
@@ -216,15 +218,15 @@ test.describe('Baseline: Mobile Responsiveness', () => {
     
     // Should be able to click nav items
     await page.click('a[data-route="resources"]');
-    await expect(page).toHaveURL(/#resources/);
+    await expect(page).toHaveURL(/#\/resources/);
   });
 
   test('should display mobile-friendly layout', async ({ page }) => {
-    await page.goto(`${BASE_URL}#resources`);
-    await page.waitForSelector('#resources-content', { state: 'visible' });
+    await page.goto(`${BASE_URL}#/resources`);
+    await page.waitForSelector('#resources-grid', { state: 'visible' });
     
     // Content should be visible and not cut off
-    const content = page.locator('#resources-content');
+    const content = page.locator('#resources-grid');
     await expect(content).toBeVisible();
     
     // Check that content doesn't overflow viewport
@@ -246,14 +248,14 @@ test.describe('Baseline: Error Handling', () => {
     
     // Navigation should still work
     await page.click('a[data-route="home"]');
-    await expect(page).toHaveURL(/\/#$|\/$/);
+    await expect(page).toHaveURL(/#\/home/);
   });
 
   test('should handle network errors gracefully', async ({ page }) => {
     // Block JSON requests to simulate network issues
     await page.route('**/*.json', route => route.abort());
     
-    await page.goto(`${BASE_URL}#resources`);
+    await page.goto(`${BASE_URL}#/resources`);
     
     // Page should still load even if data fails
     await expect(page.locator('body')).toBeVisible();
@@ -276,7 +278,7 @@ test.describe('Baseline: Performance', () => {
     
     const startTime = Date.now();
     await page.click('a[data-route="resources"]');
-    await page.waitForSelector('#resources-content', { state: 'visible' });
+    await page.waitForSelector('#resources-grid', { state: 'visible' });
     const navTime = Date.now() - startTime;
     
     // Route navigation should be quick (under 2 seconds)
