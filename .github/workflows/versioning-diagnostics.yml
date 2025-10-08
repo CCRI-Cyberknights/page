@@ -22,7 +22,7 @@ jobs:
   versioning-diagnostics:
     runs-on: ubuntu-latest
     # Skip this workflow for automated release commits to avoid unnecessary delays
-    if: "!contains(github.event.head_commit.message, 'chore(release)')"
+    if: ${{ !contains(github.event.head_commit.message, 'chore(release)') }}
     
     steps:
     - name: Checkout repository
