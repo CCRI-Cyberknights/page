@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.13](https://github.com/CCRI-Cyberknights/page/compare/v1.8.12...v1.8.13) (2025-10-08)
+
+
+### Bug Fixes
+
+* correct GitHub Actions conditional expression syntax ([7a97b8e](https://github.com/CCRI-Cyberknights/page/commit/7a97b8e4fea912c59cd449cc4158b79405b15b7d))
+
 ### [1.8.12](https://github.com/CCRI-Cyberknights/page/compare/v1.8.11...v1.8.12) (2025-10-08)
 
 ### [1.8.11](https://github.com/CCRI-Cyberknights/page/compare/v1.8.10...v1.8.11) (2025-10-08)

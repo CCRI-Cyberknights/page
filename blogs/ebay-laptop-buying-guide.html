@@ -5,45 +5,62 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Getting High-End Laptops from eBay on a $350 Budget</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    :root { color-scheme: dark; }
-    body { background: #0f172a; color: #e2e8f0; }
+  <script>
+    // Idiomatic Tailwind JIT Configuration
+    // Define Cyberknights Forge color palette for use as utility classes
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'neon-surge': '#43CC50',
+            'steel-glow': '#5B6E6E',
+            'pale-alloy': '#B8B8B8',
+            'primary-green': '#04703C',
+            'ember-spark': '#C27329',
+            'arc-weld-blue': '#2DB2C4',
+          }
+        }
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    /* Idiomatic Tailwind: @layer for organized custom utilities */
     
-    /* Official Cyberknights Color Palette */
-    :root {
-      --neon-surge: #43CC50;
-      --steel-glow: #5B6E6E;
-      --pale-alloy: #B8B8B8;
-      --primary-green: #04703C;
-      --ember-spark: #C27329;
-      --arc-weld-blue: #2DB2C4;
+    @layer components {
+      /* Reusable component classes using @apply */
+      .section-container {
+        @apply p-6 rounded-lg border border-slate-800 bg-slate-900/40;
+      }
+      
+      .section-title {
+        @apply text-xl font-bold mb-4 text-neon-surge;
+      }
+      
+      .subsection-title {
+        @apply text-lg font-semibold mb-3 mt-6 text-neon-surge;
+      }
+      
+      .emphasis-text {
+        @apply font-semibold text-ember-spark;
+      }
+      
+      .code-block {
+        @apply bg-slate-800 p-2 rounded text-xs font-mono text-slate-200 overflow-x-auto inline-block;
+      }
+      
+      .highlight-box {
+        @apply p-4 rounded-lg border border-slate-800 bg-slate-900/40 mt-6;
+      }
     }
     
-    /* DRY Reusable Classes */
-    .section-container {
-      @apply p-6 rounded-lg border border-slate-800 bg-slate-900/40;
-    }
-    
-    .section-title {
-      @apply text-xl font-bold mb-4;
-      color: var(--neon-surge);
-    }
-    
-    .subsection-title {
-      @apply text-lg font-semibold mb-3 mt-6;
-      color: var(--neon-surge);
-    }
-    
-    .emphasis-text {
-      color: var(--ember-spark);
-    }
-    
-    .code-block {
-      @apply bg-slate-800 p-2 rounded text-xs font-mono text-slate-200 overflow-x-auto inline-block;
-    }
-    
-    .highlight-box {
-      @apply p-4 rounded-lg border border-slate-800 bg-slate-900/40 mt-6;
+    @layer base {
+      :root {
+        @apply dark;
+      }
+      
+      body {
+        @apply bg-slate-900 text-slate-200;
+      }
     }
   </style>
 </head>
@@ -52,11 +69,11 @@
 
     <!-- Header -->
     <div class="text-center mb-8">
-      <h1 class="text-4xl font-bold mb-4" style="color: var(--neon-surge);">
+      <h1 class="text-4xl font-bold mb-4 text-neon-surge">
         I Think I Need a New Laptop:<br/>
         Zack's Foolproof Guide to Getting High-End Laptops from eBay on a $350 Budget
       </h1>
-      <p class="text-lg" style="color: #e2e8f0;">
+      <p class="text-lg text-slate-200">
         Finding a powerful yet affordable computer is a familiar challenge for students in technical fields like <strong class="emphasis-text">cybersecurity</strong> or <strong class="emphasis-text">networking</strong>. The key is leveraging the refurbished <strong class="emphasis-text">business-class</strong> market—especially <strong class="emphasis-text">Dell Latitudes</strong>. These machines are engineered for durability and enterprise workloads, but when companies refresh hardware, they sell them off cheaply.
       </p>
       <div class="flex items-center justify-center gap-4 text-sm text-slate-400 mt-4">
@@ -70,12 +87,12 @@
     <div class="section-container" aria-labelledby="business-vs-consumer">
       <h2 id="business-vs-consumer" class="section-title">Business vs. Consumer Laptops: Why Quality Matters</h2>
       
-      <p class="mb-4" style="color: #e2e8f0;">
+      <p class="mb-4 text-slate-200">
         Consumer laptops may look sleek, but they're built for light use and short lifespans. The differences become painfully obvious once you've owned one for a semester:
       </p>
 
       <h3 class="subsection-title">Why Consumer-Grade Fails:</h3>
-      <ul class="list-disc list-inside space-y-2 mb-6" style="color: #e2e8f0;">
+      <ul class="list-disc list-inside space-y-2 mb-6 text-slate-200">
         <li>
           <strong class="emphasis-text">Weak screens:</strong> Cheap plastic lids and low-end LCD panels flex, crack, or shatter under light pressure (backpack, closing on a cable).
         </li>
@@ -91,7 +108,7 @@
       </ul>
 
       <h3 class="subsection-title">Why Business-Grade Wins:</h3>
-      <ul class="list-disc list-inside space-y-2" style="color: #e2e8f0;">
+      <ul class="list-disc list-inside space-y-2 text-slate-200">
         <li>
           <strong class="emphasis-text">Reinforced magnesium or aluminum lids</strong> protect screens from damage.
         </li>
@@ -107,7 +124,7 @@
       </ul>
 
       <div class="highlight-box">
-        <p style="color: #e2e8f0;">
+        <p class="text-slate-200">
           <strong class="emphasis-text">Bottom line:</strong> A used business-grade laptop from four years ago will almost always outlive a brand-new consumer-grade laptop bought today. It's built to survive travel, lab work, and constant use—not just casual browsing.
         </p>
       </div>
@@ -117,7 +134,7 @@
     <div class="section-container" aria-labelledby="foolproof-method">
       <h2 id="foolproof-method" class="section-title">Zack's Foolproof eBay Method</h2>
 
-      <ol class="list-decimal list-inside space-y-3" style="color: #e2e8f0;">
+      <ol class="list-decimal list-inside space-y-3 text-slate-200">
         <li>
           <strong class="emphasis-text">Research the CPU:</strong> Ask a chat engine: <em class="text-slate-400">"What were the most popular CPUs in high-end business laptops in 2021?"</em> <span class="text-sm text-slate-400">(Use four years prior to current year.)</span>
         </li>
@@ -145,7 +162,7 @@
       <h2 id="specifications" class="section-title">What to Look For</h2>
 
       <h3 class="subsection-title">Must Have:</h3>
-      <ul class="list-disc list-inside space-y-2 mb-6" style="color: #e2e8f0;">
+      <ul class="list-disc list-inside space-y-2 mb-6 text-slate-200">
         <li>
           <strong class="emphasis-text">Charger included</strong> — Avoid additional costs for power adapters.
         </li>
@@ -161,7 +178,7 @@
       </ul>
 
       <h3 class="subsection-title">Nice to Have:</h3>
-      <ul class="list-disc list-inside space-y-2 mb-6" style="color: #e2e8f0;">
+      <ul class="list-disc list-inside space-y-2 mb-6 text-slate-200">
         <li><strong class="emphasis-text">Touchscreen</strong> if it aligns with your workflow</li>
         <li><strong class="emphasis-text">Backlit keyboard</strong> for low-light environments</li>
         <li><strong class="emphasis-text">Extra ports:</strong> HDMI, USB-C, or Thunderbolt</li>
@@ -169,11 +186,11 @@
       </ul>
 
       <h3 class="subsection-title">Screen Size & Portability:</h3>
-      <ul class="list-disc list-inside space-y-2" style="color: #e2e8f0;">
+      <ul class="list-disc list-inside space-y-2 text-slate-200">
         <li><strong class="emphasis-text">14 inch:</strong> Best for portability, easy to carry between classes</li>
         <li><strong class="emphasis-text">15.6 inch:</strong> Larger workspace, better for productivity tasks</li>
       </ul>
-      <p class="mt-3" style="color: #e2e8f0;">
+      <p class="mt-3 text-slate-200">
         Business-grade models deliver excellent screen quality (color, brightness, viewing angles) regardless of size—unlike cheap consumer displays.
       </p>
     </div>
@@ -182,11 +199,11 @@
     <div class="section-container" aria-labelledby="sweet-spot">
       <h2 id="sweet-spot" class="section-title">The Sweet Spot Advantage</h2>
       
-      <p class="mb-4" style="color: #e2e8f0;">
+      <p class="mb-4 text-slate-200">
         Four-year-old business laptops hit the ideal price-to-performance ratio:
       </p>
 
-      <ul class="list-disc list-inside space-y-2" style="color: #e2e8f0;">
+      <ul class="list-disc list-inside space-y-2 text-slate-200">
         <li><strong class="emphasis-text">Enterprise refresh cycles</strong> flood eBay with inventory</li>
         <li><strong class="emphasis-text">Depreciation has already peaked</strong> — maximum discount, minimal further value loss</li>
         <li><strong class="emphasis-text">Hardware remains fast and reliable</strong> — high-end 2021 specs still outperform 2025 budget models</li>
@@ -194,7 +211,7 @@
       </ul>
 
       <div class="highlight-box">
-        <p style="color: #e2e8f0;">
+        <p class="text-slate-200">
           <strong class="emphasis-text">Result:</strong> Laptops that once retailed for $1,500–$2,000 now sell for $250–$350. That's how a 4-year-old "high-end" machine outperforms many new entry-level laptops—yet costs half (or less) the price.
         </p>
       </div>
@@ -204,15 +221,15 @@
     <div class="section-container" aria-labelledby="final-thoughts">
       <h2 id="final-thoughts" class="section-title">Final Thoughts</h2>
       
-      <p class="mb-4" style="color: #e2e8f0;">
+      <p class="mb-4 text-slate-200">
         Stick with business-class models: <strong class="emphasis-text">Dell Latitude</strong>, <strong class="emphasis-text">Lenovo ThinkPad</strong>, <strong class="emphasis-text">HP EliteBook</strong>. Use strict filters, verify sellers (2,000+ reviews minimum), and meet the must-have specs. With a smart search strategy, you'll land a professional-grade machine that feels brand new—at student-budget pricing.
       </p>
 
       <div class="highlight-box">
-        <p style="color: #e2e8f0;">
+        <p class="text-slate-200">
           <strong class="emphasis-text">Remember the sweet spot:</strong> Enterprise hardware from 4 years ago delivers maximum performance per dollar—that's the strategy that turns a constrained student budget into hardware that punches way above its weight.
         </p>
-        <p class="mt-4 font-semibold" style="color: #e2e8f0;">
+        <p class="mt-4 font-semibold text-slate-200">
           <strong class="emphasis-text">Zachary Hartmann</strong><br/>
           Cyber Club President
         </p>
