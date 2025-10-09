@@ -1,6 +1,19 @@
 # Blogs Directory
 
-This directory contains blog posts and articles for the CCRI Cyberknights club, following the unified content management system with JSON metadata for seamless SPA integration and **idiomatic Tailwind CSS** (JIT configuration + @layer directives) for consistent Cyberknights styling with visual differentiation in the resources grid.
+This directory contains blog posts and articles for the CCRI Cyberknights club, following the **unified content management system** with JSON metadata for seamless SPA integration and **idiomatic Tailwind CSS** (JIT configuration + @layer directives) for consistent Cyberknights styling with visual differentiation in the resources grid.
+
+## 🔗 Unified Content System
+
+**Important**: Blogs and guides share the same technical infrastructure. See **[`docs/CONTENT-SYSTEM.md`](../docs/CONTENT-SYSTEM.md)** for comprehensive documentation on:
+- Shared JSON schema and metadata system
+- Common routing patterns and templates
+- Unified styling approach (Tailwind JIT + @layer)
+- DRY navigation system
+- Resources integration
+- Search functionality
+- Testing strategy
+
+**Related**: See **[`guides/README.md`](../guides/README.md)** for guide-specific implementation details, especially QR code integration patterns that can be adapted for blogs.
 
 ## Blog Post Structure
 

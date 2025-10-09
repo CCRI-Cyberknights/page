@@ -1,6 +1,19 @@
 # Guides Directory
 
-This directory contains educational guides and cheat sheets for the CCRI Cyberknights club. All guides use the unified content management system with JSON metadata for seamless SPA integration and **idiomatic Tailwind CSS** (JIT configuration + @layer directives) for consistent Cyberknights styling with visual differentiation in the resources grid.
+This directory contains educational guides and cheat sheets for the CCRI Cyberknights club. All guides use the **unified content management system** with JSON metadata for seamless SPA integration and **idiomatic Tailwind CSS** (JIT configuration + @layer directives) for consistent Cyberknights styling with visual differentiation in the resources grid.
+
+## 🔗 Unified Content System
+
+**Important**: Guides and blogs share the same technical infrastructure. See **[`docs/CONTENT-SYSTEM.md`](../docs/CONTENT-SYSTEM.md)** for comprehensive documentation on:
+- Shared JSON schema and metadata system
+- Common routing patterns and templates
+- Unified styling approach (Tailwind JIT + @layer)
+- DRY navigation system
+- Resources integration
+- Search functionality
+- Testing strategy
+
+**Related**: See **[`blogs/README.md`](../blogs/README.md)** for blog-specific implementation details. The content creation workflow and styling patterns apply to both content types.
 
 ## Linux Cheat Sheet 1
 
