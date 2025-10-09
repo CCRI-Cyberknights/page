@@ -2,6 +2,66 @@
 
 This directory contains utility scripts for the CCRI Cyberknights landing pages project.
 
+---
+
+## Script Consolidation Policy
+
+### Overview
+
+This directory follows a consolidation policy similar to the documentation standards in `docs/README.md`. Scripts that have completed their purpose (one-time migrations, completed refactors) are removed from the active codebase but preserved in Git history with full traceability.
+
+### Consolidation Decision Framework
+
+Use this decision tree for script management:
+
+1. **Is the script used in active workflows (CI/CD, pre-commit hooks)?** → Keep
+2. **Is the script part of ongoing maintenance (QR generation, testing)?** → Keep
+3. **Was the script a one-time migration that's now complete?** → Remove (with Git reference)
+4. **Is the script referenced in package.json or GitHub Actions?** → Keep
+5. **Does the script have future utility for similar tasks?** → Keep
+
+### Removal Process
+
+When removing completed migration scripts:
+
+1. **Document in Legacy Scripts section** (below)
+2. **Include Git commit hash** for historical reference
+3. **Summarize purpose and completion status**
+4. **Remove file from repository**
+5. **Commit with descriptive message**
+
+---
+
+## Legacy Scripts
+
+The following scripts served their purpose and have been archived. They remain accessible via Git history.
+
+### `refactor-guide-styles.py`
+**Purpose**: Automated refactoring of guide HTML files to use idiomatic Tailwind CSS patterns  
+**Completed**: September 2025 (commit `72a4b98`)  
+**Last Version**: Git hash `d38f18b`  
+**Summary**: 
+- Replaced CSS custom properties with JIT configuration
+- Added `@layer` organization for component styles
+- Migrated all 5 guide files to idiomatic Tailwind patterns
+- Migration completed successfully, all guides now use consistent styling
+
+**Status**: ✅ Migration complete - script no longer needed
+
+### `update-cheatsheet-qr-to-svg.py`
+**Purpose**: One-time migration from canvas-based QR codes to SVG format  
+**Completed**: September 2025 (commit `8d14022`)  
+**Last Version**: Git hash `ddedd7a`  
+**Summary**:
+- Converted canvas-generated QR codes to SVG format
+- Updated all cheatsheet HTML files with SVG QR codes
+- Improved QR code quality and consistency
+- All QR codes now use SVG format with proper viewBox scaling
+
+**Status**: ✅ Migration complete - use `generate_qr_codes.py` for new QR codes
+
+---
+
 ## YouTube URL Shortener Script
 
 ### `youtube_url_shortener.py`
