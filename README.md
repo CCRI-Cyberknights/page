@@ -16,7 +16,7 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 | **[Testing](docs/TESTING.md)** | Quality assurance | Developers, Contributors | Playwright, test strategy, CI/CD integration, pipeline drift prevention |
 | **[Troubleshooting](docs/TROUBLESHOOTING.md)** | Problem solving | All users | Common issues, debugging, automated diagnostics, CI/CD validation |
 | **[Routing](docs/ROUTING.md)** | Navigation system | Developers | Hash routing, SPA navigation, page loading |
-| **[Resources & Guides](docs/RESOURCES-GUIDES.md)** | Content management | Content creators, Users | Resource cards, guides, modal system |
+| **[Resources & Guides](docs/UI.md#resources--guides-system)** | Content management | Content creators, Users | Resource cards, guides, modal system |
 | **[Color Palette](docs/COLOR-PALETTE.md)** | Design system | Designers, Developers | Official colors, usage guidelines, CSS variables |
 | **[Changelog](docs/CHANGELOG.md)** | Version history | All users | Release notes, feature changes, bug fixes |
 
@@ -353,8 +353,8 @@ If you are a club member, you can fork this repository and submit a pull request
 - Routing: `docs/ROUTING.md`
 - Mobile UX Guide: `docs/MOBILE-UX-GUIDE.md`
 - Image Assets: `docs/ASSETS-IMAGES.md`
-- QR UI Details: `docs/QR-UI.md`
-- Resources & Guides: `docs/RESOURCES-GUIDES.md`
+- QR UI Details: Consolidated into `docs/UI.md`
+- Resources & Guides: See `docs/UI.md#resources--guides-system`
 - Site Operations: `docs/SITE-OPERATIONS.md`
 - Troubleshooting: `docs/TROUBLESHOOTING.md`
 - Color Palette: `docs/COLOR-PALETTE.md`

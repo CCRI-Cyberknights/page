@@ -34,7 +34,7 @@ Use this decision tree for future consolidations:
 
 #### **Pattern 2: User-Type Consolidation** 
 - **When**: Files serve different audiences but same domain
-- **Example**: User guides + maintainer docs → `RESOURCES-GUIDES.md`
+- **Example**: User guides + maintainer docs → `UI.md` (Resources & Guides System)
 - **Benefit**: Complete domain coverage with clear sections
 
 #### **Pattern 3: Legacy Integration**
@@ -112,9 +112,9 @@ This ensures consistency, international compatibility, and chronological sorting
 
 ## Consolidation Summary
 
-### **1. Resources Documentation (3 files → 1 file)**
+### **1. Resources Documentation (3 files → 1 section)**
 
-**Consolidated into:** `docs/RESOURCES-GUIDES.md`
+**Consolidated into:** `docs/UI.md` - Resources & Guides System section
 
 **Original files:**
 - `docs/RESOURCES.md` - User-facing documentation (commit `860e9ad`)

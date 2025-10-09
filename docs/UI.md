@@ -492,7 +492,7 @@ document.addEventListener('keydown', handleKeydown);
 ### Adding New Resources
 - Use the combined `ctf-tools` category for code breaking and CTF utilities
 - Include optional `desc` field for better discoverability
-- Follow the updated category mapping in `docs/RESOURCES-GUIDES.md`
+- Follow the updated category mapping in the Resources & Guides System section (above)
 
 ### Navigation Updates
 - All navigation is now direct - no mobile-specific handling needed
@@ -516,7 +516,7 @@ document.addEventListener('keydown', handleKeydown);
 - `index.html` - Main implementation file
 - `docs/ARCHITECTURE.md` - Updated architecture overview
 - `docs/ROUTING.md` - Updated navigation documentation
-- `docs/RESOURCES-GUIDES.md` - Updated resource categories and structure
+- `docs/UI.md` - Resources & Guides System section documents resource categories and structure
 - Mobile UX patterns are now documented in this UI.md file
 - `README.md` - Updated feature descriptions
 - `docs/UI.md` - This documentation file
@@ -1654,6 +1654,235 @@ The hashchange listener approach is optimal for hash-based SPAs, providing:
 - Future-proofing for history-based routing
 - Comprehensive edge case coverage
 
+## Resources & Guides System
+
+### Overview
+
+The Resources & Guides system provides quick-access references for students and club members, centralizing trusted links for cybersecurity education, CTF competitions, and professional development. The system features a modern card-based interface with progressive disclosure through modal views.
+
+### Purpose and Design Goals
+
+The Resources page serves as a quick-access reference for students and club members, centralizing links we trust for:
+
+- Code breaking tools and CTF utilities
+- CTF competitions and club/community touchpoints
+- Cybersecurity and networking certifications and CCRI-specific guidance
+
+**Design Goals:**
+- **Fast scanning**: Compact grid of cards grouped by category
+- **Progressive disclosure**: Collapsible full table for power users
+- **Single source of truth**: One in-page data array drives both views
+- **Low impact**: No new header tabs; deep-linkable at `#/resources`
+
+### Access Methods
+
+- **Direct link**: `#/resources`
+- **Deep link to category**: `#/resources/ctf-competitions`, `#/resources/ctf-tools`, `#/resources/ccri`, `#/resources/cyberknights`, `#/resources/linux`, `#/resources/stem`, `#/resources/career`
+- **From Home**: "Resources" button near hero
+- **From Club page** (`#/cybersecurity`): "View Resources" link and tag chips
+- **From Linux page** (`#/linux`): "Linux Learner's Guide" link
+
+### Categories
+
+Category keys map to labels (in display order):
+
+- **Cyberknights** (`cyberknights`): Club presence and community links (Discord, GitHub) - **Default filter**
+- **CCRI** (`ccri`): CCRI pages, standardized credit policies, vendor training, certification roadmaps
+- **CTF Competitions** (`ctf-competitions`): Common competitions and leagues (NCL, NCAE CyberGames)
+- **CTF & Code Breaking Tools** (`ctf-tools`): Cipher solvers, classical crypto aids, multitool utilities (quipqiup, Boxentriq, CyberChef)
+- **STEM Day** (`stem`): Special short-term resources (e.g., "STEM Day 2025 Cyber Game" repo)
+- **Career** (`career`): Professional development resources including certification roadmaps and job platforms
+- **Linux** (`linux`): Linux-related resources, cheat sheets, and guides
+
+### Page Structure
+
+- **Search/filter**: One input filters by name, category label, or URL
+- **Category chips**: Quick filters; "Cyberknights" selected by default
+- **Cards grid**: Cards with name, category, and descriptions for better discoverability
+- **Beginner guidance**: "Getting Started?" section to help new users navigate resources
+- **Back link**: Returns to `#/cybersecurity`
+
+### User Experience Features
+
+#### Enhanced Readability
+
+**Font Size Increases:**
+- Summary text: 10px → 12px (+20%)
+- "More info" links: 9px → 11px (+22%)
+- Detailed summaries: 9px → 11px (+22%)
+- Action buttons: 10px → 12px (+20%)
+
+**Modal System:**
+- Click any card to open enlarged view with 16px font for optimal reading
+- Progressive enhancement: Quick overview (cards) → detailed reading (modal)
+
+#### Modal Functionality
+
+- Click any card to open enlarged view
+- Larger text for detailed reading
+- Close button and click-outside-to-close
+- Scrollable content for long descriptions
+- Smart interaction: Card clicks open modal, button clicks navigate directly
+
+### Data Model
+
+Resources are defined in `index.html` inside `renderResourcesPage()` as:
+
+```js
+{ 
+  name: 'CyberChef', 
+  url: 'https://cyberchef.io/', 
+  cat: 'ctf-tools',
+  desc: 'Optional short description',
+  summary: 'One-sentence summary for card display',
+  detailedSummary: 'Comprehensive paragraph description for modal'
+}
+```
+
+### Technical Implementation
+
+#### DRY Code Implementation
+
+**Extracted Functions:**
+- `getButtonText(resourceName)`: Centralized button text logic
+- `getCategoryLabel(category)`: Centralized category label logic
+- `getEmeraldLinkClasses()`: Reusable CSS class generator
+- `getCalendarButtonClasses()`: Reusable calendar button styling
+- `getExternalLinkAttributes()`: Reusable external link attributes
+- `getExternalLinkIcon()`: Reusable SVG icon generator
+- `getCloseIcon()`: Reusable close button icon
+
+**Constants:**
+- `BASE_URL`: Centralized base URL constant
+- `ROOM_4080`: Centralized room reference
+
+**Benefits:**
+- ~30+ lines of duplicated code eliminated
+- Easier maintenance
+- Consistent behavior across all resources
+
+#### DRY Functions
+
+```javascript
+// Button text determination
+function getButtonText(resourceName) {
+  const name = resourceName.toLowerCase();
+  if (name.includes('github')) return 'View Repository';
+  if (name.includes('discord')) return 'Visit Site';
+  if (name.includes('handshake')) return 'Access Handshake';
+  if (name.includes('cheat sheet')) return 'View Guide';
+  if (name.includes('competition')) return 'Join Competition';
+  return 'Visit Site';
+}
+
+// Category label mapping
+function getCategoryLabel(category) {
+  return catNames[category] || category;
+}
+```
+
+#### Modal System
+
+```javascript
+// Modal creation and management
+function openResourceModal(resource) {
+  // Creates modal with enlarged content
+  // Handles event propagation
+  // Manages body scroll lock
+}
+
+function closeResourceModal() {
+  // Cleans up modal
+  // Restores scrolling
+}
+```
+
+### Maintenance Guidelines
+
+#### Adding New Resources
+
+1. Include `summary` and `detailedSummary` fields
+2. Use appropriate category key
+3. Button text will be determined automatically
+4. Test both card and modal views
+
+#### Updating Button Text Logic
+
+- Modify `getButtonText()` function
+- Changes apply to both cards and modals
+- Test with different resource types
+
+#### Font Size Adjustments
+
+- Card summaries: `.text-[12px]` class
+- Modal content: `.text-slate-300` (16px) and `.text-slate-400` (14px)
+- Maintain visual hierarchy
+
+#### Data Maintenance
+
+- Data lives inline in `index.html` in `renderResourcesPage()` as an array of objects `{ name, url, cat, desc }`
+- To add a resource: append to the array and pick a category key that maps to a label
+- Include optional `desc` field for resource descriptions to improve discoverability
+- Keep links stable and descriptive, avoid URL tracking parameters when possible
+- Prefer official sources and club-owned repos
+
+### UI and Behavior
+
+- Chips filter the grid by category; a simple input filters by name, URL, or category label
+- A `<details>` block renders the full table for copy/paste
+- CTAs exist on Home, Club, and Linux pages to reach `#/resources`
+- Deep-linking: the page reads `#/resources/<filter>` on load to preselect a chip; chip clicks update the hash (e.g., `#/resources/ctf-tools`)
+
+### Enhanced Resource Cards
+
+Resources now support comprehensive descriptions with:
+
+- **Summary**: One-sentence description visible on cards (12px font)
+- **Detailed Summary**: Comprehensive description accessible via modal (16px font)
+- **Modal System**: Click any card to open enlarged view with better readability
+- **Action Buttons**: Dynamic button text based on resource type (Visit Site, View Repository, etc.)
+
+### Recent Enhancements
+
+All major resources now include detailed descriptions covering:
+
+- **Cyberknights Resources**: GitHub organization details, Discord community aspects, student club information
+- **CCRI Resources**: Program overviews, credit awards with specific CompTIA examples and cost savings
+- **CTF Competitions**: NCL and NCAE detailed competition information and preparation support
+- **Career Resources**: Certification roadmaps and professional development pathways
+
+These descriptions provide users with comprehensive context about each resource's purpose, benefits, and practical applications.
+
+### Testing
+
+#### Manual Testing Checklist
+
+- [ ] Card summaries display correctly
+- [ ] Modal opens on card click
+- [ ] Button clicks navigate directly
+- [ ] Modal closes properly
+- [ ] Font sizes are readable
+- [ ] All resource types work correctly
+
+#### Automated Testing
+
+```bash
+# Test resource card functionality
+npm run test:debug
+
+# Test modal system
+npm run test:links
+```
+
+### Rationale
+
+- Quick-access reference for CTF tools/competitions and credential paths
+- Single source of truth reduces upkeep and avoids content drift
+- Progressive disclosure allows both quick scanning and detailed reading
+- Modern card-based interface improves user experience
+
+---
+
 ## Legacy Documentation
 
 The following files were consolidated into this document:
@@ -1668,5 +1897,6 @@ The following files were consolidated into this document:
 - **`QRCODE-MANAGER-ASPIRATIONAL-DESIGN.md`** - Comprehensive vision for QRCodeManager evolution into enterprise-ready component (last updated: commit `fcb3fff`)
 - **`QR-CODE-VALIDATION-EXPERT-CONSULTATION.md`** - Technical analysis and solution for SPA QR code URL validation issues (last updated: commit `cabce4f`)
 - **`docs/QR-CODE-STANDARDS.md`** - Comprehensive QR code design standards, SVG implementation guidelines, validation tools, and migration documentation (last updated: commit `e20c4e1`)
+- **`docs/RESOURCES-GUIDES.md`** - Comprehensive Resources & Guides system documentation covering user guide, maintainer guide, data model, technical implementation (DRY code, modal system), maintenance guidelines, and testing procedures (last updated: commit `5824fc9`)
 
 **Note**: `docs/color-palettes/COLOR-PALETTE.md` was relocated to `docs/COLOR-PALETTE.md` and is referenced above.
