@@ -495,6 +495,9 @@ class QRCodeManager {
           this.renderQRInContainer(currentText);
         }, 100);
         
+        // Simple keyboard handling with CSS 100dvh (no complex API needed)
+        this.setupSimpleKeyboardHandling();
+        
         // Create single common box for all controls (no background - will get green shadow)
         const controlsBox = document.createElement('div');
         controlsBox.style.cssText = `
@@ -937,6 +940,39 @@ class QRCodeManager {
     }
   }
 
+  setupSimpleKeyboardHandling() {
+    // Simple keyboard detection using window resize (much simpler than visualViewport API)
+    if (this.glowContainer) {
+      const initialHeight = window.innerHeight;
+      
+      const handleResize = () => {
+        const currentHeight = window.innerHeight;
+        const heightDifference = initialHeight - currentHeight;
+        
+        // If height decreased significantly, keyboard likely appeared
+        if (heightDifference > 150) {
+          // Keyboard is visible - just recalculate QR size (CSS handles the layout)
+          setTimeout(() => {
+            const currentText = this.input ? this.input.value : this.url;
+            this.renderQRInContainer(currentText);
+          }, 100);
+        } else {
+          // Keyboard is hidden - recalculate QR size for full space
+          setTimeout(() => {
+            const currentText = this.input ? this.input.value : this.url;
+            this.renderQRInContainer(currentText);
+          }, 100);
+        }
+      };
+      
+      // Simple resize listener
+      window.addEventListener('resize', handleResize);
+      
+      // Store for cleanup
+      this.resizeHandler = handleResize;
+    }
+  }
+
   renderQRInContainer(text) {
     if (window.QRCode && this.glowContainer) {
       const qrContainer = this.glowContainer.querySelector('[style*="aspect-ratio: 1"]');
@@ -947,17 +983,16 @@ class QRCodeManager {
           existingQR.remove();
         }
         
-        // Calculate maximum QR code size - always use viewport-based maximum size
+        // Simple viewport dimensions (CSS 100dvh handles keyboard automatically)
         const viewportWidth = window.innerWidth;
         const viewportHeight = window.innerHeight;
         
-        // Reserve space for URL and controls (estimate ~60px total with minimal padding)
-        const reservedSpace = 60;
+        // Reserve space for URL and controls (estimate ~80px total with padding)
+        const reservedSpace = 80;
         const maxAvailableSize = Math.min(viewportWidth, viewportHeight - reservedSpace);
         
-        // Constrain QR size to fit within the 400px display area (accounting for padding)
-        const maxDisplaySize = 400 - 4; // 400px height - 4px padding (2px top + 2px bottom)
-        const qrSize = Math.min(Math.max(300, maxAvailableSize - 10), maxDisplaySize);
+        // Make QR code as large as possible within available space
+        const qrSize = Math.min(Math.max(300, maxAvailableSize - 20), Math.min(viewportWidth - 40, viewportHeight - reservedSpace));
         
         // Generate new QR code
         QRCode.toString(text, {

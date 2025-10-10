@@ -16,12 +16,56 @@ The `.github/` directory houses GitHub Actions workflows and other GitHub-specif
 .github/
 ├── README.md                           # This file
 └── workflows/
+    ├── deploy.yml                      # Automated deployment to GitHub Pages
     └── versioning-diagnostics.yml      # Automated versioning and diagnostics workflow
 ```
 
 ---
 
 ## GitHub Actions Workflows
+
+### `deploy.yml`
+
+**Purpose**: Automated, reliable deployment to GitHub Pages
+
+**Triggers**:
+- Push to `main` branch
+- Manual workflow dispatch
+
+**Key Features**:
+- **Reliability**: Explicit deployment control - no missed deployments
+- **Testing Before Deploy**: Runs link tests before deploying (currently set to continue-on-error)
+- **Concurrency Control**: Only one deployment at a time, no cancellation of in-progress deploys
+- **Full Visibility**: Deployment status visible in Actions tab
+- **Modern Pattern**: Uses official `actions/deploy-pages@v4` action
+
+**Jobs**:
+1. **build** - Prepare site for deployment
+   - Checkout repository
+   - Setup Node.js environment
+   - Install dependencies
+   - Run link tests (optional, non-blocking)
+   - Upload site artifact
+
+2. **deploy** - Deploy to GitHub Pages
+   - Deploy using official GitHub Pages action
+   - Environment: `github-pages`
+   - Outputs deployment URL
+
+**Why This Pattern is Better**:
+- ✅ **Reliable**: No mysterious deployment failures
+- ✅ **Testable**: Run tests before deploying
+- ✅ **Visible**: Clear deployment status and logs
+- ✅ **Controllable**: Manual trigger available via workflow_dispatch
+- ✅ **Modern**: Uses latest GitHub Pages deployment action
+
+**Migration from Legacy Build**:
+This workflow replaces GitHub's legacy "Build from branch" system. To activate:
+1. Go to repository Settings → Pages
+2. Under "Build and deployment" → Source, select "GitHub Actions"
+3. The next push to `main` will use this workflow
+
+---
 
 ### `versioning-diagnostics.yml`
 
@@ -188,7 +232,6 @@ When adding `npm run <script>` to workflows:
 
 - **Link Testing**: Automated link validation on PRs
 - **Visual Regression**: Screenshot comparison for UI changes
-- **Deployment**: Automated deployment to GitHub Pages
 - **Security Scanning**: Dependency vulnerability checks
 
 ### Workflow Improvements
