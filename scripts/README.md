@@ -62,6 +62,64 @@ The following scripts served their purpose and have been archived. They remain a
 
 **Status**: ✅ Migration complete - use `generate_qr_codes.py` for new QR codes
 
+### `validate_qr_standards.py`
+**Purpose**: QR code standards validation tool  
+**Completed**: October 2025 (commit `e20c4e1`)  
+**Last Version**: Git hash `e20c4e1`  
+**Summary**:
+- Validated SVG format, viewBox, colors, and dimensions
+- Batch processing for all guide files
+- Auto-fix capability for common issues
+- All guides now follow consistent QR standards
+
+**Status**: ✅ Standards established and validated - QR codes now consistently formatted
+
+### `analyze-qr-modal.py`
+**Purpose**: AI-powered screenshot analysis for CSS layout debugging  
+**Completed**: October 2025 (commit `3e46f71`)  
+**Last Version**: Git hash `3e46f71`  
+**Summary**:
+- OpenCV integration for computer vision analysis
+- Element detection (QR codes, URL boxes, modal borders)
+- Overlap detection and distance measurements
+- Layout issues resolved using browser API verification
+
+**Status**: ✅ Layout debugging complete - use browser DevTools for future layout issues
+
+### `analyze-keyboard-visibility.py`
+**Purpose**: OpenCV analysis for mobile keyboard visibility testing  
+**Completed**: October 2025 (commit `06843f7`)  
+**Last Version**: Git hash `06843f7`  
+**Summary**:
+- OpenCV-based screenshot analysis for keyboard detection
+- QR code and input field visibility verification
+- Replaced with simpler CSS-first approach (100dvh)
+- Legacy testing approach superseded by Playwright tests
+
+**Status**: ✅ Mobile keyboard issue resolved - use Playwright tests for future mobile testing
+
+### `test-keyboard-visibility.sh`
+**Purpose**: Bash wrapper for OpenCV keyboard visibility tests  
+**Completed**: October 2025 (commit `06843f7`)  
+**Last Version**: Git hash `06843f7`  
+**Summary**:
+- Automated running of Playwright + OpenCV tests
+- Legacy testing infrastructure
+- Replaced with direct Playwright test execution
+
+**Status**: ✅ Testing infrastructure simplified - use `npx playwright test` directly
+
+### `test-mobile-keyboard-playwright.sh`
+**Purpose**: Bash wrapper for Playwright mobile keyboard tests  
+**Completed**: October 2025 (commit `06843f7`)  
+**Last Version**: Git hash `06843f7`  
+**Summary**:
+- Automated running of Playwright mobile keyboard tests
+- Wrapper for test suite execution
+- Replaced with direct Playwright test execution
+
+**Status**: ✅ Testing infrastructure simplified - use `npx playwright test tests/qr-modal-mobile-keyboard-playwright.spec.ts` directly
+
 ---
 
 ## YouTube URL Shortener Script
@@ -109,52 +167,7 @@ This script is essential for the QR code generation workflow:
 2. **Generate QR Codes**: Use the short URLs in `generate_qr_codes.py`
 3. **Embed in HTML**: Use the generated QR codes in educational guides
 
-## QR Code Generation Script
-
-### `analyze-qr-modal.py`
-**Purpose:** AI-powered screenshot analysis tool for debugging CSS layout issues
-
-**Features:**
-- OpenCV integration for advanced computer vision analysis
-- PIL fallback for basic image analysis
-- Multi-algorithm detection (color-based, contour-based, statistical)
-- Quantitative metrics (pixel measurements, positioning data)
-- Element detection (QR codes, URL boxes, modal borders)
-- Overlap detection and distance measurements
-
-**Usage:**
-```bash
-# Install dependencies
-python3 -m venv venv
-source venv/bin/activate
-pip install opencv-python numpy
-
-# Analyze single screenshot
-python3 scripts/analyze-qr-modal.py test-results/screenshot.png
-
-# Analyze all screenshots in directory
-python3 scripts/analyze-qr-modal.py test-results/
-
-# Compare two screenshots
-python3 scripts/analyze-qr-modal.py before.png after.png
-```
-
-**Output Example:**
-```
-🔍 Analyzing (advanced): test-results/qr-modal-1024x624-simplified.png
-📐 Image dimensions: 1024x624
-🟢 Green elements (modal borders): 1
-⚫ Gray elements (URL boxes): 35
-📦 URL box position: x=353, y=535, width=318, height=45
-📏 Distance from bottom: 44px
-❌ URL box has significant gap from bottom
-📊 ANALYSIS SUMMARY:
-   URL box at bottom: ❌ NO
-   No overlap: ❌ NO
-⚠️  LAYOUT NEEDS FIXING
-```
-
-**Integration:** Used in conjunction with browser API verification for comprehensive layout debugging. See [Advanced Screenshot Analysis & AI-Powered Debugging](../docs/TROUBLESHOOTING.md#advanced-screenshot-analysis--ai-powered-debugging) for complete methodology.
+## Active Utility Scripts
 
 ### `generate_qr_codes.py`
 
@@ -332,105 +345,67 @@ To replicate this QR code system for other guides:
 6. **Scalable**: Easy to generate QR codes for new content
 7. **Maintainable**: Clear separation of generation and embedding
 
-## QR Code Standards Validator
+---
 
-### `validate_qr_standards.py`
+## Active Automated Testing Scripts
 
-A comprehensive Python script that validates all QR codes in the project follow the established design standards. This script ensures consistency across all guides and prevents design drift.
+These scripts are actively used in CI/CD pipelines and pre-commit hooks.
 
-#### Features
+### `test-links-playwright.js`
 
-- **Standards Validation**: Checks SVG format, viewBox, colors, and dimensions
-- **Batch Processing**: Validates all guide files automatically
-- **Auto-Fix Capability**: Automatically fixes common issues
-- **Detailed Reporting**: Provides specific error and warning messages
-- **Integration Ready**: Can be integrated into CI/CD pipelines
-
-#### Usage
-
-```bash
-# Validate all QR codes in guides directory
-python3 scripts/validate_qr_standards.py
-
-# Validate specific file
-python3 scripts/validate_qr_standards.py --file guides/linux-cheatsheet-1.html
-
-# Auto-fix common issues
-python3 scripts/validate_qr_standards.py --fix
-
-# Verbose output
-python3 scripts/validate_qr_standards.py --verbose
-```
-
-#### Standards Checked
-
-- **Format**: SVG (not PNG/IMG)
-- **Display Size**: `width="120" height="120"`
-- **ViewBox**: `viewBox="0 0 23.2 23.2"` (scaled by factor of 10)
-- **Fill Color**: `fill="#000000"` (hex format, not "black")
-- **Background**: `style="background-color: #10b981;"`
-- **Border Class**: `class="border border-emerald-500 rounded"`
-- **XML Namespace**: `xmlns="http://www.w3.org/2000/svg"`
-
-#### Integration with Workflow
-
-This validator should be run:
-- **Before commits**: Ensure new QR codes meet standards
-- **In CI/CD**: Automated validation in deployment pipeline
-- **During development**: Regular checks during guide creation
-- **After updates**: Verify changes maintain standards
-
-## Link Testing Scripts
-
-### `test-links-dynamic-parallel.py`
-
-A comprehensive Python script using Selenium WebDriver that automatically discovers and tests all links found in HTML files. This script is integrated with the Git pre-commit hook to ensure all links work correctly before commits.
+A comprehensive Playwright script that tests all links on the site across production and local environments. This script is integrated with the Git pre-commit hook and runs automatically when HTML files are modified.
 
 #### Features
 
-- **Dynamic Discovery**: Automatically finds all links in HTML files using BeautifulSoup
-- **Parallel Execution**: Uses multiple CPU cores for faster testing (4.93x speedup)
+- **Playwright-based**: Modern, reliable browser automation
 - **Dual URL Testing**: Tests both production and local development URLs
 - **Comprehensive Coverage**: Tests internal hash links, external links, and navigation flows
 - **Pre-commit Integration**: Automatically runs when HTML files are modified
+- **Performance Monitoring**: Tracks test execution time and throughput
 
 #### Usage
 
 ```bash
-# Test production URL (default)
-source selenium_env/bin/activate
-python3 scripts/test-links-dynamic-parallel.py
+# Run via npm (recommended)
+npm run test:links
 
-# Test custom URL
-python3 scripts/test-links-dynamic-parallel.py "https://ccri-cyberknights.github.io/page"
-
-# Test local development server
-python3 scripts/test-links-dynamic-parallel.py "http://localhost:8000"
-
-# Custom worker count
-python3 scripts/test-links-dynamic-parallel.py "http://localhost:8000" 4
+# Direct execution
+node scripts/test-links-playwright.js
 ```
 
 #### Pre-commit Integration
 
-The script is automatically called by the Git pre-commit hook (`.husky/pre-commit`) when HTML files are modified:
+The script is automatically called by the Git pre-commit hook (`.husky/pre-commit`) when HTML files are modified, ensuring all links work correctly before commits.
 
-1. **Production Test**: Tests `https://ccri-cyberknights.github.io/page` first
-2. **Local Test**: Tests `http://localhost:8000` second
-3. **Failure Handling**: Blocks commit if either URL has broken links
-4. **Success**: Proceeds with version bump if all tests pass
+### `test-qr-urls.js`
 
-**Performance Optimization**: The pre-commit hook includes comprehensive link testing for all HTML changes, ensuring site integrity with modern version management. See [Version Management System](../docs/VERSIONING.md#husky-integration) for complete details.
+Tests that QR code URLs are correctly configured and point to valid hash routes in the SPA.
 
-#### Environment Requirements
+#### Usage
 
-- **Python 3.12+**
-- **Selenium WebDriver**
-- **Chrome/Chromium browser**
-- **Virtual Environment**: `selenium_env/` with required dependencies
+```bash
+# Full test suite
+npm run test:qr-urls
 
-#### Related Documentation
+# Smoke test (quick validation)
+npm run test:qr-urls:smoke
+```
 
-- **Document Implementation**: See `document/README.md` for HTML integration details
-- **Project Overview**: See main `README.md` for project context
-- **Architecture**: See `docs/ARCHITECTURE.md` for technical details
+### `update-version-json.js`
+
+Automatically updates `version.json` after version bumps via `standard-version`. This script is called as a `postbump` hook in package.json.
+
+#### Features
+
+- **Automatic Execution**: Runs after every version bump
+- **JSON Synchronization**: Keeps version.json in sync with package.json
+- **Git Integration**: Automatically stages changes for the release commit
+
+---
+
+## Related Documentation
+
+- **Testing Guide**: See [TESTING.md](../docs/TESTING.md) for comprehensive testing documentation
+- **Troubleshooting**: See [TROUBLESHOOTING.md](../docs/TROUBLESHOOTING.md) for debugging techniques
+- **Project Overview**: See main [README.md](../README.md) for project context
+- **Architecture**: See [ARCHITECTURE.md](../docs/ARCHITECTURE.md) for technical details
