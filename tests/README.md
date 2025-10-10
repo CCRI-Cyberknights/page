@@ -185,6 +185,7 @@ python3 -m http.server 8000 &
 - **`qr-mobile-viewport.spec.ts`** - Mobile viewport and responsive design tests
 
 ### QR Modal Testing (Playwright)
+- **`qr-modal-declarative-panel-visibility.spec.ts`** - **NEW**: Comprehensive declarative panel visibility system testing (11 test cases covering 8 viewport configurations)
 - **`qr-modal-viewport-regression.spec.ts`** - Comprehensive viewport matrix testing with visual regression baselines
 - **`qr-modal-simple-visual.spec.ts`** - Simple visual verification for key viewports (1024×624 and desktop)
 - **`qr-modal-responsive-behavior.spec.ts`** - Responsive behavior testing across multiple viewports

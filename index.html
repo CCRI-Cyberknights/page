@@ -356,6 +356,11 @@
       --height-constrained: 650px;     /* Hide advanced controls */
       --height-mobile: 700px;          /* Mobile-specific adjustments */
       
+      /* Panel Visibility Rules - Declarative Configuration */
+      --panel-display-visibility: block;      /* Always visible */
+      --panel-input-visibility: block;        /* Always visible */
+      --panel-advanced-visibility: block;     /* Conditional */
+      
       /* QR Modal specific breakpoints */
       --qr-modal-mobile: 480px;        /* Full-screen QR modal */
       --qr-modal-constrained: 1024px;  /* Simplified QR modal */
@@ -387,8 +392,30 @@
       }
       
       /* Responsive QR Modal - Hide advanced controls on constrained viewports */
-      @media (max-width: var(--breakpoint-desktop)) and (max-height: var(--height-constrained)),
-             (max-width: var(--breakpoint-tablet)) {
+      /* Declarative Panel Visibility System */
+      
+      /* Base panel styles - Always visible */
+      .qr-fullscreen [data-qr-panel="display"] {
+        display: block !important;
+      }
+      
+      .qr-fullscreen [data-qr-panel="input"] {
+        display: block !important;
+      }
+      
+      .qr-fullscreen [data-qr-panel="advanced"] {
+        display: block !important;
+      }
+      
+      /* Mobile Viewports (< 768px width) - Hide advanced controls */
+      @media (max-width: 767px) {
+        .qr-fullscreen [data-qr-panel="advanced"] {
+          display: none !important;
+        }
+      }
+      
+      /* Constrained Viewports (≤ 1024px width AND ≤ 650px height) - Hide advanced controls */
+      @media (max-width: 1024px) and (max-height: 650px) {
         .qr-fullscreen [data-qr-panel="advanced"] {
           display: none !important;
         }

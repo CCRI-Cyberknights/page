@@ -323,7 +323,7 @@ class QRCodeManager {
         this.glowContainer.className = 'bg-amber-50 rounded-2xl shadow-2xl border-2 border-amber-200 glow-container-mobile';
         
         // Apply responsive padding based on viewport size (using standardized breakpoints)
-        const isConstrained = (window.innerWidth <= 1024 && window.innerHeight <= 650) || window.innerWidth <= 768;
+        const isConstrained = (window.innerWidth <= 1024 && window.innerHeight <= 650) || window.innerWidth <= 767;
         const padding = isConstrained ? '0.25rem' : '2rem'; // Ultra-minimal padding for constrained viewports
         
         this.glowContainer.style.cssText = `
@@ -331,7 +331,7 @@ class QRCodeManager {
           border: none;
           width: auto;
           max-width: min(90vw, 500px);
-          height: 100vh;
+          height: 100dvh;
           overflow: visible;
           display: flex;
           flex-direction: column;
@@ -352,7 +352,7 @@ class QRCodeManager {
             @media (max-width: 480px) {
               .qr-fullscreen .glow-container-mobile {
                 width: 100vw !important;
-                height: 100vh !important;
+                height: 100dvh !important;
                 margin: 0 !important;
                 padding: 0 !important;
                 box-shadow: none !important;
@@ -381,7 +381,7 @@ class QRCodeManager {
                 width: auto !important;
                 max-width: min(500px, 90vw) !important;
                 height: auto !important;
-                max-height: 100vh !important;
+                max-height: 100dvh !important;
               }
             }
           `;
@@ -857,6 +857,14 @@ class QRCodeManager {
         // Apply responsive behavior and accessibility
         this.applyResponsiveBehavior();
         
+        // Listen for viewport changes to update panel visibility
+        if (!this.resizeListener) {
+          this.resizeListener = () => {
+            this.applyResponsiveBehavior();
+          };
+          window.addEventListener('resize', this.resizeListener);
+        }
+        
         // Force update wrapper styles after DOM manipulation
         setTimeout(() => {
           const qrWrapper = this.glowContainer.querySelector('.flex.justify-center');
@@ -1157,14 +1165,14 @@ class QRCodeManager {
 
   applyResponsiveBehavior() {
     // Check if viewport is constrained (using standardized breakpoints)
-    const isConstrained = (window.innerWidth <= 1024 && window.innerHeight <= 650) || window.innerWidth <= 768;
+    const isConstrained = (window.innerWidth <= 1024 && window.innerHeight <= 650) || window.innerWidth <= 767;
     const advancedContainer = this.panel.querySelector('[data-qr-panel="advanced"]');
     
     if (advancedContainer) {
       if (isConstrained) {
-        // Hide the entire advanced container (green shadow wrapper)
-        advancedContainer.style.display = 'none';
+        // CSS handles visibility - we only manage accessibility state
         advancedContainer.setAttribute('aria-hidden', 'true');
+        advancedContainer.setAttribute('tabindex', '-1');
         
         // Make all interactive elements inert (in case they're still accessible somehow)
         const interactiveElements = advancedContainer.querySelectorAll('button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
@@ -1181,9 +1189,9 @@ class QRCodeManager {
           }
         });
       } else {
-        // Show advanced container and restore accessibility
-        advancedContainer.style.display = '';
+        // CSS handles visibility - we only manage accessibility state
         advancedContainer.removeAttribute('aria-hidden');
+        advancedContainer.removeAttribute('tabindex');
         
         // Restore tabindex and remove inert
         const interactiveElements = advancedContainer.querySelectorAll('button, input, select, textarea, [tabindex="-1"]');

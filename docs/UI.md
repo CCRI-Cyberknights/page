@@ -1015,36 +1015,42 @@ python scripts/generate_qr_codes.py --cheatsheet N
 - If a text is too long for the chosen ECL, lower the ECL to fit more data or shorten the text
 - Use shorter URLs (or URL shorteners) when you need higher correction levels
 
-#### Responsive QR Modal Behavior ⭐
+#### Declarative Panel Visibility System ⭐
 
-The QR modal adapts its content and layout based on viewport size to ensure optimal usability across all devices.
+The QR modal features a **systematic, declarative approach** to panel visibility that follows responsive design best practices with comprehensive test coverage.
+
+##### Panel Hierarchy & Visibility Rules
+
+**Panel Priority System**:
+1. **QR Display Panel** (`data-qr-panel="display"`) - **Always Visible** (Critical functionality)
+2. **URL Input Panel** (`data-qr-panel="input"`) - **Always Visible** (Critical functionality)  
+3. **Advanced Controls Panel** (`data-qr-panel="advanced"`) - **Conditionally Visible** (Enhanced features)
 
 ##### Viewport-Specific Behavior
 
-**Desktop & Large Laptops (width > 1024px and height > 650px)**
+**Desktop & Large Laptops (width > 1024px OR height > 650px)**
 - ✅ **Full Feature Set**: QR code + URL input + error correction controls + download options
-- ✅ **Standard Layout**: All three panels visible (QR display, URL input, controls)
+- ✅ **Standard Layout**: All three panels visible (QR display, URL input, advanced controls)
 - ✅ **Optimal Sizing**: 396px QR code with full modal functionality
 - ✅ **Clean Design**: QR code without background container, URL area with green shadow
 
-**Small Laptops & Constrained Viewports (width ≤ 1024px AND height ≤ 650px OR width ≤ 768px)**
+**Small Laptops & Constrained Viewports (width ≤ 1024px AND height ≤ 650px)**
 - ✅ **Simplified Content**: QR code + URL input only
 - ❌ **Hidden**: Error correction controls and download buttons
 - ✅ **Compact Layout**: Reduced padding (0.25rem), full viewport height usage
-- ✅ **CSS Target**: `@media (max-width: var(--breakpoint-desktop)) and (max-height: var(--height-constrained)), (max-width: var(--breakpoint-tablet))`
+- ✅ **CSS Target**: `@media (max-width: 1024px) and (max-height: 650px)`
 
-**Mobile Devices (width ≤ 480px)**
+**Mobile Devices (width < 768px)**
 - ✅ **Full-Screen Modal**: QR modal takes entire viewport
 - ✅ **Simplified Content**: QR code + URL input only
 - ❌ **Hidden**: Error correction controls and download buttons
 - ✅ **Mobile Optimized**: Minimal padding, optimized for touch interaction
+- ✅ **CSS Target**: `@media (max-width: 767px)`
 
-##### Implementation Details
+##### Declarative System Implementation
 
-**Standardized Viewport Breakpoints with CSS Custom Properties**
-
+**CSS Custom Properties (Single Source of Truth)**
 ```css
-/* Single Source of Truth - Viewport Breakpoints */
 :root {
   /* Standardized breakpoints based on content needs */
   --breakpoint-mobile: 480px;      /* Mobile devices */
@@ -1060,6 +1066,36 @@ The QR modal adapts its content and layout based on viewport size to ensure opti
   --qr-modal-mobile: 480px;        /* Full-screen QR modal */
   --qr-modal-constrained: 1024px;  /* Simplified QR modal */
 }
+```
+
+**Declarative Media Queries**
+```css
+/* Base panel styles - Always visible */
+.qr-fullscreen [data-qr-panel="display"],
+.qr-fullscreen [data-qr-panel="input"] {
+  display: block !important;
+}
+
+/* Mobile viewports - Hide advanced controls */
+@media (max-width: 767px) {
+  .qr-fullscreen [data-qr-panel="advanced"] {
+    display: none !important;
+  }
+}
+
+/* Constrained viewports - Hide advanced controls */
+@media (max-width: 1024px) and (max-height: 650px) {
+  .qr-fullscreen [data-qr-panel="advanced"] {
+    display: none !important;
+  }
+}
+```
+
+**JavaScript State Management**
+- **CSS-First Approach**: All styling and visibility handled by CSS
+- **Accessibility Only**: JavaScript manages `aria-hidden` and `tabindex` attributes
+- **Dynamic Resize**: Real-time responsive behavior updates on viewport changes
+- **No Style Manipulation**: Eliminates arbitrary CSS changes and JavaScript style overrides
 
 /* Scales footer QR proportionally across all viewports */
 #footer-qr-toggle {

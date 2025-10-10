@@ -208,10 +208,22 @@ export const viewports = {
 };
 ```
 
-#### Standardized Viewport Breakpoints
+#### Declarative Panel Visibility System
 
-The project uses a **single source of truth** for viewport breakpoints defined in CSS custom properties:
+The project implements a **comprehensive declarative panel visibility system** that follows responsive design best practices with systematic testing coverage.
 
+**Panel Visibility Matrix:**
+```javascript
+const PANEL_VISIBILITY_MATRIX = {
+  'mobile-portrait': { width: 375, height: 667, panels: { display: true, input: true, advanced: false } },
+  'mobile-landscape': { width: 667, height: 375, panels: { display: true, input: true, advanced: false } },
+  'tablet-portrait': { width: 768, height: 1024, panels: { display: true, input: true, advanced: true } },
+  'laptop-constrained': { width: 1024, height: 624, panels: { display: true, input: true, advanced: false } },
+  'desktop-standard': { width: 1920, height: 1080, panels: { display: true, input: true, advanced: true } }
+};
+```
+
+**CSS Custom Properties (Single Source of Truth):**
 ```css
 :root {
   --breakpoint-mobile: 480px;      /* Mobile devices */
@@ -219,6 +231,23 @@ The project uses a **single source of truth** for viewport breakpoints defined i
   --breakpoint-desktop: 1024px;    /* Desktop and large tablets */
   --breakpoint-large: 1280px;      /* Large desktops */
   --height-constrained: 650px;     /* Hide advanced controls */
+}
+```
+
+**Declarative Media Queries:**
+```css
+/* Mobile viewports - Hide advanced controls */
+@media (max-width: 767px) {
+  .qr-fullscreen [data-qr-panel="advanced"] {
+    display: none !important;
+  }
+}
+
+/* Constrained viewports - Hide advanced controls */
+@media (max-width: 1024px) and (max-height: 650px) {
+  .qr-fullscreen [data-qr-panel="advanced"] {
+    display: none !important;
+  }
 }
 ```
 
