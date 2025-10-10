@@ -208,6 +208,27 @@ export const viewports = {
 };
 ```
 
+#### Standardized Viewport Breakpoints
+
+The project uses a **single source of truth** for viewport breakpoints defined in CSS custom properties:
+
+```css
+:root {
+  --breakpoint-mobile: 480px;      /* Mobile devices */
+  --breakpoint-tablet: 768px;      /* Tablets and small laptops */
+  --breakpoint-desktop: 1024px;    /* Desktop and large tablets */
+  --breakpoint-large: 1280px;      /* Large desktops */
+  --height-constrained: 650px;     /* Hide advanced controls */
+}
+```
+
+**JavaScript Breakpoint Detection:**
+```javascript
+// Centralized breakpoint detection
+const breakpoint = qrManager.getBreakpoint();
+// Returns: { isMobile, isTablet, isDesktop, isLargeDesktop, isConstrained }
+```
+
 #### Responsive Testing Patterns
 
 **1. Cross-Viewport Validation**

@@ -1,5 +1,6 @@
 // tests/helpers/viewports.ts
 // Precise mobile viewport definitions for consistent testing
+// Aligned with standardized breakpoints: 480px (mobile), 768px (tablet), 1024px (desktop)
 
 export const viewports = {
   // iPhone devices
@@ -41,8 +42,13 @@ export function getViewport(device: keyof typeof viewports) {
   return viewports[device];
 }
 
-// Helper function to check if viewport is mobile
+// Helper function to check if viewport is mobile (aligned with --breakpoint-tablet: 768px)
 export function isMobileViewport(viewport: { width: number; height: number }) {
   return viewport.width < 768;
+}
+
+// Helper function to check if viewport is constrained (aligned with standardized logic)
+export function isConstrainedViewport(viewport: { width: number; height: number }) {
+  return (viewport.width <= 1024 && viewport.height <= 650) || viewport.width <= 768;
 }
 

@@ -307,7 +307,7 @@
     
     /* Mobile search UX improvements */
     /* Higher specificity for mobile-specific positioning */
-    @media (max-width: 768px) {
+    @media (max-width: var(--breakpoint-tablet)) {
       body #search-results-container {
         position: fixed;
         top: auto;
@@ -344,6 +344,23 @@
       --molten-glow: #FFCC33;     /* bright molten metal */
     }
 
+    /* Viewport Breakpoints - Single Source of Truth */
+    :root {
+      /* Standardized breakpoints based on content needs */
+      --breakpoint-mobile: 480px;      /* Mobile devices */
+      --breakpoint-tablet: 768px;      /* Tablets and small laptops */
+      --breakpoint-desktop: 1024px;    /* Desktop and large tablets */
+      --breakpoint-large: 1280px;      /* Large desktops */
+      
+      /* Height thresholds for constrained layouts */
+      --height-constrained: 650px;     /* Hide advanced controls */
+      --height-mobile: 700px;          /* Mobile-specific adjustments */
+      
+      /* QR Modal specific breakpoints */
+      --qr-modal-mobile: 480px;        /* Full-screen QR modal */
+      --qr-modal-constrained: 1024px;  /* Simplified QR modal */
+    }
+
     /* Image Toggle System - CSS Custom Properties for Consistency */
     :root {
       --image-expanded-width: min(96vw, 1400px);
@@ -369,8 +386,16 @@
         color: var(--ember-spark);
       }
       
+      /* Responsive QR Modal - Hide advanced controls on constrained viewports */
+      @media (max-width: var(--breakpoint-desktop)) and (max-height: var(--height-constrained)),
+             (max-width: var(--breakpoint-tablet)) {
+        .qr-fullscreen [data-qr-panel="advanced"] {
+          display: none !important;
+        }
+      }
+      
       /* Mobile footer fix - ensure footer is never clipped by mobile browser UI */
-      @media (max-width: 768px) {
+      @media (max-width: var(--breakpoint-tablet)) {
         footer.border-t {
           padding-bottom: 20px;
           margin-bottom: 10px;

@@ -1021,33 +1021,44 @@ The QR modal adapts its content and layout based on viewport size to ensure opti
 
 ##### Viewport-Specific Behavior
 
-**Desktop & Large Laptops (width > 1024px or height > 700px)**
+**Desktop & Large Laptops (width > 1024px and height > 650px)**
 - ✅ **Full Feature Set**: QR code + URL input + error correction controls + download options
 - ✅ **Standard Layout**: All three panels visible (QR display, URL input, controls)
-- ✅ **Optimal Sizing**: 160px QR canvas with full modal functionality
+- ✅ **Optimal Sizing**: 396px QR code with full modal functionality
+- ✅ **Clean Design**: QR code without background container, URL area with green shadow
 
-**Small Laptops & Tablets Landscape (width ≤ 1024px AND height ≤ 700px)**
+**Small Laptops & Constrained Viewports (width ≤ 1024px AND height ≤ 650px OR width ≤ 768px)**
 - ✅ **Simplified Content**: QR code + URL input only
 - ❌ **Hidden**: Error correction controls and download buttons
-- ✅ **Compact Layout**: Reduced padding and smaller QR canvas (120px)
-- ✅ **CSS Target**: `@media (max-width: 1024px) and (max-height: 700px)`
+- ✅ **Compact Layout**: Reduced padding (0.25rem), full viewport height usage
+- ✅ **CSS Target**: `@media (max-width: var(--breakpoint-desktop)) and (max-height: var(--height-constrained)), (max-width: var(--breakpoint-tablet))`
 
-**Mobile Devices (width ≤ 768px)**
-- ✅ **Simplified Content**: QR code + URL input only  
+**Mobile Devices (width ≤ 480px)**
+- ✅ **Full-Screen Modal**: QR modal takes entire viewport
+- ✅ **Simplified Content**: QR code + URL input only
 - ❌ **Hidden**: Error correction controls and download buttons
-- ✅ **Mobile Optimized**: Reduced padding (0.75rem), compact width (280px)
-- ✅ **Smaller QR Canvas**: 140px for better mobile fit
+- ✅ **Mobile Optimized**: Minimal padding, optimized for touch interaction
 
 ##### Implementation Details
 
-**Flexible Viewport Adaptation with CSS Custom Properties**
+**Standardized Viewport Breakpoints with CSS Custom Properties**
 
 ```css
-/* CSS Custom Properties for responsive scaling */
+/* Single Source of Truth - Viewport Breakpoints */
 :root {
-  --qr-modal-padding: 1rem;
-  --qr-canvas-size: 160px;
-  --qr-modal-width: 300px;
+  /* Standardized breakpoints based on content needs */
+  --breakpoint-mobile: 480px;      /* Mobile devices */
+  --breakpoint-tablet: 768px;      /* Tablets and small laptops */
+  --breakpoint-desktop: 1024px;    /* Desktop and large tablets */
+  --breakpoint-large: 1280px;      /* Large desktops */
+  
+  /* Height thresholds for constrained layouts */
+  --height-constrained: 650px;     /* Hide advanced controls */
+  --height-mobile: 700px;          /* Mobile-specific adjustments */
+  
+  /* QR Modal specific breakpoints */
+  --qr-modal-mobile: 480px;        /* Full-screen QR modal */
+  --qr-modal-constrained: 1024px;  /* Simplified QR modal */
 }
 
 /* Scales footer QR proportionally across all viewports */
@@ -1071,34 +1082,43 @@ The QR modal adapts its content and layout based on viewport size to ensure opti
   max-height: 90vh;
 }
 
-/* Progressive content reduction based on available space */
-@media (max-width: 1024px) and (max-height: 700px) {
-  :root {
-    --qr-modal-padding: 1rem;
-    --qr-canvas-size: 120px;
-    --qr-modal-width: 280px;
+/* Responsive QR Modal - Hide advanced controls on constrained viewports */
+@media (max-width: var(--breakpoint-desktop)) and (max-height: var(--height-constrained)),
+       (max-width: var(--breakpoint-tablet)) {
+  .qr-fullscreen [data-qr-panel="advanced"] {
+    display: none !important;
   }
-  
-  /* Hide advanced controls for constrained viewports */
-  #footer-qr-panel .flex.gap-2,
+}
+
+/* Mobile footer optimization */
+@media (max-width: var(--breakpoint-tablet)) {
+  footer.border-t {
+    padding-bottom: 20px;
+    margin-bottom: 10px;
+  }
   #footer-qr-download {
     display: none;
   }
 }
+```
 
-/* Mobile optimization */
-@media (max-width: 768px) {
-  :root {
-    --qr-modal-padding: 0.75rem;
-    --qr-canvas-size: 140px;
-    --qr-modal-width: 280px;
-  }
+**JavaScript Breakpoint Detection**
+
+```javascript
+// Centralized breakpoint detection using standardized values
+getBreakpoint() {
+  const width = window.innerWidth;
+  const height = window.innerHeight;
   
-  /* Hide advanced controls on mobile */
-  #footer-qr-panel .flex.gap-2,
-  #footer-qr-download {
-    display: none;
-  }
+  return {
+    isMobile: width <= 480,
+    isTablet: width > 480 && width <= 768,
+    isDesktop: width > 768 && width <= 1024,
+    isLargeDesktop: width > 1024,
+    isConstrained: (width <= 1024 && height <= 650) || width <= 768,
+    isQrModalMobile: width <= 480,
+    isQrModalConstrained: (width <= 1024 && height <= 650) || width <= 768
+  };
 }
 ```
 

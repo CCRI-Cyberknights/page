@@ -36,6 +36,22 @@ class QRCodeManager {
     this.ECL_LEVELS = ['L', 'M', 'Q', 'H'];
     this.eclIndex = 1; // default 'M'
 
+    // Centralized breakpoint detection using standardized values
+    this.getBreakpoint = () => {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      
+      return {
+        isMobile: width <= 480,
+        isTablet: width > 480 && width <= 768,
+        isDesktop: width > 768 && width <= 1024,
+        isLargeDesktop: width > 1024,
+        isConstrained: (width <= 1024 && height <= 650) || width <= 768,
+        isQrModalMobile: width <= 480,
+        isQrModalConstrained: (width <= 1024 && height <= 650) || width <= 768
+      };
+    };
+
     this.setupEventListeners();
     this.render(this.url);
     
@@ -254,7 +270,7 @@ class QRCodeManager {
       
       // Make panel full screen with glow effect
       this.panel.className = 'qr-fullscreen';
-      this.panel.style.cssText = 'position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; z-index: 9999 !important; background: rgba(15, 23, 42, 1.0) !important; backdrop-filter: blur(8px) !important; display: flex !important; align-items: stretch !important; justify-content: center !important; padding: 1rem 1rem 0 1rem !important;';
+      this.panel.style.cssText = 'position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; z-index: 9999 !important; background: rgba(15, 23, 42, 1.0) !important; backdrop-filter: blur(8px) !important; display: flex !important; align-items: stretch !important; justify-content: center !important; padding: 0 1rem 0 1rem !important;';
       
       // Add the fullscreen CSS styles dynamically if not already added
       if (!document.getElementById('qr-fullscreen-styles')) {
@@ -269,7 +285,7 @@ class QRCodeManager {
             bottom: 0 !important;
             z-index: 9999 !important;
             display: flex !important;
-            align-items: center !important;
+            align-items: stretch !important;
             justify-content: center !important;
             background: rgba(15, 23, 42, 1.0) !important;
             backdrop-filter: blur(8px) !important;
@@ -306,8 +322,8 @@ class QRCodeManager {
         this.glowContainer = document.createElement('div');
         this.glowContainer.className = 'bg-amber-50 rounded-2xl shadow-2xl border-2 border-amber-200 glow-container-mobile';
         
-        // Apply responsive padding based on viewport size
-        const isConstrained = (window.innerWidth <= 1024 && window.innerHeight <= 700) || window.innerWidth <= 768;
+        // Apply responsive padding based on viewport size (using standardized breakpoints)
+        const isConstrained = (window.innerWidth <= 1024 && window.innerHeight <= 650) || window.innerWidth <= 768;
         const padding = isConstrained ? '0.25rem' : '2rem'; // Ultra-minimal padding for constrained viewports
         
         this.glowContainer.style.cssText = `
@@ -315,14 +331,15 @@ class QRCodeManager {
           border: none;
           width: auto;
           max-width: min(90vw, 500px);
-          height: calc(100vh - 2rem);
+          height: 100vh;
           overflow: visible;
           display: flex;
           flex-direction: column;
           color: #B8B8B8;
           gap: 0.5rem;
           align-items: center;
-          justify-content: flex-start;
+          justify-content: space-between;
+          align-self: stretch;
           padding: ${padding};
           box-sizing: border-box;
         `;
@@ -364,7 +381,7 @@ class QRCodeManager {
                 width: auto !important;
                 max-width: min(500px, 90vw) !important;
                 height: auto !important;
-                max-height: 90vh !important;
+                max-height: 100vh !important;
               }
             }
           `;
@@ -424,15 +441,17 @@ class QRCodeManager {
           width: 100%;
           height: auto;
           padding: 0.125rem 0.25rem 0 0.25rem;
-          background: rgba(55, 65, 81, 0.8);
-          border: 1px solid #374151;
-          border-radius: 0.25rem;
-          position: fixed !important;
-          bottom: 0 !important;
-          left: 50% !important;
-          transform: translateX(-50%) !important;
-          width: calc(100% - 2rem) !important;
-          max-width: min(90vw, 500px) !important;
+          background: linear-gradient(135deg, #1C1C1C 0%, #3A3A3A 100%);
+          border-radius: 1rem;
+          box-shadow: 
+            0 0 0 1px rgba(4, 112, 60, 0.3),
+            0 0 20px rgba(4, 112, 60, 0.4),
+            0 0 40px rgba(4, 112, 60, 0.3),
+            0 0 80px rgba(4, 112, 60, 0.2),
+            0 25px 50px -12px rgba(0, 0, 0, 0.5);
+          border: 2px solid rgba(4, 112, 60, 0.5);
+          position: relative;
+          width: 100%;
         `;
         
         // Create controls container with green shadow  
@@ -468,9 +487,8 @@ class QRCodeManager {
           margin: 0 auto;
         `;
         
-        // Create QR container with green shadow
-        const qrGreenContainer = createGreenShadowContainer(qrContainer);
-        qrDisplayArea.appendChild(qrGreenContainer);
+        // Add QR container directly without green shadow
+        qrDisplayArea.appendChild(qrContainer);
         
         // Generate QR code directly in the container (after it's added to DOM)
         setTimeout(() => {
@@ -534,9 +552,9 @@ class QRCodeManager {
         if (currentInput) {
           const urlLengthBox = document.createElement('div');
           urlLengthBox.style.cssText = `
-            background: rgba(55, 65, 81, 0.8);
-            border: 1px solid #374151;
-            border-radius: 0.5rem;
+            background: transparent;
+            border: none;
+            border-radius: 0;
             padding: 1rem;
             color: #B8B8B8;
             display: flex;
@@ -929,8 +947,9 @@ class QRCodeManager {
         const reservedSpace = 60;
         const maxAvailableSize = Math.min(viewportWidth, viewportHeight - reservedSpace);
         
-        // Always use maximum possible size regardless of URL length
-        const qrSize = Math.max(300, maxAvailableSize - 10);
+        // Constrain QR size to fit within the 400px display area (accounting for padding)
+        const maxDisplaySize = 400 - 4; // 400px height - 4px padding (2px top + 2px bottom)
+        const qrSize = Math.min(Math.max(300, maxAvailableSize - 10), maxDisplaySize);
         
         // Generate new QR code
         QRCode.toString(text, {
@@ -1137,8 +1156,8 @@ class QRCodeManager {
   }
 
   applyResponsiveBehavior() {
-    // Check if viewport is constrained
-    const isConstrained = (window.innerWidth <= 1024 && window.innerHeight <= 700) || window.innerWidth <= 768;
+    // Check if viewport is constrained (using standardized breakpoints)
+    const isConstrained = (window.innerWidth <= 1024 && window.innerHeight <= 650) || window.innerWidth <= 768;
     const advancedContainer = this.panel.querySelector('[data-qr-panel="advanced"]');
     
     if (advancedContainer) {

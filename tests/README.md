@@ -70,6 +70,61 @@ python3 -m pytest tests/qr-code-testing/test_qr_pytest.py -v
 python3 tests/qr-code-testing/qr_test.py "https://example.com" output.png
 ```
 
+### QR Modal Responsive Testing ⭐
+
+**Purpose**: Validate QR modal behavior across different viewport sizes, ensuring optimal usability on all devices.
+
+**Key Test Cases**:
+- **1024×624 Viewport**: Simplified modal content (QR + URL only)
+- **Mobile Viewports**: Touch-optimized layout with hidden advanced controls
+- **Desktop Viewports**: Full feature set with all controls visible
+
+**Test Files**:
+```bash
+# Comprehensive viewport matrix testing with visual regression
+npx playwright test tests/qr-modal-viewport-regression.spec.ts --project=chromium
+
+# Simple visual verification for key viewports (1024×624 and desktop)
+npx playwright test tests/qr-modal-simple-visual.spec.ts --project=chromium
+
+# Responsive behavior testing across multiple viewports
+npx playwright test tests/qr-modal-responsive-behavior.spec.ts --project=chromium
+
+# Test specific viewport behavior (1024×624)
+npx playwright test tests/viewport-1024x624-simple.spec.ts --project=chromium
+
+# Test QR modal proportions across all viewports
+npx playwright test tests/qr-modal-proportions.spec.ts --project=chromium
+
+# Test mobile QR modal behavior
+npx playwright test tests/qr-modal-mobile-test.spec.ts --project=chromium
+
+# Visual regression testing for QR modals
+npx playwright test tests/qr-modal-visual-regression-real.spec.ts --project=chromium
+```
+
+**Viewport Definitions** (from `tests/helpers/viewports.ts`):
+```typescript
+export const viewports = {
+  desktop: { width: 1867, height: 963 },
+  laptop: { width: 1280, height: 720 },
+  smallLaptop: { width: 1024, height: 624 }, // ⭐ Key responsive breakpoint
+  tablet: { width: 768, height: 1024 },
+  pixel7a: { width: 414, height: 794 },
+  iphone13: { width: 390, height: 844 },
+  // ... more viewports
+};
+```
+
+**Responsive Behavior Validation**:
+- ✅ **Desktop (>1024px)**: Full QR modal with all controls
+- ✅ **Small Laptop (≤1024px, ≤700px)**: Simplified modal (QR + URL only)
+- ✅ **Mobile (≤768px)**: Touch-optimized layout with hidden controls
+- ✅ **Cross-Viewport**: Consistent QR code visibility and functionality
+- ✅ **Viewport Constraints**: Modal never exceeds 90% of viewport dimensions
+- ✅ **Flexible Scaling**: `clamp()` functions adapt footer QR to any viewport size
+- ✅ **Visual Regression**: Screenshot baselines for 10+ viewport combinations
+
 ## Test Suites
 
 ### Web Testing (Playwright)
@@ -130,6 +185,9 @@ python3 -m http.server 8000 &
 - **`qr-mobile-viewport.spec.ts`** - Mobile viewport and responsive design tests
 
 ### QR Modal Testing (Playwright)
+- **`qr-modal-viewport-regression.spec.ts`** - Comprehensive viewport matrix testing with visual regression baselines
+- **`qr-modal-simple-visual.spec.ts`** - Simple visual verification for key viewports (1024×624 and desktop)
+- **`qr-modal-responsive-behavior.spec.ts`** - Responsive behavior testing across multiple viewports
 - **`qr-modal-desired-state.spec.ts`** - Tests to ensure QR modal opens to desired state (large QR code dominating viewport)
 - **`qr-modal-proportions.spec.ts`** - Tests to ensure QR modal container maintains square-ish proportions
 - **`qr-modal-screenshot-test.spec.ts`** - Visual regression tests for QR modal on different devices
