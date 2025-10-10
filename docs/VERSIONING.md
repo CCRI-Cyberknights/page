@@ -12,7 +12,7 @@ This project uses a modern version management system that eliminates common depl
 2. **`scripts/update-version-json.js`** - Updates version.json during releases
 3. **`js/version-display.js`** - Dynamically fetches and displays version in UI
 4. **`standard-version`** - Automated version bumping and release management
-5. **GitHub Pages** - Automatic deployment from main branch
+5. **GitHub Actions** - Automated deployment workflow (see [DEPLOYMENT.md](DEPLOYMENT.md))
 
 ### Version Information Structure
 
@@ -43,7 +43,7 @@ This system uses [Conventional Commits](https://www.conventionalcommits.org/) to
 3. **Version File Update**: `update-version-json.js` updates `version.json`
 4. **Commit**: Both files committed in same release commit
 5. **Tag**: Git tag created (e.g., `v1.7.7`)
-6. **Deploy**: GitHub Pages automatically deploys from main branch
+6. **Deploy**: GitHub Actions automatically deploys (see [DEPLOYMENT.md](DEPLOYMENT.md))
 
 ### Runtime Version Display
 
@@ -161,18 +161,36 @@ node scripts/update-version-json.js
    - Verify `postbump` script runs successfully
 
 2. **GitHub Pages not deploying**:
-   - Check GitHub Actions for "pages build and deployment"
-   - Verify Pages source is set to `main` branch
+   - See [DEPLOYMENT.md](DEPLOYMENT.md) for deployment troubleshooting
+   - Check GitHub Actions workflow status: `npm run deploy:status`
+   - Manually trigger deployment: `npm run deploy:trigger`
 
 3. **Version display not working**:
    - Check browser console for JavaScript errors
    - Verify `version-display.js` is loaded in HTML
 
-## GitHub Pages Deployment Behavior
+## Deployment Integration
 
-### Smart Change Detection
+This project uses GitHub Actions for automated deployment. When you push a release:
 
-GitHub Pages uses undocumented "smart change detection" that categorizes files by priority:
+1. **Version Bump**: `npm run release:patch|minor|major`
+2. **Push**: `git push --follow-tags`
+3. **Deploy**: Automatic via GitHub Actions workflow
+4. **Live**: New version visible on site (~2-3 minutes)
+
+**See [DEPLOYMENT.md](DEPLOYMENT.md)** for complete deployment documentation, including:
+- Deployment workflow details
+- Manual deployment triggers
+- Deployment status checking
+- Troubleshooting deployment issues
+
+## Legacy: GitHub Pages Deployment Behavior
+
+> **Note**: The following section describes the legacy GitHub Pages deployment system used before 2025-10-10. The project now uses GitHub Actions for reliable deployment. See [DEPLOYMENT.md](DEPLOYMENT.md) for current deployment documentation.
+
+### Smart Change Detection (Legacy)
+
+The legacy GitHub Pages system used undocumented "smart change detection" that categorized files by priority:
 
 #### **File Priority System:**
 
@@ -276,10 +294,10 @@ git commit -m "chore: trigger deployment"
 
 ### Deployment
 
-1. **Monitor GitHub Actions** for successful deployments
+1. **Monitor GitHub Actions** for successful deployments (`npm run deploy:status`)
 2. **Verify version consistency** between repository and live site
 3. **Use cache-busting** for immediate version updates
-4. **Keep deployment simple** with automatic GitHub Pages
+4. **Keep deployment reliable** with GitHub Actions workflow (see [DEPLOYMENT.md](DEPLOYMENT.md))
 
 ### Maintenance
 

@@ -77,10 +77,13 @@ Common keys:
 
 ## Site Operations
 
-### GitHub Pages Deployment
-- Source: Deploy from a branch → `main` → `/ (root)`
-- `.nojekyll` present at repo root
-- Public URL after rename: `https://ccri-cyberknights.github.io/page/`
+### Deployment
+- **Method**: GitHub Actions workflow (`.github/workflows/deploy.yml`)
+- **Trigger**: Automatic on push to `main` branch, or manual via `npm run deploy:trigger`
+- **Source**: `main` branch, root directory
+- **URL**: `https://ccri-cyberknights.github.io/page/`
+- **Documentation**: See [DEPLOYMENT.md](DEPLOYMENT.md) for complete deployment documentation
+- `.nojekyll` present at repo root (prevents Jekyll processing)
 
 ### Repository Management
 - Repo renamed to `page` (from `qr-code-landing-pages`) - All references updated

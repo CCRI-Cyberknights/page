@@ -11,7 +11,8 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 | Document | Purpose | Audience | Key Topics |
 |----------|---------|----------|------------|
 | **[Architecture](docs/ARCHITECTURE.md)** | System overview | Developers, Maintainers | Components, file structure, technical decisions |
-| **[Versioning](docs/VERSIONING.md)** | Release management | Maintainers, Contributors | `version.json`, `standard-version`, deployment |
+| **[Deployment](docs/DEPLOYMENT.md)** | Deployment system | Maintainers, DevOps | GitHub Actions, deployment workflows, troubleshooting |
+| **[Versioning](docs/VERSIONING.md)** | Release management | Maintainers, Contributors | `version.json`, `standard-version`, release process |
 | **[UI/UX](docs/UI.md)** | Design & interface | Designers, Developers | Color palette, responsive design, user experience, standardized viewport breakpoints |
 | **[Testing](docs/TESTING.md)** | Quality assurance | Developers, Contributors | Playwright, test strategy, CI/CD integration, pipeline drift prevention |
 | **[Troubleshooting](docs/TROUBLESHOOTING.md)** | Problem solving | All users | Common issues, debugging, automated diagnostics, CI/CD validation, AI-powered screenshot analysis |
@@ -75,7 +76,8 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 #### **For Maintainers**
 - **Version Issues**: Run `npm run version:diagnose`
 - **Testing Problems**: Check `docs/TESTING.md` troubleshooting
-- **Deployment Issues**: See `docs/VERSIONING.md` deployment section
+- **Deployment Issues**: See `docs/DEPLOYMENT.md` for workflows and troubleshooting
+- **Version/Release Process**: See `docs/VERSIONING.md` for version management
 - **UI Problems**: Reference `docs/TROUBLESHOOTING.md` layout section
 - **CI/CD Pipeline Issues**: Run `node tests/ci-validation/validate-workflow-scripts.js` to check for workflow script references
 
@@ -334,22 +336,23 @@ If you are a club member, you can fork this repository and submit a pull request
 ## Documentation Index
 
 - **Architecture**: `docs/ARCHITECTURE.md` ⭐
-- **Design Evolution**: `docs/UI.md` ⭐ **NEW**
-- **Image Toggle System**: `docs/IMAGE-TOGGLE-SYSTEM.md` ⭐ **NEW**
+- **Deployment**: `docs/DEPLOYMENT.md` ⭐ **NEW - GitHub Actions Workflows**
+- **Design Evolution**: `docs/UI.md` ⭐
+- **Image Toggle System**: `docs/IMAGE-TOGGLE-SYSTEM.md` ⭐
 - **Development Log**: `docs/DEVELOPMENT-LOG.md` - Weekly development summaries and technical achievements
 - **UI**: `docs/UI.md`
 - **Versioning**: `docs/VERSIONING.md` ⭐ **CURRENT**
 - **Testing Strategy**: `docs/TESTING.md` ⭐
-- **Testing Roadmap**: `docs/TESTING.md` ⭐ **NEW - Future Enhancements!**
-- **Dynamic Link Testing**: `docs/TESTING.md` ⭐ **NEW - 5x Faster!**
+- **Testing Roadmap**: `docs/TESTING.md` ⭐ **Future Enhancements**
+- **Dynamic Link Testing**: `docs/TESTING.md` ⭐ **5x Faster**
 - **Selenium Debugging Innovation**: `docs/SELENIUM-DEBUGGING-INNOVATION.md` ⭐
 - **Layout Troubleshooting**: `docs/TROUBLESHOOTING.md` ⭐
 - Calendar maintainer guide: `docs/CALENDAR-UPDATING.md`
 - Document Loading System: `docs/UI.md`
 - Document Usage Examples: `docs/UI.md`
 - QR Codes: `docs/QR-CODES.md`
-- QR Code Integration: `document/README.md` ⭐ **NEW**
-- QR Code Generation: `scripts/README.md` ⭐ **NEW**
+- QR Code Integration: `document/README.md` ⭐
+- QR Code Generation: `scripts/README.md` ⭐
 - Routing: `docs/ROUTING.md`
 - Mobile UX Guide: `docs/MOBILE-UX-GUIDE.md`
 - Image Assets: `docs/ASSETS-IMAGES.md`

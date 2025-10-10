@@ -219,6 +219,7 @@ When adding `npm run <script>` to workflows:
 
 ## Related Documentation
 
+- **Deployment**: `docs/DEPLOYMENT.md` - GitHub Pages deployment system and workflows
 - **CI/CD Validation**: `tests/ci-validation/README.md` - Detailed validation system documentation
 - **Version Management**: `docs/VERSIONING.md` - Semantic versioning and release process
 - **Testing**: `docs/TESTING.md` - Test suite and CI/CD integration

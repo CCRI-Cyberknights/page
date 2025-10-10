@@ -220,6 +220,15 @@ This ensures consistency, international compatibility, and chronological sorting
 
 **Benefits:** All testing-related documentation consolidated into comprehensive testing documentation
 
+### **13. Deployment Documentation (1 file → renamed & consolidated)**
+
+**Consolidated into:** `docs/DEPLOYMENT.md`
+
+**Original file:**
+- `docs/DEPLOYMENT-PATTERN-MIGRATION.md` - Detailed migration from legacy GitHub Pages to GitHub Actions deployment (last updated: commit `06843f7`)
+
+**Benefits:** Following naming conventions (DEPLOYMENT.md vs DEPLOYMENT-PATTERN-MIGRATION.md), streamlined content with legacy reference, practical focus on current deployment system
+
 ## Impact Analysis
 
 ### **Quantitative Results**

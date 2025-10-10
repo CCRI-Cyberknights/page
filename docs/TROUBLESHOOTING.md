@@ -285,42 +285,48 @@ curl -s https://ccri-cyberknights.github.io/page/version.json | jq
 
 ### Problem: GitHub Pages Deployment Issues
 
-**Symptoms:**
+> **Note**: This section describes legacy deployment issues. The project now uses GitHub Actions for reliable deployment (as of 2025-10-10). For current deployment documentation and troubleshooting, see [DEPLOYMENT.md](DEPLOYMENT.md).
+
+**Symptoms (Legacy):**
 - Custom workflow fails with environment protection errors
 - Automatic Pages deployment works but version doesn't update
 - Site shows old version despite successful deployment
 - GitHub Actions shows failed custom workflow runs
 
-**Root Cause:**
+**Root Cause (Legacy):**
 Conflicting deployment systems:
 1. **Custom workflow**: Fails due to environment protection rules
 2. **Automatic Pages**: Works but doesn't include version updates
 3. **Dual deployment**: Two systems fighting each other
 
-**Solution Implemented:**
-Simplified deployment using GitHub Pages automatic deployment:
+**Solution Implemented (2025-10-10):**
+Modern GitHub Actions-based deployment:
 
-1. **Removed custom workflow** (`.github/workflows/release.yml`)
-2. **Use automatic Pages deployment** from main branch
-3. **Rely on version.json** for version display
-4. **Single deployment path** eliminates conflicts
+1. **Created deploy workflow** (`.github/workflows/deploy.yml`)
+2. **Reliable automatic deployment** from main branch
+3. **Pre-deployment testing** integrated into workflow
+4. **Single, predictable deployment** path
 
 **Current Deployment Flow:**
 1. Make changes → commit to `main`
 2. Run `npm run release:patch` → bumps version, updates version.json
-3. Push commit + tag → GitHub Pages automatically deploys
+3. Push commit + tag → GitHub Actions workflow deploys automatically (~2-3 minutes)
 4. Site updates → version display fetches version.json
 
-### Problem: GitHub Pages Smart Change Detection
+**For troubleshooting current deployment issues, see [DEPLOYMENT.md](DEPLOYMENT.md#troubleshooting).**
 
-**Symptoms:**
+### Problem: GitHub Pages Smart Change Detection (Legacy)
+
+> **Note**: This section describes legacy GitHub Pages "smart change detection" behavior. The project now uses GitHub Actions deployment (as of 2025-10-10), which eliminates this issue entirely. See [DEPLOYMENT.md](DEPLOYMENT.md).
+
+**Symptoms (Legacy):**
 - Changes to `version.json` don't trigger GitHub Pages deployment
 - Site shows old version despite successful commits
 - Version updates not reflected on production site
 - Need to make "specious" changes to trigger deployments
 
-**Root Cause:**
-GitHub Pages uses undocumented "smart change detection" with file priority system:
+**Root Cause (Legacy):**
+The legacy GitHub Pages system used undocumented "smart change detection" with file priority system:
 
 1. **Primary Files** (Always trigger rebuild):
    - `index.html` - Main entry point
