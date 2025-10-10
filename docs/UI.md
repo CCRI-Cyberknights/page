@@ -1046,6 +1046,49 @@ The QR modal features a **systematic, declarative approach** to panel visibility
 - ❌ **Hidden**: Error correction controls and download buttons
 - ✅ **Mobile Optimized**: Minimal padding, optimized for touch interaction
 - ✅ **CSS Target**: `@media (max-width: 767px)`
+- ✅ **Keyboard Handling**: Uses `100dvh` and `interactive-widget=resizes-content` for automatic keyboard adaptation
+
+##### Mobile Keyboard Handling ⭐
+
+The QR modal implements **elegant mobile keyboard handling** using modern CSS and minimal JavaScript:
+
+**CSS-First Approach:**
+- **`100dvh` units**: Automatically adjusts to keyboard viewport changes
+- **`interactive-widget=resizes-content`**: Meta tag tells browser how to handle keyboard
+- **Flexible layout**: QR code and input adapt to available space
+
+**JavaScript Enhancement:**
+- **Simple resize detection**: Only recalculates QR code size when needed
+- **No complex APIs**: Avoids over-engineered `visualViewport` solutions
+- **Cross-platform compatibility**: Works on iOS and Android
+
+**Implementation:**
+```css
+/* CSS handles keyboard automatically */
+.qr-modal {
+  height: 100dvh; /* Dynamic viewport height */
+}
+
+/* Meta tag for browser guidance */
+<meta name="viewport" content="width=device-width, initial-scale=1, interactive-widget=resizes-content">
+```
+
+```javascript
+// Simple JavaScript for QR code sizing
+const handleResize = () => {
+  const heightDifference = initialHeight - window.innerHeight;
+  if (heightDifference > 150) {
+    // Keyboard appeared - recalculate QR size
+    this.renderQRInContainer(currentText);
+  }
+};
+```
+
+**Benefits:**
+- ✅ **Simple & Reliable**: Uses standard browser behavior instead of experimental APIs
+- ✅ **Automatic Adaptation**: CSS handles layout changes, JavaScript only resizes QR code
+- ✅ **Cross-Platform**: Works consistently on iOS and Android devices
+- ✅ **Performance**: Minimal JavaScript overhead, CSS handles the heavy lifting
 
 ##### Declarative System Implementation
 

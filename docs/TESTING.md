@@ -258,6 +258,111 @@ const breakpoint = qrManager.getBreakpoint();
 // Returns: { isMobile, isTablet, isDesktop, isLargeDesktop, isConstrained }
 ```
 
+## Mobile Keyboard Visibility Testing
+
+### Overview
+
+The project includes comprehensive testing for mobile keyboard behavior using Playwright automation to ensure that both QR codes and input fields remain visible when the mobile keyboard appears across different devices.
+
+### Test Files
+
+- **`tests/qr-modal-mobile-keyboard-playwright.spec.ts`** - Playwright-native mobile keyboard tests
+- **`scripts/test-mobile-keyboard-playwright.sh`** - Automated test runner using only Playwright
+
+**Legacy Files (Advanced):**
+- **`tests/qr-modal-mobile-keyboard-visibility.spec.ts`** - Basic keyboard visibility tests across devices
+- **`tests/qr-modal-keyboard-opencv-analysis.spec.ts`** - Advanced tests with OpenCV analysis
+- **`scripts/analyze-keyboard-visibility.py`** - OpenCV script for screenshot analysis
+- **`scripts/test-keyboard-visibility.sh`** - Automated test runner with OpenCV
+
+### Device Coverage
+
+Tests cover multiple device types:
+
+```typescript
+const MOBILE_DEVICES = {
+  'iPhone SE': { width: 375, height: 667, pixelRatio: 2 },
+  'iPhone 12': { width: 390, height: 844, pixelRatio: 3 },
+  'iPhone 12 Pro Max': { width: 428, height: 926, pixelRatio: 3 },
+  'Pixel 5': { width: 393, height: 851, pixelRatio: 2.75 },
+  'Pixel 7': { width: 412, height: 915, pixelRatio: 2.625 },
+  'Samsung Galaxy S21': { width: 384, height: 854, pixelRatio: 3 },
+  'iPad Mini': { width: 768, height: 1024, pixelRatio: 2 },
+  'iPad Pro': { width: 1024, height: 1366, pixelRatio: 2 }
+};
+```
+
+### Keyboard Simulation
+
+Tests simulate keyboard appearance by:
+
+1. **Focusing on input fields** to trigger real keyboard
+2. **Using actual mobile device emulation** with Playwright
+3. **Testing real keyboard behavior** across different devices
+
+```typescript
+// Real keyboard simulation
+await page.setViewportSize({ width: 375, height: 667 }); // iPhone SE
+await page.click('[data-qr-panel="input"] input');
+await page.waitForTimeout(2000); // Wait for keyboard animation
+
+// Verify elements remain visible
+await expect(page.locator('[data-qr-panel="display"]')).toBeVisible();
+await expect(page.locator('[data-qr-panel="input"] input')).toBeVisible();
+```
+
+### Implementation Approach
+
+The solution uses a **simple, elegant approach**:
+
+- **CSS `100dvh`**: Automatically handles viewport changes when keyboard appears
+- **`interactive-widget=resizes-content`**: Meta tag tells browser how to handle keyboard
+- **Simple resize detection**: JavaScript only recalculates QR code size when needed
+- **No complex APIs**: Avoids over-engineered `visualViewport` API solutions
+
+### Running Keyboard Tests
+
+**Recommended (Playwright Native):**
+```bash
+# Run mobile keyboard tests using only Playwright
+./scripts/test-mobile-keyboard-playwright.sh
+
+# Run specific test
+npx playwright test tests/qr-modal-mobile-keyboard-playwright.spec.ts
+```
+
+**Advanced (With OpenCV):**
+```bash
+# Run all keyboard visibility tests with OpenCV analysis
+./scripts/test-keyboard-visibility.sh
+
+# Run specific test
+npx playwright test tests/qr-modal-keyboard-opencv-analysis.spec.ts
+
+# Manual OpenCV analysis
+python3 scripts/analyze-keyboard-visibility.py before.png after.png
+```
+
+### Test Assertions
+
+Tests verify:
+
+- ✅ **QR Code Visibility**: QR code remains fully visible and properly sized
+- ✅ **Input Accessibility**: Input field remains accessible and functional
+- ✅ **Modal Adaptation**: Modal layout adapts correctly to keyboard
+- ✅ **Cross-Platform Consistency**: Works across iOS and Android devices
+- ✅ **Advanced Controls**: Hidden on mobile viewports (as intended)
+
+### Expected Results
+
+For successful keyboard visibility:
+
+- **QR Code**: Fully visible, properly sized for available space
+- **Input Field**: Accessible and functional above keyboard
+- **Modal Layout**: Adapts correctly using CSS `100dvh` and meta tag
+- **Advanced Controls**: Hidden on mobile (≤768px width)
+- **Overall Status**: All elements visible and functional
+
 #### Responsive Testing Patterns
 
 **1. Cross-Viewport Validation**
