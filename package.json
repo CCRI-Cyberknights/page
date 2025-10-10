@@ -1,6 +1,6 @@
 {
   "name": "page",
-  "version": "1.8.29",
+  "version": "1.8.30",
   "description": "A centralized hub for the Cyber Club. This repository hosts a single, multi-page web app to provide information on events, club resources, and technical guides.",
   "private": true,
   "scripts": {
@@ -32,6 +32,9 @@
     "pipeline:status": "gh run list --limit 5 --json status,conclusion,displayTitle,createdAt | jq '.[] | {title: .displayTitle, status: .status, conclusion: .conclusion, created: .createdAt}'",
     "deploy:trigger": "gh workflow run deploy.yml",
     "deploy:status": "gh run list --workflow=deploy.yml --limit 5",
+    "deploy:watch": "gh run watch",
+    "deploy:logs": "gh run view",
+    "deploy:latest": "gh run list --workflow=deploy.yml --limit 1 --json status,conclusion,displayTitle,createdAt,url | jq '.[0]'",
     "prepare": "husky install"
   },
   "repository": {

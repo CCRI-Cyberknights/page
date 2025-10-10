@@ -164,9 +164,33 @@ gh run list --workflow=deploy.yml --limit 1
 
 ## NPM Scripts
 
+### Deployment Commands
+
+```bash
+# Trigger manual deployment
+npm run deploy:trigger
+
+# Check recent deployment runs
+npm run deploy:status
+
+# Watch current deployment in real-time
+npm run deploy:watch
+
+# View logs of latest deployment
+npm run deploy:logs
+
+# Get detailed status of latest deployment
+npm run deploy:latest
+```
+
+### Script Definitions
+
 ```json
 "deploy:trigger": "gh workflow run deploy.yml",
 "deploy:status": "gh run list --workflow=deploy.yml --limit 5",
+"deploy:watch": "gh run watch",
+"deploy:logs": "gh run view",
+"deploy:latest": "gh run list --workflow=deploy.yml --limit 1 --json status,conclusion,displayTitle,createdAt,url | jq '.[0]'",
 "pipeline:check": "gh run list --limit 10",
 "pipeline:status": "gh run list --limit 5 --json status,conclusion,displayTitle,createdAt | jq '.[] | {title: .displayTitle, status: .status, conclusion: .conclusion, created: .createdAt}'"
 ```
