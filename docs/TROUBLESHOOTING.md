@@ -49,6 +49,12 @@ This document covers common issues encountered during development and maintenanc
 - [Debugging Tips](#debugging-tips)
   - [Browser Developer Tools](#browser-developer-tools)
   - [Server-Side Debugging](#server-side-debugging)
+- [Advanced Screenshot Analysis & AI-Powered Debugging](#advanced-screenshot-analysis--ai-powered-debugging)
+  - [AI-Powered Screenshot Analysis Tool](#1-ai-powered-screenshot-analysis-tool)
+  - [Browser API Verification](#2-browser-api-verification)
+  - [Cache-Busting for Reliable Testing](#3-cache-busting-for-reliable-testing)
+  - [Multi-Technique Verification Workflow](#4-multi-technique-verification-workflow)
+  - [CSS Specificity Conflict Resolution](#5-css-specificity-conflict-resolution)
 
 ### **🛡️ Prevention & Best Practices**
 - [Prevention Strategies](#prevention-strategies)
@@ -76,7 +82,8 @@ This document covers common issues encountered during development and maintenanc
 2. **CI/CD Pipeline Failures** → [CI/CD Pipeline Drift Prevention](#-cicd-pipeline-drift-prevention)
 3. **Modal Issues** → [Common Development Issues](#common-development-issues)
 4. **Environment Differences** → [Environment and Testing Issues](#environment-and-testing-issues)
-5. **Layout Problems** → [Layout Debugging](#layout-debugging)
+5. **Layout Problems** → [Advanced Screenshot Analysis & AI-Powered Debugging](#advanced-screenshot-analysis--ai-powered-debugging)
+6. **CSS Changes Not Working** → [CSS Specificity Conflict Resolution](#5-css-specificity-conflict-resolution)
 
 **Quick Commands:**
 ```bash
@@ -90,6 +97,16 @@ node tests/ci-validation/validate-workflow-scripts.js
 # Pipeline monitoring
 gh run list --limit 5
 gh run view RUN_ID
+
+# Advanced screenshot analysis
+source venv/bin/activate
+python3 scripts/analyze-qr-modal.py test-results/screenshot.png
+
+# Cache-busting tests
+npx playwright test tests/qr-modal-simple-visual.spec.ts --project=chromium
+
+# Server content verification
+curl -s "http://localhost:8000/js/qr-code-manager.js" | grep "align-items: stretch"
 ```
 
 ---
@@ -1659,6 +1676,297 @@ window.expandElement = function (trigger, options = {}) {
 ---
 
 ## Layout Troubleshooting
+
+### Advanced Screenshot Analysis & AI-Powered Debugging
+
+**Problem:** CSS layout changes not producing expected visual results
+
+**Symptoms:**
+- File sizes change but screenshots look identical
+- JavaScript changes don't affect visual layout
+- CSS specificity conflicts preventing style application
+- Need objective verification of layout changes
+
+**Root Cause:**
+Traditional debugging methods (browser dev tools, manual inspection) can miss subtle layout issues or provide misleading information due to caching, CSS conflicts, or analysis limitations.
+
+**Solution Implemented:**
+Advanced screenshot analysis using multiple techniques for objective layout verification.
+
+#### 1. **AI-Powered Screenshot Analysis Tool**
+
+**Location:** `scripts/analyze-qr-modal.py`
+
+**Features:**
+- **OpenCV Integration**: Advanced computer vision for precise element detection
+- **PIL Fallback**: Basic image analysis when OpenCV unavailable
+- **Multi-Algorithm Detection**: Color-based, contour-based, and statistical analysis
+- **Quantitative Metrics**: Precise pixel measurements and positioning data
+
+**Usage:**
+```bash
+# Install OpenCV for advanced analysis
+python3 -m venv venv
+source venv/bin/activate
+pip install opencv-python numpy
+
+# Analyze single screenshot
+python3 scripts/analyze-qr-modal.py test-results/screenshot.png
+
+# Analyze all screenshots in directory
+python3 scripts/analyze-qr-modal.py test-results/
+
+# Compare two screenshots
+python3 scripts/analyze-qr-modal.py before.png after.png
+```
+
+**Analysis Capabilities:**
+- **Element Detection**: Automatically finds QR codes, URL boxes, modal borders
+- **Position Measurement**: Precise pixel coordinates and distances
+- **Overlap Detection**: Identifies when elements overlap incorrectly
+- **Color Analysis**: Detects theme consistency and element visibility
+- **Contrast Analysis**: Measures visual contrast for readability
+
+**Example Output:**
+```
+🔍 Analyzing (advanced): test-results/qr-modal-1024x624-simplified.png
+📐 Image dimensions: 1024x624
+🟢 Green elements (modal borders): 1
+⚫ Gray elements (URL boxes): 35
+⬛ Black elements (QR code): 29
+📦 URL box position: x=353, y=535, width=318, height=45
+📏 Distance from bottom: 44px
+❌ URL box has significant gap from bottom
+🔲 QR code position: x=0, y=0, width=1024, height=624
+❌ URL box overlaps with QR code!
+
+📊 ANALYSIS SUMMARY:
+   URL box at bottom: ❌ NO
+   No overlap: ❌ NO
+⚠️  LAYOUT NEEDS FIXING
+```
+
+#### 2. **Browser API Verification**
+
+**Problem:** AI analysis can be inaccurate; need authoritative source
+
+**Solution:** Cross-reference AI analysis with browser's native positioning API
+
+**Implementation:**
+```javascript
+// Get authoritative element position data
+const elementPosition = await page.evaluate(() => {
+  const element = document.querySelector('[data-qr-panel="input"]');
+  const rect = element.getBoundingClientRect();
+  const computedStyle = window.getComputedStyle(element);
+  
+  return {
+    rect: {
+      x: rect.x, y: rect.y, width: rect.width, height: rect.height,
+      bottom: rect.bottom, right: rect.right
+    },
+    computed: {
+      position: computedStyle.position,
+      bottom: computedStyle.bottom,
+      marginTop: computedStyle.marginTop
+    },
+    distanceFromBottom: window.innerHeight - rect.bottom
+  };
+});
+```
+
+**Example Output:**
+```json
+{
+  "rect": {
+    "x": 262, "y": 518, "width": 500, "height": 106,
+    "bottom": 624, "right": 762
+  },
+  "computed": {
+    "position": "fixed",
+    "bottom": "0px",
+    "marginTop": "0px"
+  },
+  "distanceFromBottom": 0
+}
+```
+
+**Benefits:**
+- **Authoritative Data**: Browser's native positioning is always correct
+- **Complete CSS State**: All computed styles available
+- **Real-time Verification**: No analysis interpretation needed
+- **Cross-Browser Consistency**: Works across all browsers
+
+#### 3. **Cache-Busting for Reliable Testing**
+
+**Problem:** Changes not reflected in screenshots due to browser caching
+
+**Solution:** Implement cache-busting parameters in test URLs
+
+**Implementation:**
+```typescript
+// Add timestamp to force fresh content loading
+await page.goto(`${BASE_URL}?t=${Date.now()}`);
+
+// Verify server is serving updated content
+curl -s "http://localhost:8000/js/qr-code-manager.js" | grep -A2 -B2 "align-items: stretch"
+```
+
+**Benefits:**
+- **Guaranteed Fresh Content**: Eliminates caching issues
+- **Reliable Testing**: Changes always reflected in screenshots
+- **Debugging Confidence**: Know that changes are actually being applied
+
+#### 4. **Multi-Technique Verification Workflow**
+
+**Step-by-Step Process:**
+
+1. **Make Changes**: Update CSS/JavaScript
+2. **Cache-Bust**: Use timestamp parameters in tests
+3. **Take Screenshot**: Capture visual result
+4. **AI Analysis**: Run automated analysis tool
+5. **Browser Verification**: Cross-check with native API
+6. **Compare Results**: Identify discrepancies between methods
+
+**Example Workflow:**
+```bash
+# 1. Make CSS changes
+# 2. Run test with cache-busting
+npx playwright test tests/qr-modal-simple-visual.spec.ts --project=chromium
+
+# 3. Analyze with AI
+source venv/bin/activate
+python3 scripts/analyze-qr-modal.py test-results/qr-modal-1024x624-simplified.png
+
+# 4. Verify with browser API (if needed)
+npx playwright test tests/debug-element-position.spec.ts --project=chromium
+```
+
+#### 5. **CSS Specificity Conflict Resolution**
+
+**Problem:** `!important` declarations required due to CSS conflicts
+
+**Symptoms:**
+- JavaScript styles not applying despite correct syntax
+- Computed styles showing different values than set styles
+- Need for `!important` declarations in JavaScript
+
+**Root Cause Analysis:**
+```javascript
+// Check if styles are being overridden
+const computedStyle = window.getComputedStyle(element);
+console.log('Set styles:', element.style.cssText);
+console.log('Computed styles:', {
+  marginTop: computedStyle.marginTop,
+  position: computedStyle.position
+});
+```
+
+**Solution:**
+```javascript
+// Use !important declarations for JavaScript-generated styles
+element.style.cssText = `
+  position: fixed !important;
+  bottom: 0 !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+`;
+```
+
+**Verification:**
+```javascript
+// Verify !important declarations are working
+setTimeout(() => {
+  const computedStyle = window.getComputedStyle(element);
+  console.log('Final computed styles:', computedStyle.cssText);
+}, 100);
+```
+
+#### 6. **File Size Change Analysis**
+
+**Problem:** Determining if screenshots actually changed
+
+**Solution:** Monitor file size changes as proxy for visual changes
+
+**Implementation:**
+```bash
+# Track file size changes over time
+ls -la test-results/qr-modal-*.png
+
+# Example progression:
+# 26,790 bytes (baseline)
+# 29,278 bytes (first change)
+# 30,439 bytes (second change)
+# 26,950 bytes (third change)
+```
+
+**Benefits:**
+- **Quick Verification**: File size changes indicate visual changes
+- **Change Tracking**: Monitor progression of modifications
+- **Debugging Aid**: Correlate code changes with visual results
+
+#### 7. **Advanced Debugging Techniques**
+
+**Console Logging for JavaScript Changes:**
+```javascript
+// Add debug logging to verify changes are applied
+console.log('QR Modal: Panel styles applied', panel.style.cssText);
+
+// Check computed styles after delay
+setTimeout(() => {
+  const computedStyle = window.getComputedStyle(element);
+  console.log('Computed styles:', {
+    marginTop: computedStyle.marginTop,
+    position: computedStyle.position
+  });
+}, 100);
+```
+
+**Server Content Verification:**
+```bash
+# Verify server is serving updated JavaScript
+curl -s "http://localhost:8000/js/qr-code-manager.js" | grep "align-items: stretch"
+
+# Check for specific changes
+curl -s "http://localhost:8000/js/qr-code-manager.js" | grep -A5 -B5 "margin-top: auto"
+```
+
+#### 8. **Troubleshooting Decision Tree**
+
+**When Screenshots Look Identical:**
+1. ✅ Check file sizes - if different, changes are being applied
+2. ✅ Add cache-busting parameters to test URLs
+3. ✅ Verify server is serving updated content
+4. ✅ Use browser API verification for authoritative data
+5. ✅ Add debug logging to JavaScript changes
+
+**When AI Analysis is Wrong:**
+1. ✅ Cross-reference with browser's `getBoundingClientRect()`
+2. ✅ Check computed styles vs. set styles
+3. ✅ Verify CSS specificity isn't overriding changes
+4. ✅ Use `!important` declarations for JavaScript styles
+
+**When CSS Changes Don't Apply:**
+1. ✅ Check for CSS specificity conflicts
+2. ✅ Verify Tailwind classes aren't overriding custom styles
+3. ✅ Remove conflicting CSS classes from JavaScript
+4. ✅ Use `!important` declarations as last resort
+
+#### 9. **Prevention Strategies**
+
+**For Future Layout Debugging:**
+1. **Always use cache-busting** in test URLs when debugging
+2. **Implement debug logging** in JavaScript changes
+3. **Use browser API verification** as authoritative source
+4. **Maintain AI analysis tool** for objective measurements
+5. **Document troubleshooting techniques** for team knowledge
+
+**Best Practices:**
+- **Start with browser API** - most reliable source of truth
+- **Use AI analysis** for objective measurements and detection
+- **Monitor file sizes** as quick change indicator
+- **Cross-reference methods** when results disagree
+- **Document successful techniques** for future use
 
 ---
 

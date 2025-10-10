@@ -253,8 +253,8 @@ class QRCodeManager {
       document.body.appendChild(this.panel);
       
       // Make panel full screen with glow effect
-      this.panel.className = 'fixed inset-0 z-50 bg-slate-900/95 backdrop-blur-sm flex items-center justify-center qr-fullscreen';
-      this.panel.style.cssText = 'position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999; background: rgba(15, 23, 42, 1.0); backdrop-filter: blur(8px); display: flex; align-items: center; justify-content: center;';
+      this.panel.className = 'qr-fullscreen';
+      this.panel.style.cssText = 'position: fixed !important; top: 0 !important; left: 0 !important; right: 0 !important; bottom: 0 !important; z-index: 9999 !important; background: rgba(15, 23, 42, 1.0) !important; backdrop-filter: blur(8px) !important; display: flex !important; align-items: stretch !important; justify-content: center !important; padding: 1rem 1rem 0 1rem !important;';
       
       // Add the fullscreen CSS styles dynamically if not already added
       if (!document.getElementById('qr-fullscreen-styles')) {
@@ -304,18 +304,27 @@ class QRCodeManager {
       
       if (!this.glowContainer) {
         this.glowContainer = document.createElement('div');
-        this.glowContainer.className = 'bg-amber-50 rounded-2xl p-8 shadow-2xl border-2 border-amber-200';
+        this.glowContainer.className = 'bg-amber-50 rounded-2xl shadow-2xl border-2 border-amber-200 glow-container-mobile';
+        
+        // Apply responsive padding based on viewport size
+        const isConstrained = (window.innerWidth <= 1024 && window.innerHeight <= 700) || window.innerWidth <= 768;
+        const padding = isConstrained ? '0.25rem' : '2rem'; // Ultra-minimal padding for constrained viewports
+        
         this.glowContainer.style.cssText = `
           background: transparent;
           border: none;
-          width: 100vw;
-          height: 100vh;
-          overflow: hidden;
+          width: auto;
+          max-width: min(90vw, 500px);
+          height: calc(100vh - 2rem);
+          overflow: visible;
           display: flex;
           flex-direction: column;
           color: #B8B8B8;
-          gap: 0.25rem;
+          gap: 0.5rem;
           align-items: center;
+          justify-content: flex-start;
+          padding: ${padding};
+          box-sizing: border-box;
         `;
         
         // Add responsive CSS for mobile viewports
@@ -362,8 +371,7 @@ class QRCodeManager {
           document.head.appendChild(mobileStyle);
         }
         
-        // Add mobile class for CSS targeting
-        this.glowContainer.classList.add('glow-container-mobile');
+        // Add mobile class for CSS targeting (already added in className above)
         
         // Store original panel content before moving it
         this.originalPanelContent = Array.from(this.panel.children);
@@ -395,26 +403,36 @@ class QRCodeManager {
         
         // Create QR code container with green shadow
         const qrDisplayArea = document.createElement('div');
+        qrDisplayArea.setAttribute('data-qr-panel', 'display');
         qrDisplayArea.style.cssText = `
           display: flex;
           align-items: center;
           justify-content: center;
           width: 100%;
-          flex: 1;
-          min-height: 0;
+          height: 400px;
           padding: 0.125rem;
         `;
         
-        // Create URL container with green shadow
+        // Create URL container (minimal padding, very compact)
         const urlContainer = document.createElement('div');
+        urlContainer.setAttribute('data-qr-panel', 'input');
         urlContainer.style.cssText = `
           display: flex;
           flex-direction: column;
-          gap: 0.25rem;
+          gap: 0.125rem;
           align-items: center;
           width: 100%;
-          flex-shrink: 0;
-          padding: 0.25rem 0;
+          height: auto;
+          padding: 0.125rem 0.25rem 0 0.25rem;
+          background: rgba(55, 65, 81, 0.8);
+          border: 1px solid #374151;
+          border-radius: 0.25rem;
+          position: fixed !important;
+          bottom: 0 !important;
+          left: 50% !important;
+          transform: translateX(-50%) !important;
+          width: calc(100% - 2rem) !important;
+          max-width: min(90vw, 500px) !important;
         `;
         
         // Create controls container with green shadow  
@@ -804,17 +822,22 @@ class QRCodeManager {
         // Add common container to controls area
         controlsArea.appendChild(commonContainer);
         
-        // Create green shadow containers for URL and controls (compact)
-        const urlGreenContainer = createGreenShadowContainer(urlContainer, true);
+        // Create green shadow container only for controls (URL container doesn't need it)
         const controlsGreenContainer = createGreenShadowContainer(controlsArea, true);
         
-        // Assemble the layout in correct order: QR code, URL container, then controls
+        // Add semantic attribute to the green shadow container (the one that actually gets hidden)
+        controlsGreenContainer.setAttribute('data-qr-panel', 'advanced');
+        
+        // Assemble the layout: QR code at top, URL pushed to bottom with margin-top: auto
         this.glowContainer.appendChild(qrDisplayArea);
-        this.glowContainer.appendChild(urlGreenContainer);
+        this.glowContainer.appendChild(urlContainer); // URL container pushed to bottom
         this.glowContainer.appendChild(controlsGreenContainer);
         
         // Add the glow container to the panel
         this.panel.appendChild(this.glowContainer);
+        
+        // Apply responsive behavior and accessibility
+        this.applyResponsiveBehavior();
         
         // Force update wrapper styles after DOM manipulation
         setTimeout(() => {
@@ -1109,6 +1132,58 @@ class QRCodeManager {
         link.download = filename;
       link.href = tmpCanvas.toDataURL('image/png');
       link.click();
+      }
+    }
+  }
+
+  applyResponsiveBehavior() {
+    // Check if viewport is constrained
+    const isConstrained = (window.innerWidth <= 1024 && window.innerHeight <= 700) || window.innerWidth <= 768;
+    const advancedContainer = this.panel.querySelector('[data-qr-panel="advanced"]');
+    
+    if (advancedContainer) {
+      if (isConstrained) {
+        // Hide the entire advanced container (green shadow wrapper)
+        advancedContainer.style.display = 'none';
+        advancedContainer.setAttribute('aria-hidden', 'true');
+        
+        // Make all interactive elements inert (in case they're still accessible somehow)
+        const interactiveElements = advancedContainer.querySelectorAll('button, input, select, textarea, [tabindex]:not([tabindex="-1"])');
+        interactiveElements.forEach(el => {
+          // Store original tabindex
+          if (!el.dataset._originalTabIndex) {
+            el.dataset._originalTabIndex = el.getAttribute('tabindex') || '';
+          }
+          el.setAttribute('tabindex', '-1');
+          
+          // Set inert if available
+          if ('inert' in el) {
+            el.inert = true;
+          }
+        });
+      } else {
+        // Show advanced container and restore accessibility
+        advancedContainer.style.display = '';
+        advancedContainer.removeAttribute('aria-hidden');
+        
+        // Restore tabindex and remove inert
+        const interactiveElements = advancedContainer.querySelectorAll('button, input, select, textarea, [tabindex="-1"]');
+        interactiveElements.forEach(el => {
+          const originalTabIndex = el.dataset._originalTabIndex;
+          if (originalTabIndex !== undefined) {
+            if (originalTabIndex === '') {
+              el.removeAttribute('tabindex');
+            } else {
+              el.setAttribute('tabindex', originalTabIndex);
+            }
+            delete el.dataset._originalTabIndex;
+          }
+          
+          // Remove inert if available
+          if ('inert' in el) {
+            el.inert = false;
+          }
+        });
       }
     }
   }

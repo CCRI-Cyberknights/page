@@ -4,6 +4,8 @@
 
 This document outlines the comprehensive UI/UX improvements implemented to enhance the user experience and visual consistency of the Cyber Club landing page. This document covers the evolution from v1.4.x through v1.5.x, including the Navigation & Interaction Upgrade and Content and Information Architecture Overhaul.
 
+**For troubleshooting CSS layout issues:** See [Advanced Screenshot Analysis & AI-Powered Debugging](TROUBLESHOOTING.md#advanced-screenshot-analysis--ai-powered-debugging) in the troubleshooting guide.
+
 **Note**: For comprehensive documentation of v1.5.x changes, see [UI.md](UI.md) - Design Evolution section.
 
 ## Layout Architecture
@@ -1012,6 +1014,133 @@ python scripts/generate_qr_codes.py --cheatsheet N
 
 - If a text is too long for the chosen ECL, lower the ECL to fit more data or shorten the text
 - Use shorter URLs (or URL shorteners) when you need higher correction levels
+
+#### Responsive QR Modal Behavior ⭐
+
+The QR modal adapts its content and layout based on viewport size to ensure optimal usability across all devices.
+
+##### Viewport-Specific Behavior
+
+**Desktop & Large Laptops (width > 1024px or height > 700px)**
+- ✅ **Full Feature Set**: QR code + URL input + error correction controls + download options
+- ✅ **Standard Layout**: All three panels visible (QR display, URL input, controls)
+- ✅ **Optimal Sizing**: 160px QR canvas with full modal functionality
+
+**Small Laptops & Tablets Landscape (width ≤ 1024px AND height ≤ 700px)**
+- ✅ **Simplified Content**: QR code + URL input only
+- ❌ **Hidden**: Error correction controls and download buttons
+- ✅ **Compact Layout**: Reduced padding and smaller QR canvas (120px)
+- ✅ **CSS Target**: `@media (max-width: 1024px) and (max-height: 700px)`
+
+**Mobile Devices (width ≤ 768px)**
+- ✅ **Simplified Content**: QR code + URL input only  
+- ❌ **Hidden**: Error correction controls and download buttons
+- ✅ **Mobile Optimized**: Reduced padding (0.75rem), compact width (280px)
+- ✅ **Smaller QR Canvas**: 140px for better mobile fit
+
+##### Implementation Details
+
+**Flexible Viewport Adaptation with CSS Custom Properties**
+
+```css
+/* CSS Custom Properties for responsive scaling */
+:root {
+  --qr-modal-padding: 1rem;
+  --qr-canvas-size: 160px;
+  --qr-modal-width: 300px;
+}
+
+/* Scales footer QR proportionally across all viewports */
+#footer-qr-toggle {
+  width: clamp(40px, 5vh, 64px);
+  height: clamp(40px, 5vh, 64px);
+}
+
+/* Ensures QR modal fits screen with flexible sizing */
+#footer-qr-panel {
+  max-width: 90vw;
+  max-height: 90vh;
+  width: var(--qr-modal-width);
+  padding: var(--qr-modal-padding);
+}
+
+#footer-qr-canvas {
+  width: var(--qr-canvas-size) !important;
+  height: var(--qr-canvas-size) !important;
+  max-width: 90vw;
+  max-height: 90vh;
+}
+
+/* Progressive content reduction based on available space */
+@media (max-width: 1024px) and (max-height: 700px) {
+  :root {
+    --qr-modal-padding: 1rem;
+    --qr-canvas-size: 120px;
+    --qr-modal-width: 280px;
+  }
+  
+  /* Hide advanced controls for constrained viewports */
+  #footer-qr-panel .flex.gap-2,
+  #footer-qr-download {
+    display: none;
+  }
+}
+
+/* Mobile optimization */
+@media (max-width: 768px) {
+  :root {
+    --qr-modal-padding: 0.75rem;
+    --qr-canvas-size: 140px;
+    --qr-modal-width: 280px;
+  }
+  
+  /* Hide advanced controls on mobile */
+  #footer-qr-panel .flex.gap-2,
+  #footer-qr-download {
+    display: none;
+  }
+}
+```
+
+##### Design Rationale
+
+**Problem Solved**: At constrained viewports (like 1024×624), the full QR modal with all controls was too tall, causing the QR code itself to be clipped or not fully visible.
+
+**Solution**: Progressive content reduction based on available viewport space:
+1. **Desktop**: Full feature set for power users
+2. **Small Laptop/Tablet**: Core functionality (QR + URL) only
+3. **Mobile**: Optimized for touch interaction
+
+**Benefits**:
+- ✅ **QR Code Always Visible**: Core functionality preserved across all viewports
+- ✅ **Progressive Enhancement**: Advanced features available when space allows
+- ✅ **Touch-Friendly**: Simplified interface on mobile devices
+- ✅ **Consistent UX**: Same core QR generation experience everywhere
+- ✅ **Future-Proof**: CSS Custom Properties allow easy theme and sizing adjustments
+- ✅ **Flexible Scaling**: `clamp()` functions adapt to any viewport size automatically
+- ✅ **Viewport Constraints**: `max-width: 90vw; max-height: 90vh` ensures modal always fits
+
+##### Testing Coverage
+
+**Viewport Testing**: Comprehensive testing across defined viewport sizes:
+- `desktop: { width: 1867, height: 963 }`
+- `laptop: { width: 1280, height: 720 }`  
+- `smallLaptop: { width: 1024, height: 624 }` ⭐ **Key Test Case**
+- `tablet: { width: 768, height: 1024 }`
+- `mobileViewports`: Various mobile devices
+
+**Test Files**:
+- `tests/qr-modal-viewport-regression.spec.ts` - Comprehensive viewport matrix testing with visual regression
+- `tests/viewport-1024x624-simple.spec.ts` - Specific viewport behavior validation
+- `tests/qr-modal-proportions.spec.ts` - Cross-viewport proportion testing
+- `tests/qr-modal-mobile-test.spec.ts` - Mobile-specific behavior
+
+**Testing Strategy**:
+- **Viewport Matrix**: Tests 10+ viewport combinations from mobile to desktop
+- **Visual Regression**: Screenshot comparison for each viewport baseline
+- **Behavior Validation**: Confirms responsive behavior matches expected patterns
+- **Accessibility**: Ensures core functionality preserved across all viewports
+- **Consistency**: Validates similar viewports have consistent behavior
 
 #### Linking Directly to Pages
 

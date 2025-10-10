@@ -14,7 +14,7 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 | **[Versioning](docs/VERSIONING.md)** | Release management | Maintainers, Contributors | `version.json`, `standard-version`, deployment |
 | **[UI/UX](docs/UI.md)** | Design & interface | Designers, Developers | Color palette, responsive design, user experience |
 | **[Testing](docs/TESTING.md)** | Quality assurance | Developers, Contributors | Playwright, test strategy, CI/CD integration, pipeline drift prevention |
-| **[Troubleshooting](docs/TROUBLESHOOTING.md)** | Problem solving | All users | Common issues, debugging, automated diagnostics, CI/CD validation |
+| **[Troubleshooting](docs/TROUBLESHOOTING.md)** | Problem solving | All users | Common issues, debugging, automated diagnostics, CI/CD validation, AI-powered screenshot analysis |
 | **[Routing](docs/ROUTING.md)** | Navigation system | Developers | Hash routing, SPA navigation, page loading |
 | **[Resources & Guides](docs/UI.md#resources--guides-system)** | Content management | Content creators, Users | Resource cards, guides, modal system |
 | **[Color Palette](docs/COLOR-PALETTE.md)** | Design system | Designers, Developers | Official colors, usage guidelines, CSS variables |

@@ -18,6 +18,7 @@ export const viewports = {
   // Desktop viewports
   desktop: { width: 1867, height: 963 }, // Your actual desktop viewport
   laptop: { width: 1280, height: 720 },
+  smallLaptop: { width: 1024, height: 624 }, // Small laptop / large tablet landscape
   tablet: { width: 768, height: 1024 },
 };
 
@@ -31,6 +32,7 @@ export const mobileViewports = {
 export const desktopViewports = {
   desktop: viewports.desktop,
   laptop: viewports.laptop,
+  smallLaptop: viewports.smallLaptop,
   tablet: viewports.tablet,
 };
 

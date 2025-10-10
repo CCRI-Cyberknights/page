@@ -2,6 +2,8 @@
 
 Modern testing using Playwright to ensure functionality across client-side routing, QR code generation, and cross-page navigation. The project uses Playwright for comprehensive end-to-end testing with better performance, reliability, and cross-browser support.
 
+**For troubleshooting layout issues and CSS changes:** See [Advanced Screenshot Analysis & AI-Powered Debugging](TROUBLESHOOTING.md#advanced-screenshot-analysis--ai-powered-debugging) in the troubleshooting guide.
+
 ## CI/CD Pipeline Drift Prevention
 
 ### Overview
@@ -171,6 +173,7 @@ The project uses a standardized test results directory structure that follows in
 - **Footer Visibility**: Cross-page testing of footer positioning and visibility
 - **Content Width**: Verification that content uses intended width constraints
 - **Responsive Layout**: Testing across different viewport sizes
+- **QR Modal Responsive Behavior**: Viewport-specific modal content adaptation testing
 
 #### 3. Debugging & Troubleshooting
 - **Screenshot Capture**: Automated visual documentation of layout issues
@@ -179,14 +182,84 @@ The project uses a standardized test results directory structure that follows in
 - **Cross-Page Consistency**: Ensuring layout consistency across all pages
 - **Modern Tooling**: Playwright provides comprehensive debugging capabilities
 
+## Responsive Design Testing Patterns
+
+### Viewport-Specific Testing Strategy
+
+The project implements comprehensive responsive design testing using predefined viewport definitions and targeted test suites.
+
+#### Viewport Definitions (`tests/helpers/viewports.ts`)
+
+```typescript
+export const viewports = {
+  // Desktop viewports
+  desktop: { width: 1867, height: 963 },
+  laptop: { width: 1280, height: 720 },
+  smallLaptop: { width: 1024, height: 624 }, // ⭐ Key responsive breakpoint
+  
+  // Tablet viewports  
+  tablet: { width: 768, height: 1024 },
+  
+  // Mobile viewports
+  pixel7a: { width: 414, height: 794 },
+  iphone13: { width: 390, height: 844 },
+  pixel5: { width: 393, height: 851 },
+  smallAndroid: { width: 360, height: 740 },
+};
+```
+
+#### Responsive Testing Patterns
+
+**1. Cross-Viewport Validation**
+```typescript
+// Test behavior across all viewport sizes
+for (const [device, viewport] of Object.entries(viewports)) {
+  test.describe(`${device} (${viewport.width}×${viewport.height})`, () => {
+    test('component adapts correctly', async ({ page }) => {
+      await page.setViewportSize(viewport);
+      // ... test implementation
+    });
+  });
+}
+```
+
+**2. Breakpoint-Specific Testing**
+```typescript
+// Test specific responsive breakpoints
+const responsiveBreakpoints = [
+  { name: 'Desktop', viewport: { width: 1867, height: 963 } },
+  { name: 'SmallLaptop', viewport: { width: 1024, height: 624 } },
+  { name: 'Mobile', viewport: { width: 414, height: 794 } }
+];
+```
+
+**3. QR Modal Responsive Behavior**
+- **Desktop (>1024px)**: Full feature set with all controls
+- **Small Laptop (≤1024px, ≤700px)**: Simplified content (QR + URL only)
+- **Mobile (≤768px)**: Touch-optimized layout with hidden advanced controls
+
+#### Test Coverage Matrix
+
+| Component | Desktop | Small Laptop | Tablet | Mobile |
+|-----------|---------|--------------|--------|--------|
+| Navigation | ✅ Full | ✅ Full | ✅ Responsive | ✅ Hamburger |
+| QR Modal | ✅ All Controls | ✅ Simplified | ✅ Simplified | ✅ Touch-Optimized |
+| Footer | ✅ Standard | ✅ Standard | ✅ Standard | ✅ Compact |
+| Content Layout | ✅ Multi-Column | ✅ Single Column | ✅ Single Column | ✅ Single Column |
+
 ## Test Organization
 ```
 tests/
 ├── README.md                                    # Test documentation and usage
+├── helpers/
+│   └── viewports.ts                            # Viewport definitions for responsive testing
 ├── mobile-back-button.spec.ts                  # Mobile back button functionality tests
 ├── playwright-link-testing-comprehensive.spec.ts # Comprehensive link testing
 ├── playwright-link-testing-modern.spec.ts       # Modern link testing approach
 ├── playwright-link-testing.spec.ts             # Feature parity verification
+├── qr-modal-proportions.spec.ts               # QR modal responsive behavior testing
+├── qr-modal-mobile-test.spec.ts               # Mobile QR modal behavior
+├── viewport-1024x624-simple.spec.ts           # Specific viewport validation
 └── versioning-diagnostics.spec.ts              # Versioning pipeline diagnostics
 ```
 

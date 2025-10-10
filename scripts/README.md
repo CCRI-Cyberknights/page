@@ -2,6 +2,8 @@
 
 This directory contains utility scripts for the CCRI Cyberknights landing pages project.
 
+**For troubleshooting layout issues:** See [Advanced Screenshot Analysis & AI-Powered Debugging](../docs/TROUBLESHOOTING.md#advanced-screenshot-analysis--ai-powered-debugging) in the troubleshooting guide.
+
 ---
 
 ## Script Consolidation Policy
@@ -108,6 +110,51 @@ This script is essential for the QR code generation workflow:
 3. **Embed in HTML**: Use the generated QR codes in educational guides
 
 ## QR Code Generation Script
+
+### `analyze-qr-modal.py`
+**Purpose:** AI-powered screenshot analysis tool for debugging CSS layout issues
+
+**Features:**
+- OpenCV integration for advanced computer vision analysis
+- PIL fallback for basic image analysis
+- Multi-algorithm detection (color-based, contour-based, statistical)
+- Quantitative metrics (pixel measurements, positioning data)
+- Element detection (QR codes, URL boxes, modal borders)
+- Overlap detection and distance measurements
+
+**Usage:**
+```bash
+# Install dependencies
+python3 -m venv venv
+source venv/bin/activate
+pip install opencv-python numpy
+
+# Analyze single screenshot
+python3 scripts/analyze-qr-modal.py test-results/screenshot.png
+
+# Analyze all screenshots in directory
+python3 scripts/analyze-qr-modal.py test-results/
+
+# Compare two screenshots
+python3 scripts/analyze-qr-modal.py before.png after.png
+```
+
+**Output Example:**
+```
+🔍 Analyzing (advanced): test-results/qr-modal-1024x624-simplified.png
+📐 Image dimensions: 1024x624
+🟢 Green elements (modal borders): 1
+⚫ Gray elements (URL boxes): 35
+📦 URL box position: x=353, y=535, width=318, height=45
+📏 Distance from bottom: 44px
+❌ URL box has significant gap from bottom
+📊 ANALYSIS SUMMARY:
+   URL box at bottom: ❌ NO
+   No overlap: ❌ NO
+⚠️  LAYOUT NEEDS FIXING
+```
+
+**Integration:** Used in conjunction with browser API verification for comprehensive layout debugging. See [Advanced Screenshot Analysis & AI-Powered Debugging](../docs/TROUBLESHOOTING.md#advanced-screenshot-analysis--ai-powered-debugging) for complete methodology.
 
 ### `generate_qr_codes.py`
 
