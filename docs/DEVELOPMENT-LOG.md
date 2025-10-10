@@ -1,6 +1,8 @@
-# Changelog
+# Development Log
 
-All notable changes to the Cyber Club Landing Pages project are documented in this file.
+This document provides detailed weekly development summaries, technical achievements, and comprehensive progress reports for the Cyber Club Landing Pages project.
+
+**For automated release notes and version history, see [CHANGELOG.md](../CHANGELOG.md) in the project root.**
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).

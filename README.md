@@ -18,7 +18,7 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
 | **[Routing](docs/ROUTING.md)** | Navigation system | Developers | Hash routing, SPA navigation, page loading |
 | **[Resources & Guides](docs/UI.md#resources--guides-system)** | Content management | Content creators, Users | Resource cards, guides, modal system |
 | **[Color Palette](docs/COLOR-PALETTE.md)** | Design system | Designers, Developers | Official colors, usage guidelines, CSS variables |
-| **[Changelog](docs/CHANGELOG.md)** | Version history | All users | Release notes, feature changes, bug fixes |
+| **[Development Log](docs/DEVELOPMENT-LOG.md)** | Development history | Developers, Maintainers | Weekly summaries, technical achievements, development progress |
 
 ### 🚀 **Quick Start Guide**
 
@@ -336,7 +336,7 @@ If you are a club member, you can fork this repository and submit a pull request
 - **Architecture**: `docs/ARCHITECTURE.md` ⭐
 - **Design Evolution**: `docs/UI.md` ⭐ **NEW**
 - **Image Toggle System**: `docs/IMAGE-TOGGLE-SYSTEM.md` ⭐ **NEW**
-- **Changelog**: `docs/CHANGELOG.md` ⭐ **NEW**
+- **Development Log**: `docs/DEVELOPMENT-LOG.md` - Weekly development summaries and technical achievements
 - **UI**: `docs/UI.md`
 - **Versioning**: `docs/VERSIONING.md` ⭐ **CURRENT**
 - **Testing Strategy**: `docs/TESTING.md` ⭐
