@@ -10,6 +10,12 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# Python virtual environments
+venv/
+env/
+.venv/
+.env/
+
 # OS generated files
 .DS_Store
 .DS_Store?
