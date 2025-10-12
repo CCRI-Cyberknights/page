@@ -58,5 +58,17 @@
     "detailedSummary": "Master terminal-based text editors including Nano (beginner-friendly) and Vi/Vim (powerful but modal). Learn GUI program launching with xdg-open and gedit, understand the terminal hang problem and solutions. Master file deletion with rm command and learn critical safety practices. Perfect for advancing from basic file operations to professional text editing and GUI integration.",
     "file": "linux-cheatsheet-4.html",
     "tags": ["linux", "text-editors", "gui", "file-deletion"]
+  },
+  {
+    "slug": "linux-cheatsheet-5",
+    "title": "Linux Cheatsheet 5",
+    "date": "2024-01-01",
+    "category": "linux",
+    "author": "CCRI Cyber Club",
+    "summary": "Users, Permissions, and Elevated Privileges (sudo)",
+    "description": "Users, Permissions, and Elevated Privileges (sudo)",
+    "detailedSummary": "Master Linux user management and file permissions system. Learn user switching with su, elevated privileges with sudo, and file permission management with chmod. Understand the numeric permission system (rwx), ownership changes with chown, and critical security concepts including the sudoers file and root privileges. Perfect for understanding Linux security fundamentals and system administration basics.",
+    "file": "linux-cheatsheet-5.html",
+    "tags": ["linux", "permissions", "sudo", "security", "users"]
   }
 ]
