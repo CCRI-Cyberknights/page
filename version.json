@@ -1,9 +1,9 @@
 {
-  "version": "1.8.31",
-  "commit": "e393017",
-  "date": "2025-10-10 19:19:21 -0400",
-  "timestamp": "2025-10-12T16:25:32.467Z",
-  "buildTime": 1760286332467,
+  "version": "1.8.32",
+  "commit": "fd7f670",
+  "date": "2025-10-12 14:02:26 -0400",
+  "timestamp": "2025-10-12T18:21:20.060Z",
+  "buildTime": 1760293280060,
   "nodeVersion": "v22.18.0",
   "platform": "linux"
 }

@@ -15,11 +15,28 @@ This directory contains educational guides and cheat sheets for the CCRI Cyberkn
 
 **Related**: See **[`blogs/README.md`](../blogs/README.md)** for blog-specific implementation details. The content creation workflow and styling patterns apply to both content types.
 
-## Linux Cheat Sheet 1
+## 📝 Formatting Style Guide
 
-### `linux-cheatsheet-1.html`
+**Critical**: All cheatsheets follow consistent text formatting patterns. See **[`docs/FORMATTING-STYLE-GUIDE.md`](../docs/FORMATTING-STYLE-GUIDE.md)** for:
+- Semantic CSS classes for different content types
+- Command acronym formatting (e.g., `CH`ange `MOD`e)
+- Technical term emphasis patterns
+- Code element styling guidelines
+- Examples from all existing cheatsheets
 
-A comprehensive Linux command reference document featuring QR codes for quick access to related video content.
+## Linux Cheat Sheets
+
+### Overview
+
+The project includes five comprehensive Linux cheatsheets, each covering different aspects of Linux command-line usage:
+
+1. **Cheatsheet 1**: Basic shell commands and text editors
+2. **Cheatsheet 2**: File management and text processing
+3. **Cheatsheet 3**: Archive management and system information
+4. **Cheatsheet 4**: File deletion and terminal management
+5. **Cheatsheet 5**: Users, permissions, and elevated privileges (`sudo`)
+
+Each cheatsheet features embedded QR codes for quick access to related video content.
 
 ## QR Code Integration Implementation
 

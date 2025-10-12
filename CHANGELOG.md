@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.32](https://github.com/CCRI-Cyberknights/page/compare/v1.8.31...v1.8.32) (2025-10-12)
+
+
+### Features
+
+* add Linux Cheatsheet 5 with QR codes and formatting style guide ([fd7f670](https://github.com/CCRI-Cyberknights/page/commit/fd7f670ae7204fb1c2c5f97fd1bf26ffbcf484f0))
+
 ### [1.8.31](https://github.com/CCRI-Cyberknights/page/compare/v1.8.30...v1.8.31) (2025-10-12)
 
 ### [1.8.30](https://github.com/CCRI-Cyberknights/page/compare/v1.8.29...v1.8.30) (2025-10-10)

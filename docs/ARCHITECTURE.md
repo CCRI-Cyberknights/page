@@ -35,6 +35,9 @@ Key files
 - `guides/linux-cheatsheet-1.html` — standalone Linux cheat sheet page with DRY CSS classes, official color palette, and embedded QR codes for video content (dual-mode)
 - `guides/linux-cheatsheet-2.html` — standalone Linux cheat sheet page focusing on file operations with DRY CSS classes, official color palette, and embedded QR codes for video content (dual-mode)
 - `guides/linux-cheatsheet-3.html` — standalone Linux cheat sheet page focusing on files, deleting, history & redirects with DRY CSS classes, official color palette, and embedded QR codes for video content (dual-mode)
+- `guides/linux-cheatsheet-4.html` — standalone Linux cheat sheet page focusing on file deletion and terminal management (dual-mode)
+- `guides/linux-cheatsheet-5.html` — standalone Linux cheat sheet page focusing on users, permissions, and elevated privileges (`sudo`) with semantic formatting (dual-mode)
+- `docs/FORMATTING-STYLE-GUIDE.md` — comprehensive formatting guidelines ensuring consistent text styling patterns across all cheatsheets with semantic CSS classes
 - `guides/linux-day-1-setup-tips.html` — Linux day 1 setup guide with consistent styling and DRY implementation (dual-mode)
 - `guides/README.md` — comprehensive documentation for QR code integration in educational guides
 - `scripts/generate_qr_codes.py` — Python script for generating base64 QR codes with custom styling

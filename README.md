@@ -134,8 +134,9 @@ This repository hosts the official landing pages for the CCRI Cybersecurity Club
   - **Calendar**: Meeting schedules with color-coded meeting types and clickable room numbers
   - **Resources**: Comprehensive resource cards with detailed descriptions, bullet-point formatting, modal system with click-anywhere-to-close behavior for enhanced readability, organized categories with default club filter, and consistent footer positioning
   - **Campus Maps**: Interactive maps for meeting locations (e.g., `/map-warwick-4080`)
-  - **Guides**: Standalone HTML guides with DRY CSS classes and consistent styling (Linux Cheatsheet 1, Linux Cheatsheet 2, Linux Day 1 Setup Tips) that can be loaded within the SPA or accessed directly
+  - **Guides**: Standalone HTML guides with DRY CSS classes and consistent styling (Linux Cheatsheets 1-5, Linux Day 1 Setup Tips) that can be loaded within the SPA or accessed directly
   - **QR Code Integration**: Educational guides feature embedded QR codes for instant access to related video content
+  - **Formatting Style Guide**: Comprehensive style guide (`docs/FORMATTING-STYLE-GUIDE.md`) ensures consistent text formatting with semantic CSS classes across all cheatsheets
   - **Table-Based Layout**: Clean, spreadsheet-like interface with video titles, URLs, and scannable QR codes
   - **Base64 Embedding**: Self-contained QR codes with no external dependencies
   - **Blog**: Clean "Updates & Blog" section with amber styling, positioned after main content sections, direct navigation matching guides system (`#/blogs/filename.html`), and unified content management system with seamless SPA integration
@@ -338,6 +339,7 @@ If you are a club member, you can fork this repository and submit a pull request
 - **Architecture**: `docs/ARCHITECTURE.md` ⭐
 - **Deployment**: `docs/DEPLOYMENT.md` ⭐ **NEW - GitHub Actions Workflows**
 - **Design Evolution**: `docs/UI.md` ⭐
+- **Formatting Style Guide**: `docs/FORMATTING-STYLE-GUIDE.md` ⭐ **NEW - Consistent Text Formatting**
 - **Image Toggle System**: `docs/IMAGE-TOGGLE-SYSTEM.md` ⭐
 - **Development Log**: `docs/DEVELOPMENT-LOG.md` - Weekly development summaries and technical achievements
 - **UI**: `docs/UI.md`
