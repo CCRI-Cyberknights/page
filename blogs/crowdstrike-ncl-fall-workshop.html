@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CrowdStrike x NCL Fall Workshop: Building Careers and Connections in Cybersecurity - CCRI Cyberknights</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Idiomatic Tailwind JIT Configuration
+    // Define Cyberknights Forge color palette for use as utility classes
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            'neon-surge': '#43CC50',
+            'steel-glow': '#5B6E6E',
+            'pale-alloy': '#B8B8B8',
+            'primary-green': '#04703C',
+            'ember-spark': '#C27329',
+            'arc-weld-blue': '#2DB2C4',
+          }
+        }
+      }
+    }
+  </script>
+  <style type="text/tailwindcss">
+    /* Idiomatic Tailwind: @layer for organized custom utilities */
+    
+    @layer components {
+      /* Reusable component classes using @apply */
+      .section-container {
+        @apply p-6 rounded-lg border border-slate-800 bg-slate-900/40;
+      }
+      
+      .section-title {
+        @apply text-xl font-bold mb-4 text-neon-surge;
+      }
+      
+      .subsection-title {
+        @apply text-lg font-semibold mb-3 mt-6 text-neon-surge;
+      }
+      
+      .emphasis-text {
+        @apply font-semibold text-ember-spark;
+      }
+      
+      .code-block {
+        @apply bg-slate-800 p-2 rounded text-xs font-mono text-slate-200 overflow-x-auto inline-block;
+      }
+      
+      .highlight-box {
+        @apply p-4 rounded-lg border border-slate-800 bg-slate-900/40 mt-6;
+      }
+    }
+    
+    @layer base {
+      :root {
+        color-scheme: dark;
+      }
+      
+      body {
+        @apply bg-slate-900 text-slate-200;
+      }
+    }
+  </style>
+</head>
+<body class="bg-slate-900 text-slate-200 min-h-screen">
+  <div class="max-w-4xl mx-auto p-6 space-y-8">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-4xl font-bold mb-4 text-neon-surge">
+        CrowdStrike x NCL Fall Workshop: Building Careers and Connections in Cybersecurity
+      </h1>
+      <p class="text-lg text-slate-200">
+        <strong class="emphasis-text">Key takeaways from the CrowdStrike x NCL Fall Workshop:</strong> internship opportunities, resume building tips, and how NCL competition experience translates to industry success.
+      </p>
+      <div class="flex items-center justify-center gap-4 text-sm text-slate-400 mt-4">
+        <span>October 22, 2025</span>
+        <span>by Zachary Hartmann</span>
+        <span class="px-2 py-1 rounded bg-slate-700">Career</span>
+      </div>
+    </div>
+
+    <!-- Main content -->
+    <div class="section-container">
+      <p class="text-slate-200 mb-4">
+        Recently, members of the <span class="emphasis-text">CCRI Cyber Club</span> had the opportunity to join the <span class="emphasis-text">CrowdStrike x NCL Fall Workshop</span> — and it was easily one of the most valuable events of the semester. The session, hosted by <span class="emphasis-text">CrowdStrike university recruiter Melanie</span>, brought together students from across the National Cyber League (NCL) community to talk resumes, interviews, and career growth in the cybersecurity industry.
+      </p>
+      
+      <p class="text-slate-200 mb-4">
+        From the start, the energy was great. Melanie and several CrowdStrike team members — representing <span class="emphasis-text">incident response, threat hunting, intelligence, and red teaming</span> — joined the call to give students hands-on career advice in specialized breakout rooms. It wasn't your typical "career talk" either; it was a deep dive into how to actually <em>land</em> cybersecurity roles and internships with real-world relevance.
+      </p>
+    </div>
+
+    <div class="section-container">
+      <h2 class="section-title">Career Prep, the CrowdStrike Way</h2>
+      
+      <p class="text-slate-200 mb-4">
+        The workshop focused heavily on <span class="emphasis-text">resume and interview preparation</span>, which fits perfectly with the Cyber Club's mission to prepare students for their cybersecurity careers. Each breakout room was tailored to a specific career path, so whether you're into red teaming, forensics, or threat intel, you could get <span class="emphasis-text">targeted advice directly from professionals</span> in that field.
+      </p>
+      
+      <p class="text-slate-200 mb-4">
+        Melanie also broke down the <span class="emphasis-text">CrowdStrike internship programs</span>, including their <span class="emphasis-text">12-week summer internships</span> and the <span class="emphasis-text">Launch program</span> designed for freshmen and sophomores. Both offer hands-on experience, mentorship, and a look into CrowdStrike's world of digital defense. She even mentioned how CrowdStrike's early interns are often trained with the goal of being hired full-time — something every student was excited to hear.
+      </p>
+      
+      <div class="highlight-box">
+        <h3 class="subsection-title">CrowdStrike Career Opportunities</h3>
+        <p class="text-slate-200 mb-3">
+          For students interested in pursuing opportunities with CrowdStrike, the company offers positions across multiple domains:
+        </p>
+        <ul class="list-disc list-inside text-slate-200 space-y-2 mb-4">
+          <li><span class="emphasis-text">Engineering & Technology</span> - Developing cutting-edge security solutions</li>
+          <li><span class="emphasis-text">Research & Development & Intelligence</span> - Threat research and analysis</li>
+          <li><span class="emphasis-text">Professional Services</span> - Client implementation and optimization</li>
+          <li><span class="emphasis-text">Sales & Marketing</span> - Expanding reach and client education</li>
+          <li><span class="emphasis-text">University & Internship Programs</span> - Entry-level opportunities</li>
+        </ul>
+        <p class="text-slate-200">
+          <a href="https://www.crowdstrike.com/en-us/careers/" target="_blank" rel="noopener noreferrer" class="text-arc-weld-blue hover:text-blue-300 underline font-medium">Explore current openings on CrowdStrike's careers page →</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="section-container">
+      <h2 class="section-title">Why NCL Matters More Than Ever</h2>
+      
+      <p class="text-slate-200 mb-4">
+        One of the biggest takeaways was how much <span class="emphasis-text">CrowdStrike values NCL participation</span>. Since CrowdStrike uses <span class="emphasis-text">Cyber Skyline</span> — the same platform NCL runs on — students who compete in NCL already have a head start. Melanie encouraged everyone to <span class="emphasis-text">list NCL experience on their resumes</span>, emphasizing that employers notice when students are gaining real, hands-on practice through competitions.
+      </p>
+      
+      <p class="text-slate-200 mb-4">
+        That validation is huge for us at CCRI, since NCL is one of our club's cornerstone activities. It's motivating to know that the skills we sharpen through competitions are directly relevant to major cybersecurity employers.
+      </p>
+      
+      <div class="highlight-box">
+        <h3 class="subsection-title">NCL and Cyber Skyline Connection</h3>
+        <p class="text-slate-200 mb-3">
+          The National Cyber League (NCL) uses the Cyber Skyline platform for their competitions, which is the same platform CrowdStrike uses for technical assessments. This means:
+        </p>
+        <ul class="list-disc list-inside text-slate-200 space-y-2">
+          <li>NCL participants are already familiar with the platform used in industry</li>
+          <li>Competition skills directly translate to job interview scenarios</li>
+          <li>Employers recognize NCL experience as valuable hands-on practice</li>
+        </ul>
+        <p class="text-slate-200 mt-3">
+          <a href="https://nationalcyberleague.org/" target="_blank" rel="noopener noreferrer" class="text-arc-weld-blue hover:text-blue-300 underline font-medium">Learn more about NCL competitions →</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="section-container">
+      <h2 class="section-title">Industry Insight and Inspiration</h2>
+      
+      <p class="text-slate-200 mb-4">
+        Beyond career prep, the workshop gave us a deeper look into <span class="emphasis-text">CrowdStrike's company culture</span>. We learned about the company's origins, its focus on intelligence-driven defense, and its global presence. The CrowdStrike team talked about their <span class="emphasis-text">Falcon platform</span>, their emphasis on research, and how they continue to innovate to stay ahead of modern threats.
+      </p>
+      
+      <p class="text-slate-200 mb-4">
+        The recruiters also shared practical insights about <span class="emphasis-text">technical assessments</span> — for instance, that many of their cybersecurity internship evaluations are done through Cyber Skyline. For anyone preparing to apply, that tip alone made the session worth it!
+      </p>
+      
+      <div class="highlight-box">
+        <h3 class="subsection-title">About CrowdStrike's Falcon Platform</h3>
+        <p class="text-slate-200 mb-3">
+          CrowdStrike's flagship product, the Falcon platform, leverages artificial intelligence and machine learning to detect and prevent cyber threats in real-time. Key features include:
+        </p>
+        <ul class="list-disc list-inside text-slate-200 space-y-2">
+          <li>Next-generation antivirus protection</li>
+          <li>Endpoint detection and response (EDR)</li>
+          <li>Managed threat hunting services</li>
+          <li>Cloud-native architecture</li>
+        </ul>
+        <p class="text-slate-200 mt-3">
+          <a href="https://www.crowdstrike.com/products/" target="_blank" rel="noopener noreferrer" class="text-arc-weld-blue hover:text-blue-300 underline font-medium">Explore CrowdStrike's Falcon platform →</a>
+        </p>
+      </div>
+    </div>
+
+    <div class="section-container">
+      <h2 class="section-title">Key Takeaways for CCRI Students</h2>
+      
+      <div class="grid md:grid-cols-2 gap-4">
+        <div class="highlight-box">
+          <h3 class="subsection-title">Resume Building</h3>
+          <ul class="list-disc list-inside text-slate-200 space-y-1">
+            <li>Highlight NCL competition experience</li>
+            <li>Include hands-on cybersecurity projects</li>
+            <li>Emphasize technical skills relevant to specific roles</li>
+            <li>Show continuous learning and skill development</li>
+          </ul>
+        </div>
+        
+        <div class="highlight-box">
+          <h3 class="subsection-title">Interview Preparation</h3>
+          <ul class="list-disc list-inside text-slate-200 space-y-1">
+            <li>Practice technical assessments on Cyber Skyline</li>
+            <li>Prepare for role-specific questions</li>
+            <li>Research CrowdStrike's mission and values</li>
+            <li>Be ready to discuss real-world scenarios</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-container">
+      <h2 class="section-title">Wrapping Up</h2>
+      
+      <p class="text-slate-200 mb-4">
+        Overall, the <span class="emphasis-text">CrowdStrike x NCL Fall Workshop</span> was a perfect example of what makes events like this so valuable to our club. It reinforced everything we aim to do: build technical skills, make professional connections, and prepare for meaningful careers in cybersecurity.
+      </p>
+      
+      <p class="text-slate-200 mb-4">
+        We're grateful to CrowdStrike and NCL for hosting such an interactive and informative session — and for giving students like us the chance to connect directly with industry professionals. If you missed this one, definitely keep an eye out for future workshops. These are the kinds of experiences that help turn classroom learning into real-world opportunity.
+      </p>
+      
+      <div class="highlight-box">
+        <h3 class="subsection-title">Next Steps</h3>
+        <p class="text-slate-200 mb-3">
+          For CCRI Cyber Club members interested in pursuing opportunities with CrowdStrike:
+        </p>
+        <ul class="list-disc list-inside text-slate-200 space-y-2">
+          <li>Visit the <a href="https://www.crowdstrike.com/en-us/careers/" target="_blank" rel="noopener noreferrer" class="text-arc-weld-blue hover:text-blue-300 underline font-medium">CrowdStrike careers page</a> to explore current openings</li>
+          <li>Continue participating in NCL competitions to build relevant experience</li>
+          <li>Practice technical skills on the Cyber Skyline platform</li>
+          <li>Network with industry professionals at future events</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

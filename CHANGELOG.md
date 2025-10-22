@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.33](https://github.com/CCRI-Cyberknights/page/compare/v1.8.32...v1.8.33) (2025-10-22)
+
+
+### Bug Fixes
+
+* update Linux Cheatsheet 5 video titles with actual YouTube titles ([33b3ce8](https://github.com/CCRI-Cyberknights/page/commit/33b3ce802e1fc410d03b60819692c5a663e15548))
+
 ### [1.8.32](https://github.com/CCRI-Cyberknights/page/compare/v1.8.31...v1.8.32) (2025-10-12)
 
 

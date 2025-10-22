@@ -22,5 +22,17 @@
     "detailedSummary": "Comprehensive guide to Microsoft Reactor Python + AI training and AWS AI Practitioner certification opportunities discovered at the RIC Cyber Security Professionals Meetup. Includes specific discount codes, registration links, and actionable steps for career advancement.",
     "file": "microsoft-aws-ai-opportunities.html",
     "tags": ["career", "certifications", "microsoft", "aws", "ai", "networking"]
+  },
+  {
+    "slug": "crowdstrike-ncl-fall-workshop",
+    "title": "CrowdStrike x NCL Fall Workshop: Building Careers and Connections in Cybersecurity",
+    "date": "2025-10-22",
+    "category": "career",
+    "author": "Zachary Hartmann",
+    "summary": "Key takeaways from the CrowdStrike x NCL Fall Workshop: internship opportunities, resume building tips, and how NCL competition experience translates to industry success.",
+    "description": "Key takeaways from the CrowdStrike x NCL Fall Workshop: internship opportunities, resume building tips, and how NCL competition experience translates to industry success.",
+    "detailedSummary": "Comprehensive recap of the CrowdStrike x NCL Fall Workshop featuring university recruiter Melanie and CrowdStrike professionals from incident response, threat hunting, intelligence, and red teaming. Covers CrowdStrike's internship programs (12-week summer internships and Launch program for freshmen/sophomores), resume preparation strategies, technical assessment insights using Cyber Skyline platform, and the direct connection between NCL competition experience and industry job requirements.",
+    "file": "crowdstrike-ncl-fall-workshop.html",
+    "tags": ["career", "cybersecurity", "crowdstrike", "ncl", "events", "internships", "networking"]
   }
 ]
