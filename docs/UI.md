@@ -2209,6 +2209,29 @@ On mobile devices (viewport ≤768px), the intro text and category filter button
 
 See `tests/search-visual-feedback.spec.ts` for tests covering mobile and desktop viewport behavior.
 
+### Category Highlighting
+
+When users search for resources, category buttons that contain matching results glow with an orange pulse animation to visually indicate where matches were found.
+
+#### Implementation
+
+- **Visual Feedback**: Matching category buttons display an orange border (`#f97316`) with a smooth pulse animation
+- **Animation**: 1.5s infinite pulse using multiple box-shadow layers for depth
+- **Automatic Detection**: JavaScript analyzes search results and automatically highlights categories with matches
+- **Clear on Search Clear**: Highlighting automatically removes when search is cleared
+- **Multiple Categories**: Multiple categories can be highlighted simultaneously if they all have matching results
+
+#### Technical Details
+
+- Uses `.category-match` CSS class applied dynamically to category filter buttons
+- Animation follows the existing `sparkPulse` pattern for consistency
+- Integrated into the existing `applyFilters()` search logic
+- Respects `prefers-reduced-motion` for accessibility
+
+#### Testing
+
+See `tests/category-highlighting.spec.ts` for comprehensive tests covering highlighting behavior, animation, and edge cases.
+
 ### Best Practices Comparison
 
 Our search UX implementation aligns strongly with 2025 industry best practices, achieving a **9.4/10 overall rating**:

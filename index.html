@@ -361,6 +361,26 @@
       }
     }
     
+    /* Category Highlighting - Orange Pulse Glow for Search Results */
+    .category-match {
+      border-color: #f97316 !important;
+      animation: categoryPulseModerate 1.5s ease-in-out infinite;
+      transition: border-color 0.3s ease;
+    }
+    
+    @keyframes categoryPulseModerate {
+      0%, 100% {
+        box-shadow: 0 0 8px rgba(249, 115, 22, 0.3), 0 0 0 0 rgba(249, 115, 22, 0);
+      }
+      50% {
+        box-shadow: 0 0 12px 4px rgba(249, 115, 22, 0.5), 0 0 20px 8px rgba(249, 115, 22, 0.3);
+      }
+    }
+    
+    @media (prefers-reduced-motion: reduce) {
+      .category-match { animation: none; }
+    }
+    
     /* CYBERKNIGHT FORGE COLOR PALETTE - HYBRID */
     :root {
       --forge-black: #001011;      /* deep forge darkness */
@@ -1998,6 +2018,30 @@
         }
       };
 
+      // Function to highlight categories that have matching search results
+      function highlightMatchingCategories(matchingItems) {
+        // Remove all existing highlights
+        filterButtons.forEach(btn => {
+          btn.classList.remove('category-match');
+        });
+        
+        // If no search or no matching items, don't highlight anything
+        if (!matchingItems || matchingItems.length === 0) {
+          return;
+        }
+        
+        // Get unique categories from matching items
+        const matchingCategories = new Set(matchingItems.map(item => item.cat));
+        
+        // Highlight buttons for categories that have matches
+        filterButtons.forEach(btn => {
+          const filter = btn.dataset.filter;
+          if (matchingCategories.has(filter)) {
+            btn.classList.add('category-match');
+          }
+        });
+      }
+
       function applyFilters() {
         const q = (search && search.value || '').toLowerCase();
         const active = filterButtons.find(b => b.classList.contains('ring-1'))?.dataset.filter || 'cyberknights';
@@ -2014,10 +2058,14 @@
                    (r.summary && r.summary.toLowerCase().includes(q));
           });
           showSearchResults(items, q);
+          // Highlight categories with matching results
+          highlightMatchingCategories(items);
         } else {
           // If no search query, filter by active category
           items = items.filter(r => r.cat === active);
           hideSearchResults();
+          // Clear all highlights when search is cleared
+          highlightMatchingCategories([]);
         }
         
         renderLists(items);

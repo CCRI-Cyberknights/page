@@ -13,7 +13,7 @@ This document outlines all the search and card interaction enhancement ideas dis
 ## Implementation Status
 
 - ✅ **Visual Search Feedback (Collapse)** - IMPLEMENTED (2025-12-05)
-- ⏳ **Category Highlighting** - PLANNED
+- ✅ **Category Highlighting** - IMPLEMENTED (2025-12-05)
 - ⏳ **Search Input Active State** - PLANNED
 - ⏳ **Partial Match Highlighting** - PLANNED
 - ⏳ **Mobile Keyboard Positioning** - PLANNED (may be partially implemented)
