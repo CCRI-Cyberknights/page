@@ -35,6 +35,9 @@ Thumbs.db
 # Logs
 *.log
 
+# Git hook logs (ephemeral debugging logs)
+.git/hook-logs/
+
 # Cursor configuration
 .cursor-rules
 

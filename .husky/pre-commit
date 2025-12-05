@@ -1,94 +1,195 @@
 #!/bin/bash
 # Husky pre-commit hook for Cyber Club Page
 # Updated for tag-based deployment with standard-version
+# Enhanced with structured logging for better observability
 
 cd "$(dirname -- "$0")/.."
 
+# Source logging utility (use absolute path)
+PROJECT_ROOT="$(cd "$(dirname -- "$0")/.." && pwd)"
+source "$PROJECT_ROOT/scripts/hook-logger.sh" "pre-commit"
+
+# Track exit code
+EXIT_CODE=0
+
+# Trap to ensure we log completion even on early exit
+trap 'log_end $EXIT_CODE; exit $EXIT_CODE' EXIT
+
+# Initialize logging
+log_start
+
 # Safety guard: Skip if HUSKY is disabled or if this is a release commit
 if [ "$HUSKY" = "0" ]; then
-    echo "🚫 Husky disabled - skipping pre-commit processing"
-    exit 0
+  log "WARN" "Husky disabled (HUSKY=0) - skipping pre-commit processing"
+  echo "🚫 Husky disabled - skipping pre-commit processing"
+  EXIT_CODE=0
+  exit 0
 fi
 
 # Check if this is a standard-version commit (skip processing)
 if git log -1 --pretty=%B | grep -q "chore(release):"; then
-    echo "📦 Standard-version release detected - skipping pre-commit processing"
-    exit 0
+  log "INFO" "Standard-version release commit detected - skipping pre-commit processing"
+  echo "📦 Standard-version release detected - skipping pre-commit processing"
+  EXIT_CODE=0
+  exit 0
 fi
 
-# Layout Pattern Validation (NEW)
+# Layout Pattern Validation
+log "INFO" "Starting layout pattern validation"
 echo "🔍 Validating layout patterns..."
+
+LAYOUT_VALIDATION_START=$(date +%s.%N 2>/dev/null || date +%s)
 
 # Check for forbidden flexbox patterns on body
 if grep -r "flex flex-col" index.html | grep -q "body"; then
-    echo "❌ ERROR: Found 'flex flex-col' on body element"
-    echo "   This creates conflicts with Tailwind's max-w-* mx-auto patterns"
-    echo "   Use the wrapper pattern instead: <div class='flex flex-col min-h-screen'>"
-    exit 1
+  log "ERROR" "Found 'flex flex-col' on body element - layout validation failed"
+  echo "❌ ERROR: Found 'flex flex-col' on body element"
+  echo "   This creates conflicts with Tailwind's max-w-* mx-auto patterns"
+  echo "   Use the wrapper pattern instead: <div class='flex flex-col min-h-screen'>"
+  EXIT_CODE=1
+  exit 1
 fi
 
 # Check for flex-grow on main
 if grep -r "flex-grow" index.html | grep -q "main"; then
-    echo "❌ ERROR: Found 'flex-grow' on main element"
-    echo "   Use 'flex-1' on main within wrapper div instead"
-    exit 1
+  log "ERROR" "Found 'flex-grow' on main element - layout validation failed"
+  echo "❌ ERROR: Found 'flex-grow' on main element"
+  echo "   Use 'flex-1' on main within wrapper div instead"
+  EXIT_CODE=1
+  exit 1
 fi
 
 # Check for mt-auto on footer
 if grep -r "mt-auto" index.html | grep -q "footer"; then
-    echo "❌ ERROR: Found 'mt-auto' on footer element"
-    echo "   Use 'mt-6' or similar fixed margin instead"
-    exit 1
+  log "ERROR" "Found 'mt-auto' on footer element - layout validation failed"
+  echo "❌ ERROR: Found 'mt-auto' on footer element"
+  echo "   Use 'mt-6' or similar fixed margin instead"
+  EXIT_CODE=1
+  exit 1
 fi
 
+LAYOUT_VALIDATION_END=$(date +%s.%N 2>/dev/null || date +%s)
+if command -v bc >/dev/null 2>&1; then
+  LAYOUT_DURATION=$(echo "$LAYOUT_VALIDATION_END - $LAYOUT_VALIDATION_START" | bc 2>/dev/null | xargs printf "%.3f" 2>/dev/null || echo "0")
+  log "DEBUG" "Layout validation completed in ${LAYOUT_DURATION}s"
+fi
+
+log "INFO" "Layout patterns validated successfully"
 echo "✅ Layout patterns validated successfully"
 
-# CI/CD Pipeline Validation (NEW)
+# CI/CD Pipeline Validation
+log "INFO" "Starting CI/CD pipeline validation"
 echo "🔍 Validating CI/CD workflow scripts..."
-bash tests/ci-validation/pre-commit-validation.sh
 
-if [ $? -ne 0 ]; then
-    echo "❌ CI/CD workflow validation failed! Please fix workflow script references before committing."
-    exit 1
+CI_VALIDATION_START=$(date +%s.%N 2>/dev/null || date +%s)
+bash tests/ci-validation/pre-commit-validation.sh
+CI_VALIDATION_EXIT=$?
+
+if [ $CI_VALIDATION_EXIT -ne 0 ]; then
+  log "ERROR" "CI/CD workflow validation failed (exit code: $CI_VALIDATION_EXIT)"
+  echo "❌ CI/CD workflow validation failed! Please fix workflow script references before committing."
+  EXIT_CODE=1
+  exit 1
 fi
 
+CI_VALIDATION_END=$(date +%s.%N 2>/dev/null || date +%s)
+if command -v bc >/dev/null 2>&1; then
+  CI_DURATION=$(echo "$CI_VALIDATION_END - $CI_VALIDATION_START" | bc 2>/dev/null | xargs printf "%.3f" 2>/dev/null || echo "0")
+  log "DEBUG" "CI/CD validation completed in ${CI_DURATION}s"
+fi
+
+log "INFO" "CI/CD workflow validation passed"
 echo "✅ CI/CD workflow validation passed"
 
 # Check if any significant files have been modified (HTML, JS, JSON, or docs)
-significant_files=$(git diff --cached --name-only | grep -E "\.(html|js|json)$|^docs/")
+significant_files=$(git diff --cached --name-only | grep -E "\.(html|js|json)$|^docs/" || true)
+
 if [ -n "$significant_files" ]; then
-    echo "📝 Significant files changed - checking for version bumping..."
+  # Log staged files for debugging
+  file_count=$(echo "$significant_files" | wc -l | tr -d ' ')
+  log "INFO" "Significant files detected: $file_count file(s) changed"
+  log "DEBUG" "Staged significant files: $(echo "$significant_files" | tr '\n' ',' | sed 's/,$//')"
+  echo "📝 Significant files changed - checking for version bumping..."
+  
+  # Check if any HTML or JavaScript files have been modified for testing
+  web_files=$(git diff --cached --name-only | grep -E "\.(html|js)$" || true)
+  
+  if [ -n "$web_files" ]; then
+    web_file_count=$(echo "$web_files" | wc -l | tr -d ' ')
+    log "INFO" "Web files detected: $web_file_count file(s) - running tests"
+    echo "🌐 Web files changed - running comprehensive tests..."
+    echo "🔗 Running Playwright tests (links + version display)..."
+    echo "🌐 Testing production and local URLs with Playwright..."
     
-    # Check if any HTML or JavaScript files have been modified for testing
-    web_files=$(git diff --cached --name-only | grep -E "\.(html|js)$")
-    if [ -n "$web_files" ]; then
-        echo "🌐 Web files changed - running comprehensive tests..."
-        echo "🔗 Running Playwright tests (links + version display)..."
-        echo "🌐 Testing production and local URLs with Playwright..."
-        
-        npm run test:links
-        
-        if [ $? -ne 0 ]; then
-            echo "❌ Playwright testing failed! Please fix issues before committing."
-            exit 1
-        fi
-        
-        echo "✅ All tests passed - links and version display working correctly."
-    else
-        echo "📄 No web files changed - skipping tests"
+    TEST_START=$(date +%s.%N 2>/dev/null || date +%s)
+    npm run test:links
+    TEST_EXIT=$?
+    TEST_END=$(date +%s.%N 2>/dev/null || date +%s)
+    
+    if [ $TEST_EXIT -ne 0 ]; then
+      if command -v bc >/dev/null 2>&1; then
+        TEST_DURATION=$(echo "$TEST_END - $TEST_START" | bc 2>/dev/null | xargs printf "%.3f" 2>/dev/null || echo "0")
+        log "ERROR" "Playwright tests failed after ${TEST_DURATION}s (exit code: $TEST_EXIT)"
+      else
+        log "ERROR" "Playwright tests failed (exit code: $TEST_EXIT)"
+      fi
+      echo "❌ Playwright testing failed! Please fix issues before committing."
+      EXIT_CODE=1
+      exit 1
     fi
     
-    # Always run version bumping for significant changes
-    echo "🚀 Running automatic version bump..."
-    npm run version:auto
-    
-    if [ $? -eq 0 ]; then
-        echo "✅ Version bumped successfully"
+    if command -v bc >/dev/null 2>&1; then
+      TEST_DURATION=$(echo "$TEST_END - $TEST_START" | bc 2>/dev/null | xargs printf "%.3f" 2>/dev/null || echo "0")
+      log "INFO" "All tests passed in ${TEST_DURATION}s"
     else
-        echo "❌ Version bumping failed! Please check the error above."
-        exit 1
+      log "INFO" "All tests passed"
     fi
+    echo "✅ All tests passed - links and version display working correctly."
+  else
+    log "INFO" "No web files changed - skipping tests"
+    echo "📄 No web files changed - skipping tests"
+  fi
+  
+  # Always run version bumping for significant changes
+  log "INFO" "Starting automatic version bump"
+  echo "🚀 Running automatic version bump..."
+  
+  # Get current version before bump
+  CURRENT_VERSION=$(grep '"version"' package.json | head -1 | sed 's/.*"version": *"\([^"]*\)".*/\1/')
+  log "DEBUG" "Current version: $CURRENT_VERSION"
+  
+  VERSION_BUMP_START=$(date +%s.%N 2>/dev/null || date +%s)
+  npm run version:auto
+  VERSION_BUMP_EXIT=$?
+  VERSION_BUMP_END=$(date +%s.%N 2>/dev/null || date +%s)
+  
+  # Get version after bump attempt
+  NEW_VERSION=$(grep '"version"' package.json | head -1 | sed 's/.*"version": *"\([^"]*\)".*/\1/' 2>/dev/null || echo "unknown")
+  
+  if [ $VERSION_BUMP_EXIT -eq 0 ]; then
+    if command -v bc >/dev/null 2>&1; then
+      VERSION_DURATION=$(echo "$VERSION_BUMP_END - $VERSION_BUMP_START" | bc 2>/dev/null | xargs printf "%.3f" 2>/dev/null || echo "0")
+      log "INFO" "Version bumped successfully from $CURRENT_VERSION to $NEW_VERSION in ${VERSION_DURATION}s"
+    else
+      log "INFO" "Version bumped successfully from $CURRENT_VERSION to $NEW_VERSION"
+    fi
+    echo "✅ Version bumped successfully"
+  else
+    if command -v bc >/dev/null 2>&1; then
+      VERSION_DURATION=$(echo "$VERSION_BUMP_END - $VERSION_BUMP_START" | bc 2>/dev/null | xargs printf "%.3f" 2>/dev/null || echo "0")
+      log "ERROR" "Version bump failed after ${VERSION_DURATION}s (exit code: $VERSION_BUMP_EXIT). Current version: $CURRENT_VERSION"
+    else
+      log "ERROR" "Version bump failed (exit code: $VERSION_BUMP_EXIT). Current version: $CURRENT_VERSION"
+    fi
+    echo "❌ Version bumping failed! Please check the error above."
+    EXIT_CODE=1
+    exit 1
+  fi
 else
-    echo "📄 No significant files changed - skipping version bumping and link tests"
-    echo "ℹ️  Version management now handled by standard-version (npm run release)"
+  log "INFO" "No significant files changed - skipping version bumping and link tests"
+  echo "📄 No significant files changed - skipping version bumping and link tests"
+  echo "ℹ️  Version management now handled by standard-version (npm run release)"
 fi
+
+# Success
+EXIT_CODE=0

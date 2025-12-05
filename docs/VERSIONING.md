@@ -169,6 +169,62 @@ node scripts/update-version-json.js
    - Check browser console for JavaScript errors
    - Verify `version-display.js` is loaded in HTML
 
+### Debugging Version Bump Issues
+
+When version bumps don't occur or hooks fail silently, use the structured logging system to diagnose issues:
+
+#### Hook Logging System
+
+The project includes comprehensive logging for git hooks to make debugging easier. All hook executions are automatically logged with structured JSON format.
+
+**View Logs**:
+```bash
+# View last execution
+./scripts/view-hook-logs.sh
+
+# View last 5 executions
+./scripts/view-hook-logs.sh -l 5
+
+# View only errors
+./scripts/view-hook-logs.sh -e
+
+# View statistics
+./scripts/view-hook-logs.sh -s
+```
+
+**Debug Mode**:
+Enable verbose debug logging:
+```bash
+GIT_HOOK_DEBUG=1 git commit
+```
+
+**Log Location**: `.git/hook-logs/` (git-ignored, ephemeral)
+
+**What's Logged**:
+- Hook execution start/end with timestamps
+- Environment variables (HUSKY, etc.)
+- Staged files that triggered the hook
+- Decision points (why hook skipped, why tests skipped)
+- Test execution results and duration
+- Version bump attempts with before/after versions
+- Exit codes and error messages
+- Performance metrics (duration of each step)
+
+**Common Issues Diagnosed**:
+- Did the hook run?
+- Why did it skip execution? (HUSKY=0, release commit, no significant files)
+- What environment variables were set?
+- Which files triggered the hook?
+- Did standard-version fail? Why?
+- How long did each step take?
+
+**Files**:
+- `scripts/hook-logger.sh` - Core logging utility
+- `scripts/view-hook-logs.sh` - Log viewer and analysis tool
+- `scripts/test-hook-logging.sh` - Test script for verification
+
+See [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for more debugging information.
+
 ## Deployment Integration
 
 This project uses GitHub Actions for automated deployment. When you push a release:
@@ -306,7 +362,12 @@ git commit -m "chore: trigger deployment"
 3. **Backup version.json** before major changes
 4. **Test rollback procedures** if needed
 
+## Legacy Documentation
+
+The following files were consolidated into this document:
+- **`docs/HOOK-LOGGING-STRATEGY.md`** - Comprehensive hook logging strategy and implementation guide (last updated: commit `22f467e`, consolidated: 2025-12-05)
+
 ---
 
-*Last updated: 2025-09-27 - Version 1.7.7*
+*Last updated: 2025-12-05 - Version 1.8.35*
 *Related: [ARCHITECTURE.md](./ARCHITECTURE.md) | [TROUBLESHOOTING.md](./TROUBLESHOOTING.md) | [UI.md](./UI.md)*
