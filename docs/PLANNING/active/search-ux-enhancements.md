@@ -14,8 +14,8 @@ This document outlines all the search and card interaction enhancement ideas dis
 
 - ✅ **Visual Search Feedback (Collapse)** - IMPLEMENTED (2025-12-05)
 - ✅ **Category Highlighting** - IMPLEMENTED (2025-12-05)
-- ⏳ **Search Input Active State** - PLANNED
-- ⏳ **Partial Match Highlighting** - PLANNED
+- ✅ **Search Input Active State** - IMPLEMENTED (2025-12-05)
+- ❌ **Partial Match Highlighting** - CANCELLED (redundant - current implementation already handles this)
 - ⏳ **Mobile Keyboard Positioning** - PLANNED (may be partially implemented)
 - ⏳ **Card History Indicator** - PLANNED
 - ⏳ **Color Topic Categorization** - PLANNED
@@ -278,18 +278,22 @@ test('highlighting removed when search cleared', async ({ page }) => {
 
 ---
 
-## 🎯 Feature 3: Partial Match Highlighting
+## 🎯 Feature 3: Partial Match Highlighting ❌ CANCELLED
 
-### Concept
-If user searches for a category name (e.g., "stem") but no items match, show subtle orange highlight to indicate the category was recognized.
+**Status**: Cancelled
 
-### User Story
+**Rationale**: This feature is redundant. The current search implementation already handles category name matching. When a user searches for a category name (e.g., "stem"), the search checks if the category label contains the search term (`catLabel.includes(q)`). If it matches, all items in that category are automatically included in results (because the filter checks category labels), and the category is highlighted via the existing `highlightMatchingCategories()` function. The proposed edge case (category name matches but no items shown) cannot occur with the current implementation.
+
+### ~~Concept~~ (Cancelled)
+~~If user searches for a category name (e.g., "stem") but no items match, show subtle orange highlight to indicate the category was recognized.~~
+
+### ~~User Story~~ (Cancelled)
 ```
-As a user
+~~As a user
 When I search for "stem" (a category name)
 But there are no items containing "stem" in their content
 Then the "STEM Day" category should show a subtle orange highlight
-So I know the system recognized my category search
+So I know the system recognized my category search~~
 ```
 
 ### TDD Approach
@@ -750,7 +754,6 @@ test('cards show topic badge', async ({ page }) => {
 | Visual Search Feedback (Collapse) | High | Low | Low | **P0** | 2-3 hours |
 | Category Highlighting | High | Medium | Medium | **P0** | 3-4 hours |
 | Search Input Active State | Medium | Low | Low | **P1** | 1 hour |
-| Partial Match Highlighting | Medium | Low | Low | **P1** | 1-2 hours |
 | Mobile Keyboard Positioning | High | High | High | **P0** | 4-6 hours |
 | Card History Indicator | Medium | Medium | Medium | **P2** | 3-4 hours |
 | Color Topic Categorization | Low | Medium | Medium | **P3** | 4-5 hours |
