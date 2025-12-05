@@ -160,17 +160,15 @@ Determine which canonical document should contain the information:
 3. **Historical Context**: Preserve important decisions/rationale
 
 ### Step 3: Update Canonical Document
-Add to appropriate section with legacy reference:
+Add to appropriate section. **Do not add "Legacy Documentation" sections** - use the archive/consolidate decision framework instead.
 
 ```markdown
 ## [Feature Section]
 
 [Brief summary and current implementation details...]
-
-### Legacy Documentation
-The following planning documents contributed to this feature:
-- **`docs/PLANNING/active/YYYY-MM-DD-feature-name.md`** - Detailed TDD plan and implementation strategy (last updated: commit `abc1234`)
 ```
+
+**Note**: Many existing canonical documents (e.g., `docs/UI.md`, `docs/TESTING.md`) contain "Legacy Documentation" sections from the old consolidation pattern. These are preserved for historical reference, but new consolidations should follow the [Documentation Lifecycle Management Guide](../DOCUMENTATION-LIFECYCLE-GUIDE.md) decision framework.
 
 ### Step 4: Archive or Delete Original
 - Move to `docs/PLANNING/archived/` if valuable for historical reference
@@ -335,7 +333,8 @@ Move to archive or delete if:
 
 ## References
 
-- **[Documentation Consolidation Guide](README.md)** - Main consolidation strategy
+- **[Documentation Lifecycle Management Guide](DOCUMENTATION-LIFECYCLE-GUIDE.md)** - ⭐ **PRIMARY GUIDE** - Archive vs. consolidate decision framework and naming conventions
+- **[Documentation Consolidation Guide](README.md)** - Historical consolidation strategy (legacy pattern)
 - **[Testing Documentation](TEST-DOCUMENTATION/README.md)** - Similar pattern for test docs
 - **Git History** - All documents preserved via version control
 

@@ -2317,6 +2317,5 @@ The following files were consolidated into this document:
 - **`docs/SEARCH-KEYBOARD-POSITIONING.md`** - Technical documentation for Visual Viewport API implementation and mobile keyboard positioning (consolidated 2025-12-05)
 - **`docs/IMPLEMENTATION-BEST-PRACTICES-COMPARISON.md`** - Industry best practices comparison and analysis for search keyboard positioning (consolidated 2025-12-05)
 - **`docs/CSS-IMPORTANT-BEST-PRACTICES.md`** - CSS best practices guide for using `!important` and overriding Tailwind utilities (consolidated 2025-12-05)
-- **`docs/VEWPORT-CONSISTENCY-PLAN.md`** - Viewport consistency standardization plan with CSS custom properties and JavaScript synchronization (last updated: commit `9fe3fa4`, consolidated: 2025-12-05)
 
 **Note**: `docs/color-palettes/COLOR-PALETTE.md` was relocated to `docs/COLOR-PALETTE.md` and is referenced above.

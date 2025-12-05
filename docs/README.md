@@ -2,7 +2,11 @@
 
 ## Overview
 
-This document outlines the comprehensive documentation consolidation strategy implemented for the Cyber Club Landing Pages project. The consolidation process reduced documentation from 23 files to 4 files while maintaining complete historical traceability through Git commit references.
+This document outlines the **historical** documentation consolidation strategy implemented for the Cyber Club Landing Pages project. The consolidation process reduced documentation from 23 files to 4 files while maintaining complete historical traceability through Git commit references.
+
+**⚠️ IMPORTANT**: This document describes the **legacy consolidation pattern** used in earlier consolidations. For current best practices on documentation lifecycle management (archive vs. consolidate decisions), see **[Documentation Lifecycle Management Guide](DOCUMENTATION-LIFECYCLE-GUIDE.md)**.
+
+**Current Standard**: Use the archive vs. consolidate decision framework documented in `DOCUMENTATION-LIFECYCLE-GUIDE.md` rather than automatically adding "Legacy Documentation" sections to consolidated files.
 
 ## Documentation Standards & Patterns
 
@@ -77,7 +81,10 @@ Use this decision tree for future consolidations:
 
 ### **Content Organization Patterns**
 
-#### **Brief Summary + Legacy Reference Pattern**
+#### **⚠️ Legacy Pattern: Brief Summary + Legacy Reference** (Deprecated)
+
+**Status**: This pattern is **legacy**. Existing "Legacy Documentation" sections in consolidated files are preserved for historical reference, but new consolidations should follow the [Documentation Lifecycle Management Guide](DOCUMENTATION-LIFECYCLE-GUIDE.md).
+
 ```markdown
 ## [Topic] Overview
 Brief summary of the consolidated functionality...
@@ -91,7 +98,7 @@ The following files were consolidated into this document:
 - **Overview**: High-level summary
 - **Implementation**: Technical details
 - **Usage**: Practical examples
-- **Legacy Documentation**: Historical references
+- ~~**Legacy Documentation**: Historical references~~ (Deprecated - use archive/consolidate decision framework instead)
 
 ### **Quality Standards**
 
@@ -109,18 +116,17 @@ The following files were consolidated into this document:
 
 ## Consolidation Strategy
 
-### **Principle: Historical Traceability**
+### **⚠️ Legacy Approach: Historical Traceability via "Legacy Documentation" Sections**
 
-Every consolidated document includes a "Legacy Documentation" section that references the Git commit hashes where the original files can be found. This ensures:
+**Status**: This approach is **deprecated**. Many existing consolidated documents still contain "Legacy Documentation" sections (e.g., `docs/UI.md`, `docs/TESTING.md`, `docs/ROUTING.md`), and these are preserved for historical reference.
 
-- **Complete historical preservation** of all original content
-- **Easy access** to previous versions for reference
-- **Audit trail** for documentation changes
-- **No information loss** during consolidation
+Previously, every consolidated document included a "Legacy Documentation" section that referenced Git commit hashes where original files could be found. While this provided historical traceability, the new approach uses an archive vs. consolidate decision framework.
 
-### **Pattern Implementation**
+**For Current Best Practices**: See [Documentation Lifecycle Management Guide](DOCUMENTATION-LIFECYCLE-GUIDE.md) for the decision framework on when to archive vs. consolidate, and proper naming conventions for archived files.
 
-Each consolidated file follows this pattern:
+### **Legacy Pattern Implementation** (Historical Reference Only)
+
+The old pattern that many existing documents still follow:
 
 ```markdown
 ## Legacy Documentation
@@ -129,6 +135,8 @@ The following files were consolidated into this document:
 - **`docs/ORIGINAL-FILE.md`** - Description of original content (last updated: commit `abc1234`)
 - **`docs/ANOTHER-FILE.md`** - Description of original content (last updated: commit `def5678`)
 ```
+
+**Note**: Existing "Legacy Documentation" sections in consolidated files are preserved but new consolidations should use the archive/consolidate decision framework instead.
 
 ### **Date Format Standard**
 
@@ -447,7 +455,34 @@ For managing planning and implementation documents, see **[Planning Documentatio
 
 **Key Principle**: Planning documents are temporary and should eventually be consolidated into canonical docs or archived. The `PLANNING/` folder provides structure during active development while keeping production docs clean.
 
+## Current Documentation Lifecycle Standards
+
+**For all new documentation lifecycle decisions**, see:
+
+- **[Documentation Lifecycle Management Guide](DOCUMENTATION-LIFECYCLE-GUIDE.md)** - Primary guide for archive vs. consolidate decisions, naming conventions, and lifecycle processes
+- **[Planning Documentation Guide](PLANNING-DOCUMENTATION-GUIDE.md)** - Detailed workflow for planning documents
+
+**Important**: The archive vs. consolidate decision framework has replaced the automatic "Legacy Documentation" section pattern. Use the decision framework to determine whether to archive or consolidate, rather than automatically adding legacy sections to all consolidated files.
+
+### Note on Existing "Legacy Documentation" Sections
+
+Several existing canonical documents contain "Legacy Documentation" sections that follow the old consolidation pattern:
+- `docs/UI.md`
+- `docs/TESTING.md`
+- `docs/ROUTING.md`
+- `docs/VERSIONING.md`
+- `docs/DEPLOYMENT.md`
+- `docs/TROUBLESHOOTING.md`
+
+These sections:
+- ✅ Are **preserved** for historical reference
+- ✅ Document files consolidated using the old pattern
+- ⚠️ Should **not be used as templates** for new consolidations
+
+For new consolidations, follow the archive vs. consolidate decision framework in [Documentation Lifecycle Management Guide](DOCUMENTATION-LIFECYCLE-GUIDE.md).
+
 ---
 
-*Last Updated: 2025-12-05*  
-*Related Files: All consolidated documentation files with legacy references*
+*Last Updated: 2025-12-12*  
+*Related Files: All consolidated documentation files with legacy references*  
+*Status: Historical consolidation guide - See [Documentation Lifecycle Management Guide](DOCUMENTATION-LIFECYCLE-GUIDE.md) for current standards*
