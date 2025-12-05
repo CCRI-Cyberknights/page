@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.36](https://github.com/CCRI-Cyberknights/page/compare/v1.8.35...v1.8.36) (2025-12-05)
+
+
+### Features
+
+* add structured logging system for git hooks ([73cbdb8](https://github.com/CCRI-Cyberknights/page/commit/73cbdb85253680fb863b2ec9285078f9c04e08bf))
+
 ### [1.8.35](https://github.com/CCRI-Cyberknights/page/compare/v1.8.34...v1.8.35) (2025-12-05)
 
 

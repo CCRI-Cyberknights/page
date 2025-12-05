@@ -539,8 +539,33 @@ document.addEventListener('keydown', handleKeydown);
  - Chips support deep-linking (e.g., `#/resources/ctf-competitions`) and update the URL when tapped
 
 ### Breakpoints
-- `sm:` used to reveal desktop nav and multi-column grids
+
+The project uses standardized breakpoints defined as CSS custom properties for consistency across CSS, JavaScript, and testing:
+
+```css
+:root {
+  --breakpoint-mobile: 480px;      /* Mobile devices */
+  --breakpoint-tablet: 768px;      /* Tablets and small laptops */
+  --breakpoint-desktop: 1024px;    /* Desktop and large tablets */
+  --breakpoint-large: 1280px;      /* Large desktops */
+  --height-constrained: 650px;     /* Hide advanced controls */
+}
+```
+
+**Breakpoint Usage:**
+- `sm:` (640px) used to reveal desktop nav and multi-column grids
+- `--breakpoint-tablet` (768px) used for mobile/desktop distinction in JavaScript
 - Single-column stacking on smaller screens
+- Height constraints for constrained viewports (≤650px height)
+
+**Standardized Values:**
+- Mobile: ≤ 480px
+- Tablet: 481px - 768px  
+- Desktop: 769px - 1024px
+- Large Desktop: > 1024px
+- Constrained: ≤ 1024px width AND ≤ 650px height
+
+See [TESTING.md](TESTING.md#declarative-panel-visibility-system) for implementation details.
 
 ### Mobile Design Tips
 - Prefer centered buttons for primary actions
@@ -2292,5 +2317,6 @@ The following files were consolidated into this document:
 - **`docs/SEARCH-KEYBOARD-POSITIONING.md`** - Technical documentation for Visual Viewport API implementation and mobile keyboard positioning (consolidated 2025-12-05)
 - **`docs/IMPLEMENTATION-BEST-PRACTICES-COMPARISON.md`** - Industry best practices comparison and analysis for search keyboard positioning (consolidated 2025-12-05)
 - **`docs/CSS-IMPORTANT-BEST-PRACTICES.md`** - CSS best practices guide for using `!important` and overriding Tailwind utilities (consolidated 2025-12-05)
+- **`docs/VEWPORT-CONSISTENCY-PLAN.md`** - Viewport consistency standardization plan with CSS custom properties and JavaScript synchronization (last updated: commit `9fe3fa4`, consolidated: 2025-12-05)
 
 **Note**: `docs/color-palettes/COLOR-PALETTE.md` was relocated to `docs/COLOR-PALETTE.md` and is referenced above.

@@ -1,8 +1,14 @@
 # Declarative Panel Visibility System
 
+**Status**: ✅ IMPLEMENTED
+**Implementation Date**: 2025-10-10
+**Target Consolidation**: `docs/UI.md` or `docs/ARCHITECTURE.md`
+
 ## Overview
 
 This document defines a systematic, declarative approach to managing QR modal panel visibility across different viewports, following responsive design best practices.
+
+**Note**: This system is implemented and tested. Awaiting consolidation into canonical documentation.
 
 ## Design Principles
 

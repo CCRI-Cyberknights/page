@@ -6,12 +6,34 @@ This document outlines the comprehensive documentation consolidation strategy im
 
 ## Documentation Standards & Patterns
 
+### **Documentation Types**
+
+The project uses a clear separation between production documentation and planning documents:
+
+1. **Production Documentation** (`docs/*.md`) - Canonical, long-term documentation
+   - Examples: `UI.md`, `TESTING.md`, `ARCHITECTURE.md`
+   - These are consolidated, permanent references
+
+2. **Planning Documentation** (`docs/PLANNING/`) - Active planning and implementation documents
+   - Temporary work-in-progress documents
+   - Organized by lifecycle stage: `active/`, `implemented/`, `archived/`
+   - See [Planning Documentation Guide](PLANNING-DOCUMENTATION-GUIDE.md) for details
+
+3. **Specialized Documentation** (`docs/TEST-DOCUMENTATION/`) - Test-specific documentation
+   - Follows similar folder pattern for test-related docs
+
+**Rationale**: This separation ensures canonical docs remain clean while allowing inevitable planning documents to be properly managed and eventually consolidated.
+
 ### **Naming Conventions**
 
 Follow conventional programming patterns for documentation file names:
 
 - ✅ **Good**: `UI.md`, `ROUTING.md`, `VERSIONING.md`, `TESTING.md`
 - ❌ **Avoid**: `UI-IMPROVEMENTS.md`, `ROUTING-NAV.md`, `VERSION-MANAGEMENT-TAG-BASED.md`
+
+**For Planning Documents**: Use concise names without redundant suffixes:
+- ✅ **Good**: `search-ux-enhancements.md` (folder already indicates it's planning)
+- ❌ **Avoid**: `SEARCH-UX-ENHANCEMENTS-TDD-PLAN.md` (verbose, redundant)
 
 **Rationale**: Conventional names are more recognizable to developers and AIs, follow established patterns, and avoid verbosity.
 
@@ -46,6 +68,12 @@ Use this decision tree for future consolidations:
 - **When**: Files are frequently referenced together
 - **Example**: Design evolution + content architecture → `UI.md`
 - **Benefit**: Related information easily accessible
+
+#### **Pattern 5: Planning Document Lifecycle**
+- **When**: Managing temporary planning/implementation documents
+- **Example**: Planning docs → `docs/PLANNING/active/` → `implemented/` → consolidate → `archived/`
+- **Benefit**: Clear separation of temporary planning from permanent production docs
+- **See**: [Planning Documentation Guide](PLANNING-DOCUMENTATION-GUIDE.md) for complete workflow
 
 ### **Content Organization Patterns**
 
@@ -310,6 +338,11 @@ Instead of copying entire content, use:
 - **Solution**: Standardize on `YYYY-MM-DD` format
 - **Prevention**: Document date format standards
 
+#### **Pitfall 5: Planning Documents in Root Docs**
+- **Problem**: Planning docs clutter `docs/` folder, violating separation of concerns
+- **Solution**: Use `docs/PLANNING/` folder structure with lifecycle stages
+- **Prevention**: Always create planning docs in appropriate `PLANNING/` subfolder
+
 ### **Success Metrics**
 
 #### **Quantitative Success**
@@ -403,6 +436,18 @@ The pattern established here can be applied to future documentation consolidatio
 
 ---
 
-*Last Updated: 2025-09-26*  
-*Related Files: All consolidated documentation files with legacy references*# Test commit for hook
-# Test streamlined pre-commit hook
+## Planning Documentation
+
+For managing planning and implementation documents, see **[Planning Documentation Guide](PLANNING-DOCUMENTATION-GUIDE.md)**. This guide covers:
+
+- Folder structure (`docs/PLANNING/active/`, `implemented/`, `archived/`)
+- Document lifecycle management
+- Status tracking and consolidation workflow
+- Integration with canonical documentation
+
+**Key Principle**: Planning documents are temporary and should eventually be consolidated into canonical docs or archived. The `PLANNING/` folder provides structure during active development while keeping production docs clean.
+
+---
+
+*Last Updated: 2025-12-05*  
+*Related Files: All consolidated documentation files with legacy references*
