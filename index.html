@@ -381,6 +381,13 @@
       .category-match { animation: none; }
     }
     
+    /* Search Input Active State - Orange Border When Searching */
+    /* Follows same pattern as category-match */
+    #resources-search.searching {
+      border-color: #f97316 !important;
+      transition: border-color 0.3s ease;
+    }
+    
     /* CYBERKNIGHT FORGE COLOR PALETTE - HYBRID */
     :root {
       --forge-black: #001011;      /* deep forge darkness */
@@ -2041,6 +2048,17 @@
         });
       }
 
+      function updateSearchInputState() {
+        if (!search) return;
+        
+        const hasValue = search.value.trim().length > 0;
+        if (hasValue) {
+          search.classList.add('searching');
+        } else {
+          search.classList.remove('searching');
+        }
+      }
+
       function applyFilters() {
         const q = (search && search.value || '').toLowerCase();
         const active = filterButtons.find(b => b.classList.contains('ring-1'))?.dataset.filter || 'cyberknights';
@@ -2066,6 +2084,9 @@
           // Clear all highlights when search is cleared
           highlightMatchingCategories([]);
         }
+        
+        // Update search input active state
+        updateSearchInputState();
         
         renderLists(items);
       }
