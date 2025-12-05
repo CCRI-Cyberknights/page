@@ -2632,7 +2632,7 @@
           
           <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-2 sm:gap-0">
             <div class="flex flex-wrap gap-1">
-              ${post.tags.map(tag => `<span class="px-2 py-1 rounded bg-emerald-900/30 text-xs text-emerald-300">#${tag}</span>`).join('')}
+              ${post.tags.map(tag => `<a href="#/search?q=${encodeURIComponent(tag)}" onclick="event.stopPropagation(); window.location.hash = '#/search?q=' + encodeURIComponent('${tag}'); return false;" class="px-2 py-1 rounded bg-emerald-900/30 text-xs text-emerald-300 hover:bg-emerald-900/50 hover:text-emerald-200 transition-colors">#${tag}</a>`).join('')}
             </div>
             <span class="text-xs sm:text-sm text-emerald-400 self-start sm:self-center">Read more →</span>
           </div>
@@ -2669,6 +2669,9 @@
         
         blogContainer.innerHTML = content;
         
+        // Add tags display below the header (after title/metadata)
+        addBlogPostTags(post, blogContainer);
+        
         // Make hashtags clickable after content is loaded
         makeHashtagsClickable();
       } catch (error) {
@@ -2677,6 +2680,39 @@
         if (blogContainer) {
           blogContainer.innerHTML = `<div class="text-center py-8"><h2 class="text-2xl font-bold text-red-400">Error Loading Post</h2><p class="text-slate-300 mt-4">Failed to load the blog post content.</p></div>`;
         }
+      }
+    }
+
+    // Add tags display to blog post
+    function addBlogPostTags(post, container) {
+      if (!post.tags || post.tags.length === 0) return;
+      
+      // Find the header section (usually contains title and metadata)
+      const header = container.querySelector('h1')?.closest('div') || 
+                     container.querySelector('.text-center') ||
+                     container.firstElementChild;
+      
+      if (!header) return;
+      
+      // Create tags container
+      const tagsContainer = document.createElement('div');
+      tagsContainer.className = 'flex flex-wrap items-center justify-center gap-2 mt-4 mb-6';
+      tagsContainer.innerHTML = `
+        <span class="text-xs text-slate-400 mr-2">Tags:</span>
+        ${post.tags.map(tag => `
+          <a href="#/search?q=${encodeURIComponent(tag)}" 
+             class="px-2 py-1 rounded bg-emerald-900/30 text-xs text-emerald-300 hover:bg-emerald-900/50 hover:text-emerald-200 transition-colors">
+            #${tag}
+          </a>
+        `).join('')}
+      `;
+      
+      // Insert tags after the header (or after metadata if it exists)
+      const metadata = header.querySelector('.flex.items-center') || header.querySelector('.text-sm');
+      if (metadata && metadata.parentElement) {
+        metadata.parentElement.insertBefore(tagsContainer, metadata.nextSibling);
+      } else {
+        header.appendChild(tagsContainer);
       }
     }
 
