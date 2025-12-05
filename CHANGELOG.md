@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.8.35](https://github.com/CCRI-Cyberknights/page/compare/v1.8.34...v1.8.35) (2025-12-05)
+
+
+### Features
+
+* add collapsing intro text and category filters on search (mobile only) ([d47c6ec](https://github.com/CCRI-Cyberknights/page/commit/d47c6ecedce1a1e4c76949c1ae98c2be98d902e7))
+
 ### [1.8.34](https://github.com/CCRI-Cyberknights/page/compare/v1.8.32...v1.8.34) (2025-10-22)
 
 

@@ -245,25 +245,13 @@
       transform: scale(1.02);
     }
 
-    /* Collapse animation styles - Using ID specificity to minimize !important usage */
+    /* Collapse animation styles - DRY approach with shared collapsed state */
+    /* Container-specific styles with transitions */
     #intro-container {
       transition: max-height 0.3s ease, opacity 0.3s ease, margin-bottom 0.3s ease, padding 0.3s ease, border-width 0.3s ease;
       max-height: 500px;
       opacity: 1;
       overflow: hidden;
-    }
-
-    /* Override Tailwind utilities using ID + class specificity (minimal !important) */
-    #intro-container.collapsed {
-      max-height: 0;
-      opacity: 0;
-      /* !important needed only for utility class overrides (mb-6, p-4, border) */
-      margin-bottom: 0 !important;
-      padding-top: 0 !important;
-      padding-bottom: 0 !important;
-      padding-left: 0 !important;
-      padding-right: 0 !important;
-      border-width: 0 !important;
     }
 
     #category-filters-container {
@@ -272,19 +260,17 @@
       opacity: 1;
     }
 
-    /* Override Tailwind utilities using ID + class specificity (minimal !important) */
+    /* Shared collapsed state - DRY (all collapsible containers use this) */
+    #intro-container.collapsed,
     #category-filters-container.collapsed {
-      max-height: 0;
+      max-height: 0 !important;
       opacity: 0;
-      /* !important needed only for utility class overrides (space-y-6 margin, gap-2) */
-      margin-top: 0 !important;
-      margin-bottom: 0 !important;
-      padding-top: 0 !important;
-      padding-bottom: 0 !important;
-      padding-left: 0 !important;
-      padding-right: 0 !important;
-      gap: 0 !important;
       overflow: hidden;
+      /* Use shorthand for cleaner code - overrides Tailwind utility classes */
+      margin: 0 !important;
+      padding: 0 !important;
+      gap: 0 !important;
+      border-width: 0 !important;
     }
 
     /* Remove top margin from search container when elements above are collapsed */
@@ -2119,46 +2105,34 @@
         };
 
         // Toggle collapse on mobile only - collapse both intro and category filters
+        // DRY: Loop over container IDs instead of repeating logic
         const toggleSearchCollapse = () => {
-          const introContainer = document.getElementById('intro-container');
-          const categoryFiltersContainer = document.getElementById('category-filters-container');
+          const collapsibleIds = ['intro-container', 'category-filters-container'];
           const searchContainer = document.getElementById('search-container');
           const hasSearchValue = search.value.trim().length > 0;
 
           // Only collapse on mobile/narrow screens
           if (!isMobileViewport()) {
             // On desktop, ensure all elements are visible and margins are normal
-            if (introContainer) introContainer.classList.remove('collapsed');
-            if (categoryFiltersContainer) categoryFiltersContainer.classList.remove('collapsed');
-            if (searchContainer) searchContainer.classList.remove('no-top-margin');
+            collapsibleIds.forEach(id => {
+              document.getElementById(id)?.classList.remove('collapsed');
+            });
+            searchContainer?.classList.remove('no-top-margin');
             return;
           }
 
-          // Mobile: collapse elements when user types
-          if (introContainer) {
-            if (hasSearchValue) {
-              introContainer.classList.add('collapsed');
-            } else {
-              introContainer.classList.remove('collapsed');
+          // Mobile: collapse elements when user types (DRY loop approach)
+          collapsibleIds.forEach(id => {
+            const container = document.getElementById(id);
+            if (container) {
+              container.classList.toggle('collapsed', hasSearchValue);
             }
-          }
-
-          if (categoryFiltersContainer) {
-            if (hasSearchValue) {
-              categoryFiltersContainer.classList.add('collapsed');
-            } else {
-              categoryFiltersContainer.classList.remove('collapsed');
-            }
-          }
+          });
 
           // Remove top margin from search container when elements above are collapsed
           // This handles the space-y-6 margin that Tailwind applies
           if (searchContainer) {
-            if (hasSearchValue) {
-              searchContainer.classList.add('no-top-margin');
-            } else {
-              searchContainer.classList.remove('no-top-margin');
-            }
+            searchContainer.classList.toggle('no-top-margin', hasSearchValue);
           }
         };
 
