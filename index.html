@@ -1120,8 +1120,7 @@
       const app = document.getElementById('app');
 
       // Handle guide pages (e.g., #/guides/linux-cheatsheet-1.html)
-      // Also handle legacy document routes for backward compatibility
-      if ((page === 'guides' || page === 'document') && segments.length > 0) {
+      if (page === 'guides' && segments.length > 0) {
         // Use the guides template
         app.innerHTML = routes['guides'];
 
@@ -1859,7 +1858,7 @@
 
       function getExternalLinkAttributes(url) {
         // Only add external link attributes for external URLs
-        if (url && !url.startsWith('#/guides/') && !url.startsWith('#/document/')) {
+        if (url && !url.startsWith('#/guides/')) {
           return 'target="_blank" rel="noopener noreferrer"';
         }
         return '';
@@ -1879,8 +1878,8 @@
       }
 
       function getLinkIcon(url) {
-        // Check if it's a local guide (starts with #/guides/ or legacy #/document/)
-        if (url.startsWith('#/guides/') || url.startsWith('#/document/')) {
+        // Check if it's a local guide (starts with #/guides/)
+        if (url.startsWith('#/guides/')) {
           return getDocumentIcon();
         }
         return getExternalLinkIcon();
@@ -2796,8 +2795,7 @@
         blog: document.getElementById('page-blog').innerHTML,
         blogs: document.getElementById('page-blogs').innerHTML,
         'map-warwick-4080': document.getElementById('page-map-warwick-4080').innerHTML,
-        'guides': document.getElementById('page-guides').innerHTML,
-        'document': document.getElementById('page-guides').innerHTML  // Legacy route support
+        'guides': document.getElementById('page-guides').innerHTML
       };
       
       document.getElementById('year').textContent = new Date().getFullYear();
